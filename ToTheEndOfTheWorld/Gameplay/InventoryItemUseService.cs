@@ -216,23 +216,6 @@ namespace ToTheEndOfTheWorld.Gameplay
                 MaxStackSize: source.MaxStackSize);
         }
 
-        private static Grid CloneGrid(AGrid source)
-        {
-            var sourceGrid = source.InternalGrid;
-            var clonedGrid = new GridBox[sourceGrid.GetLength(0), sourceGrid.GetLength(1)];
-
-            for (var x = 0; x < sourceGrid.GetLength(0); x++)
-            {
-                for (var y = 0; y < sourceGrid.GetLength(1); y++)
-                {
-                    var slot = sourceGrid[x, y];
-                    clonedGrid[x, y] = new GridBox(slot?.Item, slot?.Count ?? 0);
-                }
-            }
-
-            return new Grid(source.InternalCoordinate, clonedGrid);
-        }
-
         private static Grid CreateEmptyGrid(AGrid source)
         {
             return new Grid(source.InternalCoordinate, new GridBox[source.InternalGrid.GetLength(0), source.InternalGrid.GetLength(1)]);

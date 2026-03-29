@@ -77,7 +77,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             var listRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
-            var entryCount = shopService.GetSellableEntries(world).Count;
+            var sellSummary = shopService.GetSellSummary(world);
+            var entryCount = sellSummary.Entries.Count;
             var visibleRows = GetVisibleRowCount(listRectangle);
             var maxScrollOffset = Math.Max(0, entryCount - visibleRows);
             var scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
@@ -107,7 +108,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
             var valueCardRectangle = new Rectangle(panelRectangle.X + SectionPadding, panelRectangle.Y + 136, panelRectangle.Width - (SectionPadding * 2), CardHeight);
             var valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
             var sellButtonRectangle = GetSellButtonRectangle(viewportWidth, viewportHeight);
-            var saleValue = Math.Floor(shopService.GetSellValue(world));
+            var sellSummary = shopService.GetSellSummary(world);
+            var saleValue = Math.Floor(sellSummary.TotalValue);
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
@@ -128,14 +130,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Money: {Math.Floor(world.Player.Cash)}", new Vector2(cashCardRectangle.X + 14, cashCardRectangle.Y + 10), new Color(232, 232, 232), BodyTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
 
-            DrawSellableValueList(spriteBatch, world, valueListRectangle);
+            DrawSellableValueList(spriteBatch, sellSummary.Entries, valueListRectangle);
             DrawCenteredText(spriteBatch, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 40), new Color(188, 188, 188), FooterTextScale);
         }
 
-        private void DrawSellableValueList(SpriteBatch spriteBatch, World world, Rectangle rectangle)
+        private void DrawSellableValueList(SpriteBatch spriteBatch, System.Collections.Generic.IReadOnlyList<ShopService.SellableInventoryEntry> sellableEntries, Rectangle rectangle)
         {
-            var sellableEntries = shopService.GetSellableEntries(world);
             var visibleRows = GetVisibleRowCount(rectangle);
             var maxScrollOffset = Math.Max(0, sellableEntries.Count - visibleRows);
             scrollOffset = Math.Clamp(scrollOffset, 0, maxScrollOffset);

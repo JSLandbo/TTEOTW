@@ -19,7 +19,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
         public void Draw(SpriteBatch spriteBatch, World world)
         {
             var player = world.Player;
-            var worldPosition = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var worldPosition = Gameplay.PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var lineHeight = (int)(textFont.LineSpacing * DebugTextScale) + 2;
             var startX = 8;
             var startY = 8;

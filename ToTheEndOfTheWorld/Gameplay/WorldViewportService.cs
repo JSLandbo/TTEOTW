@@ -8,6 +8,12 @@ namespace ToTheEndOfTheWorld.Gameplay
     {
         public void EnsurePadding(World world)
         {
+            if (world.WorldRender == null || world.WorldRender.Count == 0)
+            {
+                EnsurePadding(world, world.Player.Coordinates);
+                return;
+            }
+
             EnsurePadding(world, GetCenterWorldPosition(world));
         }
 

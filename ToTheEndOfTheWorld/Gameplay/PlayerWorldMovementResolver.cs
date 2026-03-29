@@ -9,28 +9,15 @@ namespace ToTheEndOfTheWorld.Gameplay
     {
         private readonly float tileSize;
         private readonly float tileTransitionOffset;
-        private readonly WorldQueryService worldQueryService;
+        private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private readonly WorldViewportService worldViewportService;
 
-        public PlayerWorldMovementResolver(WorldQueryService worldQueryService, WorldViewportService worldViewportService, int tileSize)
+        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, int tileSize)
         {
             this.tileSize = tileSize;
             tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
-            this.worldQueryService = worldQueryService;
+            this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
             this.worldViewportService = worldViewportService;
-        }
-
-        public void Resolve(World world, APlayer player)
-        {
-            var maxIterations = CalculateRequiredIterations(player);
-
-            for (var i = 0; i < maxIterations; i++)
-            {
-                if (!ResolveStep(world, player))
-                {
-                    return;
-                }
-            }
         }
 
         public bool ResolveStep(World world, APlayer player)
@@ -109,13 +96,13 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private bool IsAxisObstructed(World world, APlayer player, bool horizontal, int direction)
         {
-            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var nextBlockVector = new Vector2(
                 location.X + (horizontal ? direction : 0),
                 location.Y + (horizontal ? 0 : direction)
             );
 
-            return worldQueryService.IsObstructed(world, nextBlockVector);
+            return worldBlockDefinitionResolver.IsObstructed(world, nextBlockVector);
         }
     }
 }

@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Enums;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.Gameplay

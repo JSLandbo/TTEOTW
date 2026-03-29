@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using ModelLibrary.Abstract.Blocks;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 
@@ -59,7 +58,7 @@ namespace ModelLibrary.Abstract
         public AInventory Inventory { get; set; } = null!;
         public AThruster Thruster { get; set; } = null!;
         public AFuelTank FuelTank { get; set; } = null!;
-        public float Weight => GetEquippedWeight() + GetInventoryContentsWeight();
+        public float Weight => GetEquippedWeight() + (Inventory?.ContentsWeight ?? 0.0f);
 
         public float MaximumActiveVelocity => new Vector2(XVelocity, YVelocity).Length();
 
@@ -79,36 +78,6 @@ namespace ModelLibrary.Abstract
                 (Inventory?.Weight ?? 0.0f) +
                 (Thruster?.Weight ?? 0.0f) +
                 (FuelTank?.Weight ?? 0.0f);
-        }
-
-        private float GetInventoryContentsWeight()
-        {
-            if (Inventory?.Items?.InternalGrid == null)
-            {
-                return 0.0f;
-            }
-
-            var totalWeight = 0.0f;
-            var grid = Inventory.Items.InternalGrid;
-
-            for (var y = 0; y < grid.GetLength(1); y++)
-            {
-                for (var x = 0; x < grid.GetLength(0); x++)
-                {
-                    var slot = grid[x, y];
-
-                    if (slot?.Item == null || slot.Count <= 0)
-                    {
-                        continue;
-                    }
-
-                    var itemWeight = slot.Item is ABlock block ? block.Info?.Weight ?? 0.0f : slot.Item.Weight;
-
-                    totalWeight += itemWeight * slot.Count;
-                }
-            }
-
-            return totalWeight;
         }
 
         private static Vector2 ToCardinalDirection(Vector2 value)

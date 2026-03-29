@@ -1,6 +1,5 @@
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete.Grids;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {

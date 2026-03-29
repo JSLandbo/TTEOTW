@@ -1,0 +1,33 @@
+using Microsoft.Xna.Framework.Content;
+using ModelLibrary.Abstract.Types;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ToTheEndOfTheWorld.Context
+{
+    public sealed partial class GameItemsRepository : Dictionary<int, GameItemDefinition>
+    {
+        public GameItemsRepository(ContentManager manager)
+        {
+            InitializeCollection(manager);
+        }
+
+        public AType Create(short itemId)
+        {
+            return TryGetValue(itemId, out var itemDefinition) ? itemDefinition.Create() : null;
+        }
+
+        public T Create<T>(short itemId) where T : AType
+        {
+            return Create(itemId) as T;
+        }
+
+        public IReadOnlyList<GameItemDefinition> GetEquipmentShopDefinitions()
+        {
+            return Values
+                .Where(item => item.EquipmentShopOrder >= 0)
+                .OrderBy(item => item.EquipmentShopOrder)
+                .ToList();
+        }
+    }
+}

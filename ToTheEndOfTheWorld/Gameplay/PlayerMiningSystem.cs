@@ -10,14 +10,16 @@ namespace ToTheEndOfTheWorld.Gameplay
     public sealed class PlayerMiningSystem
     {
         private readonly float miningCenterTolerance;
-        private readonly WorldQueryService worldQueryService;
+        private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
+        private readonly WorldBlockFactory worldBlockFactory;
         private readonly WorldInteractionsRepository interactions;
         private readonly GameEventBus eventBus;
 
-        public PlayerMiningSystem(WorldQueryService worldQueryService, WorldInteractionsRepository interactions, GameEventBus eventBus, int tileSize)
+        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, int tileSize)
         {
             miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
-            this.worldQueryService = worldQueryService;
+            this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
+            this.worldBlockFactory = worldBlockFactory;
             this.interactions = interactions;
             this.eventBus = eventBus;
         }
@@ -59,7 +61,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
             var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);
 
@@ -69,7 +71,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            if (!worldQueryService.IsObstructed(world, blockVector))
+            if (!worldBlockDefinitionResolver.IsObstructed(world, blockVector))
             {
                 player.DrillExtended = false;
                 return;
@@ -131,7 +133,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         {
             var targetTile = new WorldTile((long)targetVector.X, (long)targetVector.Y);
 
-            if (IsInsideBuilding(world, targetTile) || !worldQueryService.IsObstructed(world, targetVector))
+            if (IsInsideBuilding(world, targetTile) || !worldBlockDefinitionResolver.IsObstructed(world, targetVector))
             {
                 return;
             }
@@ -150,7 +152,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out var interaction))
             {
-                var block = worldQueryService.CreateMutableWorldBlock(vector.X, vector.Y);
+                var block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
                 interaction = new WorldInteraction(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
                 block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, interaction);
                 interactions.Add(interaction);
@@ -212,10 +214,10 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private bool IsGrounded(World world, APlayer player)
         {
-            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var belowPlayer = new Vector2(location.X, location.Y + 1);
 
-            return worldQueryService.IsObstructed(world, belowPlayer);
+            return worldBlockDefinitionResolver.IsObstructed(world, belowPlayer);
         }
 
         private static bool IsTouchingMiningSurface(APlayer player)

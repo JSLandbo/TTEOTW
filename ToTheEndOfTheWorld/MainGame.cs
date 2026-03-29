@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
-using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
-using ModelLibrary.Enums;
 using System;
 using System.Collections.Generic;
 using ToTheEndOfTheWorld.Context;
@@ -45,9 +43,11 @@ namespace ToTheEndOfTheWorld
         private readonly DebugHudRenderer debugHudRenderer = new();
         private readonly GameplayHudRenderer gameplayHudRenderer = new();
         private readonly WorldInteractionRenderer worldInteractionRenderer = new();
-        private WorldQueryService worldQueryService;
+        private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
+        private WorldBlockFactory worldBlockFactory;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
+        private PlayerShipRenderer playerShipRenderer;
         private CraftingService craftingService;
         private UiManager uiManager;
         private int logicalViewportWidth;
@@ -55,8 +55,6 @@ namespace ToTheEndOfTheWorld
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
         private bool isApplyingResize;
-
-        // private ItemSpriteRepository _items;
 
         public MainGame()
         {
@@ -82,11 +80,13 @@ namespace ToTheEndOfTheWorld
             inventoryItemUseService = new InventoryItemUseService(inventoryService, items);
             equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
             worldBootstrapper = new WorldBootstrapper(worldViewportService, equipmentShopBuildingFactory);
-            worldQueryService = new WorldQueryService(blocks);
+            worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
+            worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             craftingService = new CraftingService();
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             equipmentShopService = new EquipmentShopService(inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
+            playerShipRenderer = new PlayerShipRenderer(items, _pixels);
 
             var _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             var _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
@@ -102,8 +102,8 @@ namespace ToTheEndOfTheWorld
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
-            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldQueryService, worldViewportService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldQueryService, interactions, eventBus, _pixels);
+            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -133,22 +133,12 @@ namespace ToTheEndOfTheWorld
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d))
             };
 
-            var createdWorldRender = new Dictionary<Vector2, Vector2>();
-
-            for (var x = 0; x <= _blocksWide; x++)
-            {
-                for (var y = 0; y <= _blocksHigh; y++)
-                {
-                    createdWorldRender.Add(new Vector2(x, y), new Vector2(x, y));
-                }
-            }
-
             return new World(
                 Player: player,                                  // ContextHandler.LoadPlayer();
                 Buildings: new List<ABuilding>(),                // ContextHandler.LoadBuildings();
                 BlocksWide: _blocksWide,                         // Calculated
                 BlocksHigh: _blocksHigh,                         // Calculated
-                WorldRender: createdWorldRender,                 // Dynamically updated
+                WorldRender: new Dictionary<Vector2, Vector2>(), // Dynamically updated
                 WorldTrails: new Dictionary<Vector2, bool>()     // ContextHandler.LoadWorldTrails();
             );
         }
@@ -255,7 +245,7 @@ namespace ToTheEndOfTheWorld
                 }
                 else
                 {
-                    var block = worldQueryService.GetWorldBlock(pair.Value.X, pair.Value.Y);
+                    var block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
 
                     spriteBatch.Draw(block.Value.Texture, location, Color.White);
 
@@ -271,50 +261,7 @@ namespace ToTheEndOfTheWorld
 
         private void DrawPlayerShip()
         {
-            Vector2 PlayerPosition = new Vector2(
-                GetCenterScreenCoordinates().X - (0.5f * _pixels),
-                GetCenterScreenCoordinates().Y - (0.5f * _pixels)
-            );
-
-            var player = world.Player;
-            var orientation = player.Orientation;
-            var drillExtended = player.DrillExtended;
-            var drill = items[player.Drill.ID];
-            var hull = items[player.Hull.ID];
-
-            if (orientation.Equals(PlayerOrientation.Base))
-            {
-                spriteBatch.Draw(hull.Textures[PlayerOrientation.Base], PlayerPosition, Color.White);
-            }
-            else
-            {
-                if (drillExtended)
-                {
-                    spriteBatch.Draw(hull.Textures[orientation], PlayerPosition, Color.White);
-
-                    var drillPositionX = PlayerPosition.X + (player.FacingDirection.X * _pixels);
-                    var drillPositionY = PlayerPosition.Y + (player.FacingDirection.Y * _pixels);
-
-                    spriteBatch.Draw(drill.Textures[orientation], new Vector2(drillPositionX, drillPositionY), Color.White);
-                }
-                else
-                {
-                    spriteBatch.Draw(hull.Textures[PlayerOrientation.Base], PlayerPosition, Color.White);
-                }
-
-                if (player.MaximumActiveVelocity > 0)
-                {
-                    // draw thrusters
-                }
-            }
-        }
-
-        private Vector2 GetCenterScreenCoordinates()
-        {
-            return new Vector2(
-                (float)(logicalViewportWidth / 2.0),
-                (float)(logicalViewportHeight / 2.0)
-            );
+            playerShipRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
         }
 
         private void HandleClientSizeChanged(object sender, EventArgs e)

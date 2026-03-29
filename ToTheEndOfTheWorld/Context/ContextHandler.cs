@@ -26,7 +26,7 @@ namespace ToTheEndOfTheWorld.Context
             );
         }
 
-        public static World LoadWorld()
+        public static World? LoadWorld()
         {
             var file = GetWorldFilePath();
 

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
-using ModelLibrary.Enums;
 using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.UI

@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
@@ -32,8 +31,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
-            var player = world.Player;
-            var worldPosition = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var tileX = (long)worldPosition.X;
             var tileY = (long)worldPosition.Y;
 

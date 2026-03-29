@@ -18,6 +18,8 @@ namespace ModelLibrary.Concrete.Grids
                     {
                         InternalGrid[x, y] = new GridBox(null, 0);
                     }
+
+                    InternalGrid[x, y].OwnerGrid = this;
                 }
             }
         }

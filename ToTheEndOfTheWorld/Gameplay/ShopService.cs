@@ -2,7 +2,6 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
-using ModelLibrary.Concrete.PlayerShipComponents;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,11 +9,12 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class ShopService
     {
-        public IReadOnlyList<SellableInventoryEntry> GetSellableEntries(World world)
+        public SellSummary GetSellSummary(World world)
         {
             var inventory = world.Player.Inventory;
             var grid = inventory.Items.InternalGrid;
             var entries = new Dictionary<short, SellableInventoryEntry>();
+            var totalValue = 0.0;
 
             for (var y = 0; y < grid.GetLength(1); y++)
             {
@@ -26,6 +26,8 @@ namespace ToTheEndOfTheWorld.Gameplay
                     {
                         continue;
                     }
+
+                    totalValue += unitSellValue * slot.Count;
 
                     if (!entries.TryGetValue(slot.Item.ID, out var entry))
                     {
@@ -39,19 +41,14 @@ namespace ToTheEndOfTheWorld.Gameplay
                 }
             }
 
-            return entries.Values.OrderBy(entry => entry.Item.Name).ToList();
-        }
-
-        public double GetSellValue(World world)
-        {
-            return GetSellableEntries(world).Sum(entry => entry.TotalValue);
+            return new SellSummary(entries.Values.OrderBy(entry => entry.Item.Name).ToList(), totalValue);
         }
 
         public double SellAll(World world)
         {
             var inventory = world.Player.Inventory;
             var grid = inventory.Items.InternalGrid;
-            var totalEarned = GetSellValue(world);
+            var totalEarned = GetSellSummary(world).TotalValue;
 
             for (var y = 0; y < grid.GetLength(1); y++)
             {
@@ -106,5 +103,6 @@ namespace ToTheEndOfTheWorld.Gameplay
         }
 
         public sealed record SellableInventoryEntry(AType Item, int Count, double TotalValue);
+        public sealed record SellSummary(IReadOnlyList<SellableInventoryEntry> Entries, double TotalValue);
     }
 }
