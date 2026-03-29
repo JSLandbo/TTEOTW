@@ -32,6 +32,12 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
+            if (!IsGrounded(world, player))
+            {
+                player.DrillExtended = false;
+                return;
+            }
+
             if (!IsTouchingMiningSurface(player))
             {
                 return;
@@ -73,7 +79,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (interactions[vector].Hardness <= player.Drill.Hardness)
             {
-                interactions[vector].TakeDamage(player.Drill.Damage * 1000);
+                interactions[vector].TakeDamage(player.Drill.Damage);
             }
         }
 
@@ -123,6 +129,14 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return Vector2.Dot(player.MovementInput, player.FacingDirection) > 0.0f;
+        }
+
+        private bool IsGrounded(World world, APlayer player)
+        {
+            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var belowPlayer = new Vector2(location.X, location.Y + 1);
+
+            return worldQueryService.IsObstructed(world, belowPlayer);
         }
 
         private static bool IsTouchingMiningSurface(APlayer player)
