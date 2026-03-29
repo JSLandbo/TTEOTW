@@ -7,7 +7,6 @@ using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay;
@@ -160,13 +159,9 @@ namespace ToTheEndOfTheWorld
         private void DrawStatistics()
         {
             var font = Content.Load<SpriteFont>("Fonts/text");
-            var first = world.WorldRender
-                .OrderBy(pair => pair.Key.Y)
-                .ThenBy(pair => pair.Key.X)
-                .First()
-                .Value;
             var player = world.Player;
-            spriteBatch.DrawString(font, $"World position: X: {first.X}, Y: {first.Y}", new Vector2(5, 5), Color.Black);
+            var worldPosition = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            spriteBatch.DrawString(font, $"World position: X: {worldPosition.X}, Y: {worldPosition.Y}", new Vector2(5, 5), Color.Black);
             spriteBatch.DrawString(font, $"Player velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(5, 25), Color.Black);
             spriteBatch.DrawString(font, $"Player offset: X: {player.XOffset}, Y: {player.YOffset}", new Vector2(5, 45), Color.Black);
         }
@@ -187,7 +182,7 @@ namespace ToTheEndOfTheWorld
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
                 {
-                    spriteBatch.Draw(blocks.First(x => x.Key == -1).Value.Texture, location, Color.White);
+                    spriteBatch.Draw(blocks[-1].Texture, location, Color.White);
                 }
                 else
                 {
@@ -195,11 +190,11 @@ namespace ToTheEndOfTheWorld
 
                     spriteBatch.Draw(block.Value.Texture, location, Color.White);
 
-                    if (interactions.ContainsKey(pair.Value))
+                    if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out var interaction))
                     {
-                        var percentDamaged = interactions[pair.Value].PercentDamaged();
+                        var percentDamaged = interaction.Block.PercentDamaged();
 
-                        spriteBatch.Draw(blocks.First(x => x.Key == -2).Value.Texture, location, Color.White * percentDamaged);
+                        spriteBatch.Draw(blocks[-2].Texture, location, Color.White * percentDamaged);
                     }
                 }
             }

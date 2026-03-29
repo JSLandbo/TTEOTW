@@ -22,7 +22,9 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         public void Resolve(World world, APlayer player)
         {
-            for (var i = 0; i < PlayerWorldTuning.MaxMovementResolutionIterations; i++)
+            var maxIterations = CalculateRequiredIterations(player);
+
+            for (var i = 0; i < maxIterations; i++)
             {
                 var processedMovement = false;
 
@@ -42,6 +44,15 @@ namespace ToTheEndOfTheWorld.Gameplay
                     return;
                 }
             }
+        }
+
+        private int CalculateRequiredIterations(APlayer player)
+        {
+            var largestOffset = Math.Max(Math.Abs(player.XOffset), Math.Abs(player.YOffset));
+
+            // Offset is consumed one tile transition at a time, so larger offsets may require multiple passes.
+            // The extra pass avoids stopping one step early when the offset lands near the transition boundary.
+            return Math.Max(1, (int)Math.Ceiling(largestOffset / tileSize) + 1);
         }
 
         private bool TryProcessMovementAxis(World world, APlayer player, bool horizontal)

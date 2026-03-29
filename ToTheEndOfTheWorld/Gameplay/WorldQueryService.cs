@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using ToTheEndOfTheWorld.Context.StaticRepositories;
 using UtilityLibrary;
 
@@ -12,10 +12,20 @@ namespace ToTheEndOfTheWorld.Gameplay
     public sealed class WorldQueryService
     {
         private readonly WorldElementsRepository blocks;
+        private readonly KeyValuePair<int, (string Name, Texture2D Texture, Block block)>[] orderedBlockDefinitions;
 
         public WorldQueryService(WorldElementsRepository blocks)
         {
             this.blocks = blocks;
+            orderedBlockDefinitions = new KeyValuePair<int, (string Name, Texture2D Texture, Block block)>[blocks.Count];
+
+            var index = 0;
+            foreach (var block in blocks)
+            {
+                orderedBlockDefinitions[index++] = block;
+            }
+
+            Array.Sort(orderedBlockDefinitions, (left, right) => right.Key.CompareTo(left.Key));
         }
 
         public KeyValuePair<int, (string Name, Texture2D Texture, Block block)> GetWorldBlock(float x, float y)
@@ -53,7 +63,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         {
             var simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
 
-            foreach (var block in blocks.OrderByDescending(entry => entry.Key))
+            foreach (var block in orderedBlockDefinitions)
             {
                 var info = block.Value.block.Info;
 

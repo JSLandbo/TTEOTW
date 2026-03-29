@@ -2,7 +2,6 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public static class PlayerWorldTuning
     {
-        public const int MaxMovementResolutionIterations = 8;
         public const float CollisionPlacementOffset = 0.0f;
         public const float TileTransitionOffsetRatio = 0.5f;
         public const float MiningContactTolerance = 0.5f;

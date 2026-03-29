@@ -66,17 +66,19 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            var block = worldQueryService.CreateMutableWorldBlock(vector.X, vector.Y);
+            var worldTile = new WorldTile((long)vector.X, (long)vector.Y);
 
-            if (!interactions.ContainsKey(vector))
+            if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out var interaction))
             {
-                block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, vector);
-                interactions.Add(vector, block);
+                var block = worldQueryService.CreateMutableWorldBlock(vector.X, vector.Y);
+                interaction = new WorldInteraction(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
+                block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, interaction);
+                interactions.Add(interaction);
             }
 
-            if (interactions[vector].Hardness <= player.Drill.Hardness)
+            if (interaction.Block.Hardness <= player.Drill.Hardness)
             {
-                interactions[vector].TakeDamage(player.Drill.Damage);
+                interaction.Block.TakeDamage(player.Drill.Damage);
             }
         }
 
@@ -151,10 +153,11 @@ namespace ToTheEndOfTheWorld.Gameplay
             return false;
         }
 
-        private void OnBlockDestroyed(World world, Vector2 location)
+        private void OnBlockDestroyed(World world, WorldInteraction interaction)
         {
+            var location = new Vector2(interaction.TileBounds.X, interaction.TileBounds.Y);
             world.WorldTrails.Add(location, true);
-            interactions.Remove(location);
+            interactions.Remove(interaction);
         }
     }
 }
