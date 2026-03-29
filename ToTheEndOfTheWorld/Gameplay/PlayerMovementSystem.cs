@@ -53,7 +53,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             player.XVelocity = Math.Clamp(xVelocity, -settings.MaximumSpeed, settings.MaximumSpeed);
             player.YVelocity = Math.Clamp(yVelocity, -settings.MaximumSpeed, settings.MaximumFallSpeed);
 
-            if (player.MovementInput.X == 0 && Math.Abs(player.XVelocity) < 1.0f)
+            if (player.MovementInput.X == 0 && Math.Abs(player.XVelocity) < PlayerWorldTuning.VelocityStopThreshold)
             {
                 player.XVelocity = 0.0f;
             }

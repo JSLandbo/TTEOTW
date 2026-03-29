@@ -7,9 +7,6 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class PlayerWorldMovementResolver
     {
-        private const int MaxIterations = 8;
-        private const float CollisionPlacementOffset = 0.0f;
-
         private readonly float tileSize;
         private readonly float tileTransitionOffset;
         private readonly WorldQueryService worldQueryService;
@@ -18,14 +15,14 @@ namespace ToTheEndOfTheWorld.Gameplay
         public PlayerWorldMovementResolver(WorldQueryService worldQueryService, WorldViewportService worldViewportService, int tileSize)
         {
             this.tileSize = tileSize;
-            tileTransitionOffset = tileSize * 0.5f;
+            tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
             this.worldQueryService = worldQueryService;
             this.worldViewportService = worldViewportService;
         }
 
         public void Resolve(World world, APlayer player)
         {
-            for (var i = 0; i < MaxIterations; i++)
+            for (var i = 0; i < PlayerWorldTuning.MaxMovementResolutionIterations; i++)
             {
                 var processedMovement = false;
 
@@ -61,12 +58,12 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 if (horizontal)
                 {
-                    player.XOffset = direction * CollisionPlacementOffset;
+                    player.XOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
                     player.XVelocity = 0.0f;
                 }
                 else
                 {
-                    player.YOffset = direction * CollisionPlacementOffset;
+                    player.YOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
                     player.YVelocity = 0.0f;
                 }
 

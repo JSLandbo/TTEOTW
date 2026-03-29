@@ -1,25 +1,16 @@
-﻿using ModelLibrary.Concrete;
+using ModelLibrary.Concrete;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace ModelLibrary.Context
+namespace ToTheEndOfTheWorld.Context
 {
-    public class ContextHandler
+    public static class ContextHandler
     {
-        private static string BasePath => $@"{Path.GetTempPath()}\TTEOTW\";
-
-        public ContextHandler()
-        {
-            if (Directory.Exists(BasePath)) return;
-
-            Directory.CreateDirectory(BasePath);
-        }
+        private static string BasePath => Path.Combine(Path.GetTempPath(), "TTEOTW");
 
         public static void SaveWorld(World world)
         {
-            var file = $"{BasePath}World.txt";
-            CreateDirectoryIfNotExists(file);
-            CreateFileIfNotExists(file);
+            var file = GetWorldFilePath();
             File.WriteAllText(
                 file,
                 UtilityLibrary.Extensions.Compress(
@@ -35,12 +26,15 @@ namespace ModelLibrary.Context
             );
         }
 
-
         public static World LoadWorld()
         {
-            var file = $"{BasePath}World.txt";
-            CreateDirectoryIfNotExists(file);
-            CreateFileIfNotExists(file);
+            var file = GetWorldFilePath();
+
+            if (new FileInfo(file).Length == 0)
+            {
+                return null;
+            }
+
             return JsonConvert.DeserializeObject<World>(
                 UtilityLibrary.Extensions.Decompress(
                     File.ReadAllText(file)
@@ -53,11 +47,24 @@ namespace ModelLibrary.Context
             )!;
         }
 
+        private static string GetWorldFilePath()
+        {
+            var file = Path.Combine(BasePath, "World.txt");
+            CreateDirectoryIfNotExists(file);
+            CreateFileIfNotExists(file);
+            return file;
+        }
 
         private static void CreateDirectoryIfNotExists(string file)
         {
-            if (Directory.Exists(Path.GetDirectoryName(file))) return;
-            Directory.CreateDirectory(Path.GetDirectoryName(file));
+            var directory = Path.GetDirectoryName(file);
+
+            if (string.IsNullOrWhiteSpace(directory) || Directory.Exists(directory))
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(directory);
         }
 
         private static void CreateFileIfNotExists(string file)

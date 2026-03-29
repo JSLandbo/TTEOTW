@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
-using ModelLibrary.Context;
 using ModelLibrary.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay;
 
@@ -27,6 +27,7 @@ namespace ToTheEndOfTheWorld
         private GameItemsRepository items;
         private World world;
         private readonly PlayerInputMapper inputMapper = new();
+        private readonly PlayerFacingResolver playerFacingResolver = new();
         private readonly PlayerMovementSystem playerMovementSystem = new();
         private readonly WorldViewportService worldViewportService = new();
         private WorldQueryService worldQueryService;
@@ -41,6 +42,13 @@ namespace ToTheEndOfTheWorld
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Exiting += (_, _) =>
+            {
+                if (world != null)
+                {
+                    ContextHandler.SaveWorld(world);
+                }
+            };
         }
 
         protected override void Initialize()
@@ -120,15 +128,10 @@ namespace ToTheEndOfTheWorld
             var state = Keyboard.GetState();
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var intent = inputMapper.ReadPlayerIntent(state, previousKeyboardState);
-            var command = inputMapper.ReadGameCommand(state);
-
-            if (command.SaveRequested)
-            {
-                ContextHandler.SaveWorld(world);
-            }
 
             var player = world.Player;
-            player.ApplyIntent(intent.MovementInput, intent.FacingDirection);
+            var facingDirection = playerFacingResolver.Resolve(player, intent);
+            player.ApplyIntent(intent.MovementInput, facingDirection);
             playerMovementSystem.Update(player, deltaTime);
             playerWorldMovementResolver.Resolve(world, player);
             playerMiningSystem.Update(world, player);
@@ -157,9 +160,13 @@ namespace ToTheEndOfTheWorld
         private void DrawStatistics()
         {
             var font = Content.Load<SpriteFont>("Fonts/text");
-            var first = world.WorldRender.OrderBy(x => x.Key.X).OrderBy(x => x.Key.Y).FirstOrDefault();
+            var first = world.WorldRender
+                .OrderBy(pair => pair.Key.Y)
+                .ThenBy(pair => pair.Key.X)
+                .First()
+                .Value;
             var player = world.Player;
-            spriteBatch.DrawString(font, $"World position: X: {first.Value.X}, Y: {first.Value.Y}", new Vector2(5, 5), Color.Black);
+            spriteBatch.DrawString(font, $"World position: X: {first.X}, Y: {first.Y}", new Vector2(5, 5), Color.Black);
             spriteBatch.DrawString(font, $"Player velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(5, 25), Color.Black);
             spriteBatch.DrawString(font, $"Player offset: X: {player.XOffset}, Y: {player.YOffset}", new Vector2(5, 45), Color.Black);
         }
@@ -221,8 +228,8 @@ namespace ToTheEndOfTheWorld
                 {
                     spriteBatch.Draw(hull.Textures[orientation], PlayerPosition, Color.White);
 
-                    var drillPositionX = PlayerPosition.X + (player.Direction.X * _pixels);
-                    var drillPositionY = PlayerPosition.Y + (player.Direction.Y * _pixels);
+                    var drillPositionX = PlayerPosition.X + (player.FacingDirection.X * _pixels);
+                    var drillPositionY = PlayerPosition.Y + (player.FacingDirection.Y * _pixels);
 
                     spriteBatch.Draw(drill.Textures[orientation], new Vector2(drillPositionX, drillPositionY), Color.White);
                 }

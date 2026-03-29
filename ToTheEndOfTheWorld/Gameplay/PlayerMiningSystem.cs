@@ -8,16 +8,13 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class PlayerMiningSystem
     {
-        private const float CollisionPlacementOffset = 0.0f;
-        private const float MiningContactTolerance = 0.5f;
-
         private readonly float miningCenterTolerance;
         private readonly WorldQueryService worldQueryService;
         private readonly WorldInteractionsRepository interactions;
 
         public PlayerMiningSystem(WorldQueryService worldQueryService, WorldInteractionsRepository interactions, int tileSize)
         {
-            miningCenterTolerance = tileSize * 0.08f;
+            miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
             this.worldQueryService = worldQueryService;
             this.interactions = interactions;
         }
@@ -69,7 +66,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            var block = worldQueryService.GetWorldBlock(vector.X, vector.Y).Value.Block;
+            var block = worldQueryService.CreateMutableWorldBlock(vector.X, vector.Y);
 
             if (!interactions.ContainsKey(vector))
             {
@@ -89,7 +86,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (player.FacingDirection.X != 0)
             {
-                player.XOffset = player.FacingDirection.X * CollisionPlacementOffset;
+                player.XOffset = player.FacingDirection.X * PlayerWorldTuning.CollisionPlacementOffset;
                 player.YOffset = 0.0f;
                 return;
             }
@@ -97,7 +94,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             if (player.FacingDirection.Y != 0)
             {
                 player.XOffset = 0.0f;
-                player.YOffset = player.FacingDirection.Y * CollisionPlacementOffset;
+                player.YOffset = player.FacingDirection.Y * PlayerWorldTuning.CollisionPlacementOffset;
             }
         }
 
@@ -143,12 +140,12 @@ namespace ToTheEndOfTheWorld.Gameplay
         {
             if (player.FacingDirection.X != 0)
             {
-                return Math.Abs(player.XOffset) <= MiningContactTolerance;
+                return Math.Abs(player.XOffset) <= PlayerWorldTuning.MiningContactTolerance;
             }
 
             if (player.FacingDirection.Y != 0)
             {
-                return Math.Abs(player.YOffset) <= MiningContactTolerance;
+                return Math.Abs(player.YOffset) <= PlayerWorldTuning.MiningContactTolerance;
             }
 
             return false;

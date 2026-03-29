@@ -13,13 +13,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             return new PlayerIntent(movementInput, facingDirection);
         }
 
-        public GameCommand ReadGameCommand(KeyboardState currentState)
-        {
-            var saveRequested = currentState.IsKeyDown(Keys.LeftControl) && currentState.IsKeyDown(Keys.S);
-
-            return new GameCommand(saveRequested);
-        }
-
         private static Vector2 ReadMovementInput(KeyboardState state)
         {
             var up = IsPressed(state, Keys.Up, Keys.W);

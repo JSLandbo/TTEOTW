@@ -18,11 +18,42 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.blocks = blocks;
         }
 
-        public KeyValuePair<int, (string Name, Texture2D Texture, Block Block)> GetWorldBlock(float x, float y)
+        public KeyValuePair<int, (string Name, Texture2D Texture, Block block)> GetWorldBlock(float x, float y)
+        {
+            return FindBlockDefinition(x, y);
+        }
+
+        public Block CreateMutableWorldBlock(float x, float y)
+        {
+            var definition = FindBlockDefinition(x, y);
+            var block = new Block(definition.Value.block);
+
+            if (definition.Key == 2 && x > 0)
+            {
+                block.CurrentHealth += 0.01f * x;
+                block.MaximumHealth += 0.01f * x;
+            }
+
+            return block;
+        }
+
+        public bool IsObstructed(World world, Vector2 worldPosition)
+        {
+            var block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
+
+            if (block.Ethereal || world.WorldTrails.ContainsKey(worldPosition))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private KeyValuePair<int, (string Name, Texture2D Texture, Block block)> FindBlockDefinition(float x, float y)
         {
             var simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
 
-            foreach (var block in blocks.OrderByDescending(e => e.Key))
+            foreach (var block in blocks.OrderByDescending(entry => entry.Key))
             {
                 var info = block.Value.block.Info;
 
@@ -33,34 +64,11 @@ namespace ToTheEndOfTheWorld.Gameplay
 
                 if (simplex >= info.OccurrenceSpan.X && simplex <= info.OccurrenceSpan.Y)
                 {
-                    var keyValuePair = new KeyValuePair<int, (string Name, Texture2D Texture, Block Block)>
-                    (
-                        block.Key, (block.Value.Name, block.Value.Texture, new Block(block.Value.block))
-                    );
-
-                    if (block.Key == 2 && x > 0)
-                    {
-                        keyValuePair.Value.Block.CurrentHealth += 0.01f * x;
-                        keyValuePair.Value.Block.MaximumHealth += 0.01f * x;
-                    }
-
-                    return keyValuePair;
+                    return block;
                 }
             }
 
-            return new KeyValuePair<int, (string Name, Texture2D Texture, Block Block)>(-1, (null, null, null));
-        }
-
-        public bool IsObstructed(World world, Vector2 worldPosition)
-        {
-            var block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.Block;
-
-            if (block.Ethereal || world.WorldTrails.ContainsKey(worldPosition))
-            {
-                return false;
-            }
-
-            return true;
+            return new KeyValuePair<int, (string Name, Texture2D Texture, Block block)>(-1, blocks[-1]);
         }
     }
 }

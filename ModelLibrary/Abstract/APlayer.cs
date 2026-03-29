@@ -9,12 +9,6 @@ namespace ModelLibrary.Abstract
         private Vector2 _facingDirection = new(0, 0);
 
         public Vector2 Coordinates { get; set; } = new(0, 0);
-        public Vector2 Direction
-        {
-            get => FacingDirection;
-            set => FacingDirection = ToCardinalDirection(value);
-        }
-
         public Vector2 MovementInput { get; set; } = new(0, 0);
         public Vector2 FacingDirection
         {
@@ -40,55 +34,29 @@ namespace ModelLibrary.Abstract
             }
         }
 
-        public void ApplyIntent(Vector2 movementInput, Vector2 suggestedFacingDirection)
+        public void ApplyIntent(Vector2 movementInput, Vector2 facingDirection)
         {
             MovementInput = movementInput;
+            var nextFacingDirection = ToCardinalDirection(facingDirection);
 
-            if (suggestedFacingDirection != Vector2.Zero)
+            if (nextFacingDirection != FacingDirection)
             {
-                if (ToCardinalDirection(suggestedFacingDirection) != FacingDirection)
-                {
-                    DrillExtended = false;
-                }
+                DrillExtended = false;
+            }
 
-                FacingDirection = suggestedFacingDirection;
-            }
-            else if (movementInput == Vector2.Zero)
-            {
-                if (Math.Abs(XVelocity) > Math.Abs(YVelocity))
-                {
-                    FacingDirection = ToCardinalDirection(new Vector2(Math.Sign(XVelocity), 0));
-                }
-                else if (Math.Abs(YVelocity) > 0)
-                {
-                    FacingDirection = ToCardinalDirection(new Vector2(0, Math.Sign(YVelocity)));
-                }
-            }
-            else if (IsSingleAxisInput(movementInput))
-            {
-                FacingDirection = ToCardinalDirection(movementInput);
-            }
-            else if (!FacingMatchesInput(movementInput))
-            {
-                FacingDirection = ToCardinalDirection(new Vector2(movementInput.X, 0));
-
-                if (FacingDirection == Vector2.Zero)
-                {
-                    FacingDirection = ToCardinalDirection(new Vector2(0, movementInput.Y));
-                }
-            }
+            FacingDirection = nextFacingDirection;
         }
 
         public bool Mining { get; set; } = false;
         public bool DrillExtended { get; set; } = false;
         public string Name { get; set; } = "Undefined";
         public double Cash { get; set; } = 0.0f;
-        public AEngine Engine { get; set; }
-        public AHull Hull { get; set; }
-        public ADrill Drill { get; set; }
-        public AInventory Inventory { get; set; }
-        public AThruster Thruster { get; set; }
-        public AFuelTank FuelTank { get; set; }
+        public AEngine Engine { get; set; } = null!;
+        public AHull Hull { get; set; } = null!;
+        public ADrill Drill { get; set; } = null!;
+        public AInventory Inventory { get; set; } = null!;
+        public AThruster Thruster { get; set; } = null!;
+        public AFuelTank FuelTank { get; set; } = null!;
         public float Weight { get; } = 0.0f;
 
         public float MaximumActiveVelocity => new Vector2(XVelocity, YVelocity).Length();
@@ -97,12 +65,6 @@ namespace ModelLibrary.Abstract
         {
             XVelocity = 0.0f;
             YVelocity = 0.0f;
-        }
-
-        public void ResetOffset()
-        {
-            XOffset = 0.0f;
-            YOffset = 0.0f;
         }
 
         private static Vector2 ToCardinalDirection(Vector2 value)
@@ -124,26 +86,5 @@ namespace ModelLibrary.Abstract
 
             return Vector2.Zero;
         }
-
-        private static bool IsSingleAxisInput(Vector2 input)
-        {
-            return input.X == 0 || input.Y == 0;
-        }
-
-        private bool FacingMatchesInput(Vector2 input)
-        {
-            if (FacingDirection == Vector2.Zero)
-            {
-                return false;
-            }
-
-            if (FacingDirection.X != 0)
-            {
-                return Math.Sign(FacingDirection.X) == Math.Sign(input.X) && input.X != 0;
-            }
-
-            return Math.Sign(FacingDirection.Y) == Math.Sign(input.Y) && input.Y != 0;
-        }
-
     }
 }
