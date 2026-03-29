@@ -11,7 +11,6 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             Speed = original.Speed;
             Acceleration = original.Acceleration;
             Power = original.Power;
-            Plating = original.Plating;
             Name = original.Name;
             ActiveFuelConsumption = original.ActiveFuelConsumption;
             Weight = original.Weight;
@@ -20,13 +19,12 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
         }
 
         [JsonConstructor]
-        public Thruster(short ID, float Speed, float Acceleration, float Power, ThermalPlating Plating, string Name, float ActiveFuelConsumption, float Weight, float Worth, float MinimumVelocity)
+        public Thruster(short ID, float Speed, float Acceleration, float Power, string Name, float ActiveFuelConsumption, float Weight, float Worth, float MinimumVelocity)
         {
             this.ID = ID;
             this.Speed = Speed;
             this.Acceleration = Acceleration;
             this.Power = Power;
-            this.Plating = Plating;
             this.Name = Name;
             this.ActiveFuelConsumption = ActiveFuelConsumption;
             this.Weight = Weight;

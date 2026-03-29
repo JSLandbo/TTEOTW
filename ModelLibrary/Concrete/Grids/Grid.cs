@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.Types;
 
 namespace ModelLibrary.Concrete.Grids
 {
     public class Grid : AGrid
     {
-        public Grid(int ID, Vector2 InternalCoordinate, GridBox[,] InternalGrid)
+        public Grid(Vector2 InternalCoordinate, GridBox[,] InternalGrid)
         {
-            this.ID = ID;
             this.InternalCoordinate = InternalCoordinate;
             this.InternalGrid = InternalGrid;
 
@@ -18,7 +16,7 @@ namespace ModelLibrary.Concrete.Grids
                 {
                     if (InternalGrid[x, y] is null)
                     {
-                        InternalGrid[x, y] = new GridBox(ID, new List<AType>());
+                        InternalGrid[x, y] = new GridBox(null, 0);
                     }
                 }
             }

@@ -7,8 +7,9 @@ namespace ModelLibrary.Concrete
     public class Player : APlayer
     {
         [JsonConstructor]
-        public Player(Engine Engine, Hull Hull, Drill Drill, Inventory Inventory, Thruster Thruster, FuelTank FuelTank)
+        public Player(Engine Engine, Hull Hull, Drill Drill, Inventory Inventory, Thruster Thruster, FuelTank FuelTank, ThermalPlating ThermalPlating = null)
         {
+            this.ThermalPlating = ThermalPlating;
             this.Engine = Engine;
             this.Hull = Hull;
             this.Drill = Drill;

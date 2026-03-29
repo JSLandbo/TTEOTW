@@ -6,6 +6,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
     public abstract class AInventory : AType
     {
         public float SizeLimit { get; set; }
+        public int MaxStackSize { get; set; }
         public AGrid Items { get; set; }
     }
 }

@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
+using ModelLibrary.Enums;
 using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.UI
@@ -54,6 +56,22 @@ namespace ToTheEndOfTheWorld.UI
             {
                 overlay.Draw(spriteBatch, world, viewportWidth, viewportHeight);
             }
+        }
+
+        public bool Open(ABuilding building)
+        {
+            foreach (var overlay in overlays)
+            {
+                if (overlay is not IInteractionOverlay interactionOverlay || interactionOverlay.Action != building.Interaction)
+                {
+                    continue;
+                }
+
+                interactionOverlay.Open(building);
+                return true;
+            }
+
+            return false;
         }
     }
 }

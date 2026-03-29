@@ -7,7 +7,7 @@ namespace ToTheEndOfTheWorld.Gameplay
     {
         public void Update(APlayer player, float deltaTime)
         {
-            var settings = PlayerMovementSettings.FromThruster(player.Thruster);
+            var settings = PlayerMovementSettings.FromPlayer(player);
             var xVelocity = player.XVelocity;
             var yVelocity = player.YVelocity;
 

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ToTheEndOfTheWorld.Gameplay;
 
@@ -10,6 +11,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
     public sealed class InventoryInteractionController
     {
         private AGridBox heldSourceSlot;
+        private int currentMaxStackSize = InventoryService.DefaultMaxStackSize;
 
         public AType HeldItem { get; private set; }
         public int HeldCount { get; private set; }
@@ -22,15 +24,32 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             AGridBox[,] inventoryGrid,
             Grid craftingGrid,
             GridBox craftOutputSlot,
-            CraftingService craftingService)
+            CraftingService craftingService,
+            World world,
+            InventoryItemUseService itemUseService,
+            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory)
         {
             MousePosition = currentMouseState.Position;
+            currentMaxStackSize = inventory?.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
 
             if (WasLeftClicked(currentMouseState, previousMouseState))
             {
                 if (layout.CraftButtonRectangle.Contains(MousePosition))
                 {
-                    craftingService.TryCraft(craftingGrid.InternalGrid, craftOutputSlot);
+                    craftingService.TryCraft(craftingGrid.InternalGrid, craftOutputSlot, currentMaxStackSize);
+                    return;
+                }
+
+                if (HeldItem != null && layout.TrashBinRectangle.Contains(MousePosition))
+                {
+                    ClearHeldItem();
+                    return;
+                }
+
+                if (HeldItem != null
+                    && TryGetClickedEquipmentSlot(MousePosition, layout, out var equipmentSlot)
+                    && TryEquipHeldItem(world, itemUseService, equipmentSlot))
+                {
                     return;
                 }
 
@@ -75,7 +94,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (heldSourceSlot.Item.ID == HeldItem.ID && heldSourceSlot.Count + HeldCount <= InventoryService.MaxStackSize)
+            if (InventoryService.CanStackTogether(heldSourceSlot.Item, HeldItem) && heldSourceSlot.Count + HeldCount <= currentMaxStackSize)
             {
                 heldSourceSlot.Count += HeldCount;
                 ClearHeldItem();
@@ -133,9 +152,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (slot.Item.ID == HeldItem.ID)
+            if (InventoryService.CanStackTogether(slot.Item, HeldItem))
             {
-                var availableSpace = InventoryService.MaxStackSize - slot.Count;
+                var availableSpace = currentMaxStackSize - slot.Count;
 
                 if (availableSpace <= 0)
                 {
@@ -170,12 +189,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (HeldItem != null && HeldItem.ID != slot.Item.ID)
+            if (HeldItem != null && !InventoryService.CanStackTogether(HeldItem, slot.Item))
             {
                 return;
             }
 
-            if (HeldCount >= InventoryService.MaxStackSize)
+            if (HeldCount >= currentMaxStackSize)
             {
                 return;
             }
@@ -197,6 +216,45 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             HeldItem = null;
             HeldCount = 0;
             heldSourceSlot = null;
+        }
+
+        private bool TryEquipHeldItem(World world, InventoryItemUseService itemUseService, PlayerEquipmentSlotType equipmentSlot)
+        {
+            var heldItem = HeldItem;
+            var heldCount = HeldCount;
+
+            if (!itemUseService.TryEquipFromHeld(world, equipmentSlot, ref heldItem, ref heldCount))
+            {
+                return false;
+            }
+
+            HeldItem = heldItem;
+            HeldCount = heldCount;
+            return true;
+        }
+
+        private static bool TryGetClickedEquipmentSlot(Point position, InventoryLayout layout, out PlayerEquipmentSlotType slotType)
+        {
+            foreach (var candidate in new[]
+            {
+                PlayerEquipmentSlotType.ThermalPlating,
+                PlayerEquipmentSlotType.Inventory,
+                PlayerEquipmentSlotType.FuelTank,
+                PlayerEquipmentSlotType.Drill,
+                PlayerEquipmentSlotType.Hull,
+                PlayerEquipmentSlotType.Engine,
+                PlayerEquipmentSlotType.Thruster
+            })
+            {
+                if (layout.GetEquipmentSlotRectangle(candidate).Contains(position))
+                {
+                    slotType = candidate;
+                    return true;
+                }
+            }
+
+            slotType = default;
+            return false;
         }
 
         private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, out AGridBox slot)

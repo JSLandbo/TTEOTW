@@ -1,3 +1,5 @@
+using ToTheEndOfTheWorld.Context;
+
 namespace ToTheEndOfTheWorld.UI
 {
     public static class UiComposition
@@ -5,11 +7,16 @@ namespace ToTheEndOfTheWorld.UI
         public static UiManager Create(
             Gameplay.InventoryService inventoryService,
             Gameplay.CraftingService craftingService,
-            Context.StaticRepositories.WorldElementsRepository blocks,
-            Context.StaticRepositories.GameItemsRepository items)
+            Gameplay.InventoryItemUseService itemUseService,
+            Gameplay.ShopService shopService,
+            Gameplay.EquipmentShopService equipmentShopService,
+            WorldElementsRepository blocks,
+            GameItemsRepository items)
         {
             var uiManager = new UiManager();
-            uiManager.Register(new Inventory.InventoryOverlay(inventoryService, craftingService, blocks, items));
+            uiManager.Register(new Inventory.InventoryOverlay(inventoryService, craftingService, itemUseService, blocks, items));
+            uiManager.Register(new Shop.ShopOverlay(shopService, blocks, items));
+            uiManager.Register(new Shop.EquipmentShopOverlay(equipmentShopService, blocks, items));
             return uiManager;
         }
     }

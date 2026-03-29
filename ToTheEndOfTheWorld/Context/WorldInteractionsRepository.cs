@@ -60,6 +60,21 @@ namespace ToTheEndOfTheWorld.Context.StaticRepositories
             return new List<WorldInteraction>(uniqueInteractions);
         }
 
+        public IReadOnlyList<WorldInteraction> GetAll()
+        {
+            var uniqueInteractions = new HashSet<WorldInteraction>();
+
+            foreach (var entry in interactionsByTile)
+            {
+                foreach (var interaction in entry.Value)
+                {
+                    uniqueInteractions.Add(interaction);
+                }
+            }
+
+            return new List<WorldInteraction>(uniqueInteractions);
+        }
+
         public void Add(WorldInteraction interaction)
         {
             for (long x = interaction.TileBounds.X; x < interaction.TileBounds.X + interaction.TileBounds.Width; x++)

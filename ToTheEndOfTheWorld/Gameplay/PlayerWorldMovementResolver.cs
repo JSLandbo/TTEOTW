@@ -26,25 +26,32 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             for (var i = 0; i < maxIterations; i++)
             {
-                var processedMovement = false;
-
-                if (Math.Abs(player.XOffset) >= Math.Abs(player.YOffset))
-                {
-                    processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
-                    processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
-                }
-                else
-                {
-                    processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
-                    processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
-                }
-
-                if (!processedMovement)
+                if (!ResolveStep(world, player))
                 {
                     return;
                 }
             }
         }
+
+        public bool ResolveStep(World world, APlayer player)
+        {
+            var processedMovement = false;
+
+            if (Math.Abs(player.XOffset) >= Math.Abs(player.YOffset))
+            {
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
+            }
+            else
+            {
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
+            }
+
+            return processedMovement;
+        }
+
+        public int EstimateRequiredIterations(APlayer player) => CalculateRequiredIterations(player);
 
         private int CalculateRequiredIterations(APlayer player)
         {

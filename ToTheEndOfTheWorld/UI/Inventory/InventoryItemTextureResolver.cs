@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context.StaticRepositories;
+using ToTheEndOfTheWorld.Context;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {

@@ -8,8 +8,12 @@ namespace ToTheEndOfTheWorld.Gameplay
     {
         public void EnsurePadding(World world)
         {
-            var playerKey = new Vector2(world.Player.Coordinates.X, world.Player.Coordinates.Y);
-            var centerWorldPosition = world.WorldRender[playerKey];
+            EnsurePadding(world, GetCenterWorldPosition(world));
+        }
+
+        public void EnsurePadding(World world, Vector2 centerWorldPosition)
+        {
+            var playerKey = GetCenterRenderKey(world.BlocksWide, world.BlocksHigh);
             var paddedRender = new Dictionary<Vector2, Vector2>();
 
             for (var x = -1; x <= world.BlocksWide + 1; x++)
@@ -26,7 +30,20 @@ namespace ToTheEndOfTheWorld.Gameplay
                 }
             }
 
+            world.Player.Coordinates = playerKey;
             world.WorldRender = paddedRender;
+        }
+
+        public Vector2 GetCenterWorldPosition(World world)
+        {
+            return world.WorldRender[GetCenterRenderKey(world.BlocksWide, world.BlocksHigh)];
+        }
+
+        public Vector2 GetCenterRenderKey(int blocksWide, int blocksHigh)
+        {
+            return new Vector2(
+                (float)System.Math.Floor(blocksWide / 2.0d),
+                (float)System.Math.Floor(blocksHigh / 2.0d));
         }
 
         public void Move(World world, float x, float y)

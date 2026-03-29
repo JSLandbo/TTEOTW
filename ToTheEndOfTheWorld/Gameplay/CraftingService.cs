@@ -5,7 +5,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class CraftingService
     {
-        public bool TryCraft(AGridBox[,] craftingGrid, AGridBox outputSlot)
+        public bool TryCraft(AGridBox[,] craftingGrid, AGridBox outputSlot, int maxStackSize)
         {
             if (!TryResolveRecipe(craftingGrid, out var craftedItem, out var craftedCount))
             {
@@ -14,7 +14,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (outputSlot.Item != null)
             {
-                if (outputSlot.Item.ID != craftedItem.ID || outputSlot.Count + craftedCount > InventoryService.MaxStackSize)
+                if (!InventoryService.CanStackTogether(outputSlot.Item, craftedItem) || outputSlot.Count + craftedCount > maxStackSize)
                 {
                     return false;
                 }

@@ -7,10 +7,10 @@ namespace ModelLibrary.Concrete.Grids
     public class GridBox : AGridBox
     {
         [JsonConstructor]
-        public GridBox(int ID, List<AType> Item)
+        public GridBox(AType? Item, int Count)
         {
-            this.ID = ID;
             this.Item = Item;
+            this.Count = Count;
         }
     }
 }

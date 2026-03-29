@@ -7,5 +7,6 @@ namespace ModelLibrary.Abstract.Blocks
         public int MinimumDepth { get; set; }
         public int MaximumDepth { get; set; }
         public Vector2 OccurrenceSpan { get; set; }
+        public float Weight { get; set; }
     }
 }

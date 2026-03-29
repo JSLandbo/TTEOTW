@@ -10,20 +10,22 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             ID = original.ID;
             Hardness = original.Hardness;
             Damage = original.Damage;
-            Plating = original.Plating;
+            MiningAreaSize = original.MiningAreaSize;
             Name = original.Name;
             Worth = original.Worth;
             Weight = original.Weight;
         }
 
         [JsonConstructor]
-        public Drill(short ID, float Hardness, float Damage, ThermalPlating Plating, string Name)
+        public Drill(short ID, float Hardness, float Damage, string Name, float Worth = 0, float Weight = 0, int MiningAreaSize = 1)
         {
             this.ID = ID;
             this.Hardness = Hardness;
             this.Damage = Damage;
-            this.Plating = Plating;
+            this.MiningAreaSize = MiningAreaSize;
             this.Name = Name;
+            this.Worth = Worth;
+            this.Weight = Weight;
         }
     }
 }

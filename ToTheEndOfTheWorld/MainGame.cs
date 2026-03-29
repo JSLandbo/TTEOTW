@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
@@ -12,17 +13,19 @@ using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.UI;
+using ToTheEndOfTheWorld.UI.WorldRendering;
 
 namespace ToTheEndOfTheWorld
 {
     public class MainGame : Game
     {
         private static readonly string GameTitle = "To The End Of The World";
-        private static readonly string GameVersion = "V0.01";
+        private static readonly string GameVersion = "V1.10";
         private static readonly int _pixels = 64;
 
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private RenderTarget2D sceneRenderTarget;
         private WorldInteractionsRepository interactions;
         private WorldElementsRepository blocks;
         private GameItemsRepository items;
@@ -30,26 +33,39 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerInputMapper inputMapper = new();
         private readonly PlayerFacingResolver playerFacingResolver = new();
         private readonly PlayerMovementSystem playerMovementSystem = new();
+        private WorldBootstrapper worldBootstrapper;
+        private readonly WorldInteractionService worldInteractionService;
         private readonly WorldViewportService worldViewportService = new();
         private readonly GameEventBus eventBus = new();
         private readonly InventoryService inventoryService = new();
+        private readonly ShopService shopService = new();
+        private InventoryItemUseService inventoryItemUseService;
+        private EquipmentShopService equipmentShopService;
+        private EquipmentShopBuildingFactory equipmentShopBuildingFactory;
+        private readonly DebugHudRenderer debugHudRenderer = new();
+        private readonly GameplayHudRenderer gameplayHudRenderer = new();
+        private readonly WorldInteractionRenderer worldInteractionRenderer = new();
         private WorldQueryService worldQueryService;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
         private CraftingService craftingService;
-        private WorldBlockLootSystem worldBlockLootSystem;
         private UiManager uiManager;
-        private SpriteFont textFont;
+        private int logicalViewportWidth;
+        private int logicalViewportHeight;
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
+        private bool isApplyingResize;
 
         // private ItemSpriteRepository _items;
 
         public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            worldInteractionService = new WorldInteractionService();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.AllowUserResizing = true;
+            Window.ClientSizeChanged += HandleClientSizeChanged;
             Exiting += (_, _) =>
             {
                 if (world != null)
@@ -63,22 +79,27 @@ namespace ToTheEndOfTheWorld
         {
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
+            inventoryItemUseService = new InventoryItemUseService(inventoryService, items);
+            equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
+            worldBootstrapper = new WorldBootstrapper(worldViewportService, equipmentShopBuildingFactory);
             worldQueryService = new WorldQueryService(blocks);
             craftingService = new CraftingService();
-            worldBlockLootSystem = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
-            uiManager = UiComposition.Create(inventoryService, craftingService, blocks, items);
+            _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
+            equipmentShopService = new EquipmentShopService(inventoryService, items);
+            uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
 
             var _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             var _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
 
-            _blocksWide -= _blocksWide % 2 + 2;
-            _blocksHigh -= _blocksHigh % 2 + 2;
+            NormalizeVisibleTileCounts(ref _blocksWide, ref _blocksHigh);
 
             Window.Title = $"{GameTitle} {GameVersion}";
             graphics.PreferredBackBufferWidth = _blocksWide * _pixels;
             graphics.PreferredBackBufferHeight = _blocksHigh * _pixels;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
+            logicalViewportWidth = graphics.PreferredBackBufferWidth;
+            logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldQueryService, worldViewportService, _pixels);
@@ -90,6 +111,7 @@ namespace ToTheEndOfTheWorld
             world.BlocksWide = _blocksWide;
             world.BlocksHigh = _blocksHigh;
             worldViewportService.EnsurePadding(world);
+            worldBootstrapper.EnsureInitialized(world);
             previousKeyboardState = Keyboard.GetState();
             previousMouseState = Mouse.GetState();
 
@@ -99,12 +121,13 @@ namespace ToTheEndOfTheWorld
         private World CreateNewWorld(int _blocksWide, int _blocksHigh)
         {
             var player = new Player(
-                Engine: new Engine(items[3].type as Engine),
-                Hull: new Hull(items[1].type as Hull),
-                Drill: new Drill(items[2].type as Drill),
-                Inventory: new Inventory(ID: 100, new Grid(new Vector2(0, 0), new GridBox[3, 3]), SizeLimit: 576, Name: "Starter Inventory", Worth: 10, Weight: 0),
-                Thruster: new Thruster(items[5].type as Thruster),
-                FuelTank: new FuelTank(items[4].type as FuelTank)
+                ThermalPlating: items.Create<ThermalPlating>(10000),
+                Engine: items.Create<Engine>(10100),
+                Hull: items.Create<Hull>(10500),
+                Drill: items.Create<Drill>(10600),
+                Inventory: items.Create<Inventory>(10300),
+                Thruster: items.Create<Thruster>(10400),
+                FuelTank: items.Create<FuelTank>(10200)
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d))
@@ -122,7 +145,7 @@ namespace ToTheEndOfTheWorld
 
             return new World(
                 Player: player,                                  // ContextHandler.LoadPlayer();
-                Buildings: null,                                 // ContextHandler.LoadBuildings();
+                Buildings: new List<ABuilding>(),                // ContextHandler.LoadBuildings();
                 BlocksWide: _blocksWide,                         // Calculated
                 BlocksHigh: _blocksHigh,                         // Calculated
                 WorldRender: createdWorldRender,                 // Dynamically updated
@@ -133,15 +156,19 @@ namespace ToTheEndOfTheWorld
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            textFont = Content.Load<SpriteFont>("Fonts/text");
+            sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
+            debugHudRenderer.LoadContent(Content);
+            gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
+            worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
             uiManager.LoadContent(GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
-            var mouseState = Mouse.GetState();
-            uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            var mouseState = CreateScaledMouseState(Mouse.GetState());
+            var blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
+            uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             if (uiManager.BlocksGameplay)
             {
@@ -158,8 +185,22 @@ namespace ToTheEndOfTheWorld
             var facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
             playerMovementSystem.Update(player, deltaTime);
-            playerWorldMovementResolver.Resolve(world, player);
-            playerMiningSystem.Update(world, player);
+
+            var resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
+            for (var i = 0; i < resolutionSteps; i++)
+            {
+                playerMiningSystem.Update(world, player);
+
+                if (!playerWorldMovementResolver.ResolveStep(world, player))
+                {
+                    break;
+                }
+            }
+
+            if (!blockedGameplayAtFrameStart)
+            {
+                worldInteractionService.TryHandleInteraction(keyboardState, previousKeyboardState, uiManager, world);
+            }
 
             previousKeyboardState = keyboardState;
             previousMouseState = mouseState;
@@ -169,28 +210,29 @@ namespace ToTheEndOfTheWorld
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(sceneRenderTarget);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
 
             DrawRenderedWorld();
-            //DrawRenderedBuildings();
+            worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, _pixels);
             DrawPlayerShip();
-            DrawStatistics();
-            uiManager.Draw(spriteBatch, world, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            debugHudRenderer.Draw(spriteBatch, world);
+            gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
+            DrawInteractionPrompt();
+            uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
 
             spriteBatch.End();
 
-            base.Draw(gameTime);
-        }
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.Black);
 
-        private void DrawStatistics()
-        {
-            var player = world.Player;
-            var worldPosition = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
-            spriteBatch.DrawString(textFont, $"World position: X: {worldPosition.X}, Y: {worldPosition.Y}", new Vector2(5, 5), Color.Black);
-            spriteBatch.DrawString(textFont, $"Player velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(5, 25), Color.Black);
-            spriteBatch.DrawString(textFont, $"Player offset: X: {player.XOffset}, Y: {player.YOffset}", new Vector2(5, 45), Color.Black);
+            spriteBatch.Begin(samplerState: SamplerState.LinearClamp);
+            spriteBatch.Draw(sceneRenderTarget, GetPresentationRectangle(), Color.White);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
         }
 
         private void DrawRenderedWorld()
@@ -270,9 +312,76 @@ namespace ToTheEndOfTheWorld
         private Vector2 GetCenterScreenCoordinates()
         {
             return new Vector2(
-                (float)(graphics.PreferredBackBufferWidth / 2.0),
-                (float)(graphics.PreferredBackBufferHeight / 2.0)
+                (float)(logicalViewportWidth / 2.0),
+                (float)(logicalViewportHeight / 2.0)
             );
+        }
+
+        private void HandleClientSizeChanged(object sender, EventArgs e)
+        {
+            if (isApplyingResize || world == null)
+            {
+                return;
+            }
+
+            var width = Window.ClientBounds.Width;
+            var height = Window.ClientBounds.Height;
+
+            if (width <= 0 || height <= 0)
+            {
+                return;
+            }
+
+            if (graphics.PreferredBackBufferWidth != width || graphics.PreferredBackBufferHeight != height)
+            {
+                isApplyingResize = true;
+                graphics.PreferredBackBufferWidth = width;
+                graphics.PreferredBackBufferHeight = height;
+                graphics.ApplyChanges();
+                isApplyingResize = false;
+            }
+        }
+
+        private static void NormalizeVisibleTileCounts(ref int blocksWide, ref int blocksHigh)
+        {
+            blocksWide = Math.Max(4, blocksWide - (blocksWide % 2 + 2));
+            blocksHigh = Math.Max(4, blocksHigh - (blocksHigh % 2 + 2));
+        }
+
+        private Rectangle GetPresentationRectangle()
+        {
+            var viewportWidth = GraphicsDevice.Viewport.Width;
+            var viewportHeight = GraphicsDevice.Viewport.Height;
+            var scale = Math.Min((float)viewportWidth / logicalViewportWidth, (float)viewportHeight / logicalViewportHeight);
+            var width = (int)(logicalViewportWidth * scale);
+            var height = (int)(logicalViewportHeight * scale);
+            var x = (viewportWidth - width) / 2;
+            var y = (viewportHeight - height) / 2;
+            return new Rectangle(x, y, width, height);
+        }
+
+        private MouseState CreateScaledMouseState(MouseState mouseState)
+        {
+            var presentationRectangle = GetPresentationRectangle();
+
+            if (!presentationRectangle.Contains(mouseState.Position))
+            {
+                return new MouseState(-1, -1, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
+            }
+
+            var scaledX = (int)((mouseState.X - presentationRectangle.X) * ((float)logicalViewportWidth / presentationRectangle.Width));
+            var scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
+
+            return new MouseState(scaledX, scaledY, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
+        }
+
+        private void DrawInteractionPrompt()
+        {
+            if (uiManager.BlocksGameplay || !worldInteractionService.TryGetCurrentBuilding(world, out var building))
+            {
+                return;
+            }
+            worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportWidth, logicalViewportHeight);
         }
 
     }

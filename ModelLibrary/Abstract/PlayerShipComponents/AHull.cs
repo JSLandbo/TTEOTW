@@ -6,6 +6,5 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
     {
         public float Health { get; set; }
         public float Durability { get; set; } // Maximum health of the ship
-        public AThermalPlating Plating { get; set; } // Heat dissipating plating
     }
 }

@@ -9,13 +9,16 @@ namespace ToTheEndOfTheWorld.Context.StaticRepositories
     public enum WorldInteractionType
     {
         Mining,
-        ExplosionZone,
-        Building
+        ExplosionZone
     }
 
     public sealed class WorldInteraction
     {
-        public WorldInteraction(WorldInteractionType type, WorldTileBounds tileBounds, Block block = null, bool isDestructible = false)
+        public WorldInteraction(
+            WorldInteractionType type,
+            WorldTileBounds tileBounds,
+            Block block = null,
+            bool isDestructible = false)
         {
             Type = type;
             TileBounds = tileBounds;

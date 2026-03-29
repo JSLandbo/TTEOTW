@@ -1,27 +1,54 @@
-﻿using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract.Buildings
 {
     public abstract class ABuilding : IBuilding
     {
-        // Abstract since every building with have special methods.
-
-        public ABuilding(short ID, string Name, Vector2 GlobalCoordinate, AGrid StorageGrid, AGrid ActiveGrid, ASize Size)
+        protected ABuilding(
+            short ID,
+            string Name,
+            long WorldX,
+            long WorldY,
+            int TilesWide,
+            int TilesHigh,
+            AGrid StorageGrid,
+            bool IsBackground,
+            bool IsDestructible,
+            EBuildingInteraction Interaction,
+            string InteractionPrompt)
         {
             this.ID = ID;
             this.Name = Name;
-            this.GlobalCoordinate = GlobalCoordinate;
+            this.WorldX = WorldX;
+            this.WorldY = WorldY;
+            this.TilesWide = TilesWide;
+            this.TilesHigh = TilesHigh;
             this.StorageGrid = StorageGrid;
-            this.ActiveGrid = ActiveGrid;
-            this.Size = Size;
+            this.IsBackground = IsBackground;
+            this.IsDestructible = IsDestructible;
+            this.Interaction = Interaction;
+            this.InteractionPrompt = InteractionPrompt;
         }
 
         public short ID { get; set; }
         public string Name { get; set; }
-        public Vector2 GlobalCoordinate { get; set; }
-        public AGrid StorageGrid { get; set; } // Example in Smeltery the grid that contains ingots after having being processed.
-        public AGrid ActiveGrid { get; set; } // Example in Smeltery the grid that contains ores that are currently being processed.
-        public ASize Size { get; set; }
+        public long WorldX { get; set; }
+        public long WorldY { get; set; }
+        public int TilesWide { get; set; }
+        public int TilesHigh { get; set; }
+        public AGrid StorageGrid { get; set; }
+        public bool IsBackground { get; set; }
+        public bool IsDestructible { get; set; }
+        public EBuildingInteraction Interaction { get; set; }
+        public string InteractionPrompt { get; set; }
+
+        public bool ContainsTile(long worldX, long worldY)
+        {
+            return worldX >= WorldX &&
+                   worldX < WorldX + TilesWide &&
+                   worldY >= WorldY &&
+                   worldY < WorldY + TilesHigh;
+        }
     }
 }

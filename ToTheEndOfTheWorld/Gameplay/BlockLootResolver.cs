@@ -1,5 +1,5 @@
 using ModelLibrary.Concrete.Blocks;
-using ToTheEndOfTheWorld.Context.StaticRepositories;
+using ToTheEndOfTheWorld.Context;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
