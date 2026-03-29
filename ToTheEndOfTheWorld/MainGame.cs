@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
+using ModelLibrary.Abstract;
 using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.PlayerShipComponents;
@@ -22,6 +23,9 @@ namespace ToTheEndOfTheWorld
         private static readonly string GameTitle = "To The End Of The World";
         private static readonly string GameVersion = "V0.01";
         private static readonly int _pixels = 64;
+        private static readonly float _tileTransitionOffset = _pixels * 0.5f;
+        private const float _collisionPlacementOffset = 0.0f;
+        private static readonly float _miningCenterTolerance = _pixels * 0.2f;
 
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -29,6 +33,7 @@ namespace ToTheEndOfTheWorld
         private WorldElementsRepository blocks;
         private GameItemsRepository items;
         private World world;
+        private KeyboardState previousKeyboardState;
 
         // private ItemSpriteRepository _items;
 
@@ -61,6 +66,10 @@ namespace ToTheEndOfTheWorld
             world = ContextHandler.LoadWorld();
 
             world ??= CreateNewWorld(_blocksWide, _blocksHigh);
+            world.BlocksWide = _blocksWide;
+            world.BlocksHigh = _blocksHigh;
+            EnsureWorldRenderPadding();
+            previousKeyboardState = Keyboard.GetState();
 
             base.Initialize();
         }
@@ -106,7 +115,8 @@ namespace ToTheEndOfTheWorld
 
         protected override async void Update(GameTime gameTime)
         {
-            KeyboardState state = Keyboard.GetState();
+            var state = Keyboard.GetState();
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (state.IsKeyDown(Keys.LeftControl) && state.IsKeyDown(Keys.S))
             {
@@ -114,140 +124,13 @@ namespace ToTheEndOfTheWorld
             }
 
             var player = world.Player;
-            var oldDirection = player.Direction;
-            var newDirection = player.SetDirectionFromInput(state);
-            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
-            var nextBlockVector = new Vector2(location.X + newDirection.X, location.Y + newDirection.Y);
-            var nextBlock = GetWorldBlock(nextBlockVector.X, nextBlockVector.Y).Value.Block;
-            /*
-            if (newDirection.X == 0 && newDirection.Y == 0)
-            {
-                if (Math.Round(player.XOffset) == 64)
-                {
-                    MoveScreen(1, 0);
-                    player.XOffset = 0;
-                }
+            player.UpdateInput(state, previousKeyboardState);
+            player.UpdateVelocity(deltaTime);
+            player.UpdateOffset(deltaTime);
+            ResolvePlayerMovement(player);
+            UpdateMining(player);
 
-                if (Math.Round(player.XOffset) == -64)
-                {
-                    MoveScreen(-1, 0);
-                    player.XOffset = 0;
-                }
-
-                if (Math.Round(player.YOffset) == 64)
-                {
-                    MoveScreen(0, 1);
-                    player.YOffset = 0;
-                }
-
-                if (Math.Round(player.YOffset) == -64)
-                {
-                    MoveScreen(0, -1);
-                    player.YOffset = 0;
-                }
-
-                if (player.XOffset > 0)
-                {
-                    if (player.XOffset > 32)
-                    {
-                        player.XOffset += 1;
-                    }
-                    else
-                    {
-                        player.XOffset -= 1;
-                    }
-                }
-
-                if (player.XOffset < 0)
-                {
-                    if (player.XOffset < -32)
-                    {
-                        player.XOffset -= 1;
-                    }
-                    else
-                    {
-                        player.XOffset += 1;
-                    }
-                }
-
-                if (player.YOffset > 0)
-                {
-                    if (player.YOffset > 32)
-                    {
-                        player.YOffset += 1;
-                    }
-                    else
-                    {
-                        player.YOffset -= 1;
-                    }
-                }
-
-                if (player.YOffset < 0)
-                {
-                    if (player.YOffset < -32)
-                    {
-                        player.YOffset -= 1;
-                    }
-                    else
-                    {
-                        player.YOffset += 1;
-                    }
-                }
-            }
-            */
-            /*
-            if (oldDirection != newDirection)// || (newDirection.X == 0 && newDirection.Y == 0))
-            {
-                //player.ResetOffset();
-            }
-            */
-
-            if (!Obstructed(nextBlock, nextBlockVector))
-            {
-                player.Mining = false;
-
-                player.UpdateVelocity();
-                player.UpdateOffset();
-
-                var blocksToMove = player.BlocksToMove(_pixels);
-
-                if (blocksToMove > 0)
-                {
-                    Block checkBlock;
-                    Vector2 checkBlockVector;
-                    float checkLocationX;
-                    float checkLocationY;
-
-                    var i = 1;
-                    while (i < blocksToMove)
-                    {
-                        checkLocationX = location.X + (newDirection.X * i);
-                        checkLocationY = location.Y + (newDirection.Y * i);
-
-                        checkBlockVector = new Vector2(checkLocationX, checkLocationY);
-                        checkBlock = GetWorldBlock(checkBlockVector.X, checkBlockVector.Y).Value.Block;
-
-                        if (Obstructed(checkBlock, checkBlockVector)) break;
-
-                        i++;
-                    }
-                    player.SubstractOffset(_pixels * i);
-                    MoveScreen(newDirection.X * i, newDirection.Y * i);
-                }
-            }
-
-            if (Obstructed(nextBlock, nextBlockVector))
-            {
-                player.Mining = true;
-                player.ResetVelocity();
-                player.ResetOffset();
-                DealDamageToBlock(nextBlockVector.X, nextBlockVector.Y);
-
-                if (!Obstructed(nextBlock, nextBlockVector))
-                {
-                    MoveScreen(newDirection.X, newDirection.Y);
-                }
-            }
+            previousKeyboardState = state;
 
             base.Update(gameTime);
         }
@@ -288,8 +171,8 @@ namespace ToTheEndOfTheWorld
                     pair.Key.Y * _pixels - (0.5f * _pixels)
                 );
 
-                //location.X -= player.XOffset;
-                //location.Y -= player.YOffset;
+                location.X -= player.XOffset;
+                location.Y -= player.YOffset;
 
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
@@ -333,18 +216,18 @@ namespace ToTheEndOfTheWorld
             {
                 if (mining)
                 {
-                    var drillPositionX = GetCenterScreenCoordinates().X - (0.5f * _pixels) + (player.Direction.X * _pixels);
-                    var drillPositionY = GetCenterScreenCoordinates().Y - (0.5f * _pixels) + (player.Direction.Y * _pixels);
+                    spriteBatch.Draw(hull.Textures[orientation], PlayerPosition, Color.White);
+
+                    var drillPositionX = PlayerPosition.X + (player.Direction.X * _pixels) - player.XOffset;
+                    var drillPositionY = PlayerPosition.Y + (player.Direction.Y * _pixels) - player.YOffset;
 
                     spriteBatch.Draw(drill.Textures[orientation], new Vector2(drillPositionX, drillPositionY), Color.White);
-
-                    spriteBatch.Draw(hull.Textures[orientation], PlayerPosition, Color.White);
                 }
                 else
                 {
-
                     spriteBatch.Draw(hull.Textures[PlayerOrientation.Base], PlayerPosition, Color.White);
                 }
+
                 if (player.MaximumActiveVelocity > 0)
                 {
                     // draw thrusters
@@ -441,6 +324,178 @@ namespace ToTheEndOfTheWorld
             }
 
             world.WorldRender = updated;
+        }
+
+        private void EnsureWorldRenderPadding()
+        {
+            var playerKey = new Vector2(world.Player.Coordinates.X, world.Player.Coordinates.Y);
+            var centerWorldPosition = world.WorldRender[playerKey];
+            var paddedRender = new Dictionary<Vector2, Vector2>();
+
+            for (var x = -1; x <= world.BlocksWide + 1; x++)
+            {
+                for (var y = -1; y <= world.BlocksHigh + 1; y++)
+                {
+                    var renderKey = new Vector2(x, y);
+                    var worldLocation = new Vector2(
+                        centerWorldPosition.X + (x - playerKey.X),
+                        centerWorldPosition.Y + (y - playerKey.Y)
+                    );
+
+                    paddedRender[renderKey] = worldLocation;
+                }
+            }
+
+            world.WorldRender = paddedRender;
+        }
+
+        private void ResolvePlayerMovement(APlayer player)
+        {
+            const int maxIterations = 8;
+
+            for (var i = 0; i < maxIterations; i++)
+            {
+                var processedMovement = false;
+
+                if (Math.Abs(player.XOffset) >= Math.Abs(player.YOffset))
+                {
+                    processedMovement |= TryProcessMovementAxis(player, horizontal: true);
+                    processedMovement |= TryProcessMovementAxis(player, horizontal: false);
+                }
+                else
+                {
+                    processedMovement |= TryProcessMovementAxis(player, horizontal: false);
+                    processedMovement |= TryProcessMovementAxis(player, horizontal: true);
+                }
+
+                if (!processedMovement)
+                {
+                    return;
+                }
+            }
+        }
+
+        private bool TryProcessMovementAxis(APlayer player, bool horizontal)
+        {
+            var offset = horizontal ? player.XOffset : player.YOffset;
+            var direction = Math.Sign(offset);
+
+            if (direction == 0)
+            {
+                return false;
+            }
+
+            if (IsAxisObstructed(player, horizontal, direction))
+            {
+                if (horizontal)
+                {
+                    player.XOffset = direction * _collisionPlacementOffset;
+                    player.XVelocity = 0.0f;
+                }
+                else
+                {
+                    player.YOffset = direction * _collisionPlacementOffset;
+                    player.YVelocity = 0.0f;
+                }
+
+                return true;
+            }
+
+            if (Math.Abs(offset) < _tileTransitionOffset)
+            {
+                return false;
+            }
+
+            MoveScreen(horizontal ? direction : 0, horizontal ? 0 : direction);
+
+            if (horizontal)
+            {
+                player.XOffset -= direction * _pixels;
+            }
+            else
+            {
+                player.YOffset -= direction * _pixels;
+            }
+
+            return true;
+        }
+
+        private void UpdateMining(APlayer player)
+        {
+            player.Mining = false;
+
+            if (player.FacingDirection == Vector2.Zero)
+            {
+                return;
+            }
+
+            if (Vector2.Dot(player.MovementInput, player.FacingDirection) <= 0.0f)
+            {
+                return;
+            }
+
+            if (!IsCenteredForMining(player))
+            {
+                return;
+            }
+
+            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
+            var block = GetWorldBlock(blockVector.X, blockVector.Y).Value.Block;
+
+            if (!Obstructed(block, blockVector))
+            {
+                return;
+            }
+
+            SnapPlayerToMiningBlock(player);
+            player.Mining = true;
+            DealDamageToBlock(blockVector.X, blockVector.Y);
+        }
+
+        private void SnapPlayerToMiningBlock(APlayer player)
+        {
+            player.ResetVelocity();
+
+            if (player.FacingDirection.X != 0)
+            {
+                player.XOffset = player.FacingDirection.X * _collisionPlacementOffset;
+                player.YOffset = 0.0f;
+                return;
+            }
+
+            if (player.FacingDirection.Y != 0)
+            {
+                player.XOffset = 0.0f;
+                player.YOffset = player.FacingDirection.Y * _collisionPlacementOffset;
+            }
+        }
+
+        private bool IsAxisObstructed(APlayer player, bool horizontal, int direction)
+        {
+            var location = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
+            var nextBlockVector = new Vector2(
+                location.X + (horizontal ? direction : 0),
+                location.Y + (horizontal ? 0 : direction)
+            );
+            var nextBlock = GetWorldBlock(nextBlockVector.X, nextBlockVector.Y).Value.Block;
+
+            return Obstructed(nextBlock, nextBlockVector);
+        }
+
+        private bool IsCenteredForMining(APlayer player)
+        {
+            if (player.FacingDirection.X != 0)
+            {
+                return Math.Abs(player.YOffset) <= _miningCenterTolerance;
+            }
+
+            if (player.FacingDirection.Y != 0)
+            {
+                return Math.Abs(player.XOffset) <= _miningCenterTolerance;
+            }
+
+            return false;
         }
     }
 }
