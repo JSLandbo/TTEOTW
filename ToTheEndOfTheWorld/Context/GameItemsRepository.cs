@@ -1,7 +1,7 @@
-﻿using ModelLibrary.Concrete.PlayerShipComponents;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using System.Collections.Generic;
 

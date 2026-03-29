@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ModelLibrary.Abstract.Buttons
+﻿namespace ModelLibrary.Abstract.Buttons
 {
     public abstract class AButtons
     {

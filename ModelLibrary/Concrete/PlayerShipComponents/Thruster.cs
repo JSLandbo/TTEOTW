@@ -16,7 +16,7 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             ActiveFuelConsumption = original.ActiveFuelConsumption;
             Weight = original.Weight;
             Worth = original.Worth;
-            MinimumVelocity= original.MinimumVelocity;
+            MinimumVelocity = original.MinimumVelocity;
         }
 
         [JsonConstructor]

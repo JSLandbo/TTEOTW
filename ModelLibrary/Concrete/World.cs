@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract;
+using ModelLibrary.Abstract.Buildings;
 
 namespace ModelLibrary.Concrete
 {
