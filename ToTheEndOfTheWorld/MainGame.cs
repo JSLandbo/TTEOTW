@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay;
+using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.UI;
 
 namespace ToTheEndOfTheWorld
 {
@@ -29,10 +31,17 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerFacingResolver playerFacingResolver = new();
         private readonly PlayerMovementSystem playerMovementSystem = new();
         private readonly WorldViewportService worldViewportService = new();
+        private readonly GameEventBus eventBus = new();
+        private readonly InventoryService inventoryService = new();
         private WorldQueryService worldQueryService;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
+        private CraftingService craftingService;
+        private WorldBlockLootSystem worldBlockLootSystem;
+        private UiManager uiManager;
+        private SpriteFont textFont;
         private KeyboardState previousKeyboardState;
+        private MouseState previousMouseState;
 
         // private ItemSpriteRepository _items;
 
@@ -55,6 +64,9 @@ namespace ToTheEndOfTheWorld
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
             worldQueryService = new WorldQueryService(blocks);
+            craftingService = new CraftingService();
+            worldBlockLootSystem = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
+            uiManager = UiComposition.Create(inventoryService, craftingService, blocks, items);
 
             var _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             var _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
@@ -70,7 +82,7 @@ namespace ToTheEndOfTheWorld
 
             interactions = new WorldInteractionsRepository();
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldQueryService, worldViewportService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldQueryService, interactions, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldQueryService, interactions, eventBus, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -79,6 +91,7 @@ namespace ToTheEndOfTheWorld
             world.BlocksHigh = _blocksHigh;
             worldViewportService.EnsurePadding(world);
             previousKeyboardState = Keyboard.GetState();
+            previousMouseState = Mouse.GetState();
 
             base.Initialize();
         }
@@ -89,7 +102,7 @@ namespace ToTheEndOfTheWorld
                 Engine: new Engine(items[3].type as Engine),
                 Hull: new Hull(items[1].type as Hull),
                 Drill: new Drill(items[2].type as Drill),
-                Inventory: new Inventory(ID: 100, new Grid(ID: 99, new Vector2(0, 0), new GridBox[3, 3]), SizeLimit: 576, Name: "Starter Inventory", Worth: 10, Weight: 0),
+                Inventory: new Inventory(ID: 100, new Grid(new Vector2(0, 0), new GridBox[3, 3]), SizeLimit: 576, Name: "Starter Inventory", Worth: 10, Weight: 0),
                 Thruster: new Thruster(items[5].type as Thruster),
                 FuelTank: new FuelTank(items[4].type as FuelTank)
             )
@@ -120,13 +133,26 @@ namespace ToTheEndOfTheWorld
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            textFont = Content.Load<SpriteFont>("Fonts/text");
+            uiManager.LoadContent(GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            var state = Keyboard.GetState();
+            var keyboardState = Keyboard.GetState();
+            var mouseState = Mouse.GetState();
+            uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+
+            if (uiManager.BlocksGameplay)
+            {
+                previousKeyboardState = keyboardState;
+                previousMouseState = mouseState;
+                base.Update(gameTime);
+                return;
+            }
+
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            var intent = inputMapper.ReadPlayerIntent(state, previousKeyboardState);
+            var intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
             var player = world.Player;
             var facingDirection = playerFacingResolver.Resolve(player, intent);
@@ -135,7 +161,8 @@ namespace ToTheEndOfTheWorld
             playerWorldMovementResolver.Resolve(world, player);
             playerMiningSystem.Update(world, player);
 
-            previousKeyboardState = state;
+            previousKeyboardState = keyboardState;
+            previousMouseState = mouseState;
 
             base.Update(gameTime);
         }
@@ -150,6 +177,7 @@ namespace ToTheEndOfTheWorld
             //DrawRenderedBuildings();
             DrawPlayerShip();
             DrawStatistics();
+            uiManager.Draw(spriteBatch, world, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
             spriteBatch.End();
 
@@ -158,12 +186,11 @@ namespace ToTheEndOfTheWorld
 
         private void DrawStatistics()
         {
-            var font = Content.Load<SpriteFont>("Fonts/text");
             var player = world.Player;
             var worldPosition = world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
-            spriteBatch.DrawString(font, $"World position: X: {worldPosition.X}, Y: {worldPosition.Y}", new Vector2(5, 5), Color.Black);
-            spriteBatch.DrawString(font, $"Player velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(5, 25), Color.Black);
-            spriteBatch.DrawString(font, $"Player offset: X: {player.XOffset}, Y: {player.YOffset}", new Vector2(5, 45), Color.Black);
+            spriteBatch.DrawString(textFont, $"World position: X: {worldPosition.X}, Y: {worldPosition.Y}", new Vector2(5, 5), Color.Black);
+            spriteBatch.DrawString(textFont, $"Player velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(5, 25), Color.Black);
+            spriteBatch.DrawString(textFont, $"Player offset: X: {player.XOffset}, Y: {player.YOffset}", new Vector2(5, 45), Color.Black);
         }
 
         private void DrawRenderedWorld()

@@ -1,0 +1,59 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Concrete;
+using System.Collections.Generic;
+
+namespace ToTheEndOfTheWorld.UI
+{
+    public sealed class UiManager
+    {
+        private readonly List<IGameOverlay> overlays = new();
+
+        public bool BlocksGameplay
+        {
+            get
+            {
+                foreach (var overlay in overlays)
+                {
+                    if (overlay.IsOpen && overlay.BlocksGameplay)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public void Register(IGameOverlay overlay)
+        {
+            overlays.Add(overlay);
+        }
+
+        public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
+        {
+            foreach (var overlay in overlays)
+            {
+                overlay.LoadContent(graphicsDevice, content);
+            }
+        }
+
+        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
+        {
+            foreach (var overlay in overlays)
+            {
+                overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, World world, int viewportWidth, int viewportHeight)
+        {
+            foreach (var overlay in overlays)
+            {
+                overlay.Draw(spriteBatch, world, viewportWidth, viewportHeight);
+            }
+        }
+    }
+}
