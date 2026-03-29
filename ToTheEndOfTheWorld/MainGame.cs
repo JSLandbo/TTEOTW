@@ -11,6 +11,7 @@ using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.UI;
+using ToTheEndOfTheWorld.UI.Text;
 using ToTheEndOfTheWorld.UI.WorldRendering;
 
 namespace ToTheEndOfTheWorld
@@ -50,6 +51,8 @@ namespace ToTheEndOfTheWorld
         private PlayerShipRenderer playerShipRenderer;
         private CraftingService craftingService;
         private UiManager uiManager;
+        private SpriteFont blockPlaceholderFont;
+        private Texture2D placeholderTileTexture;
         private int logicalViewportWidth;
         private int logicalViewportHeight;
         private KeyboardState previousKeyboardState;
@@ -147,6 +150,9 @@ namespace ToTheEndOfTheWorld
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
+            blockPlaceholderFont = Content.Load<SpriteFont>("Fonts/text");
+            placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
+            placeholderTileTexture.SetData(new[] { Color.White });
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
@@ -247,7 +253,26 @@ namespace ToTheEndOfTheWorld
                 {
                     var block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
 
-                    spriteBatch.Draw(block.Value.Texture, location, Color.White);
+                    // THIS WILL BE REMOVED ONCE GRAPHICS ARE IMPLEMENTED
+                    if (blocks.TryGetPlaceholderLabel(block.Key, out var placeholderLabel))
+                    {
+                        var outerRectangle = new Rectangle((int)location.X, (int)location.Y, _pixels, _pixels);
+                        var innerRectangle = new Rectangle((int)location.X + 4, (int)location.Y + 4, _pixels - 8, _pixels - 8);
+                        spriteBatch.Draw(placeholderTileTexture, outerRectangle, new Color(18, 18, 22));
+                        spriteBatch.Draw(placeholderTileTexture, innerRectangle, new Color(42, 44, 56));
+
+                        var scale = placeholderLabel.Length > 1 ? 0.8f : 1.0f;
+                        var size = blockPlaceholderFont.MeasureString(placeholderLabel) * scale;
+                        var textPosition = new Vector2(
+                            location.X + ((_pixels - size.X) / 2.0f),
+                            location.Y + ((_pixels - size.Y) / 2.0f));
+
+                        GameTextRenderer.DrawBoldString(spriteBatch, blockPlaceholderFont, placeholderLabel, textPosition, Color.White, scale);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(block.Value.Texture, location, Color.White);
+                    }
 
                     if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out var interaction))
                     {
