@@ -40,55 +40,55 @@ namespace ToTheEndOfTheWorld.Context
             Add(3, ("Gravel", manager.Load<Texture2D>("Graphics/World/Blocks/Gravel"), GravelBlock));
 
             var StoneBlockInfo = new BlockInfo(MinimumDepth: 12, OccurrenceSpan: new Vector2(2f, 4f));
-            var StoneBlock = new Block(ID: 4, Ethereal: false, Hardness: 20, Health: 50, Worth: 5, Info: StoneBlockInfo);
+            var StoneBlock = new Block(ID: 4, Ethereal: false, Hardness: 20, Health: 50, Worth: 2, Info: StoneBlockInfo);
             Add(4, ("Stone", manager.Load<Texture2D>("Graphics/World/Blocks/Stone"), StoneBlock));
 
             var GraniteBlockInfo = new BlockInfo(MinimumDepth: 8000, OccurrenceSpan: new Vector2(4f, 5f));
-            var GraniteBlock = new Block(ID: 5, Ethereal: false, Hardness: 50, Health: 100, Worth: 5, Info: GraniteBlockInfo);
+            var GraniteBlock = new Block(ID: 5, Ethereal: false, Hardness: 50, Health: 100, Worth: 3, Info: GraniteBlockInfo);
             Add(5, ("Granite", manager.Load<Texture2D>("Graphics/World/Blocks/Granite"), GraniteBlock));
 
             var IronBlockInfo = new BlockInfo(MinimumDepth: 100, MaximumDepth: 800000, new Vector2(5f, 6f));
-            var IronBlock = new Block(ID: 6, Ethereal: false, Hardness: 15, Health: 75, Worth: 10, Info: IronBlockInfo);
+            var IronBlock = new Block(ID: 6, Ethereal: false, Hardness: 15, Health: 75, Worth: 4, Info: IronBlockInfo);
             Add(6, ("Iron", manager.Load<Texture2D>("Graphics/World/Blocks/Iron"), IronBlock));
 
             var LeadBlockInfo = new BlockInfo(MinimumDepth: 200, MaximumDepth: 40000, new Vector2(6f, 6.5f));
-            var LeadBlock = new Block(ID: 7, Ethereal: false, Hardness: 5, Health: 50, Worth: 25, Info: LeadBlockInfo);
+            var LeadBlock = new Block(ID: 7, Ethereal: false, Hardness: 5, Health: 50, Worth: 6, Info: LeadBlockInfo);
             Add(7, ("Lead", manager.Load<Texture2D>("Graphics/World/Blocks/Lead"), LeadBlock));
 
             var AluminumBlockInfo = new BlockInfo(MinimumDepth: 300, MaximumDepth: 60000, new Vector2(6.5f, 7f));
-            var AluminumBlock = new Block(ID: 8, Ethereal: false, Hardness: 15, Health: 100, Worth: 30, Info: AluminumBlockInfo);
+            var AluminumBlock = new Block(ID: 8, Ethereal: false, Hardness: 15, Health: 100, Worth: 8, Info: AluminumBlockInfo);
             Add(8, ("Aluminum", manager.Load<Texture2D>("Graphics/World/Blocks/Aluminum"), AluminumBlock));
 
             var ZincBlockInfo = new BlockInfo(MinimumDepth: 500, MaximumDepth: 80000, new Vector2(7f, 8f));
-            var ZincBlock = new Block(ID: 9, Ethereal: false, Hardness: 20, Health: 150, Worth: 35, Info: ZincBlockInfo);
+            var ZincBlock = new Block(ID: 9, Ethereal: false, Hardness: 20, Health: 150, Worth: 10, Info: ZincBlockInfo);
             Add(9, ("Zinc", manager.Load<Texture2D>("Graphics/World/Blocks/Zinc"), ZincBlock));
 
             var CopperBlockInfo = new BlockInfo(MinimumDepth: 800, MaximumDepth: 100000, new Vector2(8f, 8.5f));
-            var CopperBlock = new Block(ID: 10, Ethereal: false, Hardness: 25, Health: 200, Worth: 95, Info: CopperBlockInfo);
+            var CopperBlock = new Block(ID: 10, Ethereal: false, Hardness: 25, Health: 200, Worth: 16, Info: CopperBlockInfo);
             Add(10, ("Copper", manager.Load<Texture2D>("Graphics/World/Blocks/Copper"), CopperBlock));
 
             var NickelBlockInfo = new BlockInfo(MinimumDepth: 1200, MaximumDepth: 140000, new Vector2(8.5f, 9f));
-            var NickelBlock = new Block(ID: 11, Ethereal: false, Hardness: 35, Health: 300, Worth: 250, Info: NickelBlockInfo);
+            var NickelBlock = new Block(ID: 11, Ethereal: false, Hardness: 35, Health: 300, Worth: 24, Info: NickelBlockInfo);
             Add(11, ("Nickel", manager.Load<Texture2D>("Graphics/World/Blocks/Nickel"), NickelBlock));
 
             var TinBlockInfo = new BlockInfo(MinimumDepth: 400, MaximumDepth: 20000, new Vector2(9f, 9.5f));
-            var TinBlock = new Block(ID: 12, Ethereal: false, Hardness: 10, Health: 50, Worth: 450, Info: TinBlockInfo);
+            var TinBlock = new Block(ID: 12, Ethereal: false, Hardness: 10, Health: 50, Worth: 36, Info: TinBlockInfo);
             Add(12, ("Tin", manager.Load<Texture2D>("Graphics/World/Blocks/Tin"), TinBlock));
 
             var SilverBlockInfo = new BlockInfo(MinimumDepth: 1600, MaximumDepth: 200000, new Vector2(9.5f, 10f));
-            var SilverBlock = new Block(ID: 13, Ethereal: false, Hardness: 20, Health: 85, Worth: 7500, Info: SilverBlockInfo);
+            var SilverBlock = new Block(ID: 13, Ethereal: false, Hardness: 20, Health: 85, Worth: 64, Info: SilverBlockInfo);
             Add(13, ("Silver", manager.Load<Texture2D>("Graphics/World/Blocks/Silver"), SilverBlock));
 
             var GoldBlockInfo = new BlockInfo(MinimumDepth: 2400, MaximumDepth: 400000, new Vector2(10f, 10.25f));
-            var GoldBlock = new Block(ID: 14, Ethereal: false, Hardness: 20, Health: 250, Worth: 58000, Info: GoldBlockInfo);
+            var GoldBlock = new Block(ID: 14, Ethereal: false, Hardness: 20, Health: 250, Worth: 120, Info: GoldBlockInfo);
             Add(14, ("Gold", manager.Load<Texture2D>("Graphics/World/Blocks/Gold"), GoldBlock));
 
             var MythrilBlockInfo = new BlockInfo(MinimumDepth: 3600, MaximumDepth: 800000, new Vector2(10.25f, 10.50f));
-            var MythrilBlock = new Block(ID: 15, Ethereal: false, Hardness: 500, Health: 2500, Worth: 250000, Info: MythrilBlockInfo);
+            var MythrilBlock = new Block(ID: 15, Ethereal: false, Hardness: 500, Health: 2500, Worth: 1200, Info: MythrilBlockInfo);
             Add(15, ("Mythril", manager.Load<Texture2D>("Graphics/World/Blocks/Mythril"), MythrilBlock));
 
             var AdamantBlockInfo = new BlockInfo(MinimumDepth: 5400, MaximumDepth: 1600000, new Vector2(10.50f, 10.625f));
-            var AdamantBlock = new Block(ID: 16, Ethereal: false, Hardness: 1500, Health: 8500, Worth: 1000000, Info: AdamantBlockInfo);
+            var AdamantBlock = new Block(ID: 16, Ethereal: false, Hardness: 1500, Health: 8500, Worth: 8000, Info: AdamantBlockInfo);
             Add(16, ("Adamant", manager.Load<Texture2D>("Graphics/World/Blocks/Adamant"), AdamantBlock));
         }
     }
