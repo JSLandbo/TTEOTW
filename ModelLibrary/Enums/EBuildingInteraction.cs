@@ -4,6 +4,7 @@ namespace ModelLibrary.Enums
     {
         None,
         Shop,
-        EquipmentShop
+        EquipmentShop,
+        FuelStation
     }
 }

@@ -9,11 +9,13 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
     {
         private Texture2D sellShopTexture;
         private Texture2D equipmentShopTexture;
+        private Texture2D fuelStationTexture;
 
         public void LoadContent(ContentManager content)
         {
             sellShopTexture = content.Load<Texture2D>("Buildings/HouseSellYourOres");
             equipmentShopTexture = content.Load<Texture2D>("Buildings/HouseBuyUpgrades");
+            fuelStationTexture = content.Load<Texture2D>("Buildings/HouseFuelStation");
         }
 
         public Texture2D Resolve(ABuilding building)
@@ -22,6 +24,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
             {
                 EBuildingInteraction.Shop => sellShopTexture,
                 EBuildingInteraction.EquipmentShop => equipmentShopTexture,
+                EBuildingInteraction.FuelStation => fuelStationTexture,
                 _ => null
             };
         }

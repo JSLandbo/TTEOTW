@@ -42,6 +42,7 @@ namespace ToTheEndOfTheWorld
         private EquipmentShopService equipmentShopService;
         private SellShopBuildingFactory sellShopBuildingFactory;
         private EquipmentShopBuildingFactory equipmentShopBuildingFactory;
+        private FuelStationBuildingFactory fuelStationBuildingFactory;
         private readonly DebugHudRenderer debugHudRenderer = new();
         private readonly GameplayHudRenderer gameplayHudRenderer = new();
         private readonly WorldInteractionRenderer worldInteractionRenderer = new();
@@ -84,10 +85,11 @@ namespace ToTheEndOfTheWorld
             inventoryItemUseService = new InventoryItemUseService(inventoryService, items);
             sellShopBuildingFactory = new SellShopBuildingFactory();
             equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
-            worldBootstrapper = new WorldBootstrapper(worldViewportService, sellShopBuildingFactory, equipmentShopBuildingFactory);
+            fuelStationBuildingFactory = new FuelStationBuildingFactory();
+            worldBootstrapper = new WorldBootstrapper(worldViewportService, sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
-            craftingService = new CraftingService();
+            craftingService = new CraftingService(new CraftingRecipeLibrary(blocks).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             equipmentShopService = new EquipmentShopService(inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
