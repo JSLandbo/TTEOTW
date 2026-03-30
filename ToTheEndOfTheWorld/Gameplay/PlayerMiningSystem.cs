@@ -38,7 +38,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
             var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);
 
-            if (!IsGrounded(world, player))
+            if (!PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver))
             {
                 player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
                 return;
@@ -211,14 +211,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return Vector2.Dot(player.MovementInput, player.FacingDirection) > 0.0f;
-        }
-
-        private bool IsGrounded(World world, APlayer player)
-        {
-            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var belowPlayer = new Vector2(location.X, location.Y + 1);
-
-            return worldBlockDefinitionResolver.IsObstructed(world, belowPlayer);
         }
 
         private static bool IsTouchingMiningSurface(APlayer player)

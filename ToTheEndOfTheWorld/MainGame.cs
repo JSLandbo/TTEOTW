@@ -180,7 +180,8 @@ namespace ToTheEndOfTheWorld
             var player = world.Player;
             var facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
-            playerMovementSystem.Update(player, deltaTime);
+            var isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+            playerMovementSystem.Update(player, deltaTime, isGrounded);
 
             var resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
             for (var i = 0; i < resolutionSteps; i++)

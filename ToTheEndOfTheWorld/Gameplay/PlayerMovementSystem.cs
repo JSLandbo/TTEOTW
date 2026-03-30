@@ -5,7 +5,12 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class PlayerMovementSystem
     {
-        public void Update(APlayer player, float deltaTime)
+        private const float GroundHorizontalDragFactor = 5.0f;
+        private const float GroundHorizontalStopThreshold = 35.0f;
+        private const float AirHorizontalDragFactor = 0.75f;
+        private const float UpwardIdleDragFactor = 2.0f;
+
+        public void Update(APlayer player, float deltaTime, bool isGrounded)
         {
             var settings = PlayerMovementSettings.FromPlayer(player);
             var xVelocity = player.XVelocity;
@@ -13,7 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (player.MovementInput.X == 0)
             {
-                xVelocity = MoveTowards(xVelocity, 0.0f, settings.Drag * deltaTime);
+                xVelocity = MoveTowards(xVelocity, 0.0f, GetHorizontalIdleDrag(xVelocity, isGrounded) * deltaTime);
             }
             else
             {
@@ -28,11 +33,18 @@ namespace ToTheEndOfTheWorld.Gameplay
             if (player.MovementInput.Y != 0)
             {
                 var yTarget = player.MovementInput.Y * settings.MaximumSpeed;
-                var yChangeRate = Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
-                    ? settings.Acceleration + settings.Drag
-                    : settings.Acceleration;
+                var yChangeRate =
+                    player.MovementInput.Y < 0
+                        ? settings.Acceleration + settings.Drag
+                        : Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
+                            ? settings.Acceleration + settings.Drag
+                            : settings.Acceleration;
 
                 yVelocity = MoveTowards(yVelocity, yTarget, yChangeRate * deltaTime);
+            }
+            else if (yVelocity < 0.0f)
+            {
+                yVelocity = MoveTowards(yVelocity, 0.0f, GetUpwardIdleDrag(yVelocity) * deltaTime);
             }
 
             if (player.MovementInput.X != 0 && Math.Abs(xVelocity) < settings.MinimumSpeed)
@@ -50,13 +62,18 @@ namespace ToTheEndOfTheWorld.Gameplay
                 yVelocity += settings.Gravity * deltaTime;
             }
 
+            if (player.MovementInput.X == 0 && isGrounded && Math.Abs(xVelocity) < GroundHorizontalStopThreshold)
+            {
+                xVelocity = 0.0f;
+            }
+
+            if (player.MovementInput.X == 0 && Math.Abs(xVelocity) < PlayerWorldTuning.VelocityStopThreshold)
+            {
+                xVelocity = 0.0f;
+            }
+
             player.XVelocity = Math.Clamp(xVelocity, -settings.MaximumSpeed, settings.MaximumSpeed);
             player.YVelocity = Math.Clamp(yVelocity, -settings.MaximumSpeed, settings.MaximumFallSpeed);
-
-            if (player.MovementInput.X == 0 && Math.Abs(player.XVelocity) < PlayerWorldTuning.VelocityStopThreshold)
-            {
-                player.XVelocity = 0.0f;
-            }
 
             player.XOffset += player.XVelocity * deltaTime;
             player.YOffset += player.YVelocity * deltaTime;
@@ -70,6 +87,17 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return current + Math.Sign(target - current) * maxDelta;
+        }
+
+        private static float GetHorizontalIdleDrag(float velocity, bool isGrounded)
+        {
+            var dragFactor = isGrounded ? GroundHorizontalDragFactor : AirHorizontalDragFactor;
+            return Math.Abs(velocity) * dragFactor;
+        }
+
+        private static float GetUpwardIdleDrag(float velocity)
+        {
+            return Math.Abs(velocity) * UpwardIdleDragFactor;
         }
     }
 }
