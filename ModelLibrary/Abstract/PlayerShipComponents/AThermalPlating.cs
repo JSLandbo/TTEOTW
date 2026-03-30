@@ -7,5 +7,10 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
         public float Thermals { get; set; }
         public float MaxThermals { get; set; } // Maximum temperature endurance
         public float ThermalDissipation { get; set; }
+
+        public bool WouldOverheat(float addedHeat)
+        {
+            return Thermals + addedHeat > MaxThermals;
+        }
     }
 }

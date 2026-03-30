@@ -8,5 +8,6 @@ namespace ModelLibrary.Abstract.Blocks
         public long MaximumDepth { get; set; }
         public Vector2 OccurrenceSpan { get; set; }
         public float Weight { get; set; }
+        public float MiningHeatGeneration { get; set; }
     }
 }

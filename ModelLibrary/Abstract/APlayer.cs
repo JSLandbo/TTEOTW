@@ -8,6 +8,17 @@ namespace ModelLibrary.Abstract
     {
         private Vector2 _facingDirection = new(0, 0);
 
+        protected APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank)
+        {
+            ThermalPlating = thermalPlating ?? throw new ArgumentNullException(nameof(thermalPlating));
+            Engine = engine ?? throw new ArgumentNullException(nameof(engine));
+            Hull = hull ?? throw new ArgumentNullException(nameof(hull));
+            Drill = drill ?? throw new ArgumentNullException(nameof(drill));
+            Inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
+            Thruster = thruster ?? throw new ArgumentNullException(nameof(thruster));
+            FuelTank = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
+        }
+
         public Vector2 Coordinates { get; set; } = new(0, 0);
         public Vector2 MovementInput { get; set; } = new(0, 0);
         public Vector2 FacingDirection
@@ -51,16 +62,14 @@ namespace ModelLibrary.Abstract
         public bool DrillExtended { get; set; } = false;
         public string Name { get; set; } = "Undefined";
         public double Cash { get; set; } = 100000000.0f;
-        public AThermalPlating ThermalPlating { get; set; } = null!;
-        public AEngine Engine { get; set; } = null!;
-        public AHull Hull { get; set; } = null!;
-        public ADrill Drill { get; set; } = null!;
-        public AInventory Inventory { get; set; } = null!;
-        public AThruster Thruster { get; set; } = null!;
-        public AFuelTank FuelTank { get; set; } = null!;
-        public float Weight => GetEquippedWeight() + (Inventory?.ContentsWeight ?? 0.0f);
-
-        public float MaximumActiveVelocity => new Vector2(XVelocity, YVelocity).Length();
+        public AThermalPlating ThermalPlating { get; set; }
+        public AEngine Engine { get; set; }
+        public AHull Hull { get; set; }
+        public ADrill Drill { get; set; }
+        public AInventory Inventory { get; set; }
+        public AThruster Thruster { get; set; }
+        public AFuelTank FuelTank { get; set; }
+        public float Weight => GetEquippedWeight() + Inventory.ContentsWeight;
 
         public void ResetVelocity()
         {
@@ -71,13 +80,13 @@ namespace ModelLibrary.Abstract
         private float GetEquippedWeight()
         {
             return
-                (ThermalPlating?.Weight ?? 0.0f) +
-                (Engine?.Weight ?? 0.0f) +
-                (Hull?.Weight ?? 0.0f) +
-                (Drill?.Weight ?? 0.0f) +
-                (Inventory?.Weight ?? 0.0f) +
-                (Thruster?.Weight ?? 0.0f) +
-                (FuelTank?.Weight ?? 0.0f);
+                ThermalPlating.Weight +
+                Engine.Weight +
+                Hull.Weight +
+                Drill.Weight +
+                Inventory.Weight +
+                Thruster.Weight +
+                FuelTank.Weight;
         }
 
         private static Vector2 ToCardinalDirection(Vector2 value)

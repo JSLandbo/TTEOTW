@@ -29,7 +29,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory)
         {
             MousePosition = currentMouseState.Position;
-            currentMaxStackSize = inventory?.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
+            currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
 
             if (WasLeftClicked(currentMouseState, previousMouseState))
             {

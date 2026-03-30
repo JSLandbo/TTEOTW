@@ -14,7 +14,5 @@ namespace ModelLibrary.Abstract.Grids
         {
             OnChanged?.Invoke();
         }
-
-        // TODO: Figure out what to do when grid size exceeds building window. Make Scrollable.
     }
 }

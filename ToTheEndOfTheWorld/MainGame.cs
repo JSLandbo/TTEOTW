@@ -29,6 +29,8 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerInputMapper inputMapper = new();
         private readonly PlayerFacingResolver playerFacingResolver = new();
         private readonly PlayerMovementSystem playerMovementSystem = new();
+        private readonly PlayerFuelSystem playerFuelSystem = new();
+        private readonly PlayerHeatSystem playerHeatSystem = new();
         private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
         private readonly WorldViewportService worldViewportService = new();
@@ -107,7 +109,7 @@ namespace ToTheEndOfTheWorld
 
             interactions = new WorldInteractionsRepository();
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerFuelSystem, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -181,19 +183,35 @@ namespace ToTheEndOfTheWorld
             var player = world.Player;
             var facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
+            if (!playerFuelSystem.CanAffordMovement(player, deltaTime))
+            {
+                player.MovementInput = Vector2.Zero;
+            }
+            if (player.MovementInput != Vector2.Zero && !playerHeatSystem.CanAffordThrusterHeat(player, deltaTime))
+            {
+                player.MovementInput = Vector2.Zero;
+            }
             var isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
             playerMovementSystem.Update(player, deltaTime, isGrounded);
 
             var resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
             for (var i = 0; i < resolutionSteps; i++)
             {
-                playerMiningSystem.Update(world, player);
+                playerMiningSystem.Update(world, player, deltaTime);
 
                 if (!playerWorldMovementResolver.ResolveStep(world, player))
                 {
                     break;
                 }
             }
+
+            if (player.MovementInput != Vector2.Zero)
+            {
+                playerHeatSystem.AddThrusterHeat(player, deltaTime);
+            }
+
+            playerHeatSystem.Update(player, deltaTime);
+            playerFuelSystem.Update(player, deltaTime);
 
             if (!blockedGameplayAtFrameStart)
             {

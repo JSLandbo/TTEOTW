@@ -7,11 +7,6 @@ namespace ModelLibrary.Concrete.Blocks
     {
         public event EventHandler OnBlockDestroyed;
 
-        public Block()
-        {
-
-        }
-
         public Block(Block original)
         {
             ID = original.ID;

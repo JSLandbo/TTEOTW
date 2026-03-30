@@ -1,4 +1,5 @@
-﻿using ModelLibrary.Abstract.PlayerShipComponents;
+﻿using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Concrete.Grids;
 using Newtonsoft.Json;
 
@@ -29,7 +30,7 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             this.Weight = Weight;
         }
 
-        private static Grid CloneGrid(ModelLibrary.Abstract.Grids.AGrid original)
+        private static Grid CloneGrid(AGrid original)
         {
             var sourceGrid = original.InternalGrid;
             var clonedGrid = new GridBox[sourceGrid.GetLength(0), sourceGrid.GetLength(1)];
