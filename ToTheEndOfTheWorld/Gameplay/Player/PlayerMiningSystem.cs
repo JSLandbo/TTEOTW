@@ -86,12 +86,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return false;
             }
 
-            if (playerHeatSystem.IsCapped(player))
-            {
-                player.DrillExtended = false;
-                return false;
-            }
-
             if (player.FacingDirection.Y > 0)
             {
                 if (!playerVerticalImpactService.CanStartDownwardMining(player))
@@ -198,11 +192,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (interaction.Block.Hardness <= player.Drill.Hardness)
             {
                 float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.1f;
-
-                if (playerHeatSystem.IsCapped(player))
-                {
-                    return false;
-                }
 
                 interaction.Block.TakeDamage(player.Drill.Damage);
                 damagedBlock = true;
