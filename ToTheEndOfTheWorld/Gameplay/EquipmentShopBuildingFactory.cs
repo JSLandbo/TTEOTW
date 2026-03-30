@@ -10,7 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class EquipmentShopBuildingFactory
     {
-        private const int BuildingTilesWide = 3;
+        private const int BuildingTilesWide = 4;
         private const int BuildingTilesHigh = 2;
         private const int GridColumns = 7;
         private readonly GameItemsRepository items;
@@ -27,6 +27,8 @@ namespace ToTheEndOfTheWorld.Gameplay
                 Name: "Equipment Shop",
                 WorldX: worldX,
                 WorldY: worldY,
+                XOffset: 0,
+                YOffset: 8,
                 TilesWide: BuildingTilesWide,
                 TilesHigh: BuildingTilesHigh,
                 StorageGrid: CreateShopGrid(),

@@ -10,6 +10,8 @@ namespace ModelLibrary.Abstract.Buildings
             string Name,
             long WorldX,
             long WorldY,
+            int XOffset,
+            int YOffset,
             int TilesWide,
             int TilesHigh,
             AGrid StorageGrid,
@@ -22,6 +24,8 @@ namespace ModelLibrary.Abstract.Buildings
             this.Name = Name;
             this.WorldX = WorldX;
             this.WorldY = WorldY;
+            this.XOffset = XOffset;
+            this.YOffset = YOffset;
             this.TilesWide = TilesWide;
             this.TilesHigh = TilesHigh;
             this.StorageGrid = StorageGrid;
@@ -35,6 +39,8 @@ namespace ModelLibrary.Abstract.Buildings
         public string Name { get; set; }
         public long WorldX { get; set; }
         public long WorldY { get; set; }
+        public int XOffset { get; set; }
+        public int YOffset { get; set; }
         public int TilesWide { get; set; }
         public int TilesHigh { get; set; }
         public AGrid StorageGrid { get; set; }

@@ -40,6 +40,7 @@ namespace ToTheEndOfTheWorld
         private readonly ShopService shopService = new();
         private InventoryItemUseService inventoryItemUseService;
         private EquipmentShopService equipmentShopService;
+        private SellShopBuildingFactory sellShopBuildingFactory;
         private EquipmentShopBuildingFactory equipmentShopBuildingFactory;
         private readonly DebugHudRenderer debugHudRenderer = new();
         private readonly GameplayHudRenderer gameplayHudRenderer = new();
@@ -81,8 +82,9 @@ namespace ToTheEndOfTheWorld
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
             inventoryItemUseService = new InventoryItemUseService(inventoryService, items);
+            sellShopBuildingFactory = new SellShopBuildingFactory();
             equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
-            worldBootstrapper = new WorldBootstrapper(worldViewportService, equipmentShopBuildingFactory);
+            worldBootstrapper = new WorldBootstrapper(worldViewportService, sellShopBuildingFactory, equipmentShopBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             craftingService = new CraftingService();

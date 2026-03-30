@@ -11,6 +11,8 @@ namespace ModelLibrary.Concrete.Buildings
             string Name,
             long WorldX,
             long WorldY,
+            int XOffset,
+            int YOffset,
             int TilesWide,
             int TilesHigh,
             AGrid StorageGrid,
@@ -18,7 +20,7 @@ namespace ModelLibrary.Concrete.Buildings
             bool IsDestructible = false,
             EBuildingInteraction Interaction = EBuildingInteraction.None,
             string InteractionPrompt = null)
-            : base(ID, Name, WorldX, WorldY, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt)
+            : base(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt)
         {
         }
     }

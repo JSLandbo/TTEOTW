@@ -33,7 +33,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 player.DrillExtended = false;
                 return;
             }
-            
+
             var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
             var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);

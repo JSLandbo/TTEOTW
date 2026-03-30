@@ -11,6 +11,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
     public sealed class WorldInteractionRenderer
     {
         private const float PromptTextScale = 1.3f;
+        private readonly WorldBuildingTextureResolver textureResolver = new();
         private Texture2D pixelTexture;
         private SpriteFont textFont;
 
@@ -18,6 +19,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData(new[] { Color.White });
+            textureResolver.LoadContent(content);
             textFont = content.Load<SpriteFont>("Fonts/text");
         }
 
@@ -41,8 +43,8 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
                 var renderKeyX = playerKey.X + (building.WorldX - centerWorldPosition.X);
                 var renderKeyY = playerKey.Y + (building.WorldY - centerWorldPosition.Y);
                 var location = new Vector2(
-                    renderKeyX * tileSize - (0.5f * tileSize) - world.Player.XOffset,
-                    renderKeyY * tileSize - (0.5f * tileSize) - world.Player.YOffset
+                    renderKeyX * tileSize - (0.5f * tileSize) - world.Player.XOffset + building.XOffset,
+                    renderKeyY * tileSize - (0.5f * tileSize) - world.Player.YOffset + building.YOffset
                 );
 
                 var buildingRectangle = new Rectangle(
@@ -52,7 +54,15 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
                     building.TilesHigh * tileSize
                 );
 
-                spriteBatch.Draw(pixelTexture, buildingRectangle, Color.Black);
+                var buildingTexture = textureResolver.Resolve(building);
+
+                if (buildingTexture == null)
+                {
+                    spriteBatch.Draw(pixelTexture, buildingRectangle, Color.Black);
+                    continue;
+                }
+
+                spriteBatch.Draw(buildingTexture, buildingRectangle, Color.White);
             }
         }
 

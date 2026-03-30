@@ -13,7 +13,7 @@ namespace ToTheEndOfTheWorld.Gameplay
     {
         private const float DragMultiplier = 1.5f;
         private const float MinimumEffectiveWeight = 20.0f;
-        private const float GravityPerWeightUnit = 45.0f;
+        private const float GravityPerWeightUnit = 25.0f;
         private const float MaximumFallSpeedPerWeightUnit = 650.0f;
         private const float ThrusterFallSpeedContributionMultiplier = 1.0f;
 
@@ -26,9 +26,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             var acceleration = thruster.Acceleration;
             var drag = acceleration * DragMultiplier;
             var gravity = effectiveWeight * GravityPerWeightUnit;
-            var maximumFallSpeed =
-                (effectiveWeight * MaximumFallSpeedPerWeightUnit) +
-                (maximumSpeed * ThrusterFallSpeedContributionMultiplier);
+            var maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (maximumSpeed * ThrusterFallSpeedContributionMultiplier);
 
             return new PlayerMovementSettings(maximumSpeed, minimumSpeed, acceleration, drag, gravity, maximumFallSpeed);
         }

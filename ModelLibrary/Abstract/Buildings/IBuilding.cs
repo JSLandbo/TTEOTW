@@ -9,6 +9,8 @@ namespace ModelLibrary.Abstract.Buildings
         public string Name { get; set; }
         public long WorldX { get; set; }
         public long WorldY { get; set; }
+        public int XOffset { get; set; }
+        public int YOffset { get; set; }
         public int TilesWide { get; set; }
         public int TilesHigh { get; set; }
         public AGrid StorageGrid { get; set; }
