@@ -33,7 +33,7 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerFuelSystem playerFuelSystem = new();
         private readonly PlayerHeatSystem playerHeatSystem = new();
         private readonly PlayerHullSystem playerHullSystem = new();
-        private readonly PlayerFallDamageProtectionService playerFallDamageProtectionService = new();
+        private readonly PlayerVerticalImpactService playerVerticalImpactService;
         private PlayerDeathSystem playerDeathSystem;
         private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
@@ -70,6 +70,7 @@ namespace ToTheEndOfTheWorld
         public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            playerVerticalImpactService = new PlayerVerticalImpactService(playerHullSystem);
             worldInteractionService = new WorldInteractionService();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -117,8 +118,8 @@ namespace ToTheEndOfTheWorld
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
-            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerHullSystem, playerFallDamageProtectionService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, playerFallDamageProtectionService, _pixels);
+            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -185,13 +186,13 @@ namespace ToTheEndOfTheWorld
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
             {
-                playerFallDamageProtectionService.Clear();
+                playerVerticalImpactService.Clear();
                 playerDeathSystem.SelfDestruct(world);
             }
 
             if (playerDeathSystem.TryHandleDeath(world))
             {
-                playerFallDamageProtectionService.Clear();
+                playerVerticalImpactService.Clear();
                 playerDeathSystem.TryRespawnOnInput(world, keyboardState, previousKeyboardState);
                 previousKeyboardState = keyboardState;
                 previousMouseState = mouseState;
@@ -208,7 +209,7 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            playerFallDamageProtectionService.BeginFrame();
+            playerVerticalImpactService.BeginFrame();
             PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
             ModelLibrary.Abstract.APlayer player = world.Player;
@@ -226,16 +227,18 @@ namespace ToTheEndOfTheWorld
             playerMovementSystem.Update(player, deltaTime, isGrounded);
 
             int resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
+            bool minedThisFrame = false;
             for (int i = 0; i < resolutionSteps; i++)
             {
-                float downwardImpactVelocity = Math.Max(0.0f, player.YVelocity);
-                playerMiningSystem.Update(world, player, deltaTime, downwardImpactVelocity);
+                playerVerticalImpactService.BeginResolveStep(player);
+                minedThisFrame |= playerMiningSystem.Update(world, player, deltaTime);
 
-                if (!playerWorldMovementResolver.ResolveStep(world, player, downwardImpactVelocity))
+                if (!playerWorldMovementResolver.ResolveStep(world, player))
                 {
                     break;
                 }
             }
+            player.Mining = minedThisFrame;
 
             if (player.MovementInput != Vector2.Zero)
             {

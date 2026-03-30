@@ -15,9 +15,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private readonly PlayerHeatSystem playerHeatSystem;
         private readonly PlayerHullSystem playerHullSystem;
         private readonly PlayerFuelSystem playerFuelSystem;
-        private readonly PlayerFallDamageProtectionService playerFallDamageProtectionService;
+        private readonly PlayerVerticalImpactService playerVerticalImpactService;
 
-        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerFallDamageProtectionService playerFallDamageProtectionService, int tileSize)
+        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
         {
             miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
             this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
@@ -27,23 +27,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             this.playerHeatSystem = playerHeatSystem;
             this.playerHullSystem = playerHullSystem;
             this.playerFuelSystem = playerFuelSystem;
-            this.playerFallDamageProtectionService = playerFallDamageProtectionService;
+            this.playerVerticalImpactService = playerVerticalImpactService;
         }
 
-        public void Update(ModelWorld world, APlayer player, float deltaTime, float downwardImpactVelocity)
+        public bool Update(ModelWorld world, APlayer player, float deltaTime)
         {
-            player.Mining = false;
-
             if (!CanContinueMining(player))
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             if (!playerFuelSystem.CanAffordMining(player, deltaTime))
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
@@ -53,31 +51,31 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (!PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver))
             {
                 player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
-                return;
+                return false;
             }
 
             if (!IsTouchingMiningSurface(player))
             {
                 player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
-                return;
+                return false;
             }
 
             if (!IsCenteredForMining(player))
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             if (IsInsideBuilding(world, worldTile))
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             if (!worldBlockDefinitionResolver.IsObstructed(world, blockVector))
             {
                 player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
-                return;
+                return false;
             }
 
             WorldInteraction interaction = GetOrCreateMiningInteraction(world, blockVector);
@@ -85,21 +83,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (interaction.Block.Hardness > player.Drill.Hardness)
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             if (playerHeatSystem.IsCapped(player))
             {
                 player.DrillExtended = false;
-                return;
+                return false;
             }
 
             if (player.FacingDirection.Y > 0)
             {
-                if (!player.DrillExtended && playerHullSystem.WouldTakeFallDamage(downwardImpactVelocity))
+                if (!playerVerticalImpactService.CanStartDownwardMining(player))
                 {
                     player.DrillExtended = false;
-                    return;
+                    return false;
                 }
 
                 StopHorizontalMovementForVerticalMining(player);
@@ -112,9 +110,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 SnapPlayerToMiningBlock(player);
             }
 
-            player.Mining = true;
             player.DrillExtended = true;
-            DealDamageInArea(world, player, location, deltaTime);
+            return DealDamageInArea(world, player, location, deltaTime);
         }
 
         private static bool ShouldKeepDrillExtendedWhileAdvancing(APlayer player)
@@ -127,9 +124,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return forwardVelocity > PlayerWorldTuning.VelocityStopThreshold || forwardOffset > PlayerWorldTuning.MiningContactTolerance;
         }
 
-        private void DealDamageInArea(ModelWorld world, APlayer player, Vector2 playerWorldLocation, float deltaTime)
+        private bool DealDamageInArea(ModelWorld world, APlayer player, Vector2 playerWorldLocation, float deltaTime)
         {
             int halfExtent = Math.Max(0, player.Drill.MiningAreaSize / 2);
+            bool damagedAnyBlock = false;
 
             if (player.FacingDirection.X != 0)
             {
@@ -140,23 +138,23 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                         if (!playerFuelSystem.CanAffordMining(player, deltaTime))
                         {
                             player.DrillExtended = false;
-                            player.Mining = false;
-                            return;
+                            return damagedAnyBlock;
                         }
 
                         Vector2 targetVector = new(
                             playerWorldLocation.X + (player.FacingDirection.X * depth),
                             playerWorldLocation.Y + lateral);
-                        if (!TryDamageBlock(world, player, targetVector))
+                        if (!TryDamageBlock(world, player, targetVector, out bool damagedBlock))
                         {
                             player.DrillExtended = false;
-                            player.Mining = false;
-                            return;
+                            return damagedAnyBlock;
                         }
+
+                        damagedAnyBlock |= damagedBlock;
                     }
                 }
 
-                return;
+                return damagedAnyBlock;
             }
 
             for (int depth = 1; depth <= player.Drill.MiningAreaSize; depth++)
@@ -166,25 +164,28 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                     if (!playerFuelSystem.CanAffordMining(player, deltaTime))
                     {
                         player.DrillExtended = false;
-                        player.Mining = false;
-                        return;
+                        return damagedAnyBlock;
                     }
 
                     Vector2 targetVector = new(
                         playerWorldLocation.X + lateral,
                         playerWorldLocation.Y + (player.FacingDirection.Y * depth));
-                    if (!TryDamageBlock(world, player, targetVector))
+                    if (!TryDamageBlock(world, player, targetVector, out bool damagedBlock))
                     {
                         player.DrillExtended = false;
-                        player.Mining = false;
-                        return;
+                        return damagedAnyBlock;
                     }
+
+                    damagedAnyBlock |= damagedBlock;
                 }
             }
+
+            return damagedAnyBlock;
         }
 
-        private bool TryDamageBlock(ModelWorld world, APlayer player, Vector2 targetVector)
+        private bool TryDamageBlock(ModelWorld world, APlayer player, Vector2 targetVector, out bool damagedBlock)
         {
+            damagedBlock = false;
             WorldTile targetTile = new((long)targetVector.X, (long)targetVector.Y);
 
             if (IsInsideBuilding(world, targetTile) || !worldBlockDefinitionResolver.IsObstructed(world, targetVector))
@@ -204,9 +205,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 }
 
                 interaction.Block.TakeDamage(player.Drill.Damage);
+                damagedBlock = true;
                 if (player.FacingDirection.Y > 0)
                 {
-                    playerFallDamageProtectionService.RefreshAfterVerticalMining();
+                    playerVerticalImpactService.RefreshAfterDownwardMining(player);
                 }
                 float overflowHeat = playerHeatSystem.AddHeat(player, heatGeneration);
 
