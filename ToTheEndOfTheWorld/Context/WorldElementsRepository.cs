@@ -100,6 +100,7 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.SuperNova, "Super nova", "Blocks/SuperNovaBlock", hardness: 75000f, health: 75000f, minimumDepth: 30000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.87f, 16.93f), worth: 100000);
             AddTexturedBlock(manager, GameIds.Blocks.WingOfDeath, "Wing of death", "Blocks/WingOfDeathBlock", hardness: 2800, health: 16000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.93f, 17.00f), worth: 15000);
             AddTexturedBlock(manager, GameIds.Blocks.WingOfLife, "Wing of life", "Blocks/WingOfLifeBlock", hardness: 2800, health: 16000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(17.00f, 17.07f), worth: 15000);
+            AddTexturedBlock(manager, GameIds.Blocks.Hole, "Hole", "Blocks/DirtBlockBackground", hardness: 0, health: 0, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(49.85f, 50.15f), worth: 0, ethereal: true);
         }
 
         private void AddRuntimeBlock(ContentManager manager, short id, string name, string assetPath, bool ethereal, long minimumDepth = long.MinValue, long maximumDepth = long.MaxValue, Vector2? occurrenceSpan = null)

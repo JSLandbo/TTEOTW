@@ -86,6 +86,7 @@ namespace ModelLibrary.Ids
             public const short SuperNova = 66;
             public const short WingOfDeath = 67;
             public const short WingOfLife = 68;
+            public const short Hole = 69;
         }
 
         public static class Items
