@@ -16,6 +16,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public const int MoneyPaddingTop = 68;
         public const int SlotSize = 68;
         public const int SlotSpacing = 12;
+        public const int PriceHeight = 24;
+        public const int PriceBottomSpacing = 6;
+        public const int RowSpacing = 18;
         public const int PanelHorizontalPadding = 32;
 
         public EquipmentShopLayout(Rectangle panelRectangle, Point gridStart)
@@ -32,7 +35,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid)
         {
             var gridWidth = grid.GetLength(0) * SlotSize + ((grid.GetLength(0) - 1) * SlotSpacing);
-            var gridHeight = grid.GetLength(1) * SlotSize + ((grid.GetLength(1) - 1) * SlotSpacing);
+            var rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
+            var gridHeight = grid.GetLength(1) * rowHeight + ((grid.GetLength(1) - 1) * RowSpacing);
             var panelWidth = System.Math.Max(MinimumPanelWidth, gridWidth + (PanelHorizontalPadding * 2));
             var panelHeight = System.Math.Max(MinimumPanelHeight, GridTop + gridHeight + GridBottomPadding);
             var panelRectangle = new Rectangle((viewportWidth - panelWidth) / 2, (viewportHeight - panelHeight) / 2, panelWidth, panelHeight);
@@ -45,11 +49,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public Rectangle GetSlotRectangle(int x, int y)
         {
+            var rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
             return new Rectangle(
                 GridStart.X + x * (SlotSize + SlotSpacing),
-                GridStart.Y + y * (SlotSize + SlotSpacing),
+                GridStart.Y + y * (rowHeight + RowSpacing) + PriceHeight + PriceBottomSpacing,
                 SlotSize,
                 SlotSize);
+        }
+
+        public Rectangle GetPriceRectangle(int x, int y)
+        {
+            return new Rectangle(
+                GridStart.X + x * (SlotSize + SlotSpacing),
+                GridStart.Y + y * (PriceHeight + PriceBottomSpacing + SlotSize + RowSpacing),
+                SlotSize,
+                PriceHeight);
         }
     }
 }

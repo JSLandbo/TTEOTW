@@ -52,16 +52,23 @@ namespace ToTheEndOfTheWorld.UI.Shop
             {
                 for (var x = 0; x < grid.GetLength(0); x++)
                 {
+                    var priceRectangle = layout.GetPriceRectangle(x, y);
                     var slotRectangle = layout.GetSlotRectangle(x, y);
-                    DrawSlot(spriteBatch, world, grid[x, y], slotRectangle, slotRectangle.Contains(mousePosition));
+                    DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, slotRectangle.Contains(mousePosition));
                 }
             }
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Bottom - EquipmentShopLayout.FooterTextBottomPadding), new Color(188, 188, 188), FooterTextScale);
         }
 
-        private void DrawSlot(SpriteBatch spriteBatch, World world, AGridBox slot, Rectangle slotRectangle, bool isHovered)
+        private void DrawSlot(SpriteBatch spriteBatch, World world, AGridBox slot, Rectangle priceRectangle, Rectangle slotRectangle, bool isHovered)
         {
+            if (slot.Item == null)
+            {
+                slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(34, 34, 34), new Color(76, 76, 76), showCount: false, isHovered: isHovered);
+                return;
+            }
+
             var canAfford = slot.Item != null && world.Player.Cash >= slot.Item.Worth;
             var backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(40, 40, 40);
             var borderColor = canAfford ? new Color(208, 180, 96) : new Color(82, 82, 82);
@@ -72,25 +79,19 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 spriteBatch.Draw(pixelTexture, slotRectangle, Color.Black * 0.18f);
             }
 
-            if (slot.Item != null)
-            {
-                DrawPrice(spriteBatch, slot.Item, slotRectangle, canAfford, isHovered);
-            }
+            DrawPrice(spriteBatch, slot.Item, priceRectangle, canAfford, isHovered);
         }
 
-        private void DrawPrice(SpriteBatch spriteBatch, AType item, Rectangle slotRectangle, bool canAfford, bool isHovered)
+        private void DrawPrice(SpriteBatch spriteBatch, AType item, Rectangle priceRectangle, bool canAfford, bool isHovered)
         {
             var priceText = Math.Floor(item.Worth).ToString();
             var priceSize = textFont.MeasureString(priceText) * PriceTextScale;
-            var badgeRectangle = new Rectangle(
-                slotRectangle.Right - (int)priceSize.X - 16,
-                slotRectangle.Y + 4,
-                (int)priceSize.X + 10,
-                (int)priceSize.Y + 6);
-
-            spriteBatch.Draw(pixelTexture, badgeRectangle, canAfford ? new Color(112, 92, 48) : new Color(46, 46, 46));
-            DrawRectangleOutline(spriteBatch, badgeRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(98, 98, 98));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, new Vector2(badgeRectangle.X + 5, badgeRectangle.Y + 2), canAfford ? new Color(244, 230, 190) : new Color(194, 194, 194), PriceTextScale);
+            spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(34, 34, 34));
+            DrawRectangleOutline(spriteBatch, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(88, 88, 88));
+            var pricePosition = new Vector2(
+                priceRectangle.Center.X - (priceSize.X / 2f),
+                priceRectangle.Y + ((priceRectangle.Height - priceSize.Y) / 2f) - 1);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(194, 194, 194), PriceTextScale);
         }
 
         private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
