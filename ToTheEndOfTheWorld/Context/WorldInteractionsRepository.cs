@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Context.StaticRepositories
+namespace ToTheEndOfTheWorld.Context
 {
     public sealed class WorldInteractionsRepository
     {

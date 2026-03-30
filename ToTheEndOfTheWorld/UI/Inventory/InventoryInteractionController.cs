@@ -2,10 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Gameplay;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
@@ -26,7 +24,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             Grid craftingGrid,
             GridBox craftOutputSlot,
             CraftingService craftingService,
-            World world,
+            ModelWorld world,
             InventoryItemUseService itemUseService,
             ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory)
         {
@@ -219,7 +217,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             heldSourceSlot = null;
         }
 
-        private bool TryEquipHeldItem(World world, InventoryItemUseService itemUseService, PlayerEquipmentSlotType equipmentSlot)
+        private bool TryEquipHeldItem(ModelWorld world, InventoryItemUseService itemUseService, EPlayerEquipmentSlotType equipmentSlot)
         {
             var heldItem = HeldItem;
             var heldCount = HeldCount;
@@ -234,17 +232,17 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return true;
         }
 
-        private static bool TryGetClickedEquipmentSlot(Point position, InventoryLayout layout, out PlayerEquipmentSlotType slotType)
+        private static bool TryGetClickedEquipmentSlot(Point position, InventoryLayout layout, out EPlayerEquipmentSlotType slotType)
         {
             foreach (var candidate in new[]
             {
-                PlayerEquipmentSlotType.ThermalPlating,
-                PlayerEquipmentSlotType.Inventory,
-                PlayerEquipmentSlotType.FuelTank,
-                PlayerEquipmentSlotType.Drill,
-                PlayerEquipmentSlotType.Hull,
-                PlayerEquipmentSlotType.Engine,
-                PlayerEquipmentSlotType.Thruster
+                EPlayerEquipmentSlotType.ThermalPlating,
+                EPlayerEquipmentSlotType.Inventory,
+                EPlayerEquipmentSlotType.FuelTank,
+                EPlayerEquipmentSlotType.Drill,
+                EPlayerEquipmentSlotType.Hull,
+                EPlayerEquipmentSlotType.Engine,
+                EPlayerEquipmentSlotType.Thruster
             })
             {
                 if (layout.GetEquipmentSlotRectangle(candidate).Contains(position))

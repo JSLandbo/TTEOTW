@@ -1,15 +1,14 @@
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
     public sealed class ShopService
     {
-        public SellSummary GetSellSummary(World world)
+        public SellSummary GetSellSummary(ModelWorld world)
         {
             var inventory = world.Player.Inventory;
             var grid = inventory.Items.InternalGrid;
@@ -44,7 +43,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return new SellSummary(entries.Values.OrderBy(entry => entry.Item.Name).ToList(), totalValue);
         }
 
-        public double SellAll(World world)
+        public double SellAll(ModelWorld world)
         {
             var inventory = world.Player.Inventory;
             var grid = inventory.Items.InternalGrid;

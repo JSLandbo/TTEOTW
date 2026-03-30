@@ -1,8 +1,6 @@
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Concrete;
-using ToTheEndOfTheWorld.Context;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
     public sealed class EquipmentShopService
     {
@@ -15,7 +13,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.items = items;
         }
 
-        public bool TryBuy(World world, ABuilding building, int slotX, int slotY)
+        public bool TryBuy(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
             if (building.StorageGrid == null)
             {

@@ -2,8 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Concrete;
-using ToTheEndOfTheWorld.Gameplay;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
@@ -14,7 +12,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             return WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E);
         }
 
-        public void TryHandleBuy(MouseState currentMouseState, MouseState previousMouseState, EquipmentShopLayout layout, World world, ABuilding building, EquipmentShopService equipmentShopService)
+        public void TryHandleBuy(MouseState currentMouseState, MouseState previousMouseState, EquipmentShopLayout layout, ModelWorld world, ABuilding building, EquipmentShopService equipmentShopService)
         {
             if (!WasLeftClicked(currentMouseState, previousMouseState))
             {

@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using ModelLibrary.Concrete;
 using System;
-using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.UI.Text;
 
-namespace ToTheEndOfTheWorld.UI.WorldRendering
+namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class GameplayHudRenderer
     {
@@ -20,12 +18,12 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
             textFont = content.Load<SpriteFont>("Fonts/text");
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, InventoryService inventoryService, int viewportWidth)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, InventoryService inventoryService, int viewportWidth)
         {
             DrawPlayerHud(spriteBatch, world, inventoryService, viewportWidth);
         }
 
-        private void DrawPlayerHud(SpriteBatch spriteBatch, World world, InventoryService inventoryService, int viewportWidth)
+        private void DrawPlayerHud(SpriteBatch spriteBatch, ModelWorld world, InventoryService inventoryService, int viewportWidth)
         {
             var player = world.Player;
             var moneyText = $"Money: {Math.Floor(player.Cash)}";

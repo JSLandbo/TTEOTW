@@ -1,12 +1,12 @@
 namespace ModelLibrary.Enums
 {
-    public enum GameItemType
+    public enum EGameItemType
     {
         Item = 0,
         Equipment = 1
     }
 
-    public enum EquipmentType
+    public enum EEquipmentType
     {
         None = 0,
         ThermalPlating = 1,

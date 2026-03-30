@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Content;
 using ModelLibrary.Abstract.Types;
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Context
+namespace ToTheEndOfTheWorld.Context.Items
 {
     public sealed partial class GameItemsRepository : Dictionary<int, GameItemDefinition>
     {

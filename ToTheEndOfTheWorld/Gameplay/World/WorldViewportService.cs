@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using ModelLibrary.Concrete;
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldViewportService
     {
-        public void EnsurePadding(World world)
+        public void EnsurePadding(ModelWorld world)
         {
             if (world.WorldRender == null || world.WorldRender.Count == 0)
             {
@@ -17,7 +16,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             EnsurePadding(world, GetCenterWorldPosition(world));
         }
 
-        public void EnsurePadding(World world, Vector2 centerWorldPosition)
+        public void EnsurePadding(ModelWorld world, Vector2 centerWorldPosition)
         {
             var playerKey = GetCenterRenderKey(world.BlocksWide, world.BlocksHigh);
             var paddedRender = new Dictionary<Vector2, Vector2>();
@@ -40,7 +39,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             world.WorldRender = paddedRender;
         }
 
-        public Vector2 GetCenterWorldPosition(World world)
+        public Vector2 GetCenterWorldPosition(ModelWorld world)
         {
             return world.WorldRender[GetCenterRenderKey(world.BlocksWide, world.BlocksHigh)];
         }
@@ -52,7 +51,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 (float)System.Math.Floor(blocksHigh / 2.0d));
         }
 
-        public void Move(World world, float x, float y)
+        public void Move(ModelWorld world, float x, float y)
         {
             var updated = new Dictionary<Vector2, Vector2>();
 

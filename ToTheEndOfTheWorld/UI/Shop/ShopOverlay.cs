@@ -3,11 +3,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Concrete;
 using ModelLibrary.Enums;
 using System;
-using ToTheEndOfTheWorld.Context;
-using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -69,7 +66,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
 
-        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
+        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (!isOpen)
             {
@@ -102,7 +99,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, int viewportWidth, int viewportHeight)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (!isOpen)
             {

@@ -1,15 +1,13 @@
-using ToTheEndOfTheWorld.Context;
-
 namespace ToTheEndOfTheWorld.UI
 {
     public static class UiComposition
     {
         public static UiManager Create(
-            Gameplay.InventoryService inventoryService,
-            Gameplay.CraftingService craftingService,
-            Gameplay.InventoryItemUseService itemUseService,
-            Gameplay.ShopService shopService,
-            Gameplay.EquipmentShopService equipmentShopService,
+            InventoryService inventoryService,
+            CraftingService craftingService,
+            InventoryItemUseService itemUseService,
+            ShopService shopService,
+            EquipmentShopService equipmentShopService,
             WorldElementsRepository blocks,
             GameItemsRepository items)
         {

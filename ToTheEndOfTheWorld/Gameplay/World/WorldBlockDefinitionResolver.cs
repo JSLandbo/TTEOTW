@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
 using System;
 using System.Collections.Generic;
-using ToTheEndOfTheWorld.Context;
 using UtilityLibrary;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBlockDefinitionResolver
     {
@@ -75,7 +73,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return baseTerrain;
         }
 
-        public bool IsObstructed(World world, Vector2 worldPosition)
+        public bool IsObstructed(ModelWorld world, Vector2 worldPosition)
         {
             var block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
 

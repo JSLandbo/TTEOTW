@@ -1,4 +1,3 @@
-using ModelLibrary.Concrete;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -8,7 +7,7 @@ namespace ToTheEndOfTheWorld.Context
     {
         private static string BasePath => Path.Combine(Path.GetTempPath(), "TTEOTW");
 
-        public static void SaveWorld(World world)
+        public static void SaveWorld(ModelWorld world)
         {
             var file = GetWorldFilePath();
             File.WriteAllText(
@@ -16,7 +15,7 @@ namespace ToTheEndOfTheWorld.Context
                 UtilityLibrary.Extensions.Compress(
                     JsonConvert.SerializeObject(
                         world,
-                        typeof(World),
+                typeof(ModelWorld),
                         new JsonSerializerSettings
                         {
                             TypeNameHandling = TypeNameHandling.Auto
@@ -26,7 +25,7 @@ namespace ToTheEndOfTheWorld.Context
             );
         }
 
-        public static World? LoadWorld()
+        public static ModelWorld? LoadWorld()
         {
             var file = GetWorldFilePath();
 
@@ -35,7 +34,7 @@ namespace ToTheEndOfTheWorld.Context
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<World>(
+            return JsonConvert.DeserializeObject<ModelWorld>(
                 UtilityLibrary.Extensions.Decompress(
                     File.ReadAllText(file)
                 ),

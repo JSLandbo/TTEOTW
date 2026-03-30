@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
 using System;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerFacingResolver
     {

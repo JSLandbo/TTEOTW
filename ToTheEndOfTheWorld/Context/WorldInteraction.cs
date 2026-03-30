@@ -1,6 +1,6 @@
 using ModelLibrary.Concrete.Blocks;
 
-namespace ToTheEndOfTheWorld.Context.StaticRepositories
+namespace ToTheEndOfTheWorld.Context
 {
     public readonly record struct WorldTile(long X, long Y);
 

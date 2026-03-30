@@ -4,11 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context;
-using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -52,7 +49,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont, StackTextScale);
         }
 
-        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
+        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.I))
             {
@@ -80,7 +77,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory);
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, int viewportWidth, int viewportHeight)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (!isOpen)
             {
@@ -148,18 +145,18 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(62, 62, 62), new Color(124, 124, 124), isHovered: isHovered);
         }
 
-        private void DrawEquipmentSlots(SpriteBatch spriteBatch, World world)
+        private void DrawEquipmentSlots(SpriteBatch spriteBatch, ModelWorld world)
         {
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.ThermalPlating);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.Hull);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.Drill);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.Engine);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.Inventory);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.FuelTank);
-            DrawEquipmentSlot(spriteBatch, world, PlayerEquipmentSlotType.Thruster);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Hull);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Drill);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Engine);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Inventory);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank);
+            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Thruster);
         }
 
-        private void DrawEquipmentSlot(SpriteBatch spriteBatch, World world, PlayerEquipmentSlotType slotType)
+        private void DrawEquipmentSlot(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType)
         {
             var slotRectangle = currentLayout.GetEquipmentSlotRectangle(slotType);
             var slotItem = itemUseService.GetEquippedItem(world, slotType);
@@ -182,22 +179,22 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
         }
 
-        private void DrawEquipmentSummary(SpriteBatch spriteBatch, World world)
+        private void DrawEquipmentSummary(SpriteBatch spriteBatch, ModelWorld world)
         {
             var textX = currentLayout.EquipmentInfoRectangle.X;
             var textY = currentLayout.EquipmentInfoRectangle.Y + 2;
             var lineHeight = (int)(textFont.LineSpacing * SummaryTextScale) + 12;
 
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.ThermalPlating, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.Engine, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.Inventory, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.FuelTank, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.Hull, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.Drill, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, PlayerEquipmentSlotType.Thruster, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Engine, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Inventory, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Hull, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Drill, ref textY, textX, lineHeight);
+            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Thruster, ref textY, textX, lineHeight);
         }
 
-        private void DrawEquipmentSummaryLine(SpriteBatch spriteBatch, World world, PlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight)
+        private void DrawEquipmentSummaryLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight)
         {
             var equippedItem = itemUseService.GetEquippedItem(world, slotType);
             var line = itemUseService.GetSummaryText(world, slotType, equippedItem);

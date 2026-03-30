@@ -1,8 +1,7 @@
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Ids;
-using ToTheEndOfTheWorld.Context;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {
     public sealed class CraftingRecipeLibrary
     {

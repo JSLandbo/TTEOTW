@@ -27,17 +27,17 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         int SlotSpacing
     )
     {
-        public Rectangle GetEquipmentSlotRectangle(PlayerEquipmentSlotType slotType)
+        public Rectangle GetEquipmentSlotRectangle(EPlayerEquipmentSlotType slotType)
         {
             return slotType switch
             {
-                PlayerEquipmentSlotType.ThermalPlating => ThermalPlatingSlotRectangle,
-                PlayerEquipmentSlotType.Hull => HullSlotRectangle,
-                PlayerEquipmentSlotType.Drill => DrillSlotRectangle,
-                PlayerEquipmentSlotType.Engine => EngineSlotRectangle,
-                PlayerEquipmentSlotType.Inventory => InventorySlotRectangle,
-                PlayerEquipmentSlotType.FuelTank => FuelTankSlotRectangle,
-                PlayerEquipmentSlotType.Thruster => ThrusterSlotRectangle,
+                EPlayerEquipmentSlotType.ThermalPlating => ThermalPlatingSlotRectangle,
+                EPlayerEquipmentSlotType.Hull => HullSlotRectangle,
+                EPlayerEquipmentSlotType.Drill => DrillSlotRectangle,
+                EPlayerEquipmentSlotType.Engine => EngineSlotRectangle,
+                EPlayerEquipmentSlotType.Inventory => InventorySlotRectangle,
+                EPlayerEquipmentSlotType.FuelTank => FuelTankSlotRectangle,
+                EPlayerEquipmentSlotType.Thruster => ThrusterSlotRectangle,
                 _ => HullSlotRectangle
             };
         }

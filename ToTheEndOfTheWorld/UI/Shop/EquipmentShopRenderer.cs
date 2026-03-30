@@ -4,9 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete;
 using System;
-using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -37,7 +35,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, ABuilding building, EquipmentShopLayout layout, int viewportWidth, int viewportHeight, Point mousePosition)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, ABuilding building, EquipmentShopLayout layout, int viewportWidth, int viewportHeight, Point mousePosition)
         {
             var grid = building.StorageGrid.InternalGrid;
 
@@ -61,7 +59,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Bottom - EquipmentShopLayout.FooterTextBottomPadding), new Color(188, 188, 188), FooterTextScale);
         }
 
-        private void DrawSlot(SpriteBatch spriteBatch, World world, AGridBox slot, Rectangle priceRectangle, Rectangle slotRectangle, bool isHovered)
+        private void DrawSlot(SpriteBatch spriteBatch, ModelWorld world, AGridBox slot, Rectangle priceRectangle, Rectangle slotRectangle, bool isHovered)
         {
             if (slot.Item == null)
             {

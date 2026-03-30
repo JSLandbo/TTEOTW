@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using ModelLibrary.Concrete;
 using ToTheEndOfTheWorld.UI.Text;
 
-namespace ToTheEndOfTheWorld.UI.WorldRendering
+namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class DebugHudRenderer
     {
@@ -16,10 +15,10 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
             textFont = content.Load<SpriteFont>("Fonts/text");
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world)
         {
             var player = world.Player;
-            var worldPosition = Gameplay.PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            var worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var lineHeight = (int)(textFont.LineSpacing * DebugTextScale) + 2;
             var startX = 8;
             var startY = 8;

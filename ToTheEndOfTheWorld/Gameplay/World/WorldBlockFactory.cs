@@ -1,6 +1,6 @@
 using ModelLibrary.Concrete.Blocks;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBlockFactory
     {

@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
-using ModelLibrary.Concrete;
 using System;
-using ToTheEndOfTheWorld.Context.StaticRepositories;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerMiningSystem
     {
@@ -24,7 +22,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.eventBus = eventBus;
         }
 
-        public void Update(World world, APlayer player)
+        public void Update(ModelWorld world, APlayer player)
         {
             player.Mining = false;
 
@@ -98,7 +96,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return forwardVelocity > PlayerWorldTuning.VelocityStopThreshold || forwardOffset > PlayerWorldTuning.MiningContactTolerance;
         }
 
-        private void DealDamageInArea(World world, APlayer player, Vector2 playerWorldLocation)
+        private void DealDamageInArea(ModelWorld world, APlayer player, Vector2 playerWorldLocation)
         {
             var halfExtent = Math.Max(0, player.Drill.MiningAreaSize / 2);
 
@@ -130,7 +128,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
         }
 
-        private void TryDamageBlock(World world, APlayer player, Vector2 targetVector)
+        private void TryDamageBlock(ModelWorld world, APlayer player, Vector2 targetVector)
         {
             var targetTile = new WorldTile((long)targetVector.X, (long)targetVector.Y);
 
@@ -147,7 +145,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
         }
 
-        private WorldInteraction GetOrCreateMiningInteraction(World world, Vector2 vector)
+        private WorldInteraction GetOrCreateMiningInteraction(ModelWorld world, Vector2 vector)
         {
             var worldTile = new WorldTile((long)vector.X, (long)vector.Y);
 
@@ -228,7 +226,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return false;
         }
 
-        private void OnBlockDestroyed(World world, WorldInteraction interaction)
+        private void OnBlockDestroyed(ModelWorld world, WorldInteraction interaction)
         {
             var location = new Vector2(interaction.TileBounds.X, interaction.TileBounds.Y);
             world.WorldTrails.Add(location, true);
@@ -236,7 +234,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             eventBus.Publish(new WorldBlockDestroyedEvent(world, interaction.Block.ID, new WorldTile(interaction.TileBounds.X, interaction.TileBounds.Y)));
         }
 
-        private static bool IsInsideBuilding(World world, WorldTile tile)
+        private static bool IsInsideBuilding(ModelWorld world, WorldTile tile)
         {
             if (world.Buildings == null)
             {

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
 
-namespace ToTheEndOfTheWorld.UI.WorldRendering
+namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class WorldBuildingTextureResolver
     {

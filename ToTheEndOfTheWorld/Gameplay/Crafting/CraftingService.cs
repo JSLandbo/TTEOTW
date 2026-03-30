@@ -3,7 +3,7 @@ using ModelLibrary.Abstract.Types;
 using System;
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {
     public sealed class CraftingService
     {

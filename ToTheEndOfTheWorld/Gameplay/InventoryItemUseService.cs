@@ -1,10 +1,8 @@
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
@@ -19,34 +17,34 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.items = items;
         }
 
-        public AType GetEquippedItem(World world, PlayerEquipmentSlotType slotType)
+        public AType GetEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType)
         {
             return slotType switch
             {
-                PlayerEquipmentSlotType.ThermalPlating => world.Player.ThermalPlating,
-                PlayerEquipmentSlotType.Hull => world.Player.Hull,
-                PlayerEquipmentSlotType.Drill => world.Player.Drill,
-                PlayerEquipmentSlotType.Engine => world.Player.Engine,
-                PlayerEquipmentSlotType.Inventory => world.Player.Inventory,
-                PlayerEquipmentSlotType.FuelTank => world.Player.FuelTank,
-                PlayerEquipmentSlotType.Thruster => world.Player.Thruster,
+                EPlayerEquipmentSlotType.ThermalPlating => world.Player.ThermalPlating,
+                EPlayerEquipmentSlotType.Hull => world.Player.Hull,
+                EPlayerEquipmentSlotType.Drill => world.Player.Drill,
+                EPlayerEquipmentSlotType.Engine => world.Player.Engine,
+                EPlayerEquipmentSlotType.Inventory => world.Player.Inventory,
+                EPlayerEquipmentSlotType.FuelTank => world.Player.FuelTank,
+                EPlayerEquipmentSlotType.Thruster => world.Player.Thruster,
                 _ => null
             };
         }
 
-        public bool CanEquip(AType item, PlayerEquipmentSlotType slotType)
+        public bool CanEquip(AType item, EPlayerEquipmentSlotType slotType)
         {
             return item != null && MatchesSlot(item, slotType);
         }
 
-        public bool TryEquipFromHeld(World world, PlayerEquipmentSlotType slotType, ref AType heldItem, ref int heldCount)
+        public bool TryEquipFromHeld(ModelWorld world, EPlayerEquipmentSlotType slotType, ref AType heldItem, ref int heldCount)
         {
             if (heldItem == null || heldCount <= 0 || !MatchesSlot(heldItem, slotType))
             {
                 return false;
             }
 
-            if (slotType == PlayerEquipmentSlotType.Inventory)
+            if (slotType == EPlayerEquipmentSlotType.Inventory)
             {
                 return TryEquipInventoryFromHeld(world, ref heldItem, ref heldCount);
             }
@@ -76,22 +74,22 @@ namespace ToTheEndOfTheWorld.Gameplay
             return true;
         }
 
-        public string GetSlotLabel(PlayerEquipmentSlotType slotType)
+        public string GetSlotLabel(EPlayerEquipmentSlotType slotType)
         {
             return slotType switch
             {
-                PlayerEquipmentSlotType.ThermalPlating => "Plating",
-                PlayerEquipmentSlotType.Hull => "Hull",
-                PlayerEquipmentSlotType.Drill => "Drill",
-                PlayerEquipmentSlotType.Engine => "Engine",
-                PlayerEquipmentSlotType.Inventory => "Inventory",
-                PlayerEquipmentSlotType.FuelTank => "Fuel Tank",
-                PlayerEquipmentSlotType.Thruster => "Thruster",
+                EPlayerEquipmentSlotType.ThermalPlating => "Plating",
+                EPlayerEquipmentSlotType.Hull => "Hull",
+                EPlayerEquipmentSlotType.Drill => "Drill",
+                EPlayerEquipmentSlotType.Engine => "Engine",
+                EPlayerEquipmentSlotType.Inventory => "Inventory",
+                EPlayerEquipmentSlotType.FuelTank => "Fuel Tank",
+                EPlayerEquipmentSlotType.Thruster => "Thruster",
                 _ => string.Empty
             };
         }
 
-        public string GetSummaryText(World world, PlayerEquipmentSlotType slotType, AType equippedItem)
+        public string GetSummaryText(ModelWorld world, EPlayerEquipmentSlotType slotType, AType equippedItem)
         {
             if (equippedItem == null)
             {
@@ -102,13 +100,13 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             return slotType switch
             {
-                PlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} Tier | {((ThermalPlating)equippedItem).ThermalDissipation:0.#} Dissipation",
-                PlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Engine)equippedItem).ActiveFuelConsumption:0.#} Fuel/sec",
-                PlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Inventory)equippedItem).SizeLimit:0} Capacity | x{((Inventory)equippedItem).MaxStackSize}",
-                PlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} Tier | {((FuelTank)equippedItem).Capacity:0} Capacity",
-                PlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Hull)equippedItem).Health:0} HP",
-                PlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Drill)equippedItem).Damage:0.##} Damage | {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize}",
-                PlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Thruster)equippedItem).Speed:0.#} Speed",
+                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} Tier | {((ThermalPlating)equippedItem).ThermalDissipation:0.#} Dissipation",
+                EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Engine)equippedItem).ActiveFuelConsumption:0.#} Fuel/sec",
+                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Inventory)equippedItem).SizeLimit:0} Capacity | x{((Inventory)equippedItem).MaxStackSize}",
+                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} Tier | {((FuelTank)equippedItem).Capacity:0} Capacity",
+                EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Hull)equippedItem).Health:0} HP",
+                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Drill)equippedItem).Damage:0.##} Damage | {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize}",
+                EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Thruster)equippedItem).Speed:0.#} Speed",
                 _ => $"{GetSlotLabel(slotType)} | {tier} Tier"
             };
         }
@@ -124,50 +122,50 @@ namespace ToTheEndOfTheWorld.Gameplay
             return nameParts.Length == 0 ? "Unknown" : nameParts[0];
         }
 
-        private static bool MatchesSlot(AType item, PlayerEquipmentSlotType slotType)
+        private static bool MatchesSlot(AType item, EPlayerEquipmentSlotType slotType)
         {
             return slotType switch
             {
-                PlayerEquipmentSlotType.ThermalPlating => item is ThermalPlating,
-                PlayerEquipmentSlotType.Hull => item is Hull,
-                PlayerEquipmentSlotType.Drill => item is Drill,
-                PlayerEquipmentSlotType.Engine => item is Engine,
-                PlayerEquipmentSlotType.Inventory => item is Inventory,
-                PlayerEquipmentSlotType.FuelTank => item is FuelTank,
-                PlayerEquipmentSlotType.Thruster => item is Thruster,
+                EPlayerEquipmentSlotType.ThermalPlating => item is ThermalPlating,
+                EPlayerEquipmentSlotType.Hull => item is Hull,
+                EPlayerEquipmentSlotType.Drill => item is Drill,
+                EPlayerEquipmentSlotType.Engine => item is Engine,
+                EPlayerEquipmentSlotType.Inventory => item is Inventory,
+                EPlayerEquipmentSlotType.FuelTank => item is FuelTank,
+                EPlayerEquipmentSlotType.Thruster => item is Thruster,
                 _ => false
             };
         }
 
-        private static void ApplyEquippedItem(World world, PlayerEquipmentSlotType slotType, AType item)
+        private static void ApplyEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
         {
             switch (slotType)
             {
-                case PlayerEquipmentSlotType.ThermalPlating:
+                case EPlayerEquipmentSlotType.ThermalPlating:
                     world.Player.ThermalPlating = (ThermalPlating)item;
                     break;
-                case PlayerEquipmentSlotType.Hull:
+                case EPlayerEquipmentSlotType.Hull:
                     world.Player.Hull = (Hull)item;
                     break;
-                case PlayerEquipmentSlotType.Drill:
+                case EPlayerEquipmentSlotType.Drill:
                     world.Player.Drill = (Drill)item;
                     break;
-                case PlayerEquipmentSlotType.Engine:
+                case EPlayerEquipmentSlotType.Engine:
                     world.Player.Engine = (Engine)item;
                     break;
-                case PlayerEquipmentSlotType.Inventory:
+                case EPlayerEquipmentSlotType.Inventory:
                     world.Player.Inventory = (Inventory)item;
                     break;
-                case PlayerEquipmentSlotType.FuelTank:
+                case EPlayerEquipmentSlotType.FuelTank:
                     world.Player.FuelTank = (FuelTank)item;
                     break;
-                case PlayerEquipmentSlotType.Thruster:
+                case EPlayerEquipmentSlotType.Thruster:
                     world.Player.Thruster = (Thruster)item;
                     break;
             }
         }
 
-        private bool TryEquipInventoryFromHeld(World world, ref AType heldItem, ref int heldCount)
+        private bool TryEquipInventoryFromHeld(ModelWorld world, ref AType heldItem, ref int heldCount)
         {
             if (heldItem is not Inventory heldInventory || heldCount <= 0)
             {

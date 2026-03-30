@@ -1,8 +1,7 @@
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Concrete;
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBootstrapper
     {
@@ -23,7 +22,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.fuelStationBuildingFactory = fuelStationBuildingFactory;
         }
 
-        public void EnsureInitialized(World world)
+        public void EnsureInitialized(ModelWorld world)
         {
             world.Buildings ??= new List<ABuilding>();
 

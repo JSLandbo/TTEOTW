@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
-using ModelLibrary.Concrete;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public static class PlayerGroundingService
     {
-        public static bool IsGrounded(World world, APlayer player, WorldBlockDefinitionResolver worldBlockDefinitionResolver)
+        public static bool IsGrounded(ModelWorld world, APlayer player, WorldBlockDefinitionResolver worldBlockDefinitionResolver)
         {
             if (player.YVelocity < -PlayerWorldTuning.VelocityStopThreshold)
             {

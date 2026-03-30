@@ -3,26 +3,26 @@ using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class FuelStationBuildingFactory
+    public sealed class SellShopBuildingFactory
     {
         public ABuilding Create(long worldX, long worldY)
         {
             return new Building(
-                ID: GameIds.Buildings.FuelStation,
-                Name: "Fuel Station",
+                ID: GameIds.Buildings.SellShop,
+                Name: "Shop",
                 WorldX: worldX,
                 WorldY: worldY,
                 XOffset: 0,
                 YOffset: 8,
-                TilesWide: 2,
+                TilesWide: 4,
                 TilesHigh: 2,
                 StorageGrid: null,
                 IsBackground: true,
                 IsDestructible: false,
-                Interaction: EBuildingInteraction.FuelStation,
-                InteractionPrompt: string.Empty);
+                Interaction: EBuildingInteraction.Shop,
+                InteractionPrompt: "Press E to open shop");
         }
     }
 }

@@ -2,11 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Concrete;
-using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.UI.Text;
 
-namespace ToTheEndOfTheWorld.UI.WorldRendering
+namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class WorldInteractionRenderer
     {
@@ -23,7 +21,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
             textFont = content.Load<SpriteFont>("Fonts/text");
         }
 
-        public void DrawBuildings(SpriteBatch spriteBatch, World world, WorldViewportService worldViewportService, int tileSize)
+        public void DrawBuildings(SpriteBatch spriteBatch, ModelWorld world, WorldViewportService worldViewportService, int tileSize)
         {
             if (world.Buildings == null)
             {

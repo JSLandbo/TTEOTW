@@ -7,13 +7,9 @@ using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
 using System;
 using System.Collections.Generic;
-using ToTheEndOfTheWorld.Context;
-using ToTheEndOfTheWorld.Context.StaticRepositories;
-using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.UI;
 using ToTheEndOfTheWorld.UI.Text;
-using ToTheEndOfTheWorld.UI.WorldRendering;
 
 namespace ToTheEndOfTheWorld
 {
@@ -29,7 +25,7 @@ namespace ToTheEndOfTheWorld
         private WorldInteractionsRepository interactions;
         private WorldElementsRepository blocks;
         private GameItemsRepository items;
-        private World world;
+        private ModelWorld world;
         private readonly PlayerInputMapper inputMapper = new();
         private readonly PlayerFacingResolver playerFacingResolver = new();
         private readonly PlayerMovementSystem playerMovementSystem = new();
@@ -44,14 +40,14 @@ namespace ToTheEndOfTheWorld
         private SellShopBuildingFactory sellShopBuildingFactory;
         private EquipmentShopBuildingFactory equipmentShopBuildingFactory;
         private FuelStationBuildingFactory fuelStationBuildingFactory;
-        private readonly DebugHudRenderer debugHudRenderer = new();
-        private readonly GameplayHudRenderer gameplayHudRenderer = new();
-        private readonly WorldInteractionRenderer worldInteractionRenderer = new();
+        private readonly UiWorld.DebugHudRenderer debugHudRenderer = new();
+        private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
+        private readonly UiWorld.WorldInteractionRenderer worldInteractionRenderer = new();
         private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private WorldBlockFactory worldBlockFactory;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
-        private PlayerShipRenderer playerShipRenderer;
+        private UiWorld.PlayerShipRenderer playerShipRenderer;
         private CraftingService craftingService;
         private UiManager uiManager;
         private SpriteFont blockPlaceholderFont;
@@ -94,7 +90,7 @@ namespace ToTheEndOfTheWorld
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             equipmentShopService = new EquipmentShopService(inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
-            playerShipRenderer = new PlayerShipRenderer(items, _pixels);
+            playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
 
             var _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             var _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
@@ -126,7 +122,7 @@ namespace ToTheEndOfTheWorld
             base.Initialize();
         }
 
-        private World CreateNewWorld(int _blocksWide, int _blocksHigh)
+        private ModelWorld CreateNewWorld(int _blocksWide, int _blocksHigh)
         {
             var player = new Player(
                 ThermalPlating: items.Create<ThermalPlating>(GameIds.Items.ThermalPlatings.Scrap),
@@ -141,7 +137,7 @@ namespace ToTheEndOfTheWorld
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d))
             };
 
-            return new World(
+            return new ModelWorld(
                 Player: player,                                  // ContextHandler.LoadPlayer();
                 Buildings: new List<ABuilding>(),                // ContextHandler.LoadBuildings();
                 BlocksWide: _blocksWide,                         // Calculated

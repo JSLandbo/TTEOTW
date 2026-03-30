@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
-using ModelLibrary.Concrete;
 using System;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerWorldMovementResolver
     {
@@ -20,7 +19,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             this.worldViewportService = worldViewportService;
         }
 
-        public bool ResolveStep(World world, APlayer player)
+        public bool ResolveStep(ModelWorld world, APlayer player)
         {
             var processedMovement = false;
 
@@ -49,7 +48,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return Math.Max(1, (int)Math.Ceiling(largestOffset / tileSize) + 1);
         }
 
-        private bool TryProcessMovementAxis(World world, APlayer player, bool horizontal)
+        private bool TryProcessMovementAxis(ModelWorld world, APlayer player, bool horizontal)
         {
             var offset = horizontal ? player.XOffset : player.YOffset;
             var direction = Math.Sign(offset);
@@ -94,7 +93,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return true;
         }
 
-        private bool IsAxisObstructed(World world, APlayer player, bool horizontal, int direction)
+        private bool IsAxisObstructed(ModelWorld world, APlayer player, bool horizontal, int direction)
         {
             var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             var nextBlockVector = new Vector2(

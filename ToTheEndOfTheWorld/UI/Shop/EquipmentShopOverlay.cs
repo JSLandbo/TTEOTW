@@ -3,10 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Concrete;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context;
-using ToTheEndOfTheWorld.Gameplay;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
@@ -43,7 +40,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             renderer.LoadContent(graphicsDevice, content);
         }
 
-        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
+        public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (!isOpen)
             {
@@ -66,7 +63,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             interactionController.TryHandleBuy(currentMouseState, previousMouseState, currentLayout, world, building, equipmentShopService);
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, int viewportWidth, int viewportHeight)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             if (!isOpen || building?.StorageGrid == null)
             {

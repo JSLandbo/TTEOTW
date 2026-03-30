@@ -1,6 +1,6 @@
 namespace ModelLibrary.Enums
 {
-    public enum PlayerEquipmentSlotType
+    public enum EPlayerEquipmentSlotType
     {
         ThermalPlating,
         Hull,

@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ModelLibrary.Concrete;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context;
 
-namespace ToTheEndOfTheWorld.UI.WorldRendering
+namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class PlayerShipRenderer
     {
@@ -17,7 +15,7 @@ namespace ToTheEndOfTheWorld.UI.WorldRendering
             this.tileSize = tileSize;
         }
 
-        public void Draw(SpriteBatch spriteBatch, World world, int viewportWidth, int viewportHeight)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             var playerPosition = new Vector2(
                 (float)(viewportWidth / 2.0) - (0.5f * tileSize),

@@ -4,7 +4,7 @@ using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using System.Collections.Generic;
 
-namespace ToTheEndOfTheWorld.Context
+namespace ToTheEndOfTheWorld.Context.Items
 {
     public sealed class GameItemDefinition
     {
@@ -13,8 +13,8 @@ namespace ToTheEndOfTheWorld.Context
             Dictionary<PlayerOrientation, Texture2D> textures,
             AType definition,
             bool buyable = false,
-            GameItemType type = GameItemType.Item,
-            EquipmentType equipmentType = EquipmentType.None,
+            EGameItemType type = EGameItemType.Item,
+            EEquipmentType equipmentType = EEquipmentType.None,
             int tier = 0)
         {
             Name = name;
@@ -30,8 +30,8 @@ namespace ToTheEndOfTheWorld.Context
         public Dictionary<PlayerOrientation, Texture2D> Textures { get; }
         public AType Definition { get; }
         public bool Buyable { get; }
-        public GameItemType Type { get; }
-        public EquipmentType EquipmentType { get; }
+        public EGameItemType Type { get; }
+        public EEquipmentType EquipmentType { get; }
         public int Tier { get; }
 
         public AType Create()

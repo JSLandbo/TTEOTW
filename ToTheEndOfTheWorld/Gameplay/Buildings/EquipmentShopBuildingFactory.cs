@@ -5,9 +5,8 @@ using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
-using ToTheEndOfTheWorld.Context;
 
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
     public sealed class EquipmentShopBuildingFactory
     {
@@ -62,7 +61,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             foreach (var itemDefinition in items.Values)
             {
-                if (!itemDefinition.Buyable || itemDefinition.Type != GameItemType.Equipment || itemDefinition.EquipmentType == EquipmentType.None)
+                if (!itemDefinition.Buyable || itemDefinition.Type != EGameItemType.Equipment || itemDefinition.EquipmentType == EEquipmentType.None)
                 {
                     continue;
                 }

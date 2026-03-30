@@ -1,4 +1,4 @@
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public static class PlayerWorldTuning
     {
