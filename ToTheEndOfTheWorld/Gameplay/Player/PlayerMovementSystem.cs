@@ -5,7 +5,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerMovementSystem
     {
-        private const float GroundHorizontalDragFactor = 5.0f;
+        private const float GroundHorizontalDragFactor = 10.0f;
         private const float GroundHorizontalStopThreshold = 35.0f;
         private const float AirHorizontalDragFactor = 0.75f;
         private const float UpwardIdleDragFactor = 2.0f;
@@ -24,11 +24,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             {
                 float maximumHorizontalSpeed = isGrounded ? settings.GroundMaximumSpeed : settings.AirMaximumSpeed;
                 float horizontalAcceleration = isGrounded ? settings.GroundAcceleration : settings.AirAcceleration;
-                float horizontalDrag = isGrounded ? 0.0f : settings.AirDrag;
                 float xTarget = player.MovementInput.X * maximumHorizontalSpeed;
-                float xChangeRate = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f
-                    ? horizontalAcceleration + horizontalDrag
-                    : horizontalAcceleration;
+                bool isReversingDirection = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f;
+                float xChangeRate = horizontalAcceleration;
+
+                if (isReversingDirection)
+                {
+                    xChangeRate += isGrounded
+                        ? GetHorizontalIdleDrag(xVelocity, true)
+                        : settings.AirDrag;
+                }
 
                 xVelocity = MoveTowards(xVelocity, xTarget, xChangeRate * deltaTime);
             }
@@ -75,7 +80,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 xVelocity = 0.0f;
             }
 
-            player.XVelocity = Math.Clamp(xVelocity, -settings.AirMaximumSpeed, settings.AirMaximumSpeed);
+            player.XVelocity = xVelocity;
             player.YVelocity = Math.Clamp(yVelocity, -settings.AirMaximumSpeed, settings.MaximumFallSpeed);
 
             player.XOffset += player.XVelocity * deltaTime;
