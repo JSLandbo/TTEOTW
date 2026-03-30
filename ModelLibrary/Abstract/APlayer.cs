@@ -39,7 +39,7 @@ namespace ModelLibrary.Abstract
             MovementInput = movementInput;
             var nextFacingDirection = ToCardinalDirection(facingDirection);
 
-            if (nextFacingDirection != FacingDirection)
+            if (nextFacingDirection != Vector2.Zero && nextFacingDirection != FacingDirection)
             {
                 DrillExtended = false;
             }

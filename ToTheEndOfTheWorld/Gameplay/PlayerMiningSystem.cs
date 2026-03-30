@@ -27,31 +27,26 @@ namespace ToTheEndOfTheWorld.Gameplay
         public void Update(World world, APlayer player)
         {
             player.Mining = false;
-            var keepDownwardDrillExtended = player.FacingDirection.Y > 0 && player.DrillExtended;
 
             if (!CanContinueMining(player))
             {
                 player.DrillExtended = false;
                 return;
             }
-
-            if (keepDownwardDrillExtended)
-            {
-                player.DrillExtended = true;
-            }
+            
+            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
+            var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);
 
             if (!IsGrounded(world, player))
             {
-                if (!keepDownwardDrillExtended)
-                {
-                    player.DrillExtended = false;
-                }
+                player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
                 return;
             }
 
             if (!IsTouchingMiningSurface(player))
             {
-                player.DrillExtended = false;
+                player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
                 return;
             }
 
@@ -61,10 +56,6 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
-            var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);
-
             if (IsInsideBuilding(world, worldTile))
             {
                 player.DrillExtended = false;
@@ -73,7 +64,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             if (!worldBlockDefinitionResolver.IsObstructed(world, blockVector))
             {
-                player.DrillExtended = false;
+                player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
                 return;
             }
 
@@ -95,6 +86,16 @@ namespace ToTheEndOfTheWorld.Gameplay
             player.Mining = true;
             player.DrillExtended = true;
             DealDamageInArea(world, player, location);
+        }
+
+        private static bool ShouldKeepDrillExtendedWhileAdvancing(APlayer player)
+        {
+            if (!player.DrillExtended || player.FacingDirection == Vector2.Zero) return false;
+
+            var forwardVelocity = (player.XVelocity * player.FacingDirection.X) + (player.YVelocity * player.FacingDirection.Y);
+            var forwardOffset = (player.XOffset * player.FacingDirection.X) + (player.YOffset * player.FacingDirection.Y);
+
+            return forwardVelocity > PlayerWorldTuning.VelocityStopThreshold || forwardOffset > PlayerWorldTuning.MiningContactTolerance;
         }
 
         private void DealDamageInArea(World world, APlayer player, Vector2 playerWorldLocation)
