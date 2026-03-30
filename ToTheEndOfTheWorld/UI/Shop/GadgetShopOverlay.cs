@@ -83,6 +83,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             if (world.Player.HasGadgetBelt &&
+                currentMouseState.LeftButton == ButtonState.Pressed &&
+                previousMouseState.LeftButton == ButtonState.Released &&
                 TryGetClickedShopSlot(currentMouseState.Position, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
                 TryBuyGadget(world, slotX, slotY);
