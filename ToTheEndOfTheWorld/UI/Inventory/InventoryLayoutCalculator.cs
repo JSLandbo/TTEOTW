@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             const int outputGap = 18;
             const int equipmentGap = 24;
             const int equipmentInfoGap = 20;
-            const int equipmentInfoWidth = 420;
+            const int equipmentInfoWidth = 500;
             const int sectionPadding = 16;
             const int dividerHeight = 1;
             var craftingColumns = 3;
@@ -63,9 +63,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 craftingSectionHeight);
             var craftingStartX = craftingSectionRectangle.X + ((craftingSectionRectangle.Width - contentWidth) / 2);
             var craftingStartY = craftingSectionRectangle.Y + sectionPadding + ((topContentHeight - craftingHeight) / 2);
-            var outputSlotX = craftingStartX + craftingSectionWidth + outputGap;
             var outputSlotY = craftingStartY + slotSize + slotSpacing;
-            var craftButtonRectangle = new Rectangle(outputSlotX - ((craftButtonWidth - slotSize) / 2), outputSlotY + slotSize + 18, craftButtonWidth + 8, 40);
+            var craftButtonRectangle = new Rectangle(
+                craftingStartX + craftingSectionWidth + outputGap + 11 - ((craftButtonWidth - slotSize) / 2),
+                outputSlotY + slotSize + 23,
+                craftButtonWidth + 8,
+                40);
+            var outputSlotX = craftButtonRectangle.Center.X - (slotSize / 2);
             var equipmentStartX = outputSlotX + outputColumnWidth + equipmentGap;
             var equipmentStartY = craftingSectionRectangle.Y + sectionPadding + ((topContentHeight - equipmentSectionHeight) / 2);
             var equipmentInfoRectangle = new Rectangle(equipmentStartX + equipmentSectionWidth + equipmentInfoGap, craftingSectionRectangle.Y + sectionPadding, equipmentInfoWidth, topContentHeight);

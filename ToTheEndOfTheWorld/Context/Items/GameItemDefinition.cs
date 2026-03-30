@@ -8,18 +8,31 @@ namespace ToTheEndOfTheWorld.Context
 {
     public sealed class GameItemDefinition
     {
-        public GameItemDefinition(string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, int equipmentShopOrder = -1)
+        public GameItemDefinition(
+            string name,
+            Dictionary<PlayerOrientation, Texture2D> textures,
+            AType definition,
+            bool buyable = false,
+            GameItemType type = GameItemType.Item,
+            EquipmentType equipmentType = EquipmentType.None,
+            int tier = 0)
         {
             Name = name;
             Textures = textures;
             Definition = definition;
-            EquipmentShopOrder = equipmentShopOrder;
+            Buyable = buyable;
+            Type = type;
+            EquipmentType = equipmentType;
+            Tier = tier;
         }
 
         public string Name { get; }
         public Dictionary<PlayerOrientation, Texture2D> Textures { get; }
         public AType Definition { get; }
-        public int EquipmentShopOrder { get; }
+        public bool Buyable { get; }
+        public GameItemType Type { get; }
+        public EquipmentType EquipmentType { get; }
+        public int Tier { get; }
 
         public AType Create()
         {

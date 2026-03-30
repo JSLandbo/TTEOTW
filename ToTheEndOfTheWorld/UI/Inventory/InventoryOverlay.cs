@@ -199,7 +199,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             var line = itemUseService.GetSummaryText(world, slotType, equippedItem);
             var tier = itemUseService.GetTierLabel(equippedItem);
             var accentColor = GetTierAccentColor(tier, equippedItem == null);
-            var cardRectangle = new Rectangle(textX, textY, currentLayout.EquipmentInfoRectangle.Width, lineHeight - 4);
+            var cardRectangle = new Rectangle(textX, textY, currentLayout.EquipmentInfoRectangle.Width - 12, lineHeight - 4);
 
             spriteBatch.Draw(pixelTexture, cardRectangle, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)42));
             DrawRectangleOutline(spriteBatch, cardRectangle, 1, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)120));
