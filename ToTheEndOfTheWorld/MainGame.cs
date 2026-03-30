@@ -152,7 +152,8 @@ namespace ToTheEndOfTheWorld
                 FuelTank: items.Create<FuelTank>(GameIds.Items.FuelTanks.Scrap)
             )
             {
-                Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d))
+                Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
+                Cash = 100f // Starting allowance
             };
 
             return new ModelWorld(
@@ -418,7 +419,7 @@ namespace ToTheEndOfTheWorld
 
         private static bool UsesThrustersForMovement(ModelLibrary.Abstract.APlayer player, bool isGrounded)
         {
-            return player.MovementInput.Y != 0 || (!isGrounded && player.MovementInput != Vector2.Zero);
+            return player.MovementInput.Y < 0 || (!isGrounded && player.MovementInput.X != 0);
         }
 
     }

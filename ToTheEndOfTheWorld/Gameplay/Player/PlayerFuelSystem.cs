@@ -54,7 +54,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool UsesThrustersForMovement(APlayer player, bool isGrounded)
         {
-            return player.MovementInput.Y != 0 || (!isGrounded && player.MovementInput != Vector2.Zero);
+            return player.MovementInput.Y < 0 || (!isGrounded && player.MovementInput.X != 0);
         }
     }
 }
