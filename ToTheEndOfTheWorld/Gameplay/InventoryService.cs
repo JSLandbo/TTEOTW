@@ -34,23 +34,23 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
-            var grid = inventory.Items.InternalGrid;
-            var maxStackSize = GetMaxStackSize(inventory);
-            var remainingCount = count;
+            ModelLibrary.Abstract.Grids.AGridBox[,] grid = inventory.Items.InternalGrid;
+            int maxStackSize = GetMaxStackSize(inventory);
+            int remainingCount = count;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    ModelLibrary.Abstract.Grids.AGridBox slot = grid[x, y];
 
                     if (slot.Item == null || !CanStackTogether(slot.Item, item) || slot.Count >= maxStackSize)
                     {
                         continue;
                     }
 
-                    var spaceLeft = maxStackSize - slot.Count;
-                    var amountToAdd = remainingCount > spaceLeft ? spaceLeft : remainingCount;
+                    int spaceLeft = maxStackSize - slot.Count;
+                    int amountToAdd = remainingCount > spaceLeft ? spaceLeft : remainingCount;
                     slot.Count += amountToAdd;
                     remainingCount -= amountToAdd;
 
@@ -61,18 +61,18 @@ namespace ToTheEndOfTheWorld.Gameplay
                 }
             }
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    ModelLibrary.Abstract.Grids.AGridBox slot = grid[x, y];
 
                     if (slot.Item != null)
                     {
                         continue;
                     }
 
-                    var amountToAdd = remainingCount > maxStackSize ? maxStackSize : remainingCount;
+                    int amountToAdd = remainingCount > maxStackSize ? maxStackSize : remainingCount;
                     slot.Item = item;
                     slot.Count = amountToAdd;
                     remainingCount -= amountToAdd;
@@ -109,12 +109,12 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         public int GetUsedCapacity(AInventory inventory)
         {
-            var usedCapacity = 0;
-            var grid = inventory.Items.InternalGrid;
+            int usedCapacity = 0;
+            ModelLibrary.Abstract.Grids.AGridBox[,] grid = inventory.Items.InternalGrid;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
                     usedCapacity += grid[x, y].Count;
                 }
@@ -130,16 +130,16 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return 0;
             }
 
-            var usedCapacity = GetUsedCapacity(inventory);
-            var percent = (usedCapacity / inventory.SizeLimit) * 100.0f;
+            int usedCapacity = GetUsedCapacity(inventory);
+            float percent = (usedCapacity / inventory.SizeLimit) * 100.0f;
             return (int)percent;
         }
 
         private int GetRemainingCapacity(AInventory inventory)
         {
-            var usedCapacity = GetUsedCapacity(inventory);
-            var totalCapacity = (int)inventory.SizeLimit;
-            var remainingCapacity = totalCapacity - usedCapacity;
+            int usedCapacity = GetUsedCapacity(inventory);
+            int totalCapacity = (int)inventory.SizeLimit;
+            int remainingCapacity = totalCapacity - usedCapacity;
             return remainingCapacity > 0 ? remainingCapacity : 0;
         }
     }

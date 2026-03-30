@@ -19,14 +19,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public static PlayerMovementSettings FromPlayer(APlayer player)
         {
-            var thruster = player.Thruster;
-            var effectiveWeight = Math.Max(player.Weight, MinimumEffectiveWeight);
-            var maximumSpeed = thruster.Speed;
-            var minimumSpeed = thruster.MinimumVelocity;
-            var acceleration = thruster.Acceleration;
-            var drag = acceleration * DragMultiplier;
-            var gravity = effectiveWeight * GravityPerWeightUnit;
-            var maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (maximumSpeed * ThrusterFallSpeedContributionMultiplier);
+            ModelLibrary.Abstract.PlayerShipComponents.AThruster thruster = player.Thruster;
+            float effectiveWeight = Math.Max(player.Weight, MinimumEffectiveWeight);
+            float maximumSpeed = thruster.Speed;
+            float minimumSpeed = thruster.MinimumVelocity;
+            float acceleration = thruster.Acceleration;
+            float drag = acceleration * DragMultiplier;
+            float gravity = effectiveWeight * GravityPerWeightUnit;
+            float maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (maximumSpeed * ThrusterFallSpeedContributionMultiplier);
 
             return new PlayerMovementSettings(maximumSpeed, minimumSpeed, acceleration, drag, gravity, maximumFallSpeed);
         }

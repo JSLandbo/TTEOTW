@@ -7,18 +7,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
     {
         public PlayerIntent ReadPlayerIntent(KeyboardState currentState, KeyboardState previousState)
         {
-            var movementInput = ReadMovementInput(currentState);
-            var facingDirection = ReadFacingDirection(currentState, previousState);
+            Vector2 movementInput = ReadMovementInput(currentState);
+            Vector2 facingDirection = ReadFacingDirection(currentState, previousState);
 
             return new PlayerIntent(movementInput, facingDirection);
         }
 
         private static Vector2 ReadMovementInput(KeyboardState state)
         {
-            var up = IsPressed(state, Keys.Up, Keys.W);
-            var down = IsPressed(state, Keys.Down, Keys.S);
-            var left = IsPressed(state, Keys.Left, Keys.A);
-            var right = IsPressed(state, Keys.Right, Keys.D);
+            bool up = IsPressed(state, Keys.Up, Keys.W);
+            bool down = IsPressed(state, Keys.Down, Keys.S);
+            bool left = IsPressed(state, Keys.Left, Keys.A);
+            bool right = IsPressed(state, Keys.Right, Keys.D);
 
             Vector2 input = new(0, 0);
 
@@ -77,7 +77,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool IsPressed(KeyboardState state, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (state.IsKeyDown(key))
                 {
@@ -90,7 +90,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {

@@ -40,9 +40,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var blockVector = new Vector2(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
-            var worldTile = new WorldTile((long)blockVector.X, (long)blockVector.Y);
+            Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            Vector2 blockVector = new(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
+            WorldTile worldTile = new((long)blockVector.X, (long)blockVector.Y);
 
             if (!PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver))
             {
@@ -74,7 +74,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            var interaction = GetOrCreateMiningInteraction(world, blockVector);
+            WorldInteraction interaction = GetOrCreateMiningInteraction(world, blockVector);
 
             if (interaction.Block.Hardness > player.Drill.Hardness)
             {
@@ -104,21 +104,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             if (!player.DrillExtended || player.FacingDirection == Vector2.Zero) return false;
 
-            var forwardVelocity = (player.XVelocity * player.FacingDirection.X) + (player.YVelocity * player.FacingDirection.Y);
-            var forwardOffset = (player.XOffset * player.FacingDirection.X) + (player.YOffset * player.FacingDirection.Y);
+            float forwardVelocity = (player.XVelocity * player.FacingDirection.X) + (player.YVelocity * player.FacingDirection.Y);
+            float forwardOffset = (player.XOffset * player.FacingDirection.X) + (player.YOffset * player.FacingDirection.Y);
 
             return forwardVelocity > PlayerWorldTuning.VelocityStopThreshold || forwardOffset > PlayerWorldTuning.MiningContactTolerance;
         }
 
         private void DealDamageInArea(ModelWorld world, APlayer player, Vector2 playerWorldLocation, float deltaTime)
         {
-            var halfExtent = Math.Max(0, player.Drill.MiningAreaSize / 2);
+            int halfExtent = Math.Max(0, player.Drill.MiningAreaSize / 2);
 
             if (player.FacingDirection.X != 0)
             {
-                for (var depth = 1; depth <= player.Drill.MiningAreaSize; depth++)
+                for (int depth = 1; depth <= player.Drill.MiningAreaSize; depth++)
                 {
-                    for (var lateral = -halfExtent; lateral <= halfExtent; lateral++)
+                    for (int lateral = -halfExtent; lateral <= halfExtent; lateral++)
                     {
                         if (!playerFuelSystem.CanAffordMining(player, deltaTime))
                         {
@@ -127,7 +127,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                             return;
                         }
 
-                        var targetVector = new Vector2(
+                        Vector2 targetVector = new(
                             playerWorldLocation.X + (player.FacingDirection.X * depth),
                             playerWorldLocation.Y + lateral);
                         if (!TryDamageBlock(world, player, targetVector))
@@ -142,9 +142,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            for (var depth = 1; depth <= player.Drill.MiningAreaSize; depth++)
+            for (int depth = 1; depth <= player.Drill.MiningAreaSize; depth++)
             {
-                for (var lateral = -halfExtent; lateral <= halfExtent; lateral++)
+                for (int lateral = -halfExtent; lateral <= halfExtent; lateral++)
                 {
                     if (!playerFuelSystem.CanAffordMining(player, deltaTime))
                     {
@@ -153,7 +153,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                         return;
                     }
 
-                    var targetVector = new Vector2(
+                    Vector2 targetVector = new(
                         playerWorldLocation.X + lateral,
                         playerWorldLocation.Y + (player.FacingDirection.Y * depth));
                     if (!TryDamageBlock(world, player, targetVector))
@@ -168,18 +168,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private bool TryDamageBlock(ModelWorld world, APlayer player, Vector2 targetVector)
         {
-            var targetTile = new WorldTile((long)targetVector.X, (long)targetVector.Y);
+            WorldTile targetTile = new((long)targetVector.X, (long)targetVector.Y);
 
             if (IsInsideBuilding(world, targetTile) || !worldBlockDefinitionResolver.IsObstructed(world, targetVector))
             {
                 return true;
             }
 
-            var interaction = GetOrCreateMiningInteraction(world, targetVector);
+            WorldInteraction interaction = GetOrCreateMiningInteraction(world, targetVector);
 
             if (interaction.Block.Hardness <= player.Drill.Hardness)
             {
-                var heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.1f;
+                float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.1f;
 
                 if (playerHeatSystem.WouldOverheat(player, heatGeneration))
                 {
@@ -195,11 +195,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private WorldInteraction GetOrCreateMiningInteraction(ModelWorld world, Vector2 vector)
         {
-            var worldTile = new WorldTile((long)vector.X, (long)vector.Y);
+            WorldTile worldTile = new((long)vector.X, (long)vector.Y);
 
-            if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out var interaction))
+            if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out WorldInteraction interaction))
             {
-                var block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
+                ModelLibrary.Concrete.Blocks.Block block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
                 interaction = new WorldInteraction(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
                 block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, interaction);
                 interactions.Add(interaction);
@@ -276,7 +276,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private void OnBlockDestroyed(ModelWorld world, WorldInteraction interaction)
         {
-            var location = new Vector2(interaction.TileBounds.X, interaction.TileBounds.Y);
+            Vector2 location = new(interaction.TileBounds.X, interaction.TileBounds.Y);
             world.WorldTrails.Add(location, true);
             interactions.Remove(interaction);
             eventBus.Publish(new WorldBlockDestroyedEvent(world, interaction.Block.ID, new WorldTile(interaction.TileBounds.X, interaction.TileBounds.Y)));
@@ -289,7 +289,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return false;
             }
 
-            foreach (var building in world.Buildings)
+            foreach (ModelLibrary.Abstract.Buildings.ABuilding building in world.Buildings)
             {
                 if (building.ContainsTile(tile.X, tile.Y))
                 {

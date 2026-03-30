@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
         {
-            if (!blockLootResolver.TryResolve(gameEvent.BlockId, out var loot, out var count))
+            if (!blockLootResolver.TryResolve(gameEvent.BlockId, out ModelLibrary.Concrete.Blocks.Block loot, out int count))
             {
                 return;
             }

@@ -13,7 +13,7 @@ namespace ToTheEndOfTheWorld.Context.Items
 
         public AType Create(short itemId)
         {
-            return TryGetValue(itemId, out var itemDefinition) ? itemDefinition.Create() : null;
+            return TryGetValue(itemId, out GameItemDefinition itemDefinition) ? itemDefinition.Create() : null;
         }
 
         public T Create<T>(short itemId) where T : AType

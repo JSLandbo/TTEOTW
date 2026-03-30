@@ -49,25 +49,25 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
         private Grid CreateShopGrid()
         {
-            var storageGrid = new Grid(Vector2.Zero, new GridBox[GridColumns, GridRows]);
+            Grid storageGrid = new(Vector2.Zero, new GridBox[GridColumns, GridRows]);
 
-            for (var y = 0; y < storageGrid.InternalGrid.GetLength(1); y++)
+            for (int y = 0; y < storageGrid.InternalGrid.GetLength(1); y++)
             {
-                for (var x = 0; x < storageGrid.InternalGrid.GetLength(0); x++)
+                for (int x = 0; x < storageGrid.InternalGrid.GetLength(0); x++)
                 {
                     storageGrid.InternalGrid[x, y] = new GridBox(null, 0);
                 }
             }
 
-            foreach (var itemDefinition in items.Values)
+            foreach (GameItemDefinition itemDefinition in items.Values)
             {
                 if (!itemDefinition.Buyable || itemDefinition.Type != EGameItemType.Equipment || itemDefinition.EquipmentType == EEquipmentType.None)
                 {
                     continue;
                 }
 
-                var row = (int)itemDefinition.EquipmentType - 1;
-                var column = itemDefinition.Tier;
+                int row = (int)itemDefinition.EquipmentType - 1;
+                int column = itemDefinition.Tier;
 
                 if (row < 0 || row >= GridRows || column < 0 || column >= GridColumns)
                 {
@@ -82,11 +82,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
         private static bool IsUnstocked(AGrid grid)
         {
-            for (var y = 0; y < grid.InternalGrid.GetLength(1); y++)
+            for (int y = 0; y < grid.InternalGrid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.InternalGrid.GetLength(0); x++)
+                for (int x = 0; x < grid.InternalGrid.GetLength(0); x++)
                 {
-                    var slot = grid.InternalGrid[x, y];
+                    AGridBox slot = grid.InternalGrid[x, y];
                     if (slot?.Item != null)
                     {
                         return false;

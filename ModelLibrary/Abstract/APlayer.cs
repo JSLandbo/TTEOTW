@@ -48,7 +48,7 @@ namespace ModelLibrary.Abstract
         public void ApplyIntent(Vector2 movementInput, Vector2 facingDirection)
         {
             MovementInput = movementInput;
-            var nextFacingDirection = ToCardinalDirection(facingDirection);
+            Vector2 nextFacingDirection = ToCardinalDirection(facingDirection);
 
             if (nextFacingDirection != Vector2.Zero && nextFacingDirection != FacingDirection)
             {

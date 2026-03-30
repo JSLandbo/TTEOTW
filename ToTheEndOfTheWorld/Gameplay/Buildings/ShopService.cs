@@ -10,25 +10,25 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
     {
         public SellSummary GetSellSummary(ModelWorld world)
         {
-            var inventory = world.Player.Inventory;
-            var grid = inventory.Items.InternalGrid;
-            var entries = new Dictionary<short, SellableInventoryEntry>();
-            var totalValue = 0.0;
+            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
+            AGridBox[,] grid = inventory.Items.InternalGrid;
+            Dictionary<short, SellableInventoryEntry> entries = [];
+            double totalValue = 0.0;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
-                    if (!TryGetUnitSellValue(slot.Item, out var unitSellValue) || slot.Count <= 0)
+                    if (!TryGetUnitSellValue(slot.Item, out double unitSellValue) || slot.Count <= 0)
                     {
                         continue;
                     }
 
                     totalValue += unitSellValue * slot.Count;
 
-                    if (!entries.TryGetValue(slot.Item.ID, out var entry))
+                    if (!entries.TryGetValue(slot.Item.ID, out SellableInventoryEntry entry))
                     {
                         entry = new SellableInventoryEntry(slot.Item, 0, 0.0);
                     }
@@ -45,15 +45,15 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
         public double SellAll(ModelWorld world)
         {
-            var inventory = world.Player.Inventory;
-            var grid = inventory.Items.InternalGrid;
-            var totalEarned = GetSellSummary(world).TotalValue;
+            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
+            AGridBox[,] grid = inventory.Items.InternalGrid;
+            double totalEarned = GetSellSummary(world).TotalValue;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
                     if (!TryGetSellValue(slot, out _))
                     {
@@ -73,7 +73,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
         {
             slotValue = 0.0;
 
-            if (slot.Item == null || slot.Count <= 0 || !TryGetUnitSellValue(slot.Item, out var unitSellValue))
+            if (slot.Item == null || slot.Count <= 0 || !TryGetUnitSellValue(slot.Item, out double unitSellValue))
             {
                 return false;
             }

@@ -34,21 +34,21 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
                 return;
             }
 
-            var totalWeight = 0.0f;
-            var grid = Items.InternalGrid;
+            float totalWeight = 0.0f;
+            AGridBox[,] grid = Items.InternalGrid;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
                     if (slot?.Item == null || slot.Count <= 0)
                     {
                         continue;
                     }
 
-                    var itemWeight = slot.Item is ABlock block ? block.Info?.Weight ?? 0.0f : slot.Item.Weight;
+                    float itemWeight = slot.Item is ABlock block ? block.Info?.Weight ?? 0.0f : slot.Item.Weight;
                     totalWeight += itemWeight * slot.Count;
                 }
             }

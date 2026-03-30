@@ -24,7 +24,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (!TryGetClickedSlot(currentMouseState.Position, layout, building.StorageGrid.InternalGrid, out var slotX, out var slotY))
+            if (!TryGetClickedSlot(currentMouseState.Position, layout, building.StorageGrid.InternalGrid, out int slotX, out int slotY))
             {
                 return;
             }
@@ -62,7 +62,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {

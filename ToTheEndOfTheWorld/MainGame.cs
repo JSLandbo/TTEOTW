@@ -94,8 +94,8 @@ namespace ToTheEndOfTheWorld
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
 
-            var _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
-            var _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
+            int _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
+            int _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
 
             NormalizeVisibleTileCounts(ref _blocksWide, ref _blocksHigh);
 
@@ -126,7 +126,7 @@ namespace ToTheEndOfTheWorld
 
         private ModelWorld CreateNewWorld(int _blocksWide, int _blocksHigh)
         {
-            var player = new Player(
+            Player player = new(
                 ThermalPlating: items.Create<ThermalPlating>(GameIds.Items.ThermalPlatings.Scrap),
                 Engine: items.Create<Engine>(GameIds.Items.Engines.Scrap),
                 Hull: items.Create<Hull>(GameIds.Items.Hulls.Scrap),
@@ -140,12 +140,12 @@ namespace ToTheEndOfTheWorld
             };
 
             return new ModelWorld(
-                Player: player,                                  // ContextHandler.LoadPlayer();
-                Buildings: new List<ABuilding>(),                // ContextHandler.LoadBuildings();
-                BlocksWide: _blocksWide,                         // Calculated
-                BlocksHigh: _blocksHigh,                         // Calculated
-                WorldRender: new Dictionary<Vector2, Vector2>(), // Dynamically updated
-                WorldTrails: new Dictionary<Vector2, bool>()     // ContextHandler.LoadWorldTrails();
+                Player: player,               // ContextHandler.LoadPlayer();
+                Buildings: [],                // ContextHandler.LoadBuildings();
+                BlocksWide: _blocksWide,      // Calculated
+                BlocksHigh: _blocksHigh,      // Calculated
+                WorldRender: [],              // Dynamically updated
+                WorldTrails: []               // ContextHandler.LoadWorldTrails();
             );
         }
 
@@ -164,9 +164,9 @@ namespace ToTheEndOfTheWorld
 
         protected override void Update(GameTime gameTime)
         {
-            var keyboardState = Keyboard.GetState();
-            var mouseState = CreateScaledMouseState(Mouse.GetState());
-            var blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
+            KeyboardState keyboardState = Keyboard.GetState();
+            MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
+            bool blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             if (uiManager.BlocksGameplay)
@@ -177,11 +177,11 @@ namespace ToTheEndOfTheWorld
                 return;
             }
 
-            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            var intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
-            var player = world.Player;
-            var facingDirection = playerFacingResolver.Resolve(player, intent);
+            ModelLibrary.Abstract.APlayer player = world.Player;
+            Vector2 facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
             if (!playerFuelSystem.CanAffordMovement(player, deltaTime))
             {
@@ -191,11 +191,11 @@ namespace ToTheEndOfTheWorld
             {
                 player.MovementInput = Vector2.Zero;
             }
-            var isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+            bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
             playerMovementSystem.Update(player, deltaTime, isGrounded);
 
-            var resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
-            for (var i = 0; i < resolutionSteps; i++)
+            int resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
+            for (int i = 0; i < resolutionSteps; i++)
             {
                 playerMiningSystem.Update(world, player, deltaTime);
 
@@ -253,10 +253,10 @@ namespace ToTheEndOfTheWorld
 
         private void DrawRenderedWorld()
         {
-            foreach (var pair in world.WorldRender)
+            foreach (KeyValuePair<Vector2, Vector2> pair in world.WorldRender)
             {
-                var player = world.Player;
-                var location = new Vector2(
+                ModelLibrary.Abstract.APlayer player = world.Player;
+                Vector2 location = new(
                     pair.Key.X * _pixels - (0.5f * _pixels),
                     pair.Key.Y * _pixels - (0.5f * _pixels)
                 );
@@ -271,19 +271,19 @@ namespace ToTheEndOfTheWorld
                 }
                 else
                 {
-                    var block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
+                    KeyValuePair<int, (string Name, Texture2D Texture, ModelLibrary.Concrete.Blocks.Block block)> block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
 
                     // THIS WILL BE REMOVED ONCE GRAPHICS ARE IMPLEMENTED
-                    if (blocks.TryGetPlaceholderLabel(block.Key, out var placeholderLabel))
+                    if (blocks.TryGetPlaceholderLabel(block.Key, out string placeholderLabel))
                     {
-                        var outerRectangle = new Rectangle((int)location.X, (int)location.Y, _pixels, _pixels);
-                        var innerRectangle = new Rectangle((int)location.X + 4, (int)location.Y + 4, _pixels - 8, _pixels - 8);
+                        Rectangle outerRectangle = new((int)location.X, (int)location.Y, _pixels, _pixels);
+                        Rectangle innerRectangle = new((int)location.X + 4, (int)location.Y + 4, _pixels - 8, _pixels - 8);
                         spriteBatch.Draw(placeholderTileTexture, outerRectangle, new Color(18, 18, 22));
                         spriteBatch.Draw(placeholderTileTexture, innerRectangle, new Color(42, 44, 56));
 
-                        var scale = placeholderLabel.Length > 1 ? 0.8f : 1.0f;
-                        var size = blockPlaceholderFont.MeasureString(placeholderLabel) * scale;
-                        var textPosition = new Vector2(
+                        float scale = placeholderLabel.Length > 1 ? 0.8f : 1.0f;
+                        Vector2 size = blockPlaceholderFont.MeasureString(placeholderLabel) * scale;
+                        Vector2 textPosition = new(
                             location.X + ((_pixels - size.X) / 2.0f),
                             location.Y + ((_pixels - size.Y) / 2.0f));
 
@@ -294,9 +294,9 @@ namespace ToTheEndOfTheWorld
                         spriteBatch.Draw(block.Value.Texture, location, Color.White);
                     }
 
-                    if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out var interaction))
+                    if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out WorldInteraction interaction))
                     {
-                        var percentDamaged = interaction.Block.PercentDamaged();
+                        float percentDamaged = interaction.Block.PercentDamaged();
 
                         spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Breaking].Texture, location, Color.White * percentDamaged);
                     }
@@ -316,8 +316,8 @@ namespace ToTheEndOfTheWorld
                 return;
             }
 
-            var width = Window.ClientBounds.Width;
-            var height = Window.ClientBounds.Height;
+            int width = Window.ClientBounds.Width;
+            int height = Window.ClientBounds.Height;
 
             if (width <= 0 || height <= 0)
             {
@@ -342,34 +342,34 @@ namespace ToTheEndOfTheWorld
 
         private Rectangle GetPresentationRectangle()
         {
-            var viewportWidth = GraphicsDevice.Viewport.Width;
-            var viewportHeight = GraphicsDevice.Viewport.Height;
-            var scale = Math.Min((float)viewportWidth / logicalViewportWidth, (float)viewportHeight / logicalViewportHeight);
-            var width = (int)(logicalViewportWidth * scale);
-            var height = (int)(logicalViewportHeight * scale);
-            var x = (viewportWidth - width) / 2;
-            var y = (viewportHeight - height) / 2;
+            int viewportWidth = GraphicsDevice.Viewport.Width;
+            int viewportHeight = GraphicsDevice.Viewport.Height;
+            float scale = Math.Min((float)viewportWidth / logicalViewportWidth, (float)viewportHeight / logicalViewportHeight);
+            int width = (int)(logicalViewportWidth * scale);
+            int height = (int)(logicalViewportHeight * scale);
+            int x = (viewportWidth - width) / 2;
+            int y = (viewportHeight - height) / 2;
             return new Rectangle(x, y, width, height);
         }
 
         private MouseState CreateScaledMouseState(MouseState mouseState)
         {
-            var presentationRectangle = GetPresentationRectangle();
+            Rectangle presentationRectangle = GetPresentationRectangle();
 
             if (!presentationRectangle.Contains(mouseState.Position))
             {
                 return new MouseState(-1, -1, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
             }
 
-            var scaledX = (int)((mouseState.X - presentationRectangle.X) * ((float)logicalViewportWidth / presentationRectangle.Width));
-            var scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
+            int scaledX = (int)((mouseState.X - presentationRectangle.X) * ((float)logicalViewportWidth / presentationRectangle.Width));
+            int scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
 
             return new MouseState(scaledX, scaledY, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
         }
 
         private void DrawInteractionPrompt()
         {
-            if (uiManager.BlocksGameplay || !worldInteractionService.TryGetCurrentBuilding(world, out var building))
+            if (uiManager.BlocksGameplay || !worldInteractionService.TryGetCurrentBuilding(world, out ABuilding building))
             {
                 return;
             }

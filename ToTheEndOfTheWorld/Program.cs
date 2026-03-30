@@ -1,3 +1,3 @@
 ﻿
-using var game = new ToTheEndOfTheWorld.MainGame();
+using ToTheEndOfTheWorld.MainGame game = new();
 game.Run();

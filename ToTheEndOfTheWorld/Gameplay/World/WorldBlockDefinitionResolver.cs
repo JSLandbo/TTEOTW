@@ -32,9 +32,9 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             rockBlockDefinition = new KeyValuePair<int, (string Name, Texture2D Texture, Block block)>(RockBlockId, blocks[RockBlockId]);
             lavaBlockDefinition = new KeyValuePair<int, (string Name, Texture2D Texture, Block block)>(LavaBlockId, blocks[LavaBlockId]);
 
-            var overlayDefinitions = new List<KeyValuePair<int, (string Name, Texture2D Texture, Block block)>>();
-            var index = 0;
-            foreach (var block in blocks)
+            List<KeyValuePair<int, (string Name, Texture2D Texture, Block block)>> overlayDefinitions = [];
+            int index = 0;
+            foreach (KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block in blocks)
             {
                 if (IsOverlayBlock(block.Key))
                 {
@@ -60,9 +60,9 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return grassBlockDefinition;
             }
 
-            var baseTerrain = ResolveBaseTerrain(x, y);
+            KeyValuePair<int, (string Name, Texture2D Texture, Block block)> baseTerrain = ResolveBaseTerrain(x, y);
 
-            foreach (var block in overlayBlockDefinitions)
+            foreach (KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block in overlayBlockDefinitions)
             {
                 if (MatchesDefinition(block, x, y))
                 {
@@ -75,7 +75,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public bool IsObstructed(ModelWorld world, Vector2 worldPosition)
         {
-            var block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
+            Block block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
 
             if (block.Ethereal || world.WorldTrails.ContainsKey(worldPosition))
             {
@@ -87,11 +87,11 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         private KeyValuePair<int, (string Name, Texture2D Texture, Block block)> ResolveBaseTerrain(float x, float y)
         {
-            var rockNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.12f) + 91.0f, (y * 0.12f) + 37.0f) * 100.0f;
-            var lavaNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.08f) + 241.0f, (y * 0.08f) + 503.0f) * 100.0f;
+            float rockNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.12f) + 91.0f, (y * 0.12f) + 37.0f) * 100.0f;
+            float lavaNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.08f) + 241.0f, (y * 0.08f) + 503.0f) * 100.0f;
 
-            var rockChance = MathHelper.Clamp(6.0f + ((y - 12.0f) * 0.012f), 6.0f, 78.0f);
-            var lavaChance = y < 2000.0f
+            float rockChance = MathHelper.Clamp(6.0f + ((y - 12.0f) * 0.012f), 6.0f, 78.0f);
+            float lavaChance = y < 2000.0f
                 ? 0.0f
                 : MathHelper.Clamp((y - 2000.0f) * 0.004f, 0.0f, 18.0f);
 
@@ -110,14 +110,14 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         private static bool MatchesDefinition(KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block, float x, float y)
         {
-            var info = block.Value.block.Info;
+            ModelLibrary.Abstract.Blocks.ABlockInfo info = block.Value.block.Info;
 
             if (y > info.MaximumDepth || y < info.MinimumDepth)
             {
                 return false;
             }
 
-            var simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
+            float simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
             return simplex >= info.OccurrenceSpan.X && simplex <= info.OccurrenceSpan.Y;
         }
 

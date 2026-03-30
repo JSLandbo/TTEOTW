@@ -37,7 +37,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, ABuilding building, EquipmentShopLayout layout, int viewportWidth, int viewportHeight, Point mousePosition)
         {
-            var grid = building.StorageGrid.InternalGrid;
+            AGridBox[,] grid = building.StorageGrid.InternalGrid;
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, new Rectangle(layout.PanelRectangle.X + 3, layout.PanelRectangle.Y + 4, layout.PanelRectangle.Width, layout.PanelRectangle.Height), new Color(0, 0, 0, 70));
@@ -46,12 +46,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
             DrawRectangleOutline(spriteBatch, layout.PanelRectangle, 2, new Color(108, 108, 108));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, building.Name, new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Y + EquipmentShopLayout.TitlePaddingTop - 2), new Color(244, 240, 229), TitleTextScale);
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var priceRectangle = layout.GetPriceRectangle(x, y);
-                    var slotRectangle = layout.GetSlotRectangle(x, y);
+                    Rectangle priceRectangle = layout.GetPriceRectangle(x, y);
+                    Rectangle slotRectangle = layout.GetSlotRectangle(x, y);
                     DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, slotRectangle.Contains(mousePosition));
                 }
             }
@@ -67,9 +67,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            var canAfford = slot.Item != null && world.Player.Cash >= slot.Item.Worth;
-            var backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(40, 40, 40);
-            var borderColor = canAfford ? new Color(208, 180, 96) : new Color(82, 82, 82);
+            bool canAfford = slot.Item != null && world.Player.Cash >= slot.Item.Worth;
+            Color backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(40, 40, 40);
+            Color borderColor = canAfford ? new Color(208, 180, 96) : new Color(82, 82, 82);
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, showCount: false, isHovered: isHovered);
 
             if (!canAfford)
@@ -82,11 +82,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void DrawPrice(SpriteBatch spriteBatch, AType item, Rectangle priceRectangle, bool canAfford, bool isHovered)
         {
-            var priceText = Math.Floor(item.Worth).ToString();
-            var priceSize = textFont.MeasureString(priceText) * PriceTextScale;
+            string priceText = Math.Floor(item.Worth).ToString();
+            Vector2 priceSize = textFont.MeasureString(priceText) * PriceTextScale;
             spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(34, 34, 34));
             DrawRectangleOutline(spriteBatch, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(88, 88, 88));
-            var pricePosition = new Vector2(
+            Vector2 pricePosition = new(
                 priceRectangle.Center.X - (priceSize.X / 2f),
                 priceRectangle.Y + ((priceRectangle.Height - priceSize.Y) / 2f) - 1);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(194, 194, 194), PriceTextScale);

@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Context
 {
     public class WorldElementsRepository : Dictionary<int, (string Name, Texture2D Texture, Block block)>
     {
-        private readonly Dictionary<int, string> placeholderLabels = new();
+        private readonly Dictionary<int, string> placeholderLabels = [];
         private int nextPlaceholderLabel = 1;
 
         public WorldElementsRepository(ContentManager manager)
@@ -24,7 +24,7 @@ namespace ToTheEndOfTheWorld.Context
 
         private void InitializeCollection(ContentManager manager)
         {
-            var placeholderTexture = manager.Load<Texture2D>("Blocks/StoneBlock");
+            Texture2D placeholderTexture = manager.Load<Texture2D>("Blocks/StoneBlock");
 
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Breaking, "Breaking", "General/Breaking/Breaking", ethereal: true);
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Background, "Background", "Blocks/DirtBlockBackground", ethereal: true);
@@ -104,37 +104,37 @@ namespace ToTheEndOfTheWorld.Context
 
         private void AddRuntimeBlock(ContentManager manager, short id, string name, string assetPath, bool ethereal, long minimumDepth = long.MinValue, long maximumDepth = long.MaxValue, Vector2? occurrenceSpan = null)
         {
-            var info = new BlockInfo(
+            BlockInfo info = new(
                 MinimumDepth: minimumDepth,
                 MaximumDepth: maximumDepth,
                 OccurrenceSpan: occurrenceSpan ?? new Vector2(),
                 Weight: 0.0f);
 
-            var block = new Block(ID: id, Ethereal: ethereal, Info: info);
+            Block block = new(ID: id, Ethereal: ethereal, Info: info);
             Add(id, (name, manager.Load<Texture2D>(assetPath), block));
         }
 
         private void AddTexturedBlock(ContentManager manager, short id, string name, string assetPath, float hardness, float health, long minimumDepth, long maximumDepth, Vector2 occurrenceSpan, float worth = 0, bool ethereal = false)
         {
-            var info = new BlockInfo(
+            BlockInfo info = new(
                 MinimumDepth: minimumDepth,
                 MaximumDepth: maximumDepth,
                 OccurrenceSpan: occurrenceSpan,
                 Weight: 0.0f);
 
-            var block = new Block(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
+            Block block = new(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
             Add(id, (name, manager.Load<Texture2D>(assetPath), block));
         }
 
         private void AddPlaceholderBlock(Texture2D placeholderTexture, short id, string name, float hardness, float health, long minimumDepth, long maximumDepth, Vector2 occurrenceSpan, float worth = 0, bool ethereal = false)
         {
-            var info = new BlockInfo(
+            BlockInfo info = new(
                 MinimumDepth: minimumDepth,
                 MaximumDepth: maximumDepth,
                 OccurrenceSpan: occurrenceSpan,
                 Weight: 0.0f);
 
-            var block = new Block(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
+            Block block = new(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
             Add(id, (name, placeholderTexture, block));
             placeholderLabels[id] = nextPlaceholderLabel.ToString();
             nextPlaceholderLabel++;

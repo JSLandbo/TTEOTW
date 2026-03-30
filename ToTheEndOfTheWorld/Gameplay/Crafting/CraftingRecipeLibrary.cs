@@ -35,7 +35,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
         private Block CreateBlockItem(short blockId)
         {
-            if (!blocks.TryGetValue(blockId, out var blockDefinition))
+            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, Block block) blockDefinition))
             {
                 return null;
             }

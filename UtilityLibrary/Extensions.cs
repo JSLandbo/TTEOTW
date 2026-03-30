@@ -15,14 +15,14 @@ namespace UtilityLibrary
 
         public static T CopyObject<T>(this object objSource)
         {
-            var json = JsonSerializer.Serialize(objSource, objSource.GetType(), JsonCopyOptions);
+            string json = JsonSerializer.Serialize(objSource, objSource.GetType(), JsonCopyOptions);
             return JsonSerializer.Deserialize<T>(json, JsonCopyOptions)!;
         }
 
         public static T CreateDeepCopy<T>(T obj)
         {
-            using var ms = new MemoryStream();
-            var serializer = new XmlSerializer(obj!.GetType());
+            using MemoryStream ms = new();
+            XmlSerializer serializer = new(obj!.GetType());
             serializer.Serialize(ms, obj);
             ms.Seek(0, SeekOrigin.Begin);
             return (T)serializer.Deserialize(ms)!;
@@ -30,16 +30,16 @@ namespace UtilityLibrary
 
         public static object DeepCopyJson(object o)
         {
-            var json = JsonSerializer.Serialize(o, o.GetType(), JsonCopyOptions);
+            string json = JsonSerializer.Serialize(o, o.GetType(), JsonCopyOptions);
             return JsonSerializer.Deserialize(json, o.GetType(), JsonCopyOptions)!;
         }
 
         public static string Compress(string s)
         {
-            var bytes = Encoding.Unicode.GetBytes(s);
-            using var msi = new MemoryStream(bytes);
-            using var mso = new MemoryStream();
-            using (var gs = new GZipStream(mso, CompressionMode.Compress))
+            byte[] bytes = Encoding.Unicode.GetBytes(s);
+            using MemoryStream msi = new(bytes);
+            using MemoryStream mso = new();
+            using (GZipStream gs = new(mso, CompressionMode.Compress))
             {
                 msi.CopyTo(gs);
             }
@@ -49,10 +49,10 @@ namespace UtilityLibrary
 
         public static string Decompress(string s)
         {
-            var bytes = Convert.FromBase64String(s);
-            using var msi = new MemoryStream(bytes);
-            using var mso = new MemoryStream();
-            using (var gs = new GZipStream(msi, CompressionMode.Decompress))
+            byte[] bytes = Convert.FromBase64String(s);
+            using MemoryStream msi = new(bytes);
+            using MemoryStream mso = new();
+            using (GZipStream gs = new(msi, CompressionMode.Decompress))
             {
                 gs.CopyTo(mso);
             }

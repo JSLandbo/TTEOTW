@@ -32,14 +32,14 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
 
         private static Grid CloneGrid(AGrid original)
         {
-            var sourceGrid = original.InternalGrid;
-            var clonedGrid = new GridBox[sourceGrid.GetLength(0), sourceGrid.GetLength(1)];
+            AGridBox[,] sourceGrid = original.InternalGrid;
+            GridBox[,] clonedGrid = new GridBox[sourceGrid.GetLength(0), sourceGrid.GetLength(1)];
 
-            for (var x = 0; x < sourceGrid.GetLength(0); x++)
+            for (int x = 0; x < sourceGrid.GetLength(0); x++)
             {
-                for (var y = 0; y < sourceGrid.GetLength(1); y++)
+                for (int y = 0; y < sourceGrid.GetLength(1); y++)
                 {
-                    var slot = sourceGrid[x, y];
+                    AGridBox? slot = sourceGrid[x, y];
                     clonedGrid[x, y] = new GridBox(slot?.Item, slot?.Count ?? 0);
                 }
             }

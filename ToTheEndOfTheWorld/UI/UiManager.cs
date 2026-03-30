@@ -9,13 +9,13 @@ namespace ToTheEndOfTheWorld.UI
 {
     public sealed class UiManager
     {
-        private readonly List<IGameOverlay> overlays = new();
+        private readonly List<IGameOverlay> overlays = [];
 
         public bool BlocksGameplay
         {
             get
             {
-                foreach (var overlay in overlays)
+                foreach (IGameOverlay overlay in overlays)
                 {
                     if (overlay.IsOpen && overlay.BlocksGameplay)
                     {
@@ -34,7 +34,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
-            foreach (var overlay in overlays)
+            foreach (IGameOverlay overlay in overlays)
             {
                 overlay.LoadContent(graphicsDevice, content);
             }
@@ -42,7 +42,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            foreach (var overlay in overlays)
+            foreach (IGameOverlay overlay in overlays)
             {
                 overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
             }
@@ -50,7 +50,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            foreach (var overlay in overlays)
+            foreach (IGameOverlay overlay in overlays)
             {
                 overlay.Draw(spriteBatch, world, viewportWidth, viewportHeight);
             }
@@ -58,7 +58,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public bool Open(ABuilding building)
         {
-            foreach (var overlay in overlays)
+            foreach (IGameOverlay overlay in overlays)
             {
                 if (overlay is not IInteractionOverlay interactionOverlay || interactionOverlay.Action != building.Interaction)
                 {

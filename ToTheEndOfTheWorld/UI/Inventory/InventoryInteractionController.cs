@@ -46,13 +46,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 }
 
                 if (HeldItem != null
-                    && TryGetClickedEquipmentSlot(MousePosition, layout, out var equipmentSlot)
+                    && TryGetClickedEquipmentSlot(MousePosition, layout, out EPlayerEquipmentSlotType equipmentSlot)
                     && TryEquipHeldItem(world, itemUseService, equipmentSlot))
                 {
                     return;
                 }
 
-                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out var clickedSlot))
+                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out AGridBox clickedSlot))
                 {
                     MoveStack(clickedSlot);
                 }
@@ -61,7 +61,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             if (WasRightClicked(currentMouseState, previousMouseState)
-                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out var rightClickedSlot))
+                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out AGridBox rightClickedSlot))
             {
                 TakeSingleItem(rightClickedSlot);
             }
@@ -102,13 +102,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         public void ReturnCraftingGridToInventory(InventoryService inventoryService, ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory, Grid craftingGrid)
         {
-            var grid = craftingGrid.InternalGrid;
+            AGridBox[,] grid = craftingGrid.InternalGrid;
 
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
                     if (slot.Item == null || slot.Count <= 0)
                     {
@@ -153,14 +153,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             if (InventoryService.CanStackTogether(slot.Item, HeldItem))
             {
-                var availableSpace = currentMaxStackSize - slot.Count;
+                int availableSpace = currentMaxStackSize - slot.Count;
 
                 if (availableSpace <= 0)
                 {
                     return;
                 }
 
-                var movedCount = HeldCount > availableSpace ? availableSpace : HeldCount;
+                int movedCount = HeldCount > availableSpace ? availableSpace : HeldCount;
                 slot.Count += movedCount;
                 HeldCount -= movedCount;
 
@@ -172,8 +172,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            var swapItem = slot.Item;
-            var swapCount = slot.Count;
+            AType swapItem = slot.Item;
+            int swapCount = slot.Count;
             slot.Item = HeldItem;
             slot.Count = HeldCount;
             HeldItem = swapItem;
@@ -219,8 +219,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private bool TryEquipHeldItem(ModelWorld world, InventoryItemUseService itemUseService, EPlayerEquipmentSlotType equipmentSlot)
         {
-            var heldItem = HeldItem;
-            var heldCount = HeldCount;
+            AType heldItem = HeldItem;
+            int heldCount = HeldCount;
 
             if (!itemUseService.TryEquipFromHeld(world, equipmentSlot, ref heldItem, ref heldCount))
             {
@@ -234,7 +234,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool TryGetClickedEquipmentSlot(Point position, InventoryLayout layout, out EPlayerEquipmentSlotType slotType)
         {
-            foreach (var candidate in new[]
+            foreach (EPlayerEquipmentSlotType candidate in new[]
             {
                 EPlayerEquipmentSlotType.ThermalPlating,
                 EPlayerEquipmentSlotType.Inventory,
@@ -280,11 +280,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool TryGetClickedSlot(AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing, Point position, out AGridBox slot)
         {
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slotRectangle = new Rectangle(
+                    Rectangle slotRectangle = new(
                         startX + (x * (slotSize + slotSpacing)),
                         startY + (y * (slotSize + slotSpacing)),
                         slotSize,

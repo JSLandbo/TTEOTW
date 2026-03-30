@@ -79,12 +79,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            var listRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
-            var sellSummary = shopService.GetSellSummary(world);
-            var totalRows = GetTotalValueRows(sellSummary.Entries.Count);
-            var visibleRows = GetVisibleRowCount(listRectangle);
-            var maxScrollOffset = Math.Max(0, totalRows - visibleRows);
-            var scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
+            Rectangle listRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
+            ShopService.SellSummary sellSummary = shopService.GetSellSummary(world);
+            int totalRows = GetTotalValueRows(sellSummary.Entries.Count);
+            int visibleRows = GetVisibleRowCount(listRectangle);
+            int maxScrollOffset = Math.Max(0, totalRows - visibleRows);
+            int scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
             mousePosition = currentMouseState.Position;
 
             if (scrollDelta != 0 && listRectangle.Contains(currentMouseState.Position))
@@ -106,13 +106,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            var panelRectangle = new Rectangle((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
-            var headerRectangle = new Rectangle(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
-            var valueCardRectangle = new Rectangle(panelRectangle.X + SectionPadding, panelRectangle.Y + 76, panelRectangle.Width - (SectionPadding * 2), CardHeight);
-            var valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
-            var sellButtonRectangle = GetSellButtonRectangle(viewportWidth, viewportHeight);
-            var sellSummary = shopService.GetSellSummary(world);
-            var saleValue = Math.Floor(sellSummary.TotalValue);
+            Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
+            Rectangle valueCardRectangle = new(panelRectangle.X + SectionPadding, panelRectangle.Y + 76, panelRectangle.Width - (SectionPadding * 2), CardHeight);
+            Rectangle valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
+            Rectangle sellButtonRectangle = GetSellButtonRectangle(viewportWidth, viewportHeight);
+            ShopService.SellSummary sellSummary = shopService.GetSellSummary(world);
+            double saleValue = Math.Floor(sellSummary.TotalValue);
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
@@ -137,28 +137,28 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void DrawSellableValueList(SpriteBatch spriteBatch, System.Collections.Generic.IReadOnlyList<ShopService.SellableInventoryEntry> sellableEntries, Rectangle rectangle)
         {
-            var visibleRows = GetVisibleRowCount(rectangle);
-            var totalRows = GetTotalValueRows(sellableEntries.Count);
-            var maxScrollOffset = Math.Max(0, totalRows - visibleRows);
+            int visibleRows = GetVisibleRowCount(rectangle);
+            int totalRows = GetTotalValueRows(sellableEntries.Count);
+            int maxScrollOffset = Math.Max(0, totalRows - visibleRows);
             scrollOffset = Math.Clamp(scrollOffset, 0, maxScrollOffset);
 
-            for (var visibleIndex = 0; visibleIndex < visibleRows; visibleIndex++)
+            for (int visibleIndex = 0; visibleIndex < visibleRows; visibleIndex++)
             {
-                var rowIndex = scrollOffset + visibleIndex;
-                var firstEntryIndex = rowIndex * 2;
+                int rowIndex = scrollOffset + visibleIndex;
+                int firstEntryIndex = rowIndex * 2;
 
                 if (firstEntryIndex >= sellableEntries.Count)
                 {
                     break;
                 }
 
-                var firstEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 0);
+                Rectangle firstEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 0);
                 DrawSellableEntry(spriteBatch, sellableEntries[firstEntryIndex], firstEntryRectangle, firstEntryRectangle.Contains(mousePosition));
 
-                var secondEntryIndex = firstEntryIndex + 1;
+                int secondEntryIndex = firstEntryIndex + 1;
                 if (secondEntryIndex < sellableEntries.Count)
                 {
-                    var secondEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 1);
+                    Rectangle secondEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 1);
                     DrawSellableEntry(spriteBatch, sellableEntries[secondEntryIndex], secondEntryRectangle, secondEntryRectangle.Contains(mousePosition));
                 }
             }
@@ -171,13 +171,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void DrawSellableEntry(SpriteBatch spriteBatch, ShopService.SellableInventoryEntry entry, Rectangle entryRectangle, bool isHovered)
         {
-            var iconRectangle = new Rectangle(
+            Rectangle iconRectangle = new(
                 entryRectangle.X + ValueEntryPadding,
                 entryRectangle.Y + ((entryRectangle.Height - ValueIconSize) / 2),
                 ValueIconSize,
                 ValueIconSize);
-            var titlePosition = new Vector2(iconRectangle.Right + 14, entryRectangle.Y + 8);
-            var detailPosition = new Vector2(iconRectangle.Right + 14, entryRectangle.Y + 38);
+            Vector2 titlePosition = new(iconRectangle.Right + 14, entryRectangle.Y + 8);
+            Vector2 detailPosition = new(iconRectangle.Right + 14, entryRectangle.Y + 38);
             spriteBatch.Draw(pixelTexture, entryRectangle, isHovered ? new Color(44, 44, 44) : new Color(35, 35, 35));
             if (isHovered)
             {
@@ -194,10 +194,10 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetValueEntryRectangle(Rectangle listRectangle, int visibleRowIndex, int columnIndex)
         {
-            var availableWidth = listRectangle.Width - 20 - 8 - ValueColumnGap;
-            var entryWidth = availableWidth / 2;
-            var entryX = listRectangle.X + 10 + (columnIndex * (entryWidth + ValueColumnGap));
-            var entryY = listRectangle.Y + 10 + (visibleRowIndex * ValueRowHeight);
+            int availableWidth = listRectangle.Width - 20 - 8 - ValueColumnGap;
+            int entryWidth = availableWidth / 2;
+            int entryX = listRectangle.X + 10 + (columnIndex * (entryWidth + ValueColumnGap));
+            int entryY = listRectangle.Y + 10 + (visibleRowIndex * ValueRowHeight);
 
             return new Rectangle(entryX, entryY, entryWidth, ValueRowHeight - 6);
         }
@@ -224,12 +224,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void DrawScrollBar(SpriteBatch spriteBatch, Rectangle rectangle, int totalEntries, int visibleRows)
         {
-            var trackRectangle = new Rectangle(rectangle.Right - 8, rectangle.Y + 10, 4, rectangle.Height - 20);
-            var thumbHeight = Math.Max(24, (int)(trackRectangle.Height * (visibleRows / (float)totalEntries)));
-            var maxScrollOffset = Math.Max(1, totalEntries - visibleRows);
-            var thumbTravel = trackRectangle.Height - thumbHeight;
-            var thumbY = trackRectangle.Y + (int)(thumbTravel * (scrollOffset / (float)maxScrollOffset));
-            var thumbRectangle = new Rectangle(trackRectangle.X, thumbY, trackRectangle.Width, thumbHeight);
+            Rectangle trackRectangle = new(rectangle.Right - 8, rectangle.Y + 10, 4, rectangle.Height - 20);
+            int thumbHeight = Math.Max(24, (int)(trackRectangle.Height * (visibleRows / (float)totalEntries)));
+            int maxScrollOffset = Math.Max(1, totalEntries - visibleRows);
+            int thumbTravel = trackRectangle.Height - thumbHeight;
+            int thumbY = trackRectangle.Y + (int)(thumbTravel * (scrollOffset / (float)maxScrollOffset));
+            Rectangle thumbRectangle = new(trackRectangle.X, thumbY, trackRectangle.Width, thumbHeight);
 
             spriteBatch.Draw(pixelTexture, trackRectangle, new Color(55, 55, 55));
             spriteBatch.Draw(pixelTexture, thumbRectangle, new Color(170, 170, 170));
@@ -237,8 +237,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)
         {
-            var size = textFont.MeasureString(text) * scale;
-            var position = new Vector2(
+            Vector2 size = textFont.MeasureString(text) * scale;
+            Vector2 position = new(
                 rectangle.X + ((rectangle.Width - size.X) / 2f),
                 rectangle.Y + ((rectangle.Height - size.Y) / 2f));
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
@@ -259,7 +259,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {

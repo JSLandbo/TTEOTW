@@ -17,15 +17,15 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            var playerPosition = new Vector2(
+            Vector2 playerPosition = new(
                 (float)(viewportWidth / 2.0) - (0.5f * tileSize),
                 (float)(viewportHeight / 2.0) - (0.5f * tileSize));
 
-            var player = world.Player;
-            var orientation = player.Orientation;
-            var drillExtended = player.DrillExtended;
-            var drill = items[player.Drill.ID];
-            var hull = items[player.Hull.ID];
+            ModelLibrary.Abstract.APlayer player = world.Player;
+            PlayerOrientation orientation = player.Orientation;
+            bool drillExtended = player.DrillExtended;
+            GameItemDefinition drill = items[player.Drill.ID];
+            GameItemDefinition hull = items[player.Hull.ID];
 
             if (orientation.Equals(PlayerOrientation.Base))
             {
@@ -37,8 +37,8 @@ namespace ToTheEndOfTheWorld.UI.World
             {
                 spriteBatch.Draw(hull.Textures[orientation], playerPosition, Color.White);
 
-                var drillPositionX = playerPosition.X + (player.FacingDirection.X * tileSize);
-                var drillPositionY = playerPosition.Y + (player.FacingDirection.Y * tileSize);
+                float drillPositionX = playerPosition.X + (player.FacingDirection.X * tileSize);
+                float drillPositionY = playerPosition.Y + (player.FacingDirection.Y * tileSize);
 
                 spriteBatch.Draw(drill.Textures[orientation], new Vector2(drillPositionX, drillPositionY), Color.White);
                 return;

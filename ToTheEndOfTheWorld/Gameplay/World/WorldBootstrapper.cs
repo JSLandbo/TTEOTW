@@ -1,6 +1,3 @@
-using ModelLibrary.Abstract.Buildings;
-using System.Collections.Generic;
-
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBootstrapper
@@ -24,18 +21,18 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public void EnsureInitialized(ModelWorld world)
         {
-            world.Buildings ??= new List<ABuilding>();
+            world.Buildings ??= [];
 
             if (world.Buildings.Count > 0) return;
 
-            var centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+            Microsoft.Xna.Framework.Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
 
-            var shopX = (long)centerWorldPosition.X + 6;
-            var shopY = (long)centerWorldPosition.Y - 1;
-            var equipmentShopX = (long)centerWorldPosition.X - 8;
-            var equipmentShopY = (long)centerWorldPosition.Y - 1;
-            var fuelStationX = (long)centerWorldPosition.X + 12;
-            var fuelStationY = (long)centerWorldPosition.Y - 1;
+            long shopX = (long)centerWorldPosition.X + 6;
+            long shopY = (long)centerWorldPosition.Y - 1;
+            long equipmentShopX = (long)centerWorldPosition.X - 8;
+            long equipmentShopY = (long)centerWorldPosition.Y - 1;
+            long fuelStationX = (long)centerWorldPosition.X + 12;
+            long fuelStationY = (long)centerWorldPosition.Y - 1;
 
             world.Buildings.Add(sellShopBuildingFactory.Create(shopX, shopY));
             world.Buildings.Add(equipmentShopBuildingFactory.Create(equipmentShopX, equipmentShopY));

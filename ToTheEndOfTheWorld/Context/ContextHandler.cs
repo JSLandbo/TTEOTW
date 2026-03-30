@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Context
 
         public static void SaveWorld(ModelWorld world)
         {
-            var file = GetWorldFilePath();
+            string file = GetWorldFilePath();
             File.WriteAllText(
                 file,
                 UtilityLibrary.Extensions.Compress(
@@ -27,7 +27,7 @@ namespace ToTheEndOfTheWorld.Context
 
         public static ModelWorld? LoadWorld()
         {
-            var file = GetWorldFilePath();
+            string file = GetWorldFilePath();
 
             if (new FileInfo(file).Length == 0)
             {
@@ -48,7 +48,7 @@ namespace ToTheEndOfTheWorld.Context
 
         private static string GetWorldFilePath()
         {
-            var file = Path.Combine(BasePath, "World.txt");
+            string file = Path.Combine(BasePath, "World.txt");
             CreateDirectoryIfNotExists(file);
             CreateFileIfNotExists(file);
             return file;
@@ -56,7 +56,7 @@ namespace ToTheEndOfTheWorld.Context
 
         private static void CreateDirectoryIfNotExists(string file)
         {
-            var directory = Path.GetDirectoryName(file);
+            string directory = Path.GetDirectoryName(file);
 
             if (string.IsNullOrWhiteSpace(directory) || Directory.Exists(directory))
             {
@@ -69,7 +69,7 @@ namespace ToTheEndOfTheWorld.Context
         private static void CreateFileIfNotExists(string file)
         {
             if (File.Exists(file)) return;
-            using var f = File.Create(file);
+            using FileStream f = File.Create(file);
             f.Close();
         }
     }

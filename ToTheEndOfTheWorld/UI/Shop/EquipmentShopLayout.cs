@@ -34,13 +34,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid)
         {
-            var gridWidth = grid.GetLength(0) * SlotSize + ((grid.GetLength(0) - 1) * SlotSpacing);
-            var rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
-            var gridHeight = grid.GetLength(1) * rowHeight + ((grid.GetLength(1) - 1) * RowSpacing);
-            var panelWidth = System.Math.Max(MinimumPanelWidth, gridWidth + (PanelHorizontalPadding * 2));
-            var panelHeight = System.Math.Max(MinimumPanelHeight, GridTop + gridHeight + GridBottomPadding);
-            var panelRectangle = new Rectangle((viewportWidth - panelWidth) / 2, (viewportHeight - panelHeight) / 2, panelWidth, panelHeight);
-            var gridStart = new Point(
+            int gridWidth = grid.GetLength(0) * SlotSize + ((grid.GetLength(0) - 1) * SlotSpacing);
+            int rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
+            int gridHeight = grid.GetLength(1) * rowHeight + ((grid.GetLength(1) - 1) * RowSpacing);
+            int panelWidth = System.Math.Max(MinimumPanelWidth, gridWidth + (PanelHorizontalPadding * 2));
+            int panelHeight = System.Math.Max(MinimumPanelHeight, GridTop + gridHeight + GridBottomPadding);
+            Rectangle panelRectangle = new((viewportWidth - panelWidth) / 2, (viewportHeight - panelHeight) / 2, panelWidth, panelHeight);
+            Point gridStart = new(
                 panelRectangle.X + ((panelRectangle.Width - gridWidth) / 2),
                 panelRectangle.Y + GridTop + ((panelRectangle.Height - GridTop - GridBottomPadding - gridHeight) / 2));
 
@@ -49,7 +49,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public Rectangle GetSlotRectangle(int x, int y)
         {
-            var rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
+            int rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
             return new Rectangle(
                 GridStart.X + x * (SlotSize + SlotSpacing),
                 GridStart.Y + y * (rowHeight + RowSpacing) + PriceHeight + PriceBottomSpacing,

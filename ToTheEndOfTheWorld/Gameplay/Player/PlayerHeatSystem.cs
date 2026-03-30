@@ -17,7 +17,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public void Update(APlayer player, float deltaTime)
         {
-            var cooledThermals = player.ThermalPlating.Thermals - (player.ThermalPlating.ThermalDissipation * deltaTime);
+            float cooledThermals = player.ThermalPlating.Thermals - (player.ThermalPlating.ThermalDissipation * deltaTime);
             player.ThermalPlating.Thermals = Math.Clamp(cooledThermals, 0.0f, player.ThermalPlating.MaxThermals);
         }
 

@@ -17,8 +17,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return false;
             }
 
-            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var belowPlayer = new Vector2(location.X, location.Y + 1);
+            Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            Vector2 belowPlayer = new(location.X, location.Y + 1);
 
             return worldBlockDefinitionResolver.IsObstructed(world, belowPlayer);
         }

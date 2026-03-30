@@ -17,8 +17,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             this.blocks = blocks;
             orderedBlockDefinitions = new KeyValuePair<int, (string Name, Texture2D Texture, Block block)>[blocks.Count];
 
-            var index = 0;
-            foreach (var block in blocks)
+            int index = 0;
+            foreach (KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block in blocks)
             {
                 orderedBlockDefinitions[index++] = block;
             }
@@ -33,8 +33,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public Block CreateMutableWorldBlock(float x, float y)
         {
-            var definition = FindBlockDefinition(x, y);
-            var block = new Block(definition.Value.block);
+            KeyValuePair<int, (string Name, Texture2D Texture, Block block)> definition = FindBlockDefinition(x, y);
+            Block block = new(definition.Value.block);
 
             if (definition.Key == 2 && x > 0)
             {
@@ -47,7 +47,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public bool IsObstructed(ModelWorld world, Vector2 worldPosition)
         {
-            var block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
+            Block block = GetWorldBlock(worldPosition.X, worldPosition.Y).Value.block;
 
             if (block.Ethereal || world.WorldTrails.ContainsKey(worldPosition))
             {
@@ -59,11 +59,11 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         private KeyValuePair<int, (string Name, Texture2D Texture, Block block)> FindBlockDefinition(float x, float y)
         {
-            var simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
+            float simplex = (float)SimplexNoise.Singleton.Noise01(x, y) * 100.0f;
 
-            foreach (var block in orderedBlockDefinitions)
+            foreach (KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block in orderedBlockDefinitions)
             {
-                var info = block.Value.block.Info;
+                ModelLibrary.Abstract.Blocks.ABlockInfo info = block.Value.block.Info;
 
                 if (y > info.MaximumDepth || y < info.MinimumDepth)
                 {

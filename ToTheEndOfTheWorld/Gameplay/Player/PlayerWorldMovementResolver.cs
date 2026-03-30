@@ -21,7 +21,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public bool ResolveStep(ModelWorld world, APlayer player)
         {
-            var processedMovement = false;
+            bool processedMovement = false;
 
             if (Math.Abs(player.XOffset) >= Math.Abs(player.YOffset))
             {
@@ -41,7 +41,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private int CalculateRequiredIterations(APlayer player)
         {
-            var largestOffset = Math.Max(Math.Abs(player.XOffset), Math.Abs(player.YOffset));
+            float largestOffset = Math.Max(Math.Abs(player.XOffset), Math.Abs(player.YOffset));
 
             // Offset is consumed one tile transition at a time, so larger offsets may require multiple passes.
             // The extra pass avoids stopping one step early when the offset lands near the transition boundary.
@@ -50,8 +50,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private bool TryProcessMovementAxis(ModelWorld world, APlayer player, bool horizontal)
         {
-            var offset = horizontal ? player.XOffset : player.YOffset;
-            var direction = Math.Sign(offset);
+            float offset = horizontal ? player.XOffset : player.YOffset;
+            int direction = Math.Sign(offset);
 
             if (direction == 0)
             {
@@ -95,8 +95,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private bool IsAxisObstructed(ModelWorld world, APlayer player, bool horizontal, int direction)
         {
-            var location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var nextBlockVector = new Vector2(
+            Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            Vector2 nextBlockVector = new(
                 location.X + (horizontal ? direction : 0),
                 location.Y + (horizontal ? 0 : direction)
             );

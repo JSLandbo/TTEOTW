@@ -4,18 +4,18 @@ namespace ToTheEndOfTheWorld.Context
 {
     public sealed class WorldInteractionsRepository
     {
-        private readonly Dictionary<WorldTile, List<WorldInteraction>> interactionsByTile = new();
+        private readonly Dictionary<WorldTile, List<WorldInteraction>> interactionsByTile = [];
 
         public bool TryGet(WorldTile worldTile, WorldInteractionType interactionType, out WorldInteraction interaction)
         {
             interaction = null;
 
-            if (!interactionsByTile.TryGetValue(worldTile, out var interactions))
+            if (!interactionsByTile.TryGetValue(worldTile, out List<WorldInteraction> interactions))
             {
                 return false;
             }
 
-            for (var i = interactions.Count - 1; i >= 0; i--)
+            for (int i = interactions.Count - 1; i >= 0; i--)
             {
                 if (interactions[i].Type == interactionType)
                 {
@@ -29,9 +29,9 @@ namespace ToTheEndOfTheWorld.Context
 
         public IReadOnlyList<WorldInteraction> GetAll(WorldTile worldTile)
         {
-            if (!interactionsByTile.TryGetValue(worldTile, out var interactions))
+            if (!interactionsByTile.TryGetValue(worldTile, out List<WorldInteraction> interactions))
             {
-                return new List<WorldInteraction>();
+                return [];
             }
 
             return interactions;
@@ -39,40 +39,40 @@ namespace ToTheEndOfTheWorld.Context
 
         public IReadOnlyList<WorldInteraction> GetAll(WorldTileBounds tileBounds)
         {
-            var uniqueInteractions = new HashSet<WorldInteraction>();
+            HashSet<WorldInteraction> uniqueInteractions = [];
 
             for (long x = tileBounds.X; x < tileBounds.X + tileBounds.Width; x++)
             {
                 for (long y = tileBounds.Y; y < tileBounds.Y + tileBounds.Height; y++)
                 {
-                    if (!interactionsByTile.TryGetValue(new WorldTile(x, y), out var interactions))
+                    if (!interactionsByTile.TryGetValue(new WorldTile(x, y), out List<WorldInteraction> interactions))
                     {
                         continue;
                     }
 
-                    foreach (var interaction in interactions)
+                    foreach (WorldInteraction interaction in interactions)
                     {
                         uniqueInteractions.Add(interaction);
                     }
                 }
             }
 
-            return new List<WorldInteraction>(uniqueInteractions);
+            return [.. uniqueInteractions];
         }
 
         public IReadOnlyList<WorldInteraction> GetAll()
         {
-            var uniqueInteractions = new HashSet<WorldInteraction>();
+            HashSet<WorldInteraction> uniqueInteractions = [];
 
-            foreach (var entry in interactionsByTile)
+            foreach (KeyValuePair<WorldTile, List<WorldInteraction>> entry in interactionsByTile)
             {
-                foreach (var interaction in entry.Value)
+                foreach (WorldInteraction interaction in entry.Value)
                 {
                     uniqueInteractions.Add(interaction);
                 }
             }
 
-            return new List<WorldInteraction>(uniqueInteractions);
+            return [.. uniqueInteractions];
         }
 
         public void Add(WorldInteraction interaction)
@@ -81,11 +81,11 @@ namespace ToTheEndOfTheWorld.Context
             {
                 for (long y = interaction.TileBounds.Y; y < interaction.TileBounds.Y + interaction.TileBounds.Height; y++)
                 {
-                    var worldTile = new WorldTile(x, y);
+                    WorldTile worldTile = new(x, y);
 
-                    if (!interactionsByTile.TryGetValue(worldTile, out var interactions))
+                    if (!interactionsByTile.TryGetValue(worldTile, out List<WorldInteraction> interactions))
                     {
-                        interactions = new List<WorldInteraction>();
+                        interactions = [];
                         interactionsByTile.Add(worldTile, interactions);
                     }
 
@@ -100,9 +100,9 @@ namespace ToTheEndOfTheWorld.Context
             {
                 for (long y = interaction.TileBounds.Y; y < interaction.TileBounds.Y + interaction.TileBounds.Height; y++)
                 {
-                    var worldTile = new WorldTile(x, y);
+                    WorldTile worldTile = new(x, y);
 
-                    if (!interactionsByTile.TryGetValue(worldTile, out var interactions))
+                    if (!interactionsByTile.TryGetValue(worldTile, out List<WorldInteraction> interactions))
                     {
                         continue;
                     }

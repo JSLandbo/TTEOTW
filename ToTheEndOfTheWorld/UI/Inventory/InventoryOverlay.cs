@@ -84,7 +84,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            var inventory = world.Player.Inventory;
+            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, new Color(24, 24, 24));
             DrawRectangleOutline(spriteBatch, currentLayout.PanelRectangle, 2, new Color(92, 92, 92));
@@ -94,11 +94,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             spriteBatch.Draw(pixelTexture, currentLayout.InventorySectionRectangle, new Color(28, 28, 28));
             spriteBatch.Draw(pixelTexture, currentLayout.DividerRectangle, new Color(78, 78, 78));
 
-            var headerTextPosition = new Vector2(currentLayout.PanelRectangle.X + 24, currentLayout.PanelRectangle.Y + 11);
+            Vector2 headerTextPosition = new(currentLayout.PanelRectangle.X + 24, currentLayout.PanelRectangle.Y + 11);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, inventory.Name, headerTextPosition, Color.White, HeaderTextScale);
 
-            var capacityText = $"Capacity: {inventory.SizeLimit}";
-            var capacitySize = textFont.MeasureString(capacityText) * HeaderTextScale;
+            string capacityText = $"Capacity: {inventory.SizeLimit}";
+            Vector2 capacitySize = textFont.MeasureString(capacityText) * HeaderTextScale;
             GameTextRenderer.DrawBoldString(
                 spriteBatch,
                 textFont,
@@ -128,12 +128,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawGrid(SpriteBatch spriteBatch, AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing)
         {
-            for (var y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                for (var x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    var slotX = startX + (x * (slotSize + slotSpacing));
-                    var slotY = startY + (y * (slotSize + slotSpacing));
+                    int slotX = startX + (x * (slotSize + slotSpacing));
+                    int slotY = startY + (y * (slotSize + slotSpacing));
                     DrawSlot(spriteBatch, grid[x, y], new Rectangle(slotX, slotY, slotSize, slotSize));
                 }
             }
@@ -141,7 +141,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawSlot(SpriteBatch spriteBatch, AGridBox slot, Rectangle slotRectangle)
         {
-            var isHovered = slotRectangle.Contains(interactionController.MousePosition);
+            bool isHovered = slotRectangle.Contains(interactionController.MousePosition);
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(62, 62, 62), new Color(124, 124, 124), isHovered: isHovered);
         }
 
@@ -158,12 +158,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSlot(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType)
         {
-            var slotRectangle = currentLayout.GetEquipmentSlotRectangle(slotType);
-            var slotItem = itemUseService.GetEquippedItem(world, slotType);
-            var canEquipHeldItem = interactionController.HeldItem != null && itemUseService.CanEquip(interactionController.HeldItem, slotType);
-            var isHovered = slotRectangle.Contains(interactionController.MousePosition);
-            var slotBackgroundColor = canEquipHeldItem ? new Color(78, 88, 78) : new Color(58, 58, 58);
-            var slotBorderColor = canEquipHeldItem ? new Color(162, 194, 162) : new Color(132, 132, 132);
+            Rectangle slotRectangle = currentLayout.GetEquipmentSlotRectangle(slotType);
+            AType slotItem = itemUseService.GetEquippedItem(world, slotType);
+            bool canEquipHeldItem = interactionController.HeldItem != null && itemUseService.CanEquip(interactionController.HeldItem, slotType);
+            bool isHovered = slotRectangle.Contains(interactionController.MousePosition);
+            Color slotBackgroundColor = canEquipHeldItem ? new Color(78, 88, 78) : new Color(58, 58, 58);
+            Color slotBorderColor = canEquipHeldItem ? new Color(162, 194, 162) : new Color(132, 132, 132);
 
             spriteBatch.Draw(pixelTexture, slotRectangle, slotBackgroundColor);
             if (isHovered)
@@ -181,9 +181,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSummary(SpriteBatch spriteBatch, ModelWorld world)
         {
-            var textX = currentLayout.EquipmentInfoRectangle.X;
-            var textY = currentLayout.EquipmentInfoRectangle.Y + 2;
-            var lineHeight = (int)(textFont.LineSpacing * SummaryTextScale) + 12;
+            int textX = currentLayout.EquipmentInfoRectangle.X;
+            int textY = currentLayout.EquipmentInfoRectangle.Y + 2;
+            int lineHeight = (int)(textFont.LineSpacing * SummaryTextScale) + 12;
 
             DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating, ref textY, textX, lineHeight);
             DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Engine, ref textY, textX, lineHeight);
@@ -196,11 +196,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSummaryLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight)
         {
-            var equippedItem = itemUseService.GetEquippedItem(world, slotType);
-            var line = itemUseService.GetSummaryText(world, slotType, equippedItem);
-            var tier = itemUseService.GetTierLabel(equippedItem);
-            var accentColor = GetTierAccentColor(tier, equippedItem == null);
-            var cardRectangle = new Rectangle(textX, textY, currentLayout.EquipmentInfoRectangle.Width - 12, lineHeight - 4);
+            AType equippedItem = itemUseService.GetEquippedItem(world, slotType);
+            string line = itemUseService.GetSummaryText(world, slotType, equippedItem);
+            string tier = itemUseService.GetTierLabel(equippedItem);
+            Color accentColor = GetTierAccentColor(tier, equippedItem == null);
+            Rectangle cardRectangle = new(textX, textY, currentLayout.EquipmentInfoRectangle.Width - 12, lineHeight - 4);
 
             spriteBatch.Draw(pixelTexture, cardRectangle, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)42));
             DrawRectangleOutline(spriteBatch, cardRectangle, 1, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)120));
@@ -210,10 +210,10 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawTrashBin(SpriteBatch spriteBatch)
         {
-            var canTrashHeldItem = interactionController.HeldItem != null;
-            var backgroundColor = canTrashHeldItem ? new Color(110, 58, 58) : new Color(58, 40, 40);
-            var borderColor = canTrashHeldItem ? new Color(210, 110, 110) : new Color(132, 92, 92);
-            var isHovered = currentLayout.TrashBinRectangle.Contains(interactionController.MousePosition);
+            bool canTrashHeldItem = interactionController.HeldItem != null;
+            Color backgroundColor = canTrashHeldItem ? new Color(110, 58, 58) : new Color(58, 40, 40);
+            Color borderColor = canTrashHeldItem ? new Color(210, 110, 110) : new Color(132, 92, 92);
+            bool isHovered = currentLayout.TrashBinRectangle.Contains(interactionController.MousePosition);
 
             spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, backgroundColor);
             if (isHovered)
@@ -251,7 +251,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private void DrawHeldStack(SpriteBatch spriteBatch, AType item, int count, Point mousePosition)
         {
             const int heldSlotSize = 52;
-            var heldRectangle = new Rectangle(mousePosition.X - (heldSlotSize / 2), mousePosition.Y - (heldSlotSize / 2), heldSlotSize, heldSlotSize);
+            Rectangle heldRectangle = new(mousePosition.X - (heldSlotSize / 2), mousePosition.Y - (heldSlotSize / 2), heldSlotSize, heldSlotSize);
             spriteBatch.Draw(pixelTexture, heldRectangle, new Color(68, 68, 68, 220));
             DrawRectangleOutline(spriteBatch, heldRectangle, 2, new Color(168, 168, 168));
             slotRenderer.DrawItemFitted(spriteBatch, item, heldRectangle);
@@ -260,8 +260,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle bounds, float scale)
         {
-            var textSize = textFont.MeasureString(text) * scale;
-            var textPosition = new Vector2(bounds.Center.X - (textSize.X / 2), bounds.Center.Y - (textSize.Y / 2));
+            Vector2 textSize = textFont.MeasureString(text) * scale;
+            Vector2 textPosition = new(bounds.Center.X - (textSize.X / 2), bounds.Center.Y - (textSize.Y / 2));
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, textPosition, Color.White, scale);
         }
 
@@ -275,7 +275,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {

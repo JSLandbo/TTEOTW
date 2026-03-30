@@ -18,7 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public void Update(APlayer player, float deltaTime)
         {
-            var fuelUsage = GetFuelUsagePerSecond(player,
+            float fuelUsage = GetFuelUsagePerSecond(player,
                 includeMovement: player.MovementInput != Vector2.Zero,
                 includeMining: player.Mining
             );
@@ -28,13 +28,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool CanAfford(APlayer player, float deltaTime, bool includeMovement, bool includeMining)
         {
-            var requiredFuel = GetFuelUsagePerSecond(player, includeMovement, includeMining) * deltaTime;
+            float requiredFuel = GetFuelUsagePerSecond(player, includeMovement, includeMining) * deltaTime;
             return player.FuelTank.Fuel >= requiredFuel;
         }
 
         private static float GetFuelUsagePerSecond(APlayer player, bool includeMovement, bool includeMining)
         {
-            var fuelUsage = player.Engine.StandbyFuelConsumption;
+            float fuelUsage = player.Engine.StandbyFuelConsumption;
 
             if (includeMovement && player.MovementInput != Vector2.Zero)
             {

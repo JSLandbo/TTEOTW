@@ -12,9 +12,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public void Update(APlayer player, float deltaTime, bool isGrounded)
         {
-            var settings = PlayerMovementSettings.FromPlayer(player);
-            var xVelocity = player.XVelocity;
-            var yVelocity = player.YVelocity;
+            PlayerMovementSettings settings = PlayerMovementSettings.FromPlayer(player);
+            float xVelocity = player.XVelocity;
+            float yVelocity = player.YVelocity;
 
             if (player.MovementInput.X == 0)
             {
@@ -22,8 +22,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             }
             else
             {
-                var xTarget = player.MovementInput.X * settings.MaximumSpeed;
-                var xChangeRate = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f
+                float xTarget = player.MovementInput.X * settings.MaximumSpeed;
+                float xChangeRate = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f
                     ? settings.Acceleration + settings.Drag
                     : settings.Acceleration;
 
@@ -32,8 +32,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (player.MovementInput.Y != 0)
             {
-                var yTarget = player.MovementInput.Y * settings.MaximumSpeed;
-                var yChangeRate =
+                float yTarget = player.MovementInput.Y * settings.MaximumSpeed;
+                float yChangeRate =
                     player.MovementInput.Y < 0
                         ? settings.Acceleration + settings.Drag
                         : Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
@@ -91,7 +91,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float GetHorizontalIdleDrag(float velocity, bool isGrounded)
         {
-            var dragFactor = isGrounded ? GroundHorizontalDragFactor : AirHorizontalDragFactor;
+            float dragFactor = isGrounded ? GroundHorizontalDragFactor : AirHorizontalDragFactor;
             return Math.Abs(velocity) * dragFactor;
         }
 

@@ -49,14 +49,14 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return TryEquipInventoryFromHeld(world, ref heldItem, ref heldCount);
             }
 
-            var createdItem = items.Create(heldItem.ID);
+            AType createdItem = items.Create(heldItem.ID);
 
             if (createdItem == null)
             {
                 return false;
             }
 
-            var equippedItem = GetEquippedItem(world, slotType);
+            AType equippedItem = GetEquippedItem(world, slotType);
             if (equippedItem != null && !inventoryService.TryAdd(world.Player.Inventory, equippedItem, 1))
             {
                 return false;
@@ -96,7 +96,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return $"{GetSlotLabel(slotType)} | No upgrade equipped";
             }
 
-            var tier = GetTierLabel(equippedItem);
+            string tier = GetTierLabel(equippedItem);
 
             return slotType switch
             {
@@ -118,7 +118,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return "Unknown";
             }
 
-            var nameParts = item.Name.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+            string[] nameParts = item.Name.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
             return nameParts.Length == 0 ? "Unknown" : nameParts[0];
         }
 
@@ -176,14 +176,14 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 return false;
             }
-            var usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
+            int usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
 
             if (usedCapacity > heldInventory.SizeLimit)
             {
                 return false;
             }
 
-            var upgradedInventory = new Inventory(heldInventory);
+            Inventory upgradedInventory = new(heldInventory);
 
             if (!TryMoveInventoryContents(currentInventory, upgradedInventory))
             {
@@ -198,7 +198,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private Inventory CreateEmptyInventoryItem(Inventory source)
         {
-            var createdInventory = items.Create<Inventory>(source.ID);
+            Inventory createdInventory = items.Create<Inventory>(source.ID);
 
             if (createdInventory != null)
             {
@@ -222,13 +222,13 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private bool TryMoveInventoryContents(Inventory sourceInventory, Inventory targetInventory)
         {
-            var sourceGrid = sourceInventory.Items.InternalGrid;
+            AGridBox[,] sourceGrid = sourceInventory.Items.InternalGrid;
 
-            for (var y = 0; y < sourceGrid.GetLength(1); y++)
+            for (int y = 0; y < sourceGrid.GetLength(1); y++)
             {
-                for (var x = 0; x < sourceGrid.GetLength(0); x++)
+                for (int x = 0; x < sourceGrid.GetLength(0); x++)
                 {
-                    var slot = sourceGrid[x, y];
+                    AGridBox slot = sourceGrid[x, y];
 
                     if (slot?.Item == null || slot.Count <= 0)
                     {

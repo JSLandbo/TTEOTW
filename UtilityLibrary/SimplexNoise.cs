@@ -6,12 +6,12 @@
         private const double Div3 = 1.0 / 3.0;
 
         /* Unit vectors for gradients to points on cube,equal distances apart (ie vector from center to the middle of each side */
-        private static readonly int[][] Grad3 = new[]
-            {
-                new[] { 1, 1, 0 }, new[] { -1, 1, 0 }, new[] { 1, -1, 0 }, new[] { -1, -1, 0 },
-                new[] { 1, 0, 1 }, new[] { -1, 0, 1 }, new[] { 1, 0, -1 }, new[] { -1, 0, -1 },
-                new[] { 0, 1, 1 }, new[] { 0, -1, 1 }, new[] { 0, 1, -1 }, new[] { 0, -1, -1 }
-            };
+        private static readonly int[][] Grad3 =
+            [
+                [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
+                [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
+                [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
+            ];
 
         //0..255, randomized
         private static readonly int[] P =

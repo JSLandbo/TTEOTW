@@ -20,14 +20,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 return false;
             }
 
-            var grid = building.StorageGrid.InternalGrid;
+            ModelLibrary.Abstract.Grids.AGridBox[,] grid = building.StorageGrid.InternalGrid;
 
             if (slotX < 0 || slotX >= grid.GetLength(0) || slotY < 0 || slotY >= grid.GetLength(1))
             {
                 return false;
             }
 
-            var slot = grid[slotX, slotY];
+            ModelLibrary.Abstract.Grids.AGridBox slot = grid[slotX, slotY];
 
             if (slot.Item == null)
             {
@@ -40,7 +40,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             // Shop slots hold item definitions; buying creates a fresh concrete item.
-            var purchasedItem = items.Create(slot.Item.ID);
+            ModelLibrary.Abstract.Types.AType purchasedItem = items.Create(slot.Item.ID);
 
             if (purchasedItem == null || !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
             {

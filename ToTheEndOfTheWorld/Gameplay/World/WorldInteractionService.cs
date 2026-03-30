@@ -14,7 +14,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return false;
             }
 
-            if (!TryGetCurrentBuilding(world, out var building) || building.Interaction == EBuildingInteraction.None)
+            if (!TryGetCurrentBuilding(world, out ABuilding building) || building.Interaction == EBuildingInteraction.None)
             {
                 return false;
             }
@@ -30,11 +30,11 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return false;
             }
 
-            var worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var tileX = (long)worldPosition.X;
-            var tileY = (long)worldPosition.Y;
+            Microsoft.Xna.Framework.Vector2 worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            long tileX = (long)worldPosition.X;
+            long tileY = (long)worldPosition.Y;
 
-            foreach (var candidate in world.Buildings)
+            foreach (ABuilding candidate in world.Buildings)
             {
                 if (candidate.Interaction == EBuildingInteraction.None || !candidate.ContainsTile(tileX, tileY))
                 {
@@ -51,7 +51,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
         {
-            foreach (var key in keys)
+            foreach (Keys key in keys)
             {
                 if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {

@@ -47,15 +47,15 @@ namespace ToTheEndOfTheWorld.UI.Common
 
         public void DrawItem(SpriteBatch spriteBatch, AType item, Rectangle bounds, float scale = 1.0f)
         {
-            var texture = textureResolver.Resolve(item);
+            Texture2D texture = textureResolver.Resolve(item);
 
             if (texture == null)
             {
-                var fallbackRectangle = ScaleRectangleInside(bounds, scale, 3);
+                Rectangle fallbackRectangle = ScaleRectangleInside(bounds, scale, 3);
                 spriteBatch.Draw(pixelTexture, fallbackRectangle, new Color(118, 87, 53));
 
-                var itemName = string.IsNullOrWhiteSpace(item.Name) ? $"ID{item.ID}" : item.Name;
-                var label = itemName.Length > 3 ? itemName[..3].ToUpperInvariant() : itemName.ToUpperInvariant();
+                string itemName = string.IsNullOrWhiteSpace(item.Name) ? $"ID{item.ID}" : item.Name;
+                string label = itemName.Length > 3 ? itemName[..3].ToUpperInvariant() : itemName.ToUpperInvariant();
                 GameTextRenderer.DrawBoldString(spriteBatch, textFont, label, new Vector2(bounds.X + 4, bounds.Y + 2), Color.White, stackTextScale);
                 return;
             }
@@ -65,7 +65,7 @@ namespace ToTheEndOfTheWorld.UI.Common
 
         public void DrawItemFitted(SpriteBatch spriteBatch, AType item, Rectangle bounds, int padding = 3)
         {
-            var texture = textureResolver.Resolve(item);
+            Texture2D texture = textureResolver.Resolve(item);
 
             if (texture == null)
             {
@@ -73,20 +73,20 @@ namespace ToTheEndOfTheWorld.UI.Common
                 return;
             }
 
-            var availableWidth = System.Math.Max(1, bounds.Width - (padding * 2));
-            var availableHeight = System.Math.Max(1, bounds.Height - (padding * 2));
-            var scaleX = availableWidth / (float)texture.Width;
-            var scaleY = availableHeight / (float)texture.Height;
-            var scale = System.MathF.Min(1.0f, System.MathF.Min(scaleX, scaleY));
+            int availableWidth = System.Math.Max(1, bounds.Width - (padding * 2));
+            int availableHeight = System.Math.Max(1, bounds.Height - (padding * 2));
+            float scaleX = availableWidth / (float)texture.Width;
+            float scaleY = availableHeight / (float)texture.Height;
+            float scale = System.MathF.Min(1.0f, System.MathF.Min(scaleX, scaleY));
 
             spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, texture.Width, texture.Height, scale), Color.White);
         }
 
         public void DrawStackCount(SpriteBatch spriteBatch, int count, Rectangle bounds)
         {
-            var countText = count.ToString();
-            var countSize = textFont.MeasureString(countText) * stackTextScale;
-            var countPosition = new Vector2(bounds.Right - countSize.X - 6, bounds.Bottom - countSize.Y - 4);
+            string countText = count.ToString();
+            Vector2 countSize = textFont.MeasureString(countText) * stackTextScale;
+            Vector2 countPosition = new(bounds.Right - countSize.X - 6, bounds.Bottom - countSize.Y - 4);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, countText, countPosition, Color.White, stackTextScale);
         }
 
@@ -100,8 +100,8 @@ namespace ToTheEndOfTheWorld.UI.Common
 
         private static Rectangle GetNaturalTextureRectangle(Rectangle bounds, int textureWidth, int textureHeight, float scale)
         {
-            var scaledWidth = System.Math.Max(1, (int)System.MathF.Round(textureWidth * scale));
-            var scaledHeight = System.Math.Max(1, (int)System.MathF.Round(textureHeight * scale));
+            int scaledWidth = System.Math.Max(1, (int)System.MathF.Round(textureWidth * scale));
+            int scaledHeight = System.Math.Max(1, (int)System.MathF.Round(textureHeight * scale));
 
             return new Rectangle(
                 bounds.X + ((bounds.Width - scaledWidth) / 2),
@@ -112,9 +112,9 @@ namespace ToTheEndOfTheWorld.UI.Common
 
         private static Rectangle ScaleRectangleInside(Rectangle bounds, float scale, int inset)
         {
-            var innerRectangle = new Rectangle(bounds.X + inset, bounds.Y + inset, bounds.Width - (inset * 2), bounds.Height - (inset * 2));
-            var scaledWidth = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Width * scale));
-            var scaledHeight = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Height * scale));
+            Rectangle innerRectangle = new(bounds.X + inset, bounds.Y + inset, bounds.Width - (inset * 2), bounds.Height - (inset * 2));
+            int scaledWidth = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Width * scale));
+            int scaledHeight = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Height * scale));
 
             return new Rectangle(
                 innerRectangle.X + ((innerRectangle.Width - scaledWidth) / 2),

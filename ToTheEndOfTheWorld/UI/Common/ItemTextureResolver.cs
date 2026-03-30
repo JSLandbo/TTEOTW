@@ -18,19 +18,19 @@ namespace ToTheEndOfTheWorld.UI.Common
 
         public Texture2D Resolve(AType item)
         {
-            if (item is Block block && blocks.TryGetValue(block.ID, out var blockDefinition))
+            if (item is Block block && blocks.TryGetValue(block.ID, out (string Name, Texture2D Texture, Block block) blockDefinition))
             {
                 return blockDefinition.Texture;
             }
 
-            if (items.TryGetValue(item.ID, out var itemDefinition))
+            if (items.TryGetValue(item.ID, out GameItemDefinition itemDefinition))
             {
-                if (itemDefinition.Textures.TryGetValue(PlayerOrientation.Base, out var baseTexture))
+                if (itemDefinition.Textures.TryGetValue(PlayerOrientation.Base, out Texture2D baseTexture))
                 {
                     return baseTexture;
                 }
 
-                foreach (var texture in itemDefinition.Textures.Values)
+                foreach (Texture2D texture in itemDefinition.Textures.Values)
                 {
                     return texture;
                 }

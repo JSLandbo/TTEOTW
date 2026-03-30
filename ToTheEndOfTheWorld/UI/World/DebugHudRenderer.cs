@@ -17,11 +17,11 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world)
         {
-            var player = world.Player;
-            var worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
-            var lineHeight = (int)(textFont.LineSpacing * DebugTextScale) + 2;
-            var startX = 8;
-            var startY = 8;
+            ModelLibrary.Abstract.APlayer player = world.Player;
+            Vector2 worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+            int lineHeight = (int)(textFont.LineSpacing * DebugTextScale) + 2;
+            int startX = 8;
+            int startY = 8;
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"World Position: X: {worldPosition.X}, Y: {worldPosition.Y}", new Vector2(startX, startY), Color.Black, DebugTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Player Velocity: X: {player.XVelocity}, Y: {player.YVelocity}", new Vector2(startX, startY + lineHeight), Color.Black, DebugTextScale);

@@ -25,11 +25,11 @@ namespace ToTheEndOfTheWorld.UI.World
 
         private void DrawPlayerHud(SpriteBatch spriteBatch, ModelWorld world, InventoryService inventoryService, int viewportWidth)
         {
-            var player = world.Player;
-            var moneyText = $"Money: {Math.Floor(player.Cash)}";
-            var fuelText = $"Fuel: {player.FuelTank.Fuel:0.00}/{player.FuelTank.Capacity:0.00}";
-            var heatText = $"Heat: {player.ThermalPlating.Thermals:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
-            var capacityText = $"Inventory: {inventoryService.GetUsedCapacityPercent(player.Inventory)}%";
+            ModelLibrary.Abstract.APlayer player = world.Player;
+            string moneyText = $"Money: {Math.Floor(player.Cash)}";
+            string fuelText = $"Fuel: {player.FuelTank.Fuel:0.00}/{player.FuelTank.Capacity:0.00}";
+            string heatText = $"Heat: {player.ThermalPlating.Thermals:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
+            string capacityText = $"Inventory: {inventoryService.GetUsedCapacityPercent(player.Inventory)}%";
             const float hudScale = 1.35f;
             const int cardPaddingX = 14;
             const int cardPaddingY = 10;
@@ -37,30 +37,30 @@ namespace ToTheEndOfTheWorld.UI.World
             const int topMargin = 10;
             const int rightMargin = 10;
 
-            var moneySize = textFont.MeasureString(moneyText) * hudScale;
-            var fuelSize = textFont.MeasureString(fuelText) * hudScale;
-            var heatSize = textFont.MeasureString(heatText) * hudScale;
-            var capacitySize = textFont.MeasureString(capacityText) * hudScale;
+            Vector2 moneySize = textFont.MeasureString(moneyText) * hudScale;
+            Vector2 fuelSize = textFont.MeasureString(fuelText) * hudScale;
+            Vector2 heatSize = textFont.MeasureString(heatText) * hudScale;
+            Vector2 capacitySize = textFont.MeasureString(capacityText) * hudScale;
 
-            var moneyRectangle = new Rectangle(
+            Rectangle moneyRectangle = new(
                 0,
                 topMargin,
                 (int)moneySize.X + (cardPaddingX * 2),
                 (int)moneySize.Y + (cardPaddingY * 2));
 
-            var fuelRectangle = new Rectangle(
+            Rectangle fuelRectangle = new(
                 0,
                 0,
                 (int)fuelSize.X + (cardPaddingX * 2),
                 (int)fuelSize.Y + (cardPaddingY * 2));
 
-            var inventoryRectangle = new Rectangle(
+            Rectangle inventoryRectangle = new(
                 0,
                 0,
                 (int)heatSize.X + (cardPaddingX * 2),
                 (int)heatSize.Y + (cardPaddingY * 2));
 
-            var capacityRectangle = new Rectangle(
+            Rectangle capacityRectangle = new(
                 0,
                 0,
                 (int)capacitySize.X + (cardPaddingX * 2),
@@ -70,7 +70,7 @@ namespace ToTheEndOfTheWorld.UI.World
             inventoryRectangle.Y = fuelRectangle.Bottom + cardSpacing;
             capacityRectangle.Y = inventoryRectangle.Bottom + cardSpacing;
 
-            var cardWidth = Math.Max(Math.Max(moneyRectangle.Width, fuelRectangle.Width), Math.Max(inventoryRectangle.Width, capacityRectangle.Width));
+            int cardWidth = Math.Max(Math.Max(moneyRectangle.Width, fuelRectangle.Width), Math.Max(inventoryRectangle.Width, capacityRectangle.Width));
             moneyRectangle.Width = cardWidth;
             fuelRectangle.Width = cardWidth;
             inventoryRectangle.Width = cardWidth;
@@ -85,10 +85,10 @@ namespace ToTheEndOfTheWorld.UI.World
             DrawHudCard(spriteBatch, inventoryRectangle, new Color(34, 30, 30, 205), new Color(176, 112, 92, 220));
             DrawHudCard(spriteBatch, capacityRectangle, new Color(30, 30, 30, 205), new Color(104, 104, 104, 220));
 
-            var moneyPosition = new Vector2(moneyRectangle.Right - cardPaddingX - moneySize.X, moneyRectangle.Y + cardPaddingY);
-            var fuelPosition = new Vector2(fuelRectangle.Right - cardPaddingX - fuelSize.X, fuelRectangle.Y + cardPaddingY);
-            var heatPosition = new Vector2(inventoryRectangle.Right - cardPaddingX - heatSize.X, inventoryRectangle.Y + cardPaddingY);
-            var capacityPosition = new Vector2(capacityRectangle.Right - cardPaddingX - capacitySize.X, capacityRectangle.Y + cardPaddingY);
+            Vector2 moneyPosition = new(moneyRectangle.Right - cardPaddingX - moneySize.X, moneyRectangle.Y + cardPaddingY);
+            Vector2 fuelPosition = new(fuelRectangle.Right - cardPaddingX - fuelSize.X, fuelRectangle.Y + cardPaddingY);
+            Vector2 heatPosition = new(inventoryRectangle.Right - cardPaddingX - heatSize.X, inventoryRectangle.Y + cardPaddingY);
+            Vector2 capacityPosition = new(capacityRectangle.Right - cardPaddingX - capacitySize.X, capacityRectangle.Y + cardPaddingY);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, moneyText, moneyPosition, new Color(242, 239, 230), hudScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, fuelText, fuelPosition, new Color(240, 224, 170), hudScale);

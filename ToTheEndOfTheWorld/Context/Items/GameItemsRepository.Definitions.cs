@@ -35,16 +35,16 @@ namespace ToTheEndOfTheWorld.Context.Items
 
         private void RegisterThermalPlatings(ContentManager manager)
         {
-            var scrapPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Scrap, Thermals: 0, MaxThermals: 100, ThermalDissipation: 2, Name: "Scrap Thermal Plating", Worth: ScrapTierWorth, Weight: 5);
-            var copperPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Copper, Thermals: 0, MaxThermals: 160, ThermalDissipation: 3, Name: "Copper Thermal Plating", Worth: CopperTierWorth, Weight: 6);
-            var ironPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Iron, Thermals: 0, MaxThermals: 240, ThermalDissipation: 5, Name: "Iron Thermal Plating", Worth: IronTierWorth, Weight: 7);
-            var goldPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Gold, Thermals: 0, MaxThermals: 360, ThermalDissipation: 7, Name: "Gold Thermal Plating", Worth: GoldTierWorth, Weight: 8);
-            var crystalPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Crystal, Thermals: 0, MaxThermals: 520, ThermalDissipation: 10, Name: "Crystal Thermal Plating", Worth: CrystalTierWorth, Weight: 8);
-            var diamondPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Diamond, Thermals: 0, MaxThermals: 760, ThermalDissipation: 14, Name: "Diamond Thermal Plating", Worth: DiamondTierWorth, Weight: 7);
-            var radioactivePlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Radioactive, Thermals: 0, MaxThermals: 1100, ThermalDissipation: 19, Name: "Radioactive Thermal Plating", Worth: RadioactiveTierWorth, Weight: 6);
-            var rainbowPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Rainbow, Thermals: 0, MaxThermals: 1600, ThermalDissipation: 25, Name: "Rainbow Thermal Plating", Worth: RainbowTierWorth, Weight: 5);
-            var mythrilPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Mythril, Thermals: 0, MaxThermals: 2300, ThermalDissipation: 34, Name: "Mythril Thermal Plating", Worth: MythrilTierWorth, Weight: 4);
-            var adamantPlating = new ThermalPlating(ID: GameIds.Items.ThermalPlatings.Adamant, Thermals: 0, MaxThermals: 3200, ThermalDissipation: 45, Name: "Adamant Thermal Plating", Worth: AdamantTierWorth, Weight: 4);
+            ThermalPlating scrapPlating = new(ID: GameIds.Items.ThermalPlatings.Scrap, Thermals: 0, MaxThermals: 100, ThermalDissipation: 2, Name: "Scrap Thermal Plating", Worth: ScrapTierWorth, Weight: 5);
+            ThermalPlating copperPlating = new(ID: GameIds.Items.ThermalPlatings.Copper, Thermals: 0, MaxThermals: 160, ThermalDissipation: 3, Name: "Copper Thermal Plating", Worth: CopperTierWorth, Weight: 6);
+            ThermalPlating ironPlating = new(ID: GameIds.Items.ThermalPlatings.Iron, Thermals: 0, MaxThermals: 240, ThermalDissipation: 5, Name: "Iron Thermal Plating", Worth: IronTierWorth, Weight: 7);
+            ThermalPlating goldPlating = new(ID: GameIds.Items.ThermalPlatings.Gold, Thermals: 0, MaxThermals: 360, ThermalDissipation: 7, Name: "Gold Thermal Plating", Worth: GoldTierWorth, Weight: 8);
+            ThermalPlating crystalPlating = new(ID: GameIds.Items.ThermalPlatings.Crystal, Thermals: 0, MaxThermals: 520, ThermalDissipation: 10, Name: "Crystal Thermal Plating", Worth: CrystalTierWorth, Weight: 8);
+            ThermalPlating diamondPlating = new(ID: GameIds.Items.ThermalPlatings.Diamond, Thermals: 0, MaxThermals: 760, ThermalDissipation: 14, Name: "Diamond Thermal Plating", Worth: DiamondTierWorth, Weight: 7);
+            ThermalPlating radioactivePlating = new(ID: GameIds.Items.ThermalPlatings.Radioactive, Thermals: 0, MaxThermals: 1100, ThermalDissipation: 19, Name: "Radioactive Thermal Plating", Worth: RadioactiveTierWorth, Weight: 6);
+            ThermalPlating rainbowPlating = new(ID: GameIds.Items.ThermalPlatings.Rainbow, Thermals: 0, MaxThermals: 1600, ThermalDissipation: 25, Name: "Rainbow Thermal Plating", Worth: RainbowTierWorth, Weight: 5);
+            ThermalPlating mythrilPlating = new(ID: GameIds.Items.ThermalPlatings.Mythril, Thermals: 0, MaxThermals: 2300, ThermalDissipation: 34, Name: "Mythril Thermal Plating", Worth: MythrilTierWorth, Weight: 4);
+            ThermalPlating adamantPlating = new(ID: GameIds.Items.ThermalPlatings.Adamant, Thermals: 0, MaxThermals: 3200, ThermalDissipation: 45, Name: "Adamant Thermal Plating", Worth: AdamantTierWorth, Weight: 4);
 
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Scrap, "ScrapThermalPlating", LoadSingleTexture(manager, "Player/ThermalPlatings/ScrapThermalPlating"), scrapPlating, EEquipmentType.ThermalPlating, 0);
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Copper, "CopperThermalPlating", LoadSingleTexture(manager, "Player/ThermalPlatings/CopperThermalPlating"), copperPlating, EEquipmentType.ThermalPlating, 1);

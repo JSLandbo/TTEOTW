@@ -5,15 +5,15 @@ namespace ToTheEndOfTheWorld.Gameplay.Events
 {
     public sealed class GameEventBus
     {
-        private readonly Dictionary<Type, List<Delegate>> handlersByType = new();
+        private readonly Dictionary<Type, List<Delegate>> handlersByType = [];
 
         public void Subscribe<TEvent>(Action<TEvent> handler)
         {
-            var eventType = typeof(TEvent);
+            Type eventType = typeof(TEvent);
 
-            if (!handlersByType.TryGetValue(eventType, out var handlers))
+            if (!handlersByType.TryGetValue(eventType, out List<Delegate> handlers))
             {
-                handlers = new List<Delegate>();
+                handlers = [];
                 handlersByType.Add(eventType, handlers);
             }
 
@@ -22,12 +22,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Events
 
         public void Publish<TEvent>(TEvent gameEvent)
         {
-            if (!handlersByType.TryGetValue(typeof(TEvent), out var handlers))
+            if (!handlersByType.TryGetValue(typeof(TEvent), out List<Delegate> handlers))
             {
                 return;
             }
 
-            foreach (var handler in handlers)
+            foreach (Delegate handler in handlers)
             {
                 ((Action<TEvent>)handler)(gameEvent);
             }

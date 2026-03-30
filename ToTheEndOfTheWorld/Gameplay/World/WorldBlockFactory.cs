@@ -13,8 +13,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public Block CreateMutableWorldBlock(float x, float y)
         {
-            var definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
-            var block = new Block(definition.Value.block);
+            System.Collections.Generic.KeyValuePair<int, (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, Block block)> definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
+            Block block = new(definition.Value.block);
 
             if (definition.Key == 2 && x > 0)
             {

@@ -28,31 +28,31 @@ namespace ToTheEndOfTheWorld.UI.World
                 return;
             }
 
-            var centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
-            var playerKey = world.Player.Coordinates;
+            Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+            Vector2 playerKey = world.Player.Coordinates;
 
-            foreach (var building in world.Buildings)
+            foreach (ABuilding building in world.Buildings)
             {
                 if (!building.IsBackground)
                 {
                     continue;
                 }
 
-                var renderKeyX = playerKey.X + (building.WorldX - centerWorldPosition.X);
-                var renderKeyY = playerKey.Y + (building.WorldY - centerWorldPosition.Y);
-                var location = new Vector2(
+                float renderKeyX = playerKey.X + (building.WorldX - centerWorldPosition.X);
+                float renderKeyY = playerKey.Y + (building.WorldY - centerWorldPosition.Y);
+                Vector2 location = new(
                     renderKeyX * tileSize - (0.5f * tileSize) - world.Player.XOffset + building.XOffset,
                     renderKeyY * tileSize - (0.5f * tileSize) - world.Player.YOffset + building.YOffset
                 );
 
-                var buildingRectangle = new Rectangle(
+                Rectangle buildingRectangle = new(
                     (int)location.X,
                     (int)location.Y,
                     building.TilesWide * tileSize,
                     building.TilesHigh * tileSize
                 );
 
-                var buildingTexture = textureResolver.Resolve(building);
+                Texture2D buildingTexture = textureResolver.Resolve(building);
 
                 if (buildingTexture == null)
                 {
@@ -71,8 +71,8 @@ namespace ToTheEndOfTheWorld.UI.World
                 return;
             }
 
-            var promptSize = textFont.MeasureString(building.InteractionPrompt) * PromptTextScale;
-            var promptRectangle = new Rectangle(
+            Vector2 promptSize = textFont.MeasureString(building.InteractionPrompt) * PromptTextScale;
+            Rectangle promptRectangle = new(
                 (int)((viewportWidth - promptSize.X) / 2) - 16,
                 viewportHeight - 64,
                 (int)promptSize.X + 32,

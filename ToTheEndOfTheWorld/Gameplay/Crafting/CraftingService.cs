@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
         public bool TryCraft(AGridBox[,] craftingGrid, AGridBox outputSlot, int maxStackSize)
         {
-            if (!TryResolveRecipe(craftingGrid, outputSlot, maxStackSize, out var recipe, out var craftedItem, out var craftedCount, out var craftCount))
+            if (!TryResolveRecipe(craftingGrid, outputSlot, maxStackSize, out CraftingRecipe recipe, out AType craftedItem, out int craftedCount, out int craftCount))
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
         private bool TryResolveRecipe(AGridBox[,] craftingGrid, AGridBox outputSlot, int maxStackSize, out CraftingRecipe recipe, out AType craftedItem, out int craftedCount, out int craftCount)
         {
-            foreach (var candidate in recipes)
+            foreach (CraftingRecipe candidate in recipes)
             {
                 if (!TryGetCraftCount(craftingGrid, candidate, out craftCount))
                 {
@@ -63,7 +63,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         continue;
                     }
 
-                    var availableOutputSpace = maxStackSize - outputSlot.Count;
+                    int availableOutputSpace = maxStackSize - outputSlot.Count;
                     craftCount = Math.Min(craftCount, availableOutputSpace / candidate.OutputCount);
                 }
                 else
@@ -89,11 +89,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
         private static void ConsumeRecipeIngredients(AGridBox[,] craftingGrid, CraftingRecipe recipe, int craftCount)
         {
-            for (var y = 0; y < craftingGrid.GetLength(1); y++)
+            for (int y = 0; y < craftingGrid.GetLength(1); y++)
             {
-                for (var x = 0; x < craftingGrid.GetLength(0); x++)
+                for (int x = 0; x < craftingGrid.GetLength(0); x++)
                 {
-                    var ingredient = recipe.Pattern[x, y];
+                    CraftingIngredient ingredient = recipe.Pattern[x, y];
                     if (ingredient == null)
                     {
                         continue;
@@ -113,14 +113,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
         private static bool TryGetCraftCount(AGridBox[,] craftingGrid, CraftingRecipe recipe, out int craftCount)
         {
             craftCount = int.MaxValue;
-            var hasRequiredIngredient = false;
+            bool hasRequiredIngredient = false;
 
-            for (var y = 0; y < craftingGrid.GetLength(1); y++)
+            for (int y = 0; y < craftingGrid.GetLength(1); y++)
             {
-                for (var x = 0; x < craftingGrid.GetLength(0); x++)
+                for (int x = 0; x < craftingGrid.GetLength(0); x++)
                 {
-                    var slot = craftingGrid[x, y];
-                    var ingredient = recipe.Pattern[x, y];
+                    AGridBox slot = craftingGrid[x, y];
+                    CraftingIngredient ingredient = recipe.Pattern[x, y];
 
                     if (ingredient == null)
                     {

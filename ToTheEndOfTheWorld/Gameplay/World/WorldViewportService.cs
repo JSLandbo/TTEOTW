@@ -18,15 +18,15 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public void EnsurePadding(ModelWorld world, Vector2 centerWorldPosition)
         {
-            var playerKey = GetCenterRenderKey(world.BlocksWide, world.BlocksHigh);
-            var paddedRender = new Dictionary<Vector2, Vector2>();
+            Vector2 playerKey = GetCenterRenderKey(world.BlocksWide, world.BlocksHigh);
+            Dictionary<Vector2, Vector2> paddedRender = [];
 
-            for (var x = -1; x <= world.BlocksWide + 1; x++)
+            for (int x = -1; x <= world.BlocksWide + 1; x++)
             {
-                for (var y = -1; y <= world.BlocksHigh + 1; y++)
+                for (int y = -1; y <= world.BlocksHigh + 1; y++)
                 {
-                    var renderKey = new Vector2(x, y);
-                    var worldLocation = new Vector2(
+                    Vector2 renderKey = new(x, y);
+                    Vector2 worldLocation = new(
                         centerWorldPosition.X + (x - playerKey.X),
                         centerWorldPosition.Y + (y - playerKey.Y)
                     );
@@ -53,9 +53,9 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public void Move(ModelWorld world, float x, float y)
         {
-            var updated = new Dictionary<Vector2, Vector2>();
+            Dictionary<Vector2, Vector2> updated = [];
 
-            foreach (var block in world.WorldRender)
+            foreach (KeyValuePair<Vector2, Vector2> block in world.WorldRender)
             {
                 updated.Add(new Vector2(block.Key.X, block.Key.Y), new Vector2(block.Value.X + x, block.Value.Y + y));
             }
