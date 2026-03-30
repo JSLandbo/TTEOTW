@@ -5,15 +5,18 @@ namespace ToTheEndOfTheWorld.Gameplay.World
         private readonly SellShopBuildingFactory sellShopBuildingFactory;
         private readonly EquipmentShopBuildingFactory equipmentShopBuildingFactory;
         private readonly FuelStationBuildingFactory fuelStationBuildingFactory;
+        private readonly GadgetShopBuildingFactory gadgetShopBuildingFactory;
 
         public WorldBootstrapper(
             SellShopBuildingFactory sellShopBuildingFactory,
             EquipmentShopBuildingFactory equipmentShopBuildingFactory,
-            FuelStationBuildingFactory fuelStationBuildingFactory)
+            FuelStationBuildingFactory fuelStationBuildingFactory,
+            GadgetShopBuildingFactory gadgetShopBuildingFactory)
         {
             this.sellShopBuildingFactory = sellShopBuildingFactory;
             this.equipmentShopBuildingFactory = equipmentShopBuildingFactory;
             this.fuelStationBuildingFactory = fuelStationBuildingFactory;
+            this.gadgetShopBuildingFactory = gadgetShopBuildingFactory;
         }
 
         public void EnsureInitialized(ModelWorld world)
@@ -29,10 +32,13 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             long equipmentShopY = spawnY - 1;
             long fuelStationX = spawnX + 12;
             long fuelStationY = spawnY - 1;
+            long gadgetShopX = spawnX + 16;
+            long gadgetShopY = spawnY - 2;
 
             world.Buildings.Add(sellShopBuildingFactory.Create(shopX, shopY));
             world.Buildings.Add(equipmentShopBuildingFactory.Create(equipmentShopX, equipmentShopY));
             world.Buildings.Add(fuelStationBuildingFactory.Create(fuelStationX, fuelStationY));
+            world.Buildings.Add(gadgetShopBuildingFactory.Create(gadgetShopX, gadgetShopY));
         }
     }
 }
