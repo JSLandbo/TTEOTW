@@ -19,6 +19,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private ABuilding building = null!;
         private EquipmentShopLayout currentLayout;
         private bool isOpen;
+        private Point mousePosition;
 
         public EquipmentShopOverlay(EquipmentShopService equipmentShopService, WorldElementsRepository blocks, GameItemsRepository items)
         {
@@ -60,6 +61,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
+            mousePosition = currentMouseState.Position;
             EnsureLayout(viewportWidth, viewportHeight);
             interactionController.TryHandleBuy(currentMouseState, previousMouseState, currentLayout, world, building, equipmentShopService);
         }
@@ -72,7 +74,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             EnsureLayout(viewportWidth, viewportHeight);
-            renderer.Draw(spriteBatch, world, building, currentLayout, viewportWidth, viewportHeight);
+            renderer.Draw(spriteBatch, world, building, currentLayout, viewportWidth, viewportHeight, mousePosition);
         }
 
         private void EnsureLayout(int viewportWidth, int viewportHeight)

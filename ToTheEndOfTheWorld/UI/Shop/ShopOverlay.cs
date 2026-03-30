@@ -8,6 +8,7 @@ using ModelLibrary.Enums;
 using System;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -38,10 +39,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private readonly ShopService shopService;
         private readonly InventoryItemTextureResolver textureResolver;
 
+        private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private SpriteFont textFont;
         private bool isOpen;
         private int scrollOffset;
+        private Point mousePosition;
 
         public ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items)
         {
@@ -64,6 +67,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData(new[] { Color.White });
             textFont = content.Load<SpriteFont>("Fonts/text");
+            slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
@@ -85,6 +89,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             var visibleRows = GetVisibleRowCount(listRectangle);
             var maxScrollOffset = Math.Max(0, totalRows - visibleRows);
             var scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
+            mousePosition = currentMouseState.Position;
 
             if (scrollDelta != 0 && listRectangle.Contains(currentMouseState.Position))
             {
@@ -151,12 +156,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
                     break;
                 }
 
-                DrawSellableEntry(spriteBatch, sellableEntries[firstEntryIndex], GetValueEntryRectangle(rectangle, visibleIndex, 0));
+                var firstEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 0);
+                DrawSellableEntry(spriteBatch, sellableEntries[firstEntryIndex], firstEntryRectangle, firstEntryRectangle.Contains(mousePosition));
 
                 var secondEntryIndex = firstEntryIndex + 1;
                 if (secondEntryIndex < sellableEntries.Count)
                 {
-                    DrawSellableEntry(spriteBatch, sellableEntries[secondEntryIndex], GetValueEntryRectangle(rectangle, visibleIndex, 1));
+                    var secondEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 1);
+                    DrawSellableEntry(spriteBatch, sellableEntries[secondEntryIndex], secondEntryRectangle, secondEntryRectangle.Contains(mousePosition));
                 }
             }
 
@@ -166,7 +173,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
         }
 
-        private void DrawSellableEntry(SpriteBatch spriteBatch, ShopService.SellableInventoryEntry entry, Rectangle entryRectangle)
+        private void DrawSellableEntry(SpriteBatch spriteBatch, ShopService.SellableInventoryEntry entry, Rectangle entryRectangle, bool isHovered)
         {
             var iconRectangle = new Rectangle(
                 entryRectangle.X + ValueEntryPadding,
@@ -175,15 +182,15 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 ValueIconSize);
             var titlePosition = new Vector2(iconRectangle.Right + 14, entryRectangle.Y + 8);
             var detailPosition = new Vector2(iconRectangle.Right + 14, entryRectangle.Y + 38);
-            var texture = textureResolver.Resolve(entry.Item);
-
-            spriteBatch.Draw(pixelTexture, entryRectangle, new Color(35, 35, 35));
-            DrawRectangleOutline(spriteBatch, entryRectangle, 1, new Color(52, 52, 52));
-
-            if (texture != null)
+            spriteBatch.Draw(pixelTexture, entryRectangle, isHovered ? new Color(44, 44, 44) : new Color(35, 35, 35));
+            if (isHovered)
             {
-                spriteBatch.Draw(texture, iconRectangle, Color.White);
+                spriteBatch.Draw(pixelTexture, entryRectangle, Color.White * 0.05f);
             }
+
+            DrawRectangleOutline(spriteBatch, entryRectangle, 1, isHovered ? new Color(110, 110, 110) : new Color(52, 52, 52));
+
+            slotRenderer.DrawItem(spriteBatch, entry.Item, iconRectangle, isHovered ? 0.95f : 1.0f);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, entry.Item.Name, titlePosition, new Color(236, 236, 236), ListTitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {Math.Floor(entry.TotalValue)}", detailPosition, new Color(214, 214, 214), ListBodyTextScale);

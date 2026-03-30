@@ -49,30 +49,26 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private Grid CreateShopGrid()
         {
-            var equipmentDefinitions = items.Values
-                .Where(definition => definition.Buyable && definition.Type == GameItemType.Equipment && definition.EquipmentType != EquipmentType.None)
-                .OrderBy(definition => definition.EquipmentType)
-                .ThenBy(definition => definition.Tier)
+            var orderedDefinitions = items.Values
+                .Where(definition => definition.Definition.ID >= 10000 && definition.Definition.ID < 10700)
+                .OrderBy(definition => definition.Definition.ID)
                 .ToList();
-            var rows = GetRequiredRows(equipmentDefinitions);
+            var rows = GetRequiredRows(orderedDefinitions.Count);
             var storageGrid = new Grid(Vector2.Zero, new GridBox[GridColumns, rows]);
+            var index = 0;
 
             for (var y = 0; y < storageGrid.InternalGrid.GetLength(1); y++)
             {
                 for (var x = 0; x < storageGrid.InternalGrid.GetLength(0); x++)
                 {
-                    storageGrid.InternalGrid[x, y] = new GridBox(null, 0);
-                }
-            }
+                    if (index >= orderedDefinitions.Count)
+                    {
+                        storageGrid.InternalGrid[x, y] = new GridBox(null, 0);
+                        continue;
+                    }
 
-            foreach (var definition in equipmentDefinitions)
-            {
-                var column = definition.Tier;
-                var row = (int)definition.EquipmentType - 1;
-
-                if (column >= 0 && column < GridColumns && row >= 0 && row < rows)
-                {
-                    storageGrid.InternalGrid[column, row] = new GridBox(definition.Definition, 1);
+                    storageGrid.InternalGrid[x, y] = new GridBox(orderedDefinitions[index].Definition, 1);
+                    index++;
                 }
             }
 
@@ -96,10 +92,9 @@ namespace ToTheEndOfTheWorld.Gameplay
             return true;
         }
 
-        private static int GetRequiredRows(System.Collections.Generic.IReadOnlyCollection<GameItemDefinition> definitions)
+        private static int GetRequiredRows(int itemCount)
         {
-            var highestRow = definitions.Count == 0 ? 0 : definitions.Max(definition => (int)definition.EquipmentType - 1);
-            return System.Math.Max(1, highestRow + 1);
+            return System.Math.Max(1, (itemCount + GridColumns - 1) / GridColumns);
         }
     }
 }

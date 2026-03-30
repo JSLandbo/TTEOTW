@@ -6,9 +6,9 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
-using System;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
@@ -26,6 +26,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private readonly InventoryItemUseService itemUseService;
         private readonly InventoryInteractionController interactionController = new();
         private readonly InventoryItemTextureResolver textureResolver;
+        private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private SpriteFont textFont;
         private InventoryLayout currentLayout;
@@ -47,6 +48,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData(new[] { Color.White });
             textFont = content.Load<SpriteFont>("Fonts/text");
+            slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont, StackTextScale);
         }
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, World world, int viewportWidth, int viewportHeight)
@@ -141,16 +143,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawSlot(SpriteBatch spriteBatch, AGridBox slot, Rectangle slotRectangle)
         {
-            spriteBatch.Draw(pixelTexture, slotRectangle, new Color(62, 62, 62));
-            DrawRectangleOutline(spriteBatch, slotRectangle, 2, new Color(124, 124, 124));
-
-            if (slot.Item == null || slot.Count <= 0)
-            {
-                return;
-            }
-
-            DrawItemTexture(spriteBatch, slot.Item, slotRectangle);
-            DrawStackCount(spriteBatch, slot.Count, slotRectangle);
+            var isHovered = slotRectangle.Contains(interactionController.MousePosition);
+            slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(62, 62, 62), new Color(124, 124, 124), isHovered: isHovered);
         }
 
         private void DrawEquipmentSlots(SpriteBatch spriteBatch, World world)
@@ -169,12 +163,21 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             var slotRectangle = currentLayout.GetEquipmentSlotRectangle(slotType);
             var slotItem = itemUseService.GetEquippedItem(world, slotType);
             var canEquipHeldItem = interactionController.HeldItem != null && itemUseService.CanEquip(interactionController.HeldItem, slotType);
-            spriteBatch.Draw(pixelTexture, slotRectangle, canEquipHeldItem ? new Color(78, 88, 78) : new Color(58, 58, 58));
-            DrawRectangleOutline(spriteBatch, slotRectangle, 2, canEquipHeldItem ? new Color(162, 194, 162) : new Color(132, 132, 132));
+            var isHovered = slotRectangle.Contains(interactionController.MousePosition);
+            var slotBackgroundColor = canEquipHeldItem ? new Color(78, 88, 78) : new Color(58, 58, 58);
+            var slotBorderColor = canEquipHeldItem ? new Color(162, 194, 162) : new Color(132, 132, 132);
+
+            spriteBatch.Draw(pixelTexture, slotRectangle, slotBackgroundColor);
+            if (isHovered)
+            {
+                spriteBatch.Draw(pixelTexture, slotRectangle, Color.White * 0.08f);
+            }
+
+            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? Brighten(slotBorderColor, 28) : slotBorderColor);
 
             if (slotItem != null)
             {
-                DrawItemTexture(spriteBatch, slotItem, slotRectangle);
+                slotRenderer.DrawItem(spriteBatch, slotItem, slotRectangle, isHovered ? 0.95f : 1.0f);
             }
         }
 
@@ -212,9 +215,15 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             var canTrashHeldItem = interactionController.HeldItem != null;
             var backgroundColor = canTrashHeldItem ? new Color(110, 58, 58) : new Color(58, 40, 40);
             var borderColor = canTrashHeldItem ? new Color(210, 110, 110) : new Color(132, 92, 92);
+            var isHovered = currentLayout.TrashBinRectangle.Contains(interactionController.MousePosition);
 
             spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, backgroundColor);
-            DrawRectangleOutline(spriteBatch, currentLayout.TrashBinRectangle, 2, borderColor);
+            if (isHovered)
+            {
+                spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, Color.White * 0.08f);
+            }
+
+            DrawRectangleOutline(spriteBatch, currentLayout.TrashBinRectangle, 2, isHovered ? Brighten(borderColor, 28) : borderColor);
             DrawCenteredText(spriteBatch, "X", currentLayout.TrashBinRectangle, ButtonTextScale);
         }
 
@@ -247,35 +256,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             var heldRectangle = new Rectangle(mousePosition.X - (heldSlotSize / 2), mousePosition.Y - (heldSlotSize / 2), heldSlotSize, heldSlotSize);
             spriteBatch.Draw(pixelTexture, heldRectangle, new Color(68, 68, 68, 220));
             DrawRectangleOutline(spriteBatch, heldRectangle, 2, new Color(168, 168, 168));
-            DrawItemTexture(spriteBatch, item, heldRectangle);
-            DrawStackCount(spriteBatch, count, heldRectangle);
-        }
-
-        private void DrawItemTexture(SpriteBatch spriteBatch, AType item, Rectangle slotRectangle)
-        {
-            var texture = textureResolver.Resolve(item);
-
-            if (texture == null)
-            {
-                var fallbackRectangle = new Rectangle(slotRectangle.X + 6, slotRectangle.Y + 6, slotRectangle.Width - 12, slotRectangle.Height - 12);
-                spriteBatch.Draw(pixelTexture, fallbackRectangle, new Color(118, 87, 53));
-
-                var itemName = string.IsNullOrWhiteSpace(item.Name) ? $"ID{item.ID}" : item.Name;
-                var label = itemName.Length > 3 ? itemName[..3].ToUpperInvariant() : itemName.ToUpperInvariant();
-                GameTextRenderer.DrawBoldString(spriteBatch, textFont, label, new Vector2(slotRectangle.X + 6, slotRectangle.Y + 4), Color.White, StackTextScale);
-                return;
-            }
-
-            var textureRectangle = FitTextureInside(slotRectangle, texture.Width, texture.Height, 8);
-            spriteBatch.Draw(texture, textureRectangle, Color.White);
-        }
-
-        private void DrawStackCount(SpriteBatch spriteBatch, int count, Rectangle slotRectangle)
-        {
-            var countText = count.ToString();
-            var countSize = textFont.MeasureString(countText) * StackTextScale;
-            var countPosition = new Vector2(slotRectangle.Right - countSize.X - 6, slotRectangle.Bottom - countSize.Y - 4);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, countText, countPosition, Color.White, StackTextScale);
+            slotRenderer.DrawItemFitted(spriteBatch, item, heldRectangle);
+            slotRenderer.DrawStackCount(spriteBatch, count, heldRectangle);
         }
 
         private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle bounds, float scale)
@@ -293,16 +275,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
         }
 
-        private static Rectangle FitTextureInside(Rectangle bounds, int textureWidth, int textureHeight, int padding)
+        private static Color Brighten(Color color, int amount)
         {
-            var availableWidth = bounds.Width - (padding * 2);
-            var availableHeight = bounds.Height - (padding * 2);
-            var scale = Math.Min((float)availableWidth / textureWidth, (float)availableHeight / textureHeight);
-            var width = (int)(textureWidth * scale);
-            var height = (int)(textureHeight * scale);
-            var x = bounds.X + ((bounds.Width - width) / 2);
-            var y = bounds.Y + ((bounds.Height - height) / 2);
-            return new Rectangle(x, y, width, height);
+            return new Color(
+                System.Math.Min(255, color.R + amount),
+                System.Math.Min(255, color.G + amount),
+                System.Math.Min(255, color.B + amount),
+                color.A);
         }
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
