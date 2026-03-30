@@ -4,8 +4,8 @@ namespace ModelLibrary.Abstract.Blocks
 {
     public abstract class ABlockInfo
     {
-        public int MinimumDepth { get; set; }
-        public int MaximumDepth { get; set; }
+        public long MinimumDepth { get; set; }
+        public long MaximumDepth { get; set; }
         public Vector2 OccurrenceSpan { get; set; }
         public float Weight { get; set; }
     }

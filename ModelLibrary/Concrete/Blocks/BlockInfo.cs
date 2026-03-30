@@ -12,7 +12,7 @@ namespace ModelLibrary.Concrete.Blocks
         }
 
         [JsonConstructor]
-        public BlockInfo(int MinimumDepth = -int.MaxValue, int MaximumDepth = int.MaxValue, Vector2 OccurrenceSpan = new Vector2(), float Weight = 0.0f)
+        public BlockInfo(long MinimumDepth = long.MinValue, long MaximumDepth = long.MaxValue, Vector2 OccurrenceSpan = new Vector2(), float Weight = 0.0f)
         {
             this.MinimumDepth = MinimumDepth;
             this.MaximumDepth = MaximumDepth;
