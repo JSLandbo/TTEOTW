@@ -4,14 +4,14 @@ using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.Context;
 
-namespace ToTheEndOfTheWorld.UI.Inventory
+namespace ToTheEndOfTheWorld.UI.Common
 {
-    public sealed class InventoryItemTextureResolver
+    public sealed class ItemTextureResolver
     {
         private readonly WorldElementsRepository blocks;
         private readonly GameItemsRepository items;
 
-        public InventoryItemTextureResolver(WorldElementsRepository blocks, GameItemsRepository items)
+        public ItemTextureResolver(WorldElementsRepository blocks, GameItemsRepository items)
         {
             this.blocks = blocks;
             this.items = items;

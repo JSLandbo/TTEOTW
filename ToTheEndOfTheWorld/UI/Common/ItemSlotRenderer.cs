@@ -10,12 +10,12 @@ namespace ToTheEndOfTheWorld.UI.Common
     public sealed class ItemSlotRenderer
     {
         private const float HoverItemScale = 0.95f;
-        private readonly InventoryItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver;
         private readonly Texture2D pixelTexture;
         private readonly SpriteFont textFont;
         private readonly float stackTextScale;
 
-        public ItemSlotRenderer(InventoryItemTextureResolver textureResolver, Texture2D pixelTexture, SpriteFont textFont, float stackTextScale = 1.05f)
+        public ItemSlotRenderer(ItemTextureResolver textureResolver, Texture2D pixelTexture, SpriteFont textFont, float stackTextScale = 1.05f)
         {
             this.textureResolver = textureResolver;
             this.pixelTexture = pixelTexture;
@@ -31,7 +31,7 @@ namespace ToTheEndOfTheWorld.UI.Common
                 spriteBatch.Draw(pixelTexture, slotRectangle, Color.White * 0.08f);
             }
 
-            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? Brighten(borderColor, 36) : borderColor);
+            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? UiColorHelper.Brighten(borderColor, 36) : borderColor);
 
             if (slot.Item == null || slot.Count <= 0)
             {
@@ -122,15 +122,6 @@ namespace ToTheEndOfTheWorld.UI.Common
                 innerRectangle.Y + ((innerRectangle.Height - scaledHeight) / 2),
                 scaledWidth,
                 scaledHeight);
-        }
-
-        private static Color Brighten(Color color, int amount)
-        {
-            return new Color(
-                System.Math.Min(255, color.R + amount),
-                System.Math.Min(255, color.G + amount),
-                System.Math.Min(255, color.B + amount),
-                color.A);
         }
     }
 }

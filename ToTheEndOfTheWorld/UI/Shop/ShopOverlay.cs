@@ -9,7 +9,6 @@ using System;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay;
 using ToTheEndOfTheWorld.UI.Common;
-using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
@@ -37,7 +36,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const float FooterTextScale = 1.1f;
 
         private readonly ShopService shopService;
-        private readonly InventoryItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver;
 
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
@@ -49,7 +48,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items)
         {
             this.shopService = shopService;
-            textureResolver = new InventoryItemTextureResolver(blocks, items);
+            textureResolver = new ItemTextureResolver(blocks, items);
         }
 
         public EBuildingInteraction Action => EBuildingInteraction.Shop;

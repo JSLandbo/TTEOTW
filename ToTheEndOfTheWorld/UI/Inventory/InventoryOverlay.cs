@@ -25,7 +25,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private readonly CraftingService craftingService;
         private readonly InventoryItemUseService itemUseService;
         private readonly InventoryInteractionController interactionController = new();
-        private readonly InventoryItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver;
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private SpriteFont textFont;
@@ -37,7 +37,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             this.inventoryService = inventoryService;
             this.craftingService = craftingService;
             this.itemUseService = itemUseService;
-            textureResolver = new InventoryItemTextureResolver(blocks, items);
+            textureResolver = new ItemTextureResolver(blocks, items);
         }
 
         public bool IsOpen => isOpen;
@@ -173,7 +173,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 spriteBatch.Draw(pixelTexture, slotRectangle, Color.White * 0.08f);
             }
 
-            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? Brighten(slotBorderColor, 28) : slotBorderColor);
+            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? UiColorHelper.Brighten(slotBorderColor, 28) : slotBorderColor);
 
             if (slotItem != null)
             {
@@ -223,7 +223,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, Color.White * 0.08f);
             }
 
-            DrawRectangleOutline(spriteBatch, currentLayout.TrashBinRectangle, 2, isHovered ? Brighten(borderColor, 28) : borderColor);
+            DrawRectangleOutline(spriteBatch, currentLayout.TrashBinRectangle, 2, isHovered ? UiColorHelper.Brighten(borderColor, 28) : borderColor);
             DrawCenteredText(spriteBatch, "X", currentLayout.TrashBinRectangle, ButtonTextScale);
         }
 
@@ -273,15 +273,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
             spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
             spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
-        }
-
-        private static Color Brighten(Color color, int amount)
-        {
-            return new Color(
-                System.Math.Min(255, color.R + amount),
-                System.Math.Min(255, color.G + amount),
-                System.Math.Min(255, color.B + amount),
-                color.A);
         }
 
         private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)

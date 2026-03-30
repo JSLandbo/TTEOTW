@@ -8,7 +8,6 @@ using ModelLibrary.Concrete;
 using System;
 using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.UI.Common;
-using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
@@ -20,14 +19,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const float PriceTextScale = 1.1f;
         private const float FooterTextScale = 1.1f;
 
-        private readonly InventoryItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver;
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
 
         public EquipmentShopRenderer(WorldElementsRepository blocks, GameItemsRepository items)
         {
-            textureResolver = new InventoryItemTextureResolver(blocks, items);
+            textureResolver = new ItemTextureResolver(blocks, items);
         }
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
