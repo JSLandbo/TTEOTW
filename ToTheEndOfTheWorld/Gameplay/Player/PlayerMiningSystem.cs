@@ -13,9 +13,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private readonly WorldInteractionsRepository interactions;
         private readonly GameEventBus eventBus;
         private readonly PlayerHeatSystem playerHeatSystem;
+        private readonly PlayerHullSystem playerHullSystem;
         private readonly PlayerFuelSystem playerFuelSystem;
 
-        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerFuelSystem playerFuelSystem, int tileSize)
+        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, int tileSize)
         {
             miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
             this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
@@ -23,6 +24,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             this.interactions = interactions;
             this.eventBus = eventBus;
             this.playerHeatSystem = playerHeatSystem;
+            this.playerHullSystem = playerHullSystem;
             this.playerFuelSystem = playerFuelSystem;
         }
 
@@ -82,7 +84,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            if (playerHeatSystem.WouldOverheat(player, interaction.Block.Info?.MiningHeatGeneration ?? 0.1f))
+            if (playerHeatSystem.IsCapped(player))
             {
                 player.DrillExtended = false;
                 return;
@@ -186,13 +188,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             {
                 float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.1f;
 
-                if (playerHeatSystem.WouldOverheat(player, heatGeneration))
+                if (playerHeatSystem.IsCapped(player))
                 {
                     return false;
                 }
 
                 interaction.Block.TakeDamage(player.Drill.Damage);
-                playerHeatSystem.AddHeat(player, heatGeneration);
+                float overflowHeat = playerHeatSystem.AddHeat(player, heatGeneration);
+
+                if (overflowHeat > 0.0f)
+                {
+                    playerHullSystem.ApplyHeatOverflowDamage(player, overflowHeat);
+                }
             }
 
             return true;

@@ -10,13 +10,15 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private readonly float tileTransitionOffset;
         private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private readonly WorldViewportService worldViewportService;
+        private readonly PlayerHullSystem playerHullSystem;
 
-        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, int tileSize)
+        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, PlayerHullSystem playerHullSystem, int tileSize)
         {
             this.tileSize = tileSize;
             tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
             this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
             this.worldViewportService = worldViewportService;
+            this.playerHullSystem = playerHullSystem;
         }
 
         public bool ResolveStep(ModelWorld world, APlayer player)
@@ -67,6 +69,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 }
                 else
                 {
+                    if (direction > 0 && !IsProtectedFromFallDamageByMining(player))
+                    {
+                        playerHullSystem.ApplyFallDamage(player, Math.Max(0.0f, player.YVelocity));
+                    }
+
                     player.YOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
                     player.YVelocity = 0.0f;
                 }
@@ -102,6 +109,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             );
 
             return worldBlockDefinitionResolver.IsObstructed(world, nextBlockVector);
+        }
+
+        private static bool IsProtectedFromFallDamageByMining(APlayer player)
+        {
+            return player.FacingDirection.Y > 0 && player.DrillExtended;
         }
     }
 }

@@ -4,24 +4,20 @@ using ModelLibrary.Enums;
 
 namespace ModelLibrary.Concrete.Buildings
 {
-    public sealed class Building : ABuilding
+    public sealed class Building(
+        short ID,
+        string Name,
+        long WorldX,
+        long WorldY,
+        int XOffset,
+        int YOffset,
+        int TilesWide,
+        int TilesHigh,
+        AGrid StorageGrid,
+        bool IsBackground = true,
+        bool IsDestructible = false,
+        EBuildingInteraction Interaction = EBuildingInteraction.None,
+        string InteractionPrompt = null) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt)
     {
-        public Building(
-            short ID,
-            string Name,
-            long WorldX,
-            long WorldY,
-            int XOffset,
-            int YOffset,
-            int TilesWide,
-            int TilesHigh,
-            AGrid StorageGrid,
-            bool IsBackground = true,
-            bool IsDestructible = false,
-            EBuildingInteraction Interaction = EBuildingInteraction.None,
-            string InteractionPrompt = null)
-            : base(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt)
-        {
-        }
     }
 }

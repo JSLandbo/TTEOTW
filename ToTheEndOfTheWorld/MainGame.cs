@@ -31,6 +31,7 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerMovementSystem playerMovementSystem = new();
         private readonly PlayerFuelSystem playerFuelSystem = new();
         private readonly PlayerHeatSystem playerHeatSystem = new();
+        private readonly PlayerHullSystem playerHullSystem = new();
         private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
         private readonly WorldViewportService worldViewportService = new();
@@ -108,8 +109,8 @@ namespace ToTheEndOfTheWorld
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
-            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerFuelSystem, _pixels);
+            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerHullSystem, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -187,7 +188,7 @@ namespace ToTheEndOfTheWorld
             {
                 player.MovementInput = Vector2.Zero;
             }
-            if (player.MovementInput != Vector2.Zero && !playerHeatSystem.CanAffordThrusterHeat(player, deltaTime))
+            if (player.MovementInput != Vector2.Zero && !playerHeatSystem.CanUseThrusters(player))
             {
                 player.MovementInput = Vector2.Zero;
             }
@@ -212,6 +213,7 @@ namespace ToTheEndOfTheWorld
 
             playerHeatSystem.Update(player, deltaTime);
             playerFuelSystem.Update(player, deltaTime);
+            playerHullSystem.Update(player, deltaTime);
 
             if (!blockedGameplayAtFrameStart)
             {

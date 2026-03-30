@@ -5,14 +5,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerHeatSystem
     {
-        public bool CanAffordThrusterHeat(APlayer player, float deltaTime)
+        public bool CanUseThrusters(APlayer player)
         {
-            return !player.ThermalPlating.WouldOverheat(player.Thruster.ActiveHeatGeneration * deltaTime);
+            return !IsCapped(player);
         }
 
-        public void AddThrusterHeat(APlayer player, float deltaTime)
+        public float AddThrusterHeat(APlayer player, float deltaTime)
         {
-            AddHeat(player, player.Thruster.ActiveHeatGeneration * deltaTime);
+            return AddHeat(player, player.Thruster.ActiveHeatGeneration * deltaTime);
         }
 
         public void Update(APlayer player, float deltaTime)
@@ -21,22 +21,22 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             player.ThermalPlating.Thermals = Math.Clamp(cooledThermals, 0.0f, player.ThermalPlating.MaxThermals);
         }
 
-        public void AddHeat(APlayer player, float heatAmount)
+        public float AddHeat(APlayer player, float heatAmount)
         {
             if (heatAmount <= 0.0f)
             {
-                return;
+                return 0.0f;
             }
 
-            player.ThermalPlating.Thermals = Math.Clamp(
-                player.ThermalPlating.Thermals + heatAmount,
-                0.0f,
-                player.ThermalPlating.MaxThermals);
+            float nextHeat = player.ThermalPlating.Thermals + heatAmount;
+            float overflowHeat = Math.Max(0.0f, nextHeat - player.ThermalPlating.MaxThermals);
+            player.ThermalPlating.Thermals = Math.Clamp(nextHeat, 0.0f, player.ThermalPlating.MaxThermals);
+            return overflowHeat;
         }
 
-        public bool WouldOverheat(APlayer player, float heatAmount)
+        public bool IsCapped(APlayer player)
         {
-            return player.ThermalPlating.WouldOverheat(heatAmount);
+            return player.ThermalPlating.Thermals >= player.ThermalPlating.MaxThermals;
         }
     }
 }

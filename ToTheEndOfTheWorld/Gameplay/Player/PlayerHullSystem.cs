@@ -1,0 +1,66 @@
+using ModelLibrary.Abstract;
+using System;
+
+namespace ToTheEndOfTheWorld.Gameplay.Player
+{
+    public sealed class PlayerHullSystem
+    {
+        private const float FallDamageVelocityThreshold = 1800.0f;
+        private const float FallDamagePerExcessVelocity = 0.025f;
+        private const float ExplosionChancePerSecondAtMaxHeat = 0.35f;
+        private const float MinimumExplosionDamage = 15.0f;
+        private const float MaximumExplosionDamage = 60.0f;
+
+        public void Update(APlayer player, float deltaTime)
+        {
+            float heatRatio = GetHeatRatio(player);
+
+            if (heatRatio >= 1.0f)
+            {
+                float explosionChance = ExplosionChancePerSecondAtMaxHeat * deltaTime;
+
+                if (Random.Shared.NextSingle() < explosionChance)
+                {
+                    ApplyExplosionDamage(player, Lerp(MinimumExplosionDamage, MaximumExplosionDamage, Random.Shared.NextSingle()));
+                }
+            }
+        }
+
+        public void ApplyFallDamage(APlayer player, float impactVelocity)
+        {
+            float excessVelocity = impactVelocity - FallDamageVelocityThreshold;
+
+            if (excessVelocity <= 0.0f)
+            {
+                return;
+            }
+
+            player.Hull.TakeDamage(excessVelocity * FallDamagePerExcessVelocity);
+        }
+
+        public void ApplyExplosionDamage(APlayer player, float damage)
+        {
+            player.Hull.TakeDamage(damage);
+        }
+
+        public void ApplyHeatOverflowDamage(APlayer player, float overflowHeat)
+        {
+            player.Hull.TakeDamage(overflowHeat);
+        }
+
+        private static float GetHeatRatio(APlayer player)
+        {
+            if (player.ThermalPlating.MaxThermals <= 0.0f)
+            {
+                return 0.0f;
+            }
+
+            return Math.Clamp(player.ThermalPlating.Thermals / player.ThermalPlating.MaxThermals, 0.0f, 1.0f);
+        }
+
+        private static float Lerp(float start, float end, float amount)
+        {
+            return start + ((end - start) * amount);
+        }
+    }
+}
