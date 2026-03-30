@@ -16,11 +16,10 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             ActiveHeatGeneration = original.ActiveHeatGeneration;
             Weight = original.Weight;
             Worth = original.Worth;
-            MinimumVelocity = original.MinimumVelocity;
         }
 
         [JsonConstructor]
-        public Thruster(short ID, float Speed, float Acceleration, float Power, string Name, float ActiveFuelConsumption, float ActiveHeatGeneration, float Weight, float Worth, float MinimumVelocity)
+        public Thruster(short ID, float Speed, float Acceleration, float Power, string Name, float ActiveFuelConsumption, float ActiveHeatGeneration, float Weight, float Worth)
         {
             this.ID = ID;
             this.Speed = Speed;
@@ -31,7 +30,6 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             this.ActiveHeatGeneration = ActiveHeatGeneration;
             this.Weight = Weight;
             this.Worth = Worth;
-            this.MinimumVelocity = MinimumVelocity;
         }
     }
 }

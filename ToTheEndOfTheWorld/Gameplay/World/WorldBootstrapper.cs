@@ -22,8 +22,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
         public void EnsureInitialized(ModelWorld world)
         {
             world.Buildings ??= [];
-
-            if (world.Buildings.Count > 0) return;
+            world.Buildings.Clear();
 
             Microsoft.Xna.Framework.Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
 

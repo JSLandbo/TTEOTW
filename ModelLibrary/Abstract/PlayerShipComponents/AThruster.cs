@@ -7,7 +7,6 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
         public float ActiveFuelConsumption { get; set; } // When moving around
         public float ActiveHeatGeneration { get; set; } // When moving around
         public float Speed { get; set; } // Top speed of air-movement for ship
-        public float MinimumVelocity { get; set; } // Top minimum speed of air-movement for ship
         public float Acceleration { get; set; } // How fast ship increases speed
         public float Power { get; set; } // How much can the thrusters air-lift
     }

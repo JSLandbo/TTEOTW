@@ -38,7 +38,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 xVelocity = MoveTowards(xVelocity, xTarget, xChangeRate * deltaTime);
             }
 
-            if (player.MovementInput.Y != 0)
+            bool isTryingToMoveUpWithoutLift = player.MovementInput.Y < 0 && !settings.CanMoveUpward;
+
+            if (player.MovementInput.Y != 0 && !isTryingToMoveUpWithoutLift)
             {
                 float yTarget = player.MovementInput.Y * settings.AirMaximumSpeed;
                 float yChangeRate =
@@ -55,17 +57,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 yVelocity = MoveTowards(yVelocity, 0.0f, GetUpwardIdleDrag(yVelocity) * deltaTime);
             }
 
-            if (player.MovementInput.X != 0 && Math.Abs(xVelocity) < settings.MinimumSpeed)
-            {
-                xVelocity = Math.Sign(player.MovementInput.X) * settings.MinimumSpeed;
-            }
-
-            if (player.MovementInput.Y != 0 && Math.Abs(yVelocity) < settings.MinimumSpeed)
-            {
-                yVelocity = Math.Sign(player.MovementInput.Y) * settings.MinimumSpeed;
-            }
-
-            if (player.MovementInput.Y >= 0)
+            if (player.MovementInput.Y >= 0 || isTryingToMoveUpWithoutLift)
             {
                 yVelocity += settings.Gravity * deltaTime;
             }

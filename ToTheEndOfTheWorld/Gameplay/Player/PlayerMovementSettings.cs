@@ -6,10 +6,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
     public readonly record struct PlayerMovementSettings(
         float AirMaximumSpeed,
         float GroundMaximumSpeed,
-        float MinimumSpeed,
         float AirAcceleration,
         float AirDrag,
         float GroundAcceleration,
+        bool CanMoveUpward,
         float Gravity,
         float MaximumFallSpeed)
     {
@@ -26,14 +26,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             float effectiveWeight = Math.Max(player.Weight, MinimumEffectiveWeight);
             float airMaximumSpeed = thruster.Speed;
             float groundMaximumSpeed = engine.Speed;
-            float minimumSpeed = thruster.MinimumVelocity;
             float airAcceleration = thruster.Acceleration;
             float airDrag = airAcceleration * DragMultiplier;
             float groundAcceleration = engine.Acceleration;
+            bool canMoveUpward = thruster.Power >= player.Weight;
             float gravity = effectiveWeight * GravityPerWeightUnit;
             float maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (airMaximumSpeed * ThrusterFallSpeedContributionMultiplier);
 
-            return new PlayerMovementSettings(airMaximumSpeed, groundMaximumSpeed, minimumSpeed, airAcceleration, airDrag, groundAcceleration, gravity, maximumFallSpeed);
+            return new PlayerMovementSettings(airMaximumSpeed, groundMaximumSpeed, airAcceleration, airDrag, groundAcceleration, canMoveUpward, gravity, maximumFallSpeed);
         }
     }
 }

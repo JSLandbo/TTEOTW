@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace ToTheEndOfTheWorld.Context
 {
     public static class ContextHandler
     {
-        private static string BasePath => Path.Combine(Path.GetTempPath(), "TTEOTW");
+        private static string BasePath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TTEOTW");
 
         public static void SaveWorld(ModelWorld world)
         {
