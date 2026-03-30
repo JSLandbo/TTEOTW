@@ -1,4 +1,4 @@
-namespace ToTheEndOfTheWorld.Context
+namespace ModelLibrary.Enums
 {
     public enum GameItemType
     {

@@ -1,4 +1,4 @@
-namespace ToTheEndOfTheWorld.Context
+namespace ModelLibrary.Ids
 {
     public static class GameIds
     {

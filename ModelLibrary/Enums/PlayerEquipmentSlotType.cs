@@ -1,4 +1,4 @@
-namespace ToTheEndOfTheWorld.Gameplay
+namespace ModelLibrary.Enums
 {
     public enum PlayerEquipmentSlotType
     {
