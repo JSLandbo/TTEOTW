@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,21 +8,21 @@ namespace UtilityLibrary
 {
     public static class Extensions
     {
+        private static readonly JsonSerializerOptions JsonCopyOptions = new()
+        {
+            Converters = { new JsonStringEnumConverter() }
+        };
+
         public static T CopyObject<T>(this object objSource)
         {
-            using MemoryStream stream = new();
-            BinaryFormatter formatter = new();
-            formatter.Serialize(stream, objSource);
-            stream.Position = 0;
-
-            return (T)formatter.Deserialize(stream);
-
+            var json = JsonSerializer.Serialize(objSource, objSource.GetType(), JsonCopyOptions);
+            return JsonSerializer.Deserialize<T>(json, JsonCopyOptions)!;
         }
 
         public static T CreateDeepCopy<T>(T obj)
         {
             using var ms = new MemoryStream();
-            XmlSerializer serializer = new(obj!.GetType());
+            var serializer = new XmlSerializer(obj!.GetType());
             serializer.Serialize(ms, obj);
             ms.Seek(0, SeekOrigin.Begin);
             return (T)serializer.Deserialize(ms)!;
@@ -31,10 +30,8 @@ namespace UtilityLibrary
 
         public static object DeepCopyJson(object o)
         {
-            JsonSerializerOptions jsonOptions = new();
-            jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            var json = JsonSerializer.Serialize(o, jsonOptions);
-            return JsonSerializer.Deserialize(json, o.GetType(), jsonOptions)!;
+            var json = JsonSerializer.Serialize(o, o.GetType(), JsonCopyOptions);
+            return JsonSerializer.Deserialize(json, o.GetType(), JsonCopyOptions)!;
         }
 
         public static string Compress(string s)
@@ -46,6 +43,7 @@ namespace UtilityLibrary
             {
                 msi.CopyTo(gs);
             }
+
             return Convert.ToBase64String(mso.ToArray());
         }
 
@@ -58,6 +56,7 @@ namespace UtilityLibrary
             {
                 gs.CopyTo(mso);
             }
+
             return Encoding.Unicode.GetString(mso.ToArray());
         }
     }

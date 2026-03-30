@@ -12,7 +12,7 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void LoadContent(ContentManager content)
         {
-            textFont = content.Load<SpriteFont>("Fonts/text");
+            textFont = content.Load<SpriteFont>("File");
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world)

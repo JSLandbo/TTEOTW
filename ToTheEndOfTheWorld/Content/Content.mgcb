@@ -25,18 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/BaseShip/BaseBaseShip.png;BaseShip/BaseBaseShip.png
 
-#begin ../Graphics/BaseShip/BaseBaseShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BaseBaseShip.png;BaseShip/BaseBaseShip.png
-
 #begin ../Graphics/BaseShip/BasePlayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,30 +36,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/BaseShip/BasePlayer.png;BaseShip/BasePlayer.png
-
-#begin ../Graphics/BaseShip/BasePlayer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BasePlayer.png;BaseShip/BasePlayer.png
-
-#begin ../Graphics/BaseShip/BasePlayerDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BasePlayerDown.png;BaseShip/BasePlayerDown.png
 
 #begin ../Graphics/BaseShip/BasePlayerDown.png
 /importer:TextureImporter
@@ -97,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/BaseShip/BasePlayerLeft.png;BaseShip/BasePlayerLeft.png
 
-#begin ../Graphics/BaseShip/BasePlayerLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BasePlayerLeft.png;BaseShip/BasePlayerLeft.png
-
 #begin ../Graphics/BaseShip/BasePlayerRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,30 +72,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/BaseShip/BasePlayerRight.png;BaseShip/BasePlayerRight.png
-
-#begin ../Graphics/BaseShip/BasePlayerRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BasePlayerRight.png;BaseShip/BasePlayerRight.png
-
-#begin ../Graphics/BaseShip/BasePlayerUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/BaseShip/BasePlayerUp.png;BaseShip/BasePlayerUp.png
 
 #begin ../Graphics/BaseShip/BasePlayerUp.png
 /importer:TextureImporter
@@ -169,18 +97,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/AirBlock.png;Blocks/AirBlock.png
 
-#begin ../Graphics/Blocks/AirBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/AirBlock.png;Blocks/AirBlock.png
-
 #begin ../Graphics/Blocks/AmethystBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -192,30 +108,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/AmethystBlock.png;Blocks/AmethystBlock.png
-
-#begin ../Graphics/Blocks/AmethystBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/AmethystBlock.png;Blocks/AmethystBlock.png
-
-#begin ../Graphics/Blocks/BlackHoleBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/BlackHoleBlock.png;Blocks/BlackHoleBlock.png
 
 #begin ../Graphics/Blocks/BlackHoleBlock.png
 /importer:TextureImporter
@@ -241,18 +133,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/CopperBlock.png;Blocks/CopperBlock.png
 
-#begin ../Graphics/Blocks/CopperBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/CopperBlock.png;Blocks/CopperBlock.png
-
 #begin ../Graphics/Blocks/DiamondBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -264,30 +144,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/DiamondBlock.png;Blocks/DiamondBlock.png
-
-#begin ../Graphics/Blocks/DiamondBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/DiamondBlock.png;Blocks/DiamondBlock.png
-
-#begin ../Graphics/Blocks/DinosaurBoneBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/DinosaurBoneBlock.png;Blocks/DinosaurBoneBlock.png
 
 #begin ../Graphics/Blocks/DinosaurBoneBlock.png
 /importer:TextureImporter
@@ -313,18 +169,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/DirtBlock.png;Blocks/DirtBlock.png
 
-#begin ../Graphics/Blocks/DirtBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/DirtBlock.png;Blocks/DirtBlock.png
-
 #begin ../Graphics/Blocks/DirtBlockBackground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -336,30 +180,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/DirtBlockBackground.png;Blocks/DirtBlockBackground.png
-
-#begin ../Graphics/Blocks/DirtBlockBackground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/DirtBlockBackground.png;Blocks/DirtBlockBackground.png
-
-#begin ../Graphics/Blocks/EmeraldBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/EmeraldBlock.png;Blocks/EmeraldBlock.png
 
 #begin ../Graphics/Blocks/EmeraldBlock.png
 /importer:TextureImporter
@@ -385,18 +205,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/GoldBlock.png;Blocks/GoldBlock.png
 
-#begin ../Graphics/Blocks/GoldBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/GoldBlock.png;Blocks/GoldBlock.png
-
 #begin ../Graphics/Blocks/GrassBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -408,30 +216,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/GrassBlock.png;Blocks/GrassBlock.png
-
-#begin ../Graphics/Blocks/GrassBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/GrassBlock.png;Blocks/GrassBlock.png
-
-#begin ../Graphics/Blocks/IronBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/IronBlock.png;Blocks/IronBlock.png
 
 #begin ../Graphics/Blocks/IronBlock.png
 /importer:TextureImporter
@@ -457,18 +241,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/Rainbow.png;Blocks/Rainbow.png
 
-#begin ../Graphics/Blocks/Rainbow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/Rainbow.png;Blocks/Rainbow.png
-
 #begin ../Graphics/Blocks/RubyBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -480,30 +252,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/RubyBlock.png;Blocks/RubyBlock.png
-
-#begin ../Graphics/Blocks/RubyBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/RubyBlock.png;Blocks/RubyBlock.png
-
-#begin ../Graphics/Blocks/ShardOfDeathBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/ShardOfDeathBlock.png;Blocks/ShardOfDeathBlock.png
 
 #begin ../Graphics/Blocks/ShardOfDeathBlock.png
 /importer:TextureImporter
@@ -529,18 +277,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/ShardOfLifeBlock.png;Blocks/ShardOfLifeBlock.png
 
-#begin ../Graphics/Blocks/ShardOfLifeBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/ShardOfLifeBlock.png;Blocks/ShardOfLifeBlock.png
-
 #begin ../Graphics/Blocks/StoneBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -552,30 +288,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/StoneBlock.png;Blocks/StoneBlock.png
-
-#begin ../Graphics/Blocks/StoneBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/StoneBlock.png;Blocks/StoneBlock.png
-
-#begin ../Graphics/Blocks/SuperNovaBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/SuperNovaBlock.png;Blocks/SuperNovaBlock.png
 
 #begin ../Graphics/Blocks/SuperNovaBlock.png
 /importer:TextureImporter
@@ -601,30 +313,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/UraniumBlock.png;Blocks/UraniumBlock.png
 
-#begin ../Graphics/Blocks/UraniumBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/UraniumBlock.png;Blocks/UraniumBlock.png
-
-#begin ../Graphics/Blocks/WingOfDeathBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/WingOfDeathBlock.png;Blocks/WingOfDeathBlock.png
-
 #begin ../Graphics/Blocks/WingOfDeathBlock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -648,30 +336,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Blocks/WingOfLifeBlock.png;Blocks/WingOfLifeBlock.png
-
-#begin ../Graphics/Blocks/WingOfLifeBlock.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Blocks/WingOfLifeBlock.png;Blocks/WingOfLifeBlock.png
-
-#begin ../Graphics/Buildings/HouseBuyUpgrades.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Buildings/HouseBuyUpgrades.png;Buildings/HouseBuyUpgrades.png
 
 #begin ../Graphics/Buildings/HouseBuyUpgrades.png
 /importer:TextureImporter
@@ -709,18 +373,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Buildings/HouseSellYourOres.png;Buildings/HouseSellYourOres.png
 
-#begin ../Graphics/Buildings/HouseSellYourOres.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Buildings/HouseSellYourOres.png;Buildings/HouseSellYourOres.png
-
 #begin ../Graphics/Dynamite/DynamiteTierFour.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -732,30 +384,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Dynamite/DynamiteTierFour.png;Dynamite/DynamiteTierFour.png
-
-#begin ../Graphics/Dynamite/DynamiteTierFour.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Dynamite/DynamiteTierFour.png;Dynamite/DynamiteTierFour.png
-
-#begin ../Graphics/Dynamite/DynamiteTierOne.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Dynamite/DynamiteTierOne.png;Dynamite/DynamiteTierOne.png
 
 #begin ../Graphics/Dynamite/DynamiteTierOne.png
 /importer:TextureImporter
@@ -781,30 +409,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Dynamite/DynamiteTierThree.png;Dynamite/DynamiteTierThree.png
 
-#begin ../Graphics/Dynamite/DynamiteTierThree.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Dynamite/DynamiteTierThree.png;Dynamite/DynamiteTierThree.png
-
-#begin ../Graphics/Dynamite/DynamiteTierTwo.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Dynamite/DynamiteTierTwo.png;Dynamite/DynamiteTierTwo.png
-
 #begin ../Graphics/Dynamite/DynamiteTierTwo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -823,25 +427,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:../Graphics/File.spritefont;File.spritefont
-
-#begin ../Graphics/File.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:../Graphics/File.spritefont;File.spritefont
-
-#begin ../Graphics/General/Breaking/Breaking.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/General/Breaking/Breaking.png;General/Breaking/Breaking.png
 
 #begin ../Graphics/General/Breaking/Breaking.png
 /importer:TextureImporter
@@ -867,18 +452,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/BaseShip/BaseBaseShip.png;Player/BaseShip/BaseBaseShip.png
 
-#begin ../Graphics/Player/BaseShip/BaseBaseShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BaseBaseShip.png;Player/BaseShip/BaseBaseShip.png
-
 #begin ../Graphics/Player/BaseShip/BasePlayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -890,30 +463,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/BaseShip/BasePlayer.png;Player/BaseShip/BasePlayer.png
-
-#begin ../Graphics/Player/BaseShip/BasePlayer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BasePlayer.png;Player/BaseShip/BasePlayer.png
-
-#begin ../Graphics/Player/BaseShip/BasePlayerDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BasePlayerDown.png;Player/BaseShip/BasePlayerDown.png
 
 #begin ../Graphics/Player/BaseShip/BasePlayerDown.png
 /importer:TextureImporter
@@ -939,18 +488,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/BaseShip/BasePlayerLeft.png;Player/BaseShip/BasePlayerLeft.png
 
-#begin ../Graphics/Player/BaseShip/BasePlayerLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BasePlayerLeft.png;Player/BaseShip/BasePlayerLeft.png
-
 #begin ../Graphics/Player/BaseShip/BasePlayerRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -962,30 +499,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/BaseShip/BasePlayerRight.png;Player/BaseShip/BasePlayerRight.png
-
-#begin ../Graphics/Player/BaseShip/BasePlayerRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BasePlayerRight.png;Player/BaseShip/BasePlayerRight.png
-
-#begin ../Graphics/Player/BaseShip/BasePlayerUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/BaseShip/BasePlayerUp.png;Player/BaseShip/BasePlayerUp.png
 
 #begin ../Graphics/Player/BaseShip/BasePlayerUp.png
 /importer:TextureImporter
@@ -1011,18 +524,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/AdamantContainer.png;Player/Containers/AdamantContainer.png
 
-#begin ../Graphics/Player/Containers/AdamantContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/AdamantContainer.png;Player/Containers/AdamantContainer.png
-
 #begin ../Graphics/Player/Containers/CopperContainer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1034,30 +535,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/CopperContainer.png;Player/Containers/CopperContainer.png
-
-#begin ../Graphics/Player/Containers/CopperContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/CopperContainer.png;Player/Containers/CopperContainer.png
-
-#begin ../Graphics/Player/Containers/CrystalContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/CrystalContainer.png;Player/Containers/CrystalContainer.png
 
 #begin ../Graphics/Player/Containers/CrystalContainer.png
 /importer:TextureImporter
@@ -1083,18 +560,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/DiamondContainer.png;Player/Containers/DiamondContainer.png
 
-#begin ../Graphics/Player/Containers/DiamondContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/DiamondContainer.png;Player/Containers/DiamondContainer.png
-
 #begin ../Graphics/Player/Containers/GoldContainer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1106,30 +571,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/GoldContainer.png;Player/Containers/GoldContainer.png
-
-#begin ../Graphics/Player/Containers/GoldContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/GoldContainer.png;Player/Containers/GoldContainer.png
-
-#begin ../Graphics/Player/Containers/IronContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/IronContainer.png;Player/Containers/IronContainer.png
 
 #begin ../Graphics/Player/Containers/IronContainer.png
 /importer:TextureImporter
@@ -1155,18 +596,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/MythrilContainer.png;Player/Containers/MythrilContainer.png
 
-#begin ../Graphics/Player/Containers/MythrilContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/MythrilContainer.png;Player/Containers/MythrilContainer.png
-
 #begin ../Graphics/Player/Containers/RadioactiveContainer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1178,30 +607,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/RadioactiveContainer.png;Player/Containers/RadioactiveContainer.png
-
-#begin ../Graphics/Player/Containers/RadioactiveContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/RadioactiveContainer.png;Player/Containers/RadioactiveContainer.png
-
-#begin ../Graphics/Player/Containers/RainbowContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/RainbowContainer.png;Player/Containers/RainbowContainer.png
 
 #begin ../Graphics/Player/Containers/RainbowContainer.png
 /importer:TextureImporter
@@ -1227,18 +632,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Containers/ScrapContainer.png;Player/Containers/ScrapContainer.png
 
-#begin ../Graphics/Player/Containers/ScrapContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Containers/ScrapContainer.png;Player/Containers/ScrapContainer.png
-
 #begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1250,30 +643,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillDown.png;Player/Drills/AdamantDrill/AdamantDrillDown.png
-
-#begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillDown.png;Player/Drills/AdamantDrill/AdamantDrillDown.png
-
-#begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillLeft.png;Player/Drills/AdamantDrill/AdamantDrillLeft.png
 
 #begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillLeft.png
 /importer:TextureImporter
@@ -1299,18 +668,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillRight.png;Player/Drills/AdamantDrill/AdamantDrillRight.png
 
-#begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillRight.png;Player/Drills/AdamantDrill/AdamantDrillRight.png
-
 #begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1322,30 +679,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillUp.png;Player/Drills/AdamantDrill/AdamantDrillUp.png
-
-#begin ../Graphics/Player/Drills/AdamantDrill/AdamantDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/AdamantDrill/AdamantDrillUp.png;Player/Drills/AdamantDrill/AdamantDrillUp.png
-
-#begin ../Graphics/Player/Drills/CopperDrill/CopperDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CopperDrill/CopperDrillDown.png;Player/Drills/CopperDrill/CopperDrillDown.png
 
 #begin ../Graphics/Player/Drills/CopperDrill/CopperDrillDown.png
 /importer:TextureImporter
@@ -1371,18 +704,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/CopperDrill/CopperDrillLeft.png;Player/Drills/CopperDrill/CopperDrillLeft.png
 
-#begin ../Graphics/Player/Drills/CopperDrill/CopperDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CopperDrill/CopperDrillLeft.png;Player/Drills/CopperDrill/CopperDrillLeft.png
-
 #begin ../Graphics/Player/Drills/CopperDrill/CopperDrillRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1394,30 +715,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/CopperDrill/CopperDrillRight.png;Player/Drills/CopperDrill/CopperDrillRight.png
-
-#begin ../Graphics/Player/Drills/CopperDrill/CopperDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CopperDrill/CopperDrillRight.png;Player/Drills/CopperDrill/CopperDrillRight.png
-
-#begin ../Graphics/Player/Drills/CopperDrill/CopperDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CopperDrill/CopperDrillUp.png;Player/Drills/CopperDrill/CopperDrillUp.png
 
 #begin ../Graphics/Player/Drills/CopperDrill/CopperDrillUp.png
 /importer:TextureImporter
@@ -1443,18 +740,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillDown.png;Player/Drills/CrystalDrill/CrystalDrillDown.png
 
-#begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillDown.png;Player/Drills/CrystalDrill/CrystalDrillDown.png
-
 #begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1466,30 +751,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png;Player/Drills/CrystalDrill/CrystalDrillLeft.png
-
-#begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png;Player/Drills/CrystalDrill/CrystalDrillLeft.png
-
-#begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillRight.png;Player/Drills/CrystalDrill/CrystalDrillRight.png
 
 #begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillRight.png
 /importer:TextureImporter
@@ -1515,18 +776,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillUp.png;Player/Drills/CrystalDrill/CrystalDrillUp.png
 
-#begin ../Graphics/Player/Drills/CrystalDrill/CrystalDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/CrystalDrill/CrystalDrillUp.png;Player/Drills/CrystalDrill/CrystalDrillUp.png
-
 #begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1538,30 +787,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillDown.png;Player/Drills/DiamondDrill/DiamondDrillDown.png
-
-#begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillDown.png;Player/Drills/DiamondDrill/DiamondDrillDown.png
-
-#begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillLeft.png;Player/Drills/DiamondDrill/DiamondDrillLeft.png
 
 #begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillLeft.png
 /importer:TextureImporter
@@ -1587,18 +812,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillRight.png;Player/Drills/DiamondDrill/DiamondDrillRight.png
 
-#begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillRight.png;Player/Drills/DiamondDrill/DiamondDrillRight.png
-
 #begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1610,30 +823,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillUp.png;Player/Drills/DiamondDrill/DiamondDrillUp.png
-
-#begin ../Graphics/Player/Drills/DiamondDrill/DiamondDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DiamondDrill/DiamondDrillUp.png;Player/Drills/DiamondDrill/DiamondDrillUp.png
-
-#begin ../Graphics/Player/Drills/DirtDrill/DirtDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DirtDrill/DirtDrillDown.png;Player/Drills/DirtDrill/DirtDrillDown.png
 
 #begin ../Graphics/Player/Drills/DirtDrill/DirtDrillDown.png
 /importer:TextureImporter
@@ -1659,18 +848,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/DirtDrill/DirtDrillLeft.png;Player/Drills/DirtDrill/DirtDrillLeft.png
 
-#begin ../Graphics/Player/Drills/DirtDrill/DirtDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DirtDrill/DirtDrillLeft.png;Player/Drills/DirtDrill/DirtDrillLeft.png
-
 #begin ../Graphics/Player/Drills/DirtDrill/DirtDrillRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1682,30 +859,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/DirtDrill/DirtDrillRight.png;Player/Drills/DirtDrill/DirtDrillRight.png
-
-#begin ../Graphics/Player/Drills/DirtDrill/DirtDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DirtDrill/DirtDrillRight.png;Player/Drills/DirtDrill/DirtDrillRight.png
-
-#begin ../Graphics/Player/Drills/DirtDrill/DirtDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/DirtDrill/DirtDrillUp.png;Player/Drills/DirtDrill/DirtDrillUp.png
 
 #begin ../Graphics/Player/Drills/DirtDrill/DirtDrillUp.png
 /importer:TextureImporter
@@ -1731,18 +884,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/GoldDrill/GoldDrillDown.png;Player/Drills/GoldDrill/GoldDrillDown.png
 
-#begin ../Graphics/Player/Drills/GoldDrill/GoldDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/GoldDrill/GoldDrillDown.png;Player/Drills/GoldDrill/GoldDrillDown.png
-
 #begin ../Graphics/Player/Drills/GoldDrill/GoldDrillLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1754,30 +895,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/GoldDrill/GoldDrillLeft.png;Player/Drills/GoldDrill/GoldDrillLeft.png
-
-#begin ../Graphics/Player/Drills/GoldDrill/GoldDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/GoldDrill/GoldDrillLeft.png;Player/Drills/GoldDrill/GoldDrillLeft.png
-
-#begin ../Graphics/Player/Drills/GoldDrill/GoldDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/GoldDrill/GoldDrillRight.png;Player/Drills/GoldDrill/GoldDrillRight.png
 
 #begin ../Graphics/Player/Drills/GoldDrill/GoldDrillRight.png
 /importer:TextureImporter
@@ -1803,18 +920,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/GoldDrill/GoldDrillUp.png;Player/Drills/GoldDrill/GoldDrillUp.png
 
-#begin ../Graphics/Player/Drills/GoldDrill/GoldDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/GoldDrill/GoldDrillUp.png;Player/Drills/GoldDrill/GoldDrillUp.png
-
 #begin ../Graphics/Player/Drills/IronDrill/IronDrillDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1826,30 +931,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/IronDrill/IronDrillDown.png;Player/Drills/IronDrill/IronDrillDown.png
-
-#begin ../Graphics/Player/Drills/IronDrill/IronDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/IronDrill/IronDrillDown.png;Player/Drills/IronDrill/IronDrillDown.png
-
-#begin ../Graphics/Player/Drills/IronDrill/IronDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/IronDrill/IronDrillLeft.png;Player/Drills/IronDrill/IronDrillLeft.png
 
 #begin ../Graphics/Player/Drills/IronDrill/IronDrillLeft.png
 /importer:TextureImporter
@@ -1875,18 +956,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/IronDrill/IronDrillRight.png;Player/Drills/IronDrill/IronDrillRight.png
 
-#begin ../Graphics/Player/Drills/IronDrill/IronDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/IronDrill/IronDrillRight.png;Player/Drills/IronDrill/IronDrillRight.png
-
 #begin ../Graphics/Player/Drills/IronDrill/IronDrillUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1898,30 +967,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/IronDrill/IronDrillUp.png;Player/Drills/IronDrill/IronDrillUp.png
-
-#begin ../Graphics/Player/Drills/IronDrill/IronDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/IronDrill/IronDrillUp.png;Player/Drills/IronDrill/IronDrillUp.png
-
-#begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillDown.png;Player/Drills/MythrilDrill/MythrilDrillDown.png
 
 #begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillDown.png
 /importer:TextureImporter
@@ -1947,18 +992,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillLeft.png;Player/Drills/MythrilDrill/MythrilDrillLeft.png
 
-#begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillLeft.png;Player/Drills/MythrilDrill/MythrilDrillLeft.png
-
 #begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillRight.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1970,30 +1003,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillRight.png;Player/Drills/MythrilDrill/MythrilDrillRight.png
-
-#begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillRight.png;Player/Drills/MythrilDrill/MythrilDrillRight.png
-
-#begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/MythrilDrill/MythrilDrillUp.png;Player/Drills/MythrilDrill/MythrilDrillUp.png
 
 #begin ../Graphics/Player/Drills/MythrilDrill/MythrilDrillUp.png
 /importer:TextureImporter
@@ -2019,18 +1028,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillDown.png;Player/Drills/RadioactiveDrill/RadioactiveDrillDown.png
 
-#begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillDown.png;Player/Drills/RadioactiveDrill/RadioactiveDrillDown.png
-
 #begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2042,30 +1039,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png;Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png
-
-#begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png;Player/Drills/RadioactiveDrill/RadioactiveDrillLeft.png
-
-#begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillRight.png;Player/Drills/RadioactiveDrill/RadioactiveDrillRight.png
 
 #begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillRight.png
 /importer:TextureImporter
@@ -2091,18 +1064,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillUp.png;Player/Drills/RadioactiveDrill/RadioactiveDrillUp.png
 
-#begin ../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RadioactiveDrill/RadioactiveDrillUp.png;Player/Drills/RadioactiveDrill/RadioactiveDrillUp.png
-
 #begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2114,30 +1075,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillDown.png;Player/Drills/RainbowDrill/RainbowDrillDown.png
-
-#begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillDown.png;Player/Drills/RainbowDrill/RainbowDrillDown.png
-
-#begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillLeft.png;Player/Drills/RainbowDrill/RainbowDrillLeft.png
 
 #begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillLeft.png
 /importer:TextureImporter
@@ -2163,18 +1100,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillRight.png;Player/Drills/RainbowDrill/RainbowDrillRight.png
 
-#begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillRight.png;Player/Drills/RainbowDrill/RainbowDrillRight.png
-
 #begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2186,30 +1111,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillUp.png;Player/Drills/RainbowDrill/RainbowDrillUp.png
-
-#begin ../Graphics/Player/Drills/RainbowDrill/RainbowDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Drills/RainbowDrill/RainbowDrillUp.png;Player/Drills/RainbowDrill/RainbowDrillUp.png
-
-#begin ../Graphics/Player/Engines/AdamantEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/AdamantEngine.png;Player/Engines/AdamantEngine.png
 
 #begin ../Graphics/Player/Engines/AdamantEngine.png
 /importer:TextureImporter
@@ -2235,18 +1136,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/CopperEngine.png;Player/Engines/CopperEngine.png
 
-#begin ../Graphics/Player/Engines/CopperEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/CopperEngine.png;Player/Engines/CopperEngine.png
-
 #begin ../Graphics/Player/Engines/CrystalEngine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2258,30 +1147,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/CrystalEngine.png;Player/Engines/CrystalEngine.png
-
-#begin ../Graphics/Player/Engines/CrystalEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/CrystalEngine.png;Player/Engines/CrystalEngine.png
-
-#begin ../Graphics/Player/Engines/DiamondEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/DiamondEngine.png;Player/Engines/DiamondEngine.png
 
 #begin ../Graphics/Player/Engines/DiamondEngine.png
 /importer:TextureImporter
@@ -2307,18 +1172,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/GoldEngine.png;Player/Engines/GoldEngine.png
 
-#begin ../Graphics/Player/Engines/GoldEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/GoldEngine.png;Player/Engines/GoldEngine.png
-
 #begin ../Graphics/Player/Engines/IronEngine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2330,30 +1183,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/IronEngine.png;Player/Engines/IronEngine.png
-
-#begin ../Graphics/Player/Engines/IronEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/IronEngine.png;Player/Engines/IronEngine.png
-
-#begin ../Graphics/Player/Engines/MythrilEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/MythrilEngine.png;Player/Engines/MythrilEngine.png
 
 #begin ../Graphics/Player/Engines/MythrilEngine.png
 /importer:TextureImporter
@@ -2379,18 +1208,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/RadioactiveEngine.png;Player/Engines/RadioactiveEngine.png
 
-#begin ../Graphics/Player/Engines/RadioactiveEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/RadioactiveEngine.png;Player/Engines/RadioactiveEngine.png
-
 #begin ../Graphics/Player/Engines/RainbowEngine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2402,30 +1219,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Engines/RainbowEngine.png;Player/Engines/RainbowEngine.png
-
-#begin ../Graphics/Player/Engines/RainbowEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/RainbowEngine.png;Player/Engines/RainbowEngine.png
-
-#begin ../Graphics/Player/Engines/ScrapEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Engines/ScrapEngine.png;Player/Engines/ScrapEngine.png
 
 #begin ../Graphics/Player/Engines/ScrapEngine.png
 /importer:TextureImporter
@@ -2451,18 +1244,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/AdamantFuelTank.png;Player/FuelTanks/AdamantFuelTank.png
 
-#begin ../Graphics/Player/FuelTanks/AdamantFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/AdamantFuelTank.png;Player/FuelTanks/AdamantFuelTank.png
-
 #begin ../Graphics/Player/FuelTanks/CopperFuelTank.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2474,30 +1255,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/CopperFuelTank.png;Player/FuelTanks/CopperFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/CopperFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/CopperFuelTank.png;Player/FuelTanks/CopperFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/CrystalFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/CrystalFuelTank.png;Player/FuelTanks/CrystalFuelTank.png
 
 #begin ../Graphics/Player/FuelTanks/CrystalFuelTank.png
 /importer:TextureImporter
@@ -2523,18 +1280,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/DiamondFuelTank.png;Player/FuelTanks/DiamondFuelTank.png
 
-#begin ../Graphics/Player/FuelTanks/DiamondFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/DiamondFuelTank.png;Player/FuelTanks/DiamondFuelTank.png
-
 #begin ../Graphics/Player/FuelTanks/GoldFuelTank.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2546,30 +1291,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/GoldFuelTank.png;Player/FuelTanks/GoldFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/GoldFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/GoldFuelTank.png;Player/FuelTanks/GoldFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/IronFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/IronFuelTank.png;Player/FuelTanks/IronFuelTank.png
 
 #begin ../Graphics/Player/FuelTanks/IronFuelTank.png
 /importer:TextureImporter
@@ -2595,18 +1316,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/MythrilFuelTank.png;Player/FuelTanks/MythrilFuelTank.png
 
-#begin ../Graphics/Player/FuelTanks/MythrilFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/MythrilFuelTank.png;Player/FuelTanks/MythrilFuelTank.png
-
 #begin ../Graphics/Player/FuelTanks/RadioactiveFuelTank.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2618,30 +1327,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/RadioactiveFuelTank.png;Player/FuelTanks/RadioactiveFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/RadioactiveFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/RadioactiveFuelTank.png;Player/FuelTanks/RadioactiveFuelTank.png
-
-#begin ../Graphics/Player/FuelTanks/RainbowFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/RainbowFuelTank.png;Player/FuelTanks/RainbowFuelTank.png
 
 #begin ../Graphics/Player/FuelTanks/RainbowFuelTank.png
 /importer:TextureImporter
@@ -2667,18 +1352,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/FuelTanks/ScrapFuelTank.png;Player/FuelTanks/ScrapFuelTank.png
 
-#begin ../Graphics/Player/FuelTanks/ScrapFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/FuelTanks/ScrapFuelTank.png;Player/FuelTanks/ScrapFuelTank.png
-
 #begin ../Graphics/Player/Hulls/AdamantHull/AdamantShip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2690,30 +1363,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/AdamantHull/AdamantShip.png;Player/Hulls/AdamantHull/AdamantShip.png
-
-#begin ../Graphics/Player/Hulls/AdamantHull/AdamantShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/AdamantHull/AdamantShip.png;Player/Hulls/AdamantHull/AdamantShip.png
-
-#begin ../Graphics/Player/Hulls/AdamantHull/AdamantShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/AdamantHull/AdamantShipDown.png;Player/Hulls/AdamantHull/AdamantShipDown.png
 
 #begin ../Graphics/Player/Hulls/AdamantHull/AdamantShipDown.png
 /importer:TextureImporter
@@ -2739,18 +1388,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/CopperHull/CopperShip.png;Player/Hulls/CopperHull/CopperShip.png
 
-#begin ../Graphics/Player/Hulls/CopperHull/CopperShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/CopperHull/CopperShip.png;Player/Hulls/CopperHull/CopperShip.png
-
 #begin ../Graphics/Player/Hulls/CopperHull/CopperShipDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2762,30 +1399,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/CopperHull/CopperShipDown.png;Player/Hulls/CopperHull/CopperShipDown.png
-
-#begin ../Graphics/Player/Hulls/CopperHull/CopperShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/CopperHull/CopperShipDown.png;Player/Hulls/CopperHull/CopperShipDown.png
-
-#begin ../Graphics/Player/Hulls/CrystalHull/CrystalShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/CrystalHull/CrystalShip.png;Player/Hulls/CrystalHull/CrystalShip.png
 
 #begin ../Graphics/Player/Hulls/CrystalHull/CrystalShip.png
 /importer:TextureImporter
@@ -2811,18 +1424,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/CrystalHull/CrystalShipDown.png;Player/Hulls/CrystalHull/CrystalShipDown.png
 
-#begin ../Graphics/Player/Hulls/CrystalHull/CrystalShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/CrystalHull/CrystalShipDown.png;Player/Hulls/CrystalHull/CrystalShipDown.png
-
 #begin ../Graphics/Player/Hulls/DiamondHull/DiamondShip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2834,30 +1435,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/DiamondHull/DiamondShip.png;Player/Hulls/DiamondHull/DiamondShip.png
-
-#begin ../Graphics/Player/Hulls/DiamondHull/DiamondShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/DiamondHull/DiamondShip.png;Player/Hulls/DiamondHull/DiamondShip.png
-
-#begin ../Graphics/Player/Hulls/DiamondHull/DiamondShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/DiamondHull/DiamondShipDown.png;Player/Hulls/DiamondHull/DiamondShipDown.png
 
 #begin ../Graphics/Player/Hulls/DiamondHull/DiamondShipDown.png
 /importer:TextureImporter
@@ -2883,18 +1460,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/GoldHull/GoldShip.png;Player/Hulls/GoldHull/GoldShip.png
 
-#begin ../Graphics/Player/Hulls/GoldHull/GoldShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/GoldHull/GoldShip.png;Player/Hulls/GoldHull/GoldShip.png
-
 #begin ../Graphics/Player/Hulls/GoldHull/GoldShipDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2906,30 +1471,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/GoldHull/GoldShipDown.png;Player/Hulls/GoldHull/GoldShipDown.png
-
-#begin ../Graphics/Player/Hulls/GoldHull/GoldShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/GoldHull/GoldShipDown.png;Player/Hulls/GoldHull/GoldShipDown.png
-
-#begin ../Graphics/Player/Hulls/IronHull/IronShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/IronHull/IronShip.png;Player/Hulls/IronHull/IronShip.png
 
 #begin ../Graphics/Player/Hulls/IronHull/IronShip.png
 /importer:TextureImporter
@@ -2955,18 +1496,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/IronHull/IronShipDown.png;Player/Hulls/IronHull/IronShipDown.png
 
-#begin ../Graphics/Player/Hulls/IronHull/IronShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/IronHull/IronShipDown.png;Player/Hulls/IronHull/IronShipDown.png
-
 #begin ../Graphics/Player/Hulls/MythrilHull/MythrilShip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2978,30 +1507,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/MythrilHull/MythrilShip.png;Player/Hulls/MythrilHull/MythrilShip.png
-
-#begin ../Graphics/Player/Hulls/MythrilHull/MythrilShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/MythrilHull/MythrilShip.png;Player/Hulls/MythrilHull/MythrilShip.png
-
-#begin ../Graphics/Player/Hulls/MythrilHull/MythrilShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/MythrilHull/MythrilShipDown.png;Player/Hulls/MythrilHull/MythrilShipDown.png
 
 #begin ../Graphics/Player/Hulls/MythrilHull/MythrilShipDown.png
 /importer:TextureImporter
@@ -3027,18 +1532,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShip.png;Player/Hulls/RadioactiveHull/RadioactiveShip.png
 
-#begin ../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShip.png;Player/Hulls/RadioactiveHull/RadioactiveShip.png
-
 #begin ../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShipDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3050,30 +1543,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShipDown.png;Player/Hulls/RadioactiveHull/RadioactiveShipDown.png
-
-#begin ../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/RadioactiveHull/RadioactiveShipDown.png;Player/Hulls/RadioactiveHull/RadioactiveShipDown.png
-
-#begin ../Graphics/Player/Hulls/RainbowHull/RainbowShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/RainbowHull/RainbowShip.png;Player/Hulls/RainbowHull/RainbowShip.png
 
 #begin ../Graphics/Player/Hulls/RainbowHull/RainbowShip.png
 /importer:TextureImporter
@@ -3099,18 +1568,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/RainbowHull/RainbowShipDown.png;Player/Hulls/RainbowHull/RainbowShipDown.png
 
-#begin ../Graphics/Player/Hulls/RainbowHull/RainbowShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/RainbowHull/RainbowShipDown.png;Player/Hulls/RainbowHull/RainbowShipDown.png
-
 #begin ../Graphics/Player/Hulls/ScrapHull/PlayerDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3122,30 +1579,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/PlayerDown.png;Player/Hulls/ScrapHull/PlayerDown.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/PlayerDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/PlayerDown.png;Player/Hulls/ScrapHull/PlayerDown.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/PlayerLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/PlayerLeft.png;Player/Hulls/ScrapHull/PlayerLeft.png
 
 #begin ../Graphics/Player/Hulls/ScrapHull/PlayerLeft.png
 /importer:TextureImporter
@@ -3171,18 +1604,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/PlayerRight.png;Player/Hulls/ScrapHull/PlayerRight.png
 
-#begin ../Graphics/Player/Hulls/ScrapHull/PlayerRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/PlayerRight.png;Player/Hulls/ScrapHull/PlayerRight.png
-
 #begin ../Graphics/Player/Hulls/ScrapHull/PlayerUp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3194,30 +1615,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/PlayerUp.png;Player/Hulls/ScrapHull/PlayerUp.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/PlayerUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/PlayerUp.png;Player/Hulls/ScrapHull/PlayerUp.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/ScrapShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/ScrapShip.png;Player/Hulls/ScrapHull/ScrapShip.png
 
 #begin ../Graphics/Player/Hulls/ScrapHull/ScrapShip.png
 /importer:TextureImporter
@@ -3243,18 +1640,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/ScrapShipDown.png;Player/Hulls/ScrapHull/ScrapShipDown.png
 
-#begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/ScrapShipDown.png;Player/Hulls/ScrapHull/ScrapShipDown.png
-
 #begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipLeft.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3266,30 +1651,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/ScrapShipLeft.png;Player/Hulls/ScrapHull/ScrapShipLeft.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/ScrapShipLeft.png;Player/Hulls/ScrapHull/ScrapShipLeft.png
-
-#begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/ScrapShipRight.png;Player/Hulls/ScrapHull/ScrapShipRight.png
 
 #begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipRight.png
 /importer:TextureImporter
@@ -3315,18 +1676,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Hulls/ScrapHull/ScrapShipUp.png;Player/Hulls/ScrapHull/ScrapShipUp.png
 
-#begin ../Graphics/Player/Hulls/ScrapHull/ScrapShipUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Hulls/ScrapHull/ScrapShipUp.png;Player/Hulls/ScrapHull/ScrapShipUp.png
-
 #begin ../Graphics/Player/ThermalPlatings/AdamantThermalPlating.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3338,30 +1687,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/AdamantThermalPlating.png;Player/ThermalPlatings/AdamantThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/AdamantThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/AdamantThermalPlating.png;Player/ThermalPlatings/AdamantThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/CopperThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/CopperThermalPlating.png;Player/ThermalPlatings/CopperThermalPlating.png
 
 #begin ../Graphics/Player/ThermalPlatings/CopperThermalPlating.png
 /importer:TextureImporter
@@ -3387,18 +1712,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/CrystalThermalPlating.png;Player/ThermalPlatings/CrystalThermalPlating.png
 
-#begin ../Graphics/Player/ThermalPlatings/CrystalThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/CrystalThermalPlating.png;Player/ThermalPlatings/CrystalThermalPlating.png
-
 #begin ../Graphics/Player/ThermalPlatings/DiamondThermalPlating.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3410,30 +1723,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/DiamondThermalPlating.png;Player/ThermalPlatings/DiamondThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/DiamondThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/DiamondThermalPlating.png;Player/ThermalPlatings/DiamondThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/GoldThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/GoldThermalPlating.png;Player/ThermalPlatings/GoldThermalPlating.png
 
 #begin ../Graphics/Player/ThermalPlatings/GoldThermalPlating.png
 /importer:TextureImporter
@@ -3459,18 +1748,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/IronThermalPlating.png;Player/ThermalPlatings/IronThermalPlating.png
 
-#begin ../Graphics/Player/ThermalPlatings/IronThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/IronThermalPlating.png;Player/ThermalPlatings/IronThermalPlating.png
-
 #begin ../Graphics/Player/ThermalPlatings/MythrilThermalPlating.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3482,30 +1759,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/MythrilThermalPlating.png;Player/ThermalPlatings/MythrilThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/MythrilThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/MythrilThermalPlating.png;Player/ThermalPlatings/MythrilThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/RadioactiveThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/RadioactiveThermalPlating.png;Player/ThermalPlatings/RadioactiveThermalPlating.png
 
 #begin ../Graphics/Player/ThermalPlatings/RadioactiveThermalPlating.png
 /importer:TextureImporter
@@ -3531,18 +1784,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/RainbowThermalPlating.png;Player/ThermalPlatings/RainbowThermalPlating.png
 
-#begin ../Graphics/Player/ThermalPlatings/RainbowThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/RainbowThermalPlating.png;Player/ThermalPlatings/RainbowThermalPlating.png
-
 #begin ../Graphics/Player/ThermalPlatings/ScrapThermalPlating.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3554,30 +1795,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/ThermalPlatings/ScrapThermalPlating.png;Player/ThermalPlatings/ScrapThermalPlating.png
-
-#begin ../Graphics/Player/ThermalPlatings/ScrapThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/ThermalPlatings/ScrapThermalPlating.png;Player/ThermalPlatings/ScrapThermalPlating.png
-
-#begin ../Graphics/Player/Thrusters/AdamantThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/AdamantThruster.png;Player/Thrusters/AdamantThruster.png
 
 #begin ../Graphics/Player/Thrusters/AdamantThruster.png
 /importer:TextureImporter
@@ -3603,18 +1820,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/CopperThruster.png;Player/Thrusters/CopperThruster.png
 
-#begin ../Graphics/Player/Thrusters/CopperThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/CopperThruster.png;Player/Thrusters/CopperThruster.png
-
 #begin ../Graphics/Player/Thrusters/CrystalThruster.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3626,30 +1831,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/CrystalThruster.png;Player/Thrusters/CrystalThruster.png
-
-#begin ../Graphics/Player/Thrusters/CrystalThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/CrystalThruster.png;Player/Thrusters/CrystalThruster.png
-
-#begin ../Graphics/Player/Thrusters/DiamondThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/DiamondThruster.png;Player/Thrusters/DiamondThruster.png
 
 #begin ../Graphics/Player/Thrusters/DiamondThruster.png
 /importer:TextureImporter
@@ -3675,18 +1856,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/GoldThruster.png;Player/Thrusters/GoldThruster.png
 
-#begin ../Graphics/Player/Thrusters/GoldThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/GoldThruster.png;Player/Thrusters/GoldThruster.png
-
 #begin ../Graphics/Player/Thrusters/IronThruster.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3698,30 +1867,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/IronThruster.png;Player/Thrusters/IronThruster.png
-
-#begin ../Graphics/Player/Thrusters/IronThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/IronThruster.png;Player/Thrusters/IronThruster.png
-
-#begin ../Graphics/Player/Thrusters/MythrilThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/MythrilThruster.png;Player/Thrusters/MythrilThruster.png
 
 #begin ../Graphics/Player/Thrusters/MythrilThruster.png
 /importer:TextureImporter
@@ -3747,30 +1892,6 @@
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/RadioactiveThruster.png;Player/Thrusters/RadioactiveThruster.png
 
-#begin ../Graphics/Player/Thrusters/RadioactiveThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/RadioactiveThruster.png;Player/Thrusters/RadioactiveThruster.png
-
-#begin ../Graphics/Player/Thrusters/RainbowThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/RainbowThruster.png;Player/Thrusters/RainbowThruster.png
-
 #begin ../Graphics/Player/Thrusters/RainbowThruster.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3794,25 +1915,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../Graphics/Player/Thrusters/ScrapThruster.png;Player/Thrusters/ScrapThruster.png
-
-#begin ../Graphics/Player/Thrusters/ScrapThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../Graphics/Player/Thrusters/ScrapThruster.png;Player/Thrusters/ScrapThruster.png
-
-#begin ../Graphics/StatisticsFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:../Graphics/StatisticsFont.spritefont;StatisticsFont.spritefont
 
 #begin ../Graphics/StatisticsFont.spritefont
 /importer:FontDescriptionImporter

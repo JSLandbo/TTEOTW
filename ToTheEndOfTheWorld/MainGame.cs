@@ -153,7 +153,7 @@ namespace ToTheEndOfTheWorld
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
-            blockPlaceholderFont = Content.Load<SpriteFont>("Fonts/text");
+            blockPlaceholderFont = Content.Load<SpriteFont>("File");
             placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
             placeholderTileTexture.SetData(new[] { Color.White });
             debugHudRenderer.LoadContent(Content);

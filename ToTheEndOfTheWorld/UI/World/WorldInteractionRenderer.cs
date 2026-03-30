@@ -18,7 +18,7 @@ namespace ToTheEndOfTheWorld.UI.World
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData(new[] { Color.White });
             textureResolver.LoadContent(content);
-            textFont = content.Load<SpriteFont>("Fonts/text");
+            textFont = content.Load<SpriteFont>("File");
         }
 
         public void DrawBuildings(SpriteBatch spriteBatch, ModelWorld world, WorldViewportService worldViewportService, int tileSize)
