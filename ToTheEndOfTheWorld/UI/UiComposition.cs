@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.UI
             uiManager.Register(new Shop.ShopOverlay(shopService, blocks, items));
             uiManager.Register(new Shop.EquipmentShopOverlay(equipmentShopService, blocks, items));
             uiManager.Register(new Shop.FuelStationOverlay());
-            uiManager.Register(new Shop.GadgetShopOverlay());
+            uiManager.Register(new Shop.GadgetShopOverlay(inventoryService, blocks, items));
             return uiManager;
         }
     }

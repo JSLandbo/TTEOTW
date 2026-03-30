@@ -49,6 +49,7 @@ namespace ToTheEndOfTheWorld
         private GadgetShopBuildingFactory gadgetShopBuildingFactory;
         private readonly UiWorld.DebugHudRenderer debugHudRenderer = new();
         private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
+        private UiWorld.GadgetBarRenderer gadgetBarRenderer;
         private readonly UiWorld.WorldInteractionRenderer worldInteractionRenderer = new();
         private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private WorldBlockFactory worldBlockFactory;
@@ -94,7 +95,7 @@ namespace ToTheEndOfTheWorld
             sellShopBuildingFactory = new SellShopBuildingFactory();
             equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
             fuelStationBuildingFactory = new FuelStationBuildingFactory();
-            gadgetShopBuildingFactory = new GadgetShopBuildingFactory();
+            gadgetShopBuildingFactory = new GadgetShopBuildingFactory(items);
             worldBootstrapper = new WorldBootstrapper(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
@@ -105,6 +106,7 @@ namespace ToTheEndOfTheWorld
             inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
             playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
+            gadgetBarRenderer = new UiWorld.GadgetBarRenderer(blocks, items);
 
             int _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             int _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
@@ -153,7 +155,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 100f // Starting allowance
+                Cash = 1000000f // Starting allowance
             };
 
             return new ModelWorld(
@@ -177,6 +179,7 @@ namespace ToTheEndOfTheWorld
             placeholderTileTexture.SetData(new[] { Color.White });
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
+            gadgetBarRenderer.LoadContent(GraphicsDevice, Content);
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
             uiManager.LoadContent(GraphicsDevice, Content);
         }
@@ -278,6 +281,7 @@ namespace ToTheEndOfTheWorld
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
+            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();

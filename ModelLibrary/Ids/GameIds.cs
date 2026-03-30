@@ -189,6 +189,13 @@ namespace ModelLibrary.Ids
                 public const short Mythril = 10608;
                 public const short Adamant = 10609;
             }
+
+            public static class Gadgets
+            {
+                public const short GadgetBelt = 10700;
+                public const short DirtFilter = 10701;
+                public const short RockFilter = 10702;
+            }
         }
     }
 }

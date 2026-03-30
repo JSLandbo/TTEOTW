@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 
@@ -8,7 +9,7 @@ namespace ModelLibrary.Abstract
     {
         private Vector2 _facingDirection = new(0, 0);
 
-        protected APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank)
+        protected APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGrid gadgetSlots, bool hasGadgetBelt = false)
         {
             ThermalPlating = thermalPlating ?? throw new ArgumentNullException(nameof(thermalPlating));
             Engine = engine ?? throw new ArgumentNullException(nameof(engine));
@@ -17,6 +18,8 @@ namespace ModelLibrary.Abstract
             Inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
             Thruster = thruster ?? throw new ArgumentNullException(nameof(thruster));
             FuelTank = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
+            GadgetSlots = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
+            HasGadgetBelt = hasGadgetBelt;
         }
 
         public Vector2 Coordinates { get; set; } = new(0, 0);
@@ -69,6 +72,8 @@ namespace ModelLibrary.Abstract
         public AInventory Inventory { get; set; }
         public AThruster Thruster { get; set; }
         public AFuelTank FuelTank { get; set; }
+        public AGrid GadgetSlots { get; set; }
+        public bool HasGadgetBelt { get; set; }
         public float Weight => GetEquippedWeight() + Inventory.ContentsWeight;
 
         public void ResetVelocity()

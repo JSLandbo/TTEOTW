@@ -6,5 +6,6 @@
         public string Name { get; set; } = null!;
         public float Worth { get; set; }
         public float Weight { get; set; }
+        public bool Stackable { get; set; } = true;
     }
 }

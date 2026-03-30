@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
+using ModelLibrary.Concrete.Items;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 Inventory inventory => new Inventory(inventory),
                 FuelTank fuelTank => new FuelTank(fuelTank),
                 Thruster thruster => new Thruster(thruster),
+                Item item => new Item(item),
                 _ => null
             };
         }

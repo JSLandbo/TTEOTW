@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
+using ModelLibrary.Concrete.Items;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
@@ -31,6 +32,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             RegisterThrusters(manager);
             RegisterHulls(manager);
             RegisterDrills(manager);
+            RegisterGadgets(manager);
         }
 
         private void RegisterThermalPlatings(ContentManager manager)
@@ -140,6 +142,28 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Drills.Rainbow, "RainbowDrill", LoadDrillTextures(manager, "Player/Drills/RainbowDrill/RainbowDrill"), new Drill(ID: GameIds.Items.Drills.Rainbow, Hardness: 2000f, Damage: 400.0f, Name: "Rainbow Drill", Worth: RainbowTierWorth, Weight: 5, MiningAreaSize: 1, ActiveFuelConsumption: 0.24f), EEquipmentType.Drill, 7);
             AddEquipmentDefinition(GameIds.Items.Drills.Mythril, "MythrilDrill", LoadDrillTextures(manager, "Player/Drills/MythrilDrill/MythrilDrill"), new Drill(ID: GameIds.Items.Drills.Mythril, Hardness: 4000f, Damage: 1500.0f, Name: "Mythril Drill", Worth: MythrilTierWorth, Weight: 4, MiningAreaSize: 3, ActiveFuelConsumption: 0.18f), EEquipmentType.Drill, 8);
             AddEquipmentDefinition(GameIds.Items.Drills.Adamant, "AdamantDrill", LoadDrillTextures(manager, "Player/Drills/AdamantDrill/AdamantDrill"), new Drill(ID: GameIds.Items.Drills.Adamant, Hardness: 10000f, Damage: 8000.0f, Name: "Adamant Drill", Worth: AdamantTierWorth, Weight: 4, MiningAreaSize: 9, ActiveFuelConsumption: 0.12f), EEquipmentType.Drill, 9);
+        }
+
+        private void RegisterGadgets(ContentManager manager)
+        {
+            Add(GameIds.Items.Gadgets.GadgetBelt, new GameItemDefinition(
+                "GadgetBelt",
+                new Dictionary<PlayerOrientation, Texture2D>(),
+                new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 10000.0f, Weight: 1.0f),
+                buyable: true,
+                type: EGameItemType.Item));
+            Add(GameIds.Items.Gadgets.DirtFilter, new GameItemDefinition(
+                "DirtFilter",
+                new Dictionary<PlayerOrientation, Texture2D>(),
+                new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
+                buyable: true,
+                type: EGameItemType.Item));
+            Add(GameIds.Items.Gadgets.RockFilter, new GameItemDefinition(
+                "RockFilter",
+                new Dictionary<PlayerOrientation, Texture2D>(),
+                new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
+                buyable: true,
+                type: EGameItemType.Item));
         }
 
         private void AddDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition)

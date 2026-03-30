@@ -68,13 +68,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             bool canAfford = slot.Item != null && world.Player.Cash >= slot.Item.Worth;
-            Color backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(40, 40, 40);
-            Color borderColor = canAfford ? new Color(208, 180, 96) : new Color(82, 82, 82);
+            Color backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(10, 10, 10);
+            Color borderColor = canAfford ? new Color(208, 180, 96) : new Color(20, 20, 20);
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, showCount: false, isHovered: isHovered);
 
             if (!canAfford)
             {
-                spriteBatch.Draw(pixelTexture, slotRectangle, Color.Black * 0.18f);
+                spriteBatch.Draw(pixelTexture, slotRectangle, Color.Black * 0.9f);
             }
 
             DrawPrice(spriteBatch, slot.Item, priceRectangle, canAfford, isHovered);
@@ -84,12 +84,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
         {
             string priceText = Math.Floor(item.Worth).ToString();
             Vector2 priceSize = textFont.MeasureString(priceText) * PriceTextScale;
-            spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(34, 34, 34));
-            DrawRectangleOutline(spriteBatch, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(88, 88, 88));
+            spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(8, 8, 8));
+            DrawRectangleOutline(spriteBatch, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(18, 18, 18));
             Vector2 pricePosition = new(
                 priceRectangle.Center.X - (priceSize.X / 2f),
                 priceRectangle.Y + ((priceRectangle.Height - priceSize.Y) / 2f) - 1);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(194, 194, 194), PriceTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(42, 42, 42), PriceTextScale);
         }
 
         private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)

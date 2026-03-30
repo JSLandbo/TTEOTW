@@ -3,21 +3,44 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.Types;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class GadgetShopOverlay : IInteractionOverlay
     {
-        private const int PanelWidth = 520;
-        private const int PanelHeight = 240;
+        private const int PanelWidth = 620;
+        private const int PanelHeight = 760;
+        private const int ButtonWidth = 320;
+        private const int ButtonHeight = 72;
+        private const int GridColumns = 6;
+        private const int GridRows = 6;
+        private const int GridSlotSize = 64;
+        private const int GridSpacing = 8;
+        private const double GadgetBeltPrice = 10000.0;
+        private readonly InventoryService inventoryService;
+        private readonly GameItemsRepository items;
         private const float TitleTextScale = 1.35f;
-        private const float BodyTextScale = 1.2f;
+        private const float BodyTextScale = 1.15f;
+        private const float ButtonTextScale = 1.2f;
 
+        private readonly ItemTextureResolver textureResolver;
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
+        private ItemSlotRenderer slotRenderer = null!;
         private bool isOpen;
+        private ABuilding currentBuilding = null!;
+
+        public GadgetShopOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items)
+        {
+            this.inventoryService = inventoryService;
+            this.items = items;
+            textureResolver = new ItemTextureResolver(blocks, items);
+        }
 
         public EBuildingInteraction Action => EBuildingInteraction.GadgetShop;
         public bool IsOpen => isOpen;
@@ -25,6 +48,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Open(ABuilding building)
         {
+            currentBuilding = building;
             isOpen = true;
         }
 
@@ -33,6 +57,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
+            slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
@@ -46,6 +71,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 (currentKeyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E)))
             {
                 isOpen = false;
+                return;
+            }
+
+            if (currentMouseState.LeftButton == ButtonState.Pressed &&
+                previousMouseState.LeftButton == ButtonState.Released &&
+                GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
+            {
+                TryBuyGadgetBelt(world);
+                return;
+            }
+
+            if (world.Player.HasGadgetBelt &&
+                TryGetClickedShopSlot(currentMouseState.Position, viewportWidth, viewportHeight, out int slotX, out int slotY))
+            {
+                TryBuyGadget(world, slotX, slotY);
             }
         }
 
@@ -57,13 +97,149 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle buttonRectangle = GetBuyButtonRectangle(viewportWidth, viewportHeight);
+            Rectangle gridRectangle = GetGridRectangle(panelRectangle);
+            bool alreadyOwned = world.Player.HasGadgetBelt;
+            bool canBuy = !alreadyOwned && world.Player.Cash >= GadgetBeltPrice;
+            AGridBox[,] shopGrid = currentBuilding?.StorageGrid?.InternalGrid;
+
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Store", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Coming soon", new Vector2(panelRectangle.X + 22, panelRectangle.Y + 84), new Color(230, 230, 230), BodyTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 40), new Color(188, 188, 188), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), new Color(244, 240, 229), TitleTextScale);
+
+            spriteBatch.Draw(pixelTexture, buttonRectangle, canBuy ? new Color(92, 116, 82) : new Color(64, 64, 64));
+            DrawRectangleOutline(spriteBatch, buttonRectangle, 2, canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110));
+            DrawCenteredText(spriteBatch, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
+            if (!alreadyOwned)
+            {
+                GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {GadgetBeltPrice:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
+            }
+
+            DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned);
+            if (!alreadyOwned)
+            {
+                spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
+                DrawCenteredText(spriteBatch, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
+            }
+
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 52), new Color(188, 188, 188), BodyTextScale);
+        }
+
+        private static void TryBuyGadgetBelt(ModelWorld world)
+        {
+            if (world.Player.HasGadgetBelt || world.Player.Cash < GadgetBeltPrice)
+            {
+                return;
+            }
+
+            world.Player.HasGadgetBelt = true;
+            world.Player.Cash -= GadgetBeltPrice;
+        }
+
+        private bool TryBuyGadget(ModelWorld world, int slotX, int slotY)
+        {
+            AGridBox[,] grid = currentBuilding?.StorageGrid?.InternalGrid;
+
+            if (grid == null || slotX < 0 || slotX >= grid.GetLength(0) || slotY < 0 || slotY >= grid.GetLength(1))
+            {
+                return false;
+            }
+
+            AGridBox slot = grid[slotX, slotY];
+
+            if (slot.Item == null || world.Player.Cash < slot.Item.Worth)
+            {
+                return false;
+            }
+
+            AType purchasedItem = items.Create(slot.Item.ID);
+
+            if (purchasedItem == null || !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
+            {
+                return false;
+            }
+
+            world.Player.Cash -= slot.Item.Worth;
+            return true;
+        }
+
+        private Rectangle GetBuyButtonRectangle(int viewportWidth, int viewportHeight)
+        {
+            return new Rectangle((viewportWidth - ButtonWidth) / 2, (viewportHeight - PanelHeight) / 2 + 74, ButtonWidth, ButtonHeight);
+        }
+
+        private static Rectangle GetGridRectangle(Rectangle panelRectangle)
+        {
+            int gridWidth = (GridColumns * GridSlotSize) + ((GridColumns - 1) * GridSpacing);
+            int gridHeight = (GridRows * GridSlotSize) + ((GridRows - 1) * GridSpacing);
+
+            return new Rectangle(
+                panelRectangle.X + ((panelRectangle.Width - gridWidth) / 2),
+                panelRectangle.Y + 206,
+                gridWidth,
+                gridHeight);
+        }
+
+        private bool TryGetClickedShopSlot(Point mousePosition, int viewportWidth, int viewportHeight, out int slotX, out int slotY)
+        {
+            Rectangle gridRectangle = GetGridRectangle(new Rectangle((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight));
+
+            for (int y = 0; y < GridRows; y++)
+            {
+                for (int x = 0; x < GridColumns; x++)
+                {
+                    Rectangle slotRectangle = new(
+                        gridRectangle.X + (x * (GridSlotSize + GridSpacing)),
+                        gridRectangle.Y + (y * (GridSlotSize + GridSpacing)),
+                        GridSlotSize,
+                        GridSlotSize);
+
+                    if (slotRectangle.Contains(mousePosition))
+                    {
+                        slotX = x;
+                        slotY = y;
+                        return true;
+                    }
+                }
+            }
+
+            slotX = -1;
+            slotY = -1;
+            return false;
+        }
+
+        private void DrawShopGrid(SpriteBatch spriteBatch, Rectangle gridRectangle, AGridBox[,] shopGrid, bool isEnabled)
+        {
+            for (int y = 0; y < GridRows; y++)
+            {
+                for (int x = 0; x < GridColumns; x++)
+                {
+                    Rectangle slotRectangle = new(
+                        gridRectangle.X + (x * (GridSlotSize + GridSpacing)),
+                        gridRectangle.Y + (y * (GridSlotSize + GridSpacing)),
+                        GridSlotSize,
+                        GridSlotSize);
+                    AGridBox slot = shopGrid?[x, y] ?? new ModelLibrary.Concrete.Grids.GridBox(null, 0);
+                    slotRenderer.DrawGridSlot(
+                        spriteBatch,
+                        slotRectangle,
+                        slot,
+                        isEnabled ? new Color(44, 44, 44) : new Color(10, 10, 10),
+                        isEnabled ? new Color(108, 108, 108) : new Color(20, 20, 20),
+                        showCount: false);
+                }
+            }
+        }
+
+        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)
+        {
+            Vector2 size = textFont.MeasureString(text) * scale;
+            Vector2 position = new(
+                rectangle.X + ((rectangle.Width - size.X) / 2f),
+                rectangle.Y + ((rectangle.Height - size.Y) / 2f));
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
         private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)

@@ -19,6 +19,11 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
+            if (!left.Stackable || !right.Stackable)
+            {
+                return false;
+            }
+
             return left.GetType() == right.GetType() && left.ID == right.ID;
         }
 

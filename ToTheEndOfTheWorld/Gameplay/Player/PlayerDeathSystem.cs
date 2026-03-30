@@ -49,6 +49,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private void EnterDeathState(ModelWorld world)
         {
             awaitingRespawn = true;
+            world.Player.Cash *= 0.75;
             world.Player.XVelocity = 0.0f;
             world.Player.YVelocity = 0.0f;
             world.Player.XOffset = 0.0f;
@@ -62,6 +63,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private void Respawn(ModelWorld world)
         {
             ClearInventory(world.Player.Inventory.Items.InternalGrid);
+            ClearInventory(world.Player.GadgetSlots.InternalGrid);
 
             short thermalPlatingId = world.Player.ThermalPlating.ID;
             short hullId = world.Player.Hull.ID;

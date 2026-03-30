@@ -4,6 +4,7 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.World;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
@@ -26,7 +27,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             CraftingService craftingService,
             ModelWorld world,
             InventoryItemUseService itemUseService,
-            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory)
+            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory,
+            int viewportWidth,
+            int viewportHeight)
         {
             MousePosition = currentMouseState.Position;
             currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
@@ -52,7 +55,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     return;
                 }
 
-                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out AGridBox clickedSlot))
+                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox clickedSlot))
                 {
                     MoveStack(clickedSlot);
                 }
@@ -61,7 +64,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             if (WasRightClicked(currentMouseState, previousMouseState)
-                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, out AGridBox rightClickedSlot))
+                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot))
             {
                 TakeSingleItem(rightClickedSlot);
             }
@@ -261,7 +264,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, out AGridBox slot)
+        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, ModelLibrary.Abstract.APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot)
         {
             if (TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {
@@ -277,6 +280,20 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             if (TryGetClickedSlot(inventoryGrid, layout.InventoryStart.X, layout.InventoryStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {
                 return true;
+            }
+
+            if (player.HasGadgetBelt)
+            {
+                for (int x = 0; x < GadgetBarLayout.TotalSlotCount; x++)
+                {
+                    if (!GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, x).Contains(position))
+                    {
+                        continue;
+                    }
+
+                    slot = player.GadgetSlots.InternalGrid[x, 0];
+                    return true;
+                }
             }
 
             slot = null;

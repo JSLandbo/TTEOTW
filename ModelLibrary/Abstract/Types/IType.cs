@@ -6,5 +6,6 @@
         public short ID { get; set; }
         public float Worth { get; set; }
         public float Weight { get; set; }
+        public bool Stackable { get; set; }
     }
 }
