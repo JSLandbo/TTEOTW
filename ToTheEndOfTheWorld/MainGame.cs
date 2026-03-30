@@ -128,13 +128,13 @@ namespace ToTheEndOfTheWorld
         private World CreateNewWorld(int _blocksWide, int _blocksHigh)
         {
             var player = new Player(
-                ThermalPlating: items.Create<ThermalPlating>(10000),
-                Engine: items.Create<Engine>(10100),
-                Hull: items.Create<Hull>(10500),
-                Drill: items.Create<Drill>(10600),
-                Inventory: items.Create<Inventory>(10300),
-                Thruster: items.Create<Thruster>(10400),
-                FuelTank: items.Create<FuelTank>(10200)
+                ThermalPlating: items.Create<ThermalPlating>(GameIds.Items.ThermalPlatings.Scrap),
+                Engine: items.Create<Engine>(GameIds.Items.Engines.Scrap),
+                Hull: items.Create<Hull>(GameIds.Items.Hulls.Scrap),
+                Drill: items.Create<Drill>(GameIds.Items.Drills.Scrap),
+                Inventory: items.Create<Inventory>(GameIds.Items.Containers.Scrap),
+                Thruster: items.Create<Thruster>(GameIds.Items.Thrusters.Scrap),
+                FuelTank: items.Create<FuelTank>(GameIds.Items.FuelTanks.Scrap)
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d))
@@ -252,7 +252,7 @@ namespace ToTheEndOfTheWorld
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
                 {
-                    spriteBatch.Draw(blocks[-1].Texture, location, Color.White);
+                    spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Background].Texture, location, Color.White);
                 }
                 else
                 {
@@ -283,7 +283,7 @@ namespace ToTheEndOfTheWorld
                     {
                         var percentDamaged = interaction.Block.PercentDamaged();
 
-                        spriteBatch.Draw(blocks[-2].Texture, location, Color.White * percentDamaged);
+                        spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Breaking].Texture, location, Color.White * percentDamaged);
                     }
                 }
             }

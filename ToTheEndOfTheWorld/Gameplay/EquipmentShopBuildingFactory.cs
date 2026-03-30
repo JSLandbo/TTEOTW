@@ -24,7 +24,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         public ABuilding Create(long worldX, long worldY)
         {
             return new Building(
-                ID: 2,
+                ID: GameIds.Buildings.EquipmentShop,
                 Name: "Equipment Shop",
                 WorldX: worldX,
                 WorldY: worldY,

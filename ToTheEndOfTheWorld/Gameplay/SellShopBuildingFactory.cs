@@ -1,6 +1,7 @@
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.Context;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
@@ -9,7 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         public ABuilding Create(long worldX, long worldY)
         {
             return new Building(
-                ID: 1,
+                ID: GameIds.Buildings.SellShop,
                 Name: "Shop",
                 WorldX: worldX,
                 WorldY: worldY,

@@ -5,8 +5,6 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class CraftingRecipeLibrary
     {
-        private const short DirtBlockId = 2;
-        private const short RockBlockId = 4;
         private readonly WorldElementsRepository blocks;
 
         public CraftingRecipeLibrary(WorldElementsRepository blocks)
@@ -20,11 +18,18 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1),
-                        new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1),
-                        new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1), new CraftingIngredient(DirtBlockId, 1)),
-                    CreateOutput: () => CreateBlockItem(RockBlockId),
-                    OutputCount: 1)
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1),
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1),
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Rock),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64),
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), null, new CraftingIngredient(GameIds.Blocks.Dirt, 64),
+                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.WingOfLife),
+                    OutputCount: 64)
             };
         }
 
