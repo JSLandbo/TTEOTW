@@ -1,7 +1,7 @@
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.Context;
+using ModelLibrary.Ids;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {

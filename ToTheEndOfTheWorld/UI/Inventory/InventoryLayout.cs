@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
@@ -26,17 +27,17 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         int SlotSpacing
     )
     {
-        public Rectangle GetEquipmentSlotRectangle(Gameplay.PlayerEquipmentSlotType slotType)
+        public Rectangle GetEquipmentSlotRectangle(PlayerEquipmentSlotType slotType)
         {
             return slotType switch
             {
-                Gameplay.PlayerEquipmentSlotType.ThermalPlating => ThermalPlatingSlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.Hull => HullSlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.Drill => DrillSlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.Engine => EngineSlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.Inventory => InventorySlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.FuelTank => FuelTankSlotRectangle,
-                Gameplay.PlayerEquipmentSlotType.Thruster => ThrusterSlotRectangle,
+                PlayerEquipmentSlotType.ThermalPlating => ThermalPlatingSlotRectangle,
+                PlayerEquipmentSlotType.Hull => HullSlotRectangle,
+                PlayerEquipmentSlotType.Drill => DrillSlotRectangle,
+                PlayerEquipmentSlotType.Engine => EngineSlotRectangle,
+                PlayerEquipmentSlotType.Inventory => InventorySlotRectangle,
+                PlayerEquipmentSlotType.FuelTank => FuelTankSlotRectangle,
+                PlayerEquipmentSlotType.Thruster => ThrusterSlotRectangle,
                 _ => HullSlotRectangle
             };
         }

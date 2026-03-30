@@ -4,6 +4,7 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Grids;
+using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.Gameplay;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
