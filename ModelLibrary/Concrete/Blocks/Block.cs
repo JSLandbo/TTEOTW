@@ -19,7 +19,7 @@ namespace ModelLibrary.Concrete.Blocks
         }
 
         [JsonConstructor]
-        public Block(short ID, bool Ethereal = false, float Hardness = 0, float Health = 0, float Worth = 0, BlockInfo Info = null)
+        public Block(short ID, bool Ethereal = false, float Hardness = 0, float Health = 0, float Worth = 0, BlockInfo? Info = null)
         {
             this.ID = ID;
             this.Ethereal = Ethereal;
