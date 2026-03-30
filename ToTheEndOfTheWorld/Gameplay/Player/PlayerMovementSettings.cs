@@ -4,10 +4,12 @@ using System;
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public readonly record struct PlayerMovementSettings(
-        float MaximumSpeed,
+        float AirMaximumSpeed,
+        float GroundMaximumSpeed,
         float MinimumSpeed,
-        float Acceleration,
-        float Drag,
+        float AirAcceleration,
+        float AirDrag,
+        float GroundAcceleration,
         float Gravity,
         float MaximumFallSpeed)
     {
@@ -20,15 +22,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         public static PlayerMovementSettings FromPlayer(APlayer player)
         {
             ModelLibrary.Abstract.PlayerShipComponents.AThruster thruster = player.Thruster;
+            ModelLibrary.Abstract.PlayerShipComponents.AEngine engine = player.Engine;
             float effectiveWeight = Math.Max(player.Weight, MinimumEffectiveWeight);
-            float maximumSpeed = thruster.Speed;
+            float airMaximumSpeed = thruster.Speed;
+            float groundMaximumSpeed = engine.Speed;
             float minimumSpeed = thruster.MinimumVelocity;
-            float acceleration = thruster.Acceleration;
-            float drag = acceleration * DragMultiplier;
+            float airAcceleration = thruster.Acceleration;
+            float airDrag = airAcceleration * DragMultiplier;
+            float groundAcceleration = engine.Acceleration;
             float gravity = effectiveWeight * GravityPerWeightUnit;
-            float maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (maximumSpeed * ThrusterFallSpeedContributionMultiplier);
+            float maximumFallSpeed = (effectiveWeight * MaximumFallSpeedPerWeightUnit) + (airMaximumSpeed * ThrusterFallSpeedContributionMultiplier);
 
-            return new PlayerMovementSettings(maximumSpeed, minimumSpeed, acceleration, drag, gravity, maximumFallSpeed);
+            return new PlayerMovementSettings(airMaximumSpeed, groundMaximumSpeed, minimumSpeed, airAcceleration, airDrag, groundAcceleration, gravity, maximumFallSpeed);
         }
     }
 }

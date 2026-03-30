@@ -215,15 +215,15 @@ namespace ToTheEndOfTheWorld
             ModelLibrary.Abstract.APlayer player = world.Player;
             Vector2 facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
-            if (!playerFuelSystem.CanAffordMovement(player, deltaTime))
-            {
-                player.MovementInput = Vector2.Zero;
-            }
-            if (player.MovementInput != Vector2.Zero && !playerHeatSystem.CanUseThrusters(player))
-            {
-                player.MovementInput = Vector2.Zero;
-            }
             bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+            if (!playerFuelSystem.CanAffordMovement(player, deltaTime, isGrounded))
+            {
+                player.MovementInput = Vector2.Zero;
+            }
+            if (UsesThrustersForMovement(player, isGrounded) && !playerHeatSystem.CanUseThrusters(player))
+            {
+                player.MovementInput = Vector2.Zero;
+            }
             playerMovementSystem.Update(player, deltaTime, isGrounded);
 
             int resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
@@ -240,13 +240,13 @@ namespace ToTheEndOfTheWorld
             }
             player.Mining = minedThisFrame;
 
-            if (player.MovementInput != Vector2.Zero)
+            if (UsesThrustersForMovement(player, isGrounded))
             {
                 playerHeatSystem.AddThrusterHeat(player, deltaTime);
             }
 
             playerHeatSystem.Update(player, deltaTime);
-            playerFuelSystem.Update(player, deltaTime);
+            playerFuelSystem.Update(player, deltaTime, isGrounded);
             playerHullSystem.Update(player, deltaTime);
             playerDeathSystem.TryHandleDeath(world);
 
@@ -412,6 +412,11 @@ namespace ToTheEndOfTheWorld
                 return;
             }
             worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportWidth, logicalViewportHeight);
+        }
+
+        private static bool UsesThrustersForMovement(ModelLibrary.Abstract.APlayer player, bool isGrounded)
+        {
+            return player.MovementInput.Y != 0 || (!isGrounded && player.MovementInput != Vector2.Zero);
         }
 
     }

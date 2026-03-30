@@ -22,23 +22,26 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             }
             else
             {
-                float xTarget = player.MovementInput.X * settings.MaximumSpeed;
+                float maximumHorizontalSpeed = isGrounded ? settings.GroundMaximumSpeed : settings.AirMaximumSpeed;
+                float horizontalAcceleration = isGrounded ? settings.GroundAcceleration : settings.AirAcceleration;
+                float horizontalDrag = isGrounded ? 0.0f : settings.AirDrag;
+                float xTarget = player.MovementInput.X * maximumHorizontalSpeed;
                 float xChangeRate = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f
-                    ? settings.Acceleration + settings.Drag
-                    : settings.Acceleration;
+                    ? horizontalAcceleration + horizontalDrag
+                    : horizontalAcceleration;
 
                 xVelocity = MoveTowards(xVelocity, xTarget, xChangeRate * deltaTime);
             }
 
             if (player.MovementInput.Y != 0)
             {
-                float yTarget = player.MovementInput.Y * settings.MaximumSpeed;
+                float yTarget = player.MovementInput.Y * settings.AirMaximumSpeed;
                 float yChangeRate =
                     player.MovementInput.Y < 0
-                        ? settings.Acceleration + settings.Drag
+                        ? settings.AirAcceleration + settings.AirDrag
                         : Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
-                            ? settings.Acceleration + settings.Drag
-                            : settings.Acceleration;
+                            ? settings.AirAcceleration + settings.AirDrag
+                            : settings.AirAcceleration;
 
                 yVelocity = MoveTowards(yVelocity, yTarget, yChangeRate * deltaTime);
             }
@@ -72,8 +75,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 xVelocity = 0.0f;
             }
 
-            player.XVelocity = Math.Clamp(xVelocity, -settings.MaximumSpeed, settings.MaximumSpeed);
-            player.YVelocity = Math.Clamp(yVelocity, -settings.MaximumSpeed, settings.MaximumFallSpeed);
+            player.XVelocity = Math.Clamp(xVelocity, -settings.AirMaximumSpeed, settings.AirMaximumSpeed);
+            player.YVelocity = Math.Clamp(yVelocity, -settings.AirMaximumSpeed, settings.MaximumFallSpeed);
 
             player.XOffset += player.XVelocity * deltaTime;
             player.YOffset += player.YVelocity * deltaTime;

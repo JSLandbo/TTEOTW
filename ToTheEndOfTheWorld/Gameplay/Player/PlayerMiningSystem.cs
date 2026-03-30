@@ -32,13 +32,15 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public bool Update(ModelWorld world, APlayer player, float deltaTime)
         {
+            bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+
             if (!CanContinueMining(player))
             {
                 player.DrillExtended = false;
                 return false;
             }
 
-            if (!playerFuelSystem.CanAffordMining(player, deltaTime))
+            if (!playerFuelSystem.CanAffordMining(player, deltaTime, isGrounded))
             {
                 player.DrillExtended = false;
                 return false;
@@ -48,7 +50,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             Vector2 blockVector = new(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
             WorldTile worldTile = new((long)blockVector.X, (long)blockVector.Y);
 
-            if (!PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver))
+            if (!isGrounded)
             {
                 player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
                 return false;
@@ -129,7 +131,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 {
                     for (int lateral = -halfExtent; lateral <= halfExtent; lateral++)
                     {
-                        if (!playerFuelSystem.CanAffordMining(player, deltaTime))
+                        if (!playerFuelSystem.CanAffordMining(player, deltaTime, true))
                         {
                             player.DrillExtended = false;
                             return damagedAnyBlock;
@@ -155,7 +157,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             {
                 for (int lateral = -halfExtent; lateral <= halfExtent; lateral++)
                 {
-                    if (!playerFuelSystem.CanAffordMining(player, deltaTime))
+                    if (!playerFuelSystem.CanAffordMining(player, deltaTime, true))
                     {
                         player.DrillExtended = false;
                         return damagedAnyBlock;
