@@ -46,7 +46,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (includeMining)
             {
-                fuelUsage += player.Engine.ActiveFuelConsumption;
+                fuelUsage += player.Drill.ActiveFuelConsumption;
             }
 
             return fuelUsage;

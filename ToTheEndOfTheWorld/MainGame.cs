@@ -93,7 +93,7 @@ namespace ToTheEndOfTheWorld
             sellShopBuildingFactory = new SellShopBuildingFactory();
             equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
             fuelStationBuildingFactory = new FuelStationBuildingFactory();
-            worldBootstrapper = new WorldBootstrapper(worldViewportService, sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory);
+            worldBootstrapper = new WorldBootstrapper(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             craftingService = new CraftingService(new CraftingRecipeLibrary(blocks).CreateRecipes());

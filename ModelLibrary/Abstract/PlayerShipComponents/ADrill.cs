@@ -7,5 +7,6 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
         public float Damage { get; set; }
         public float Hardness { get; set; } // How hard a mineral can this drill mine
         public int MiningAreaSize { get; set; }
+        public float ActiveFuelConsumption { get; set; } // When mining
     }
 }

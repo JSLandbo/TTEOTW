@@ -105,7 +105,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Inventory)equippedItem).SizeLimit:0} Capacity | x{((Inventory)equippedItem).MaxStackSize}",
                 EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} Tier | {((FuelTank)equippedItem).Fuel:0.00}/{((FuelTank)equippedItem).Capacity:0.00} Fuel",
                 EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Hull)equippedItem).Health:0} HP",
-                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Drill)equippedItem).Damage:0.##} Damage | {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize}",
+                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Drill)equippedItem).Damage:0.##} Damage | {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | {((Drill)equippedItem).ActiveFuelConsumption:0.##} Fuel/sec",
                 EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Thruster)equippedItem).Speed:0.#} Speed",
                 _ => $"{GetSlotLabel(slotType)} | {tier} Tier"
             };

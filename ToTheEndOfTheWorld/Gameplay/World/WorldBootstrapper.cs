@@ -2,18 +2,15 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBootstrapper
     {
-        private readonly WorldViewportService worldViewportService;
         private readonly SellShopBuildingFactory sellShopBuildingFactory;
         private readonly EquipmentShopBuildingFactory equipmentShopBuildingFactory;
         private readonly FuelStationBuildingFactory fuelStationBuildingFactory;
 
         public WorldBootstrapper(
-            WorldViewportService worldViewportService,
             SellShopBuildingFactory sellShopBuildingFactory,
             EquipmentShopBuildingFactory equipmentShopBuildingFactory,
             FuelStationBuildingFactory fuelStationBuildingFactory)
         {
-            this.worldViewportService = worldViewportService;
             this.sellShopBuildingFactory = sellShopBuildingFactory;
             this.equipmentShopBuildingFactory = equipmentShopBuildingFactory;
             this.fuelStationBuildingFactory = fuelStationBuildingFactory;
@@ -24,14 +21,14 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             world.Buildings ??= [];
             world.Buildings.Clear();
 
-            Microsoft.Xna.Framework.Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
-
-            long shopX = (long)centerWorldPosition.X + 6;
-            long shopY = (long)centerWorldPosition.Y - 1;
-            long equipmentShopX = (long)centerWorldPosition.X - 8;
-            long equipmentShopY = (long)centerWorldPosition.Y - 1;
-            long fuelStationX = (long)centerWorldPosition.X + 12;
-            long fuelStationY = (long)centerWorldPosition.Y - 1;
+            long spawnX = (long)world.SpawnWorldPosition.X;
+            long spawnY = (long)world.SpawnWorldPosition.Y;
+            long shopX = spawnX + 6;
+            long shopY = spawnY - 1;
+            long equipmentShopX = spawnX - 8;
+            long equipmentShopY = spawnY - 1;
+            long fuelStationX = spawnX + 12;
+            long fuelStationY = spawnY - 1;
 
             world.Buildings.Add(sellShopBuildingFactory.Create(shopX, shopY));
             world.Buildings.Add(equipmentShopBuildingFactory.Create(equipmentShopX, equipmentShopY));
