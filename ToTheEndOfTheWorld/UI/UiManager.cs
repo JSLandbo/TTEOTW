@@ -71,5 +71,18 @@ namespace ToTheEndOfTheWorld.UI
 
             return false;
         }
+
+        public T? GetOverlay<T>() where T : class, IGameOverlay
+        {
+            foreach (IGameOverlay overlay in overlays)
+            {
+                if (overlay is T typedOverlay)
+                {
+                    return typedOverlay;
+                }
+            }
+
+            return null;
+        }
     }
 }

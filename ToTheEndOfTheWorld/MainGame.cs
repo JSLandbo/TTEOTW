@@ -8,6 +8,7 @@ using ModelLibrary.Ids;
 using System;
 using System.Collections.Generic;
 using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -32,6 +33,7 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerFuelSystem playerFuelSystem = new();
         private readonly PlayerHeatSystem playerHeatSystem = new();
         private readonly PlayerHullSystem playerHullSystem = new();
+        private PlayerDeathSystem playerDeathSystem;
         private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
         private readonly WorldViewportService worldViewportService = new();
@@ -53,7 +55,9 @@ namespace ToTheEndOfTheWorld
         private UiWorld.PlayerShipRenderer playerShipRenderer;
         private CraftingService craftingService;
         private UiManager uiManager;
+        private InventoryOverlay inventoryOverlay;
         private SpriteFont blockPlaceholderFont;
+        private UiWorld.DeathOverlay deathOverlay;
         private Texture2D placeholderTileTexture;
         private int logicalViewportWidth;
         private int logicalViewportHeight;
@@ -93,6 +97,8 @@ namespace ToTheEndOfTheWorld
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             equipmentShopService = new EquipmentShopService(inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
+            inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
+            playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
 
             int _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
@@ -118,6 +124,10 @@ namespace ToTheEndOfTheWorld
             world.BlocksWide = _blocksWide;
             world.BlocksHigh = _blocksHigh;
             worldViewportService.EnsurePadding(world);
+            if (world.SpawnWorldPosition == Vector2.Zero)
+            {
+                world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+            }
             worldBootstrapper.EnsureInitialized(world);
             previousKeyboardState = Keyboard.GetState();
             previousMouseState = Mouse.GetState();
@@ -155,6 +165,7 @@ namespace ToTheEndOfTheWorld
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
             blockPlaceholderFont = Content.Load<SpriteFont>("File");
+            deathOverlay = new UiWorld.DeathOverlay(blockPlaceholderFont);
             placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
             placeholderTileTexture.SetData(new[] { Color.White });
             debugHudRenderer.LoadContent(Content);
@@ -169,6 +180,10 @@ namespace ToTheEndOfTheWorld
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             bool blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
+            if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
+            {
+                playerDeathSystem.SelfDestruct(world);
+            }
 
             if (uiManager.BlocksGameplay)
             {
@@ -214,6 +229,8 @@ namespace ToTheEndOfTheWorld
             playerHeatSystem.Update(player, deltaTime);
             playerFuelSystem.Update(player, deltaTime);
             playerHullSystem.Update(player, deltaTime);
+            playerDeathSystem.Update(deltaTime);
+            playerDeathSystem.TryHandleDeath(world);
 
             if (!blockedGameplayAtFrameStart)
             {
@@ -240,6 +257,7 @@ namespace ToTheEndOfTheWorld
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
+            deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();
 

@@ -126,6 +126,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
         }
 
+        public void ClearHeldItemState()
+        {
+            ClearHeldItem();
+        }
+
         private void MoveStack(AGridBox slot)
         {
             if (HeldItem == null || HeldCount == 0)

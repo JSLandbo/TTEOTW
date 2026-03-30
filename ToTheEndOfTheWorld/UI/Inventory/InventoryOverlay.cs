@@ -26,9 +26,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private readonly ItemTextureResolver textureResolver;
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
+        private Texture2D trashbinTexture;
+        private Texture2D suicideTexture;
         private SpriteFont textFont;
         private InventoryLayout currentLayout;
         private bool isOpen;
+        private bool selfDestructRequested;
 
         public InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items)
         {
@@ -41,11 +44,20 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
 
+        public bool ConsumeSelfDestructRequest()
+        {
+            bool requested = selfDestructRequested;
+            selfDestructRequested = false;
+            return requested;
+        }
+
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData(new[] { Color.White });
             textFont = content.Load<SpriteFont>("File");
+            trashbinTexture = content.Load<Texture2D>("General/Trashbin");
+            suicideTexture = content.Load<Texture2D>("General/Suicide");
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont, StackTextScale);
         }
 
@@ -74,6 +86,18 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid);
+
+            if (WasLeftClicked(currentMouseState, previousMouseState) && currentLayout.SelfDestructButtonRectangle.Contains(currentMouseState.Position))
+            {
+                selfDestructRequested = true;
+                isOpen = false;
+                interactionController.ClearHeldItemState();
+                ClearGrid(craftingGrid.InternalGrid);
+                craftOutputSlot.Item = null;
+                craftOutputSlot.Count = 0;
+                return;
+            }
+
             interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory);
         }
 
@@ -106,6 +130,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 new Vector2(currentLayout.HeaderRectangle.Right - capacitySize.X - 24, currentLayout.PanelRectangle.Y + 11),
                 new Color(185, 185, 185),
                 HeaderTextScale);
+            DrawSelfDestructButton(spriteBatch);
 
             DrawGrid(spriteBatch, craftingGrid.InternalGrid, currentLayout.CraftingStart.X, currentLayout.CraftingStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
 
@@ -222,7 +247,30 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             DrawRectangleOutline(spriteBatch, currentLayout.TrashBinRectangle, 2, isHovered ? UiColorHelper.Brighten(borderColor, 28) : borderColor);
-            DrawCenteredText(spriteBatch, "X", currentLayout.TrashBinRectangle, ButtonTextScale);
+            DrawCenteredTexture(spriteBatch, trashbinTexture, currentLayout.TrashBinRectangle, canTrashHeldItem ? Color.White : Color.White * 0.55f);
+        }
+
+        private void DrawSelfDestructButton(SpriteBatch spriteBatch)
+        {
+            bool isHovered = currentLayout.SelfDestructButtonRectangle.Contains(interactionController.MousePosition);
+            Color backgroundColor = isHovered ? new Color(120, 48, 48) : new Color(92, 36, 36);
+            Color borderColor = isHovered ? new Color(226, 118, 118) : new Color(190, 92, 92);
+
+            spriteBatch.Draw(pixelTexture, currentLayout.SelfDestructButtonRectangle, backgroundColor);
+            DrawRectangleOutline(spriteBatch, currentLayout.SelfDestructButtonRectangle, 2, borderColor);
+            DrawCenteredTexture(spriteBatch, suicideTexture, currentLayout.SelfDestructButtonRectangle, Color.White);
+        }
+
+        private static void ClearGrid(AGridBox[,] grid)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    grid[x, y].Item = null;
+                    grid[x, y].Count = 0;
+                }
+            }
         }
 
         private static Color GetTierAccentColor(string tier, bool isEmpty)
@@ -265,6 +313,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, textPosition, Color.White, scale);
         }
 
+        private static void DrawCenteredTexture(SpriteBatch spriteBatch, Texture2D texture, Rectangle bounds, Color color)
+        {
+            const int padding = 6;
+            Rectangle textureBounds = new(bounds.X + padding, bounds.Y + padding, bounds.Width - (padding * 2), bounds.Height - (padding * 2));
+            spriteBatch.Draw(texture, textureBounds, color);
+        }
+
         private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
         {
             spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
@@ -284,6 +339,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             return false;
+        }
+
+        private static bool WasLeftClicked(MouseState currentMouseState, MouseState previousMouseState)
+        {
+            return currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released;
         }
     }
 }

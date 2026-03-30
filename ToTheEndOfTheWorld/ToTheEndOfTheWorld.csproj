@@ -23,6 +23,9 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Graphics\" />
   </ItemGroup>
   <ItemGroup>
