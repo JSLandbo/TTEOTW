@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.UI.World
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
-            pixelTexture.SetData(new[] { Color.White });
+            pixelTexture.SetData([Color.White]);
             textureResolver.LoadContent(content);
             textFont = content.Load<SpriteFont>("File");
         }

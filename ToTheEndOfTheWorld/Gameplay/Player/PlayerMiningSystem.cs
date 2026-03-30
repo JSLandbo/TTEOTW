@@ -15,8 +15,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private readonly PlayerHeatSystem playerHeatSystem;
         private readonly PlayerHullSystem playerHullSystem;
         private readonly PlayerFuelSystem playerFuelSystem;
+        private readonly PlayerFallDamageProtectionService playerFallDamageProtectionService;
 
-        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, int tileSize)
+        public PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerFallDamageProtectionService playerFallDamageProtectionService, int tileSize)
         {
             miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
             this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
@@ -26,10 +27,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             this.playerHeatSystem = playerHeatSystem;
             this.playerHullSystem = playerHullSystem;
             this.playerFuelSystem = playerFuelSystem;
+            this.playerFallDamageProtectionService = playerFallDamageProtectionService;
         }
 
-        public void Update(ModelWorld world, APlayer player, float deltaTime)
+        public void Update(ModelWorld world, APlayer player, float deltaTime, float downwardImpactVelocity)
         {
+            player.Mining = false;
+
             if (!CanContinueMining(player))
             {
                 player.DrillExtended = false;
@@ -92,6 +96,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (player.FacingDirection.Y > 0)
             {
+                if (!player.DrillExtended && playerHullSystem.WouldTakeFallDamage(downwardImpactVelocity))
+                {
+                    player.DrillExtended = false;
+                    return;
+                }
+
                 StopHorizontalMovementForVerticalMining(player);
             }
 
@@ -194,6 +204,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 }
 
                 interaction.Block.TakeDamage(player.Drill.Damage);
+                if (player.FacingDirection.Y > 0)
+                {
+                    playerFallDamageProtectionService.RefreshAfterVerticalMining();
+                }
                 float overflowHeat = playerHeatSystem.AddHeat(player, heatGeneration);
 
                 if (overflowHeat > 0.0f)

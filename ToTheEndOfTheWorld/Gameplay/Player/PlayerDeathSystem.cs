@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
 
@@ -6,10 +7,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerDeathSystem
     {
-        private const float DeathMessageDuration = 2.5f;
         private readonly GameItemsRepository items;
         private readonly WorldViewportService worldViewportService;
-        private float deathMessageTimer;
+        private bool awaitingRespawn;
 
         public PlayerDeathSystem(GameItemsRepository items, WorldViewportService worldViewportService)
         {
@@ -17,31 +17,46 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             this.worldViewportService = worldViewportService;
         }
 
-        public bool ShouldShowDeathMessage => deathMessageTimer > 0.0f;
-
-        public void Update(float deltaTime)
-        {
-            if (deathMessageTimer > 0.0f)
-            {
-                deathMessageTimer -= deltaTime;
-            }
-        }
+        public bool ShouldShowDeathMessage => awaitingRespawn;
 
         public bool TryHandleDeath(ModelWorld world)
         {
-            if (world.Player.Hull.Health > 0.0f)
-            {
-                return false;
-            }
+            if (awaitingRespawn) return true;
 
-            Respawn(world);
+            if (world.Player.Hull.Health > 0.0f)  return false;
+
+            EnterDeathState(world);
+
             return true;
         }
 
         public void SelfDestruct(ModelWorld world)
         {
             world.Player.Hull.Health = 0.0f;
+            EnterDeathState(world);
+        }
+
+        public void TryRespawnOnInput(ModelWorld world, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState)
+        {
+            if (!awaitingRespawn || !WasAnyKeyJustPressed(currentKeyboardState, previousKeyboardState))
+            {
+                return;
+            }
+
             Respawn(world);
+        }
+
+        private void EnterDeathState(ModelWorld world)
+        {
+            awaitingRespawn = true;
+            world.Player.XVelocity = 0.0f;
+            world.Player.YVelocity = 0.0f;
+            world.Player.XOffset = 0.0f;
+            world.Player.YOffset = 0.0f;
+            world.Player.MovementInput = Vector2.Zero;
+            world.Player.FacingDirection = Vector2.Zero;
+            world.Player.Mining = false;
+            world.Player.DrillExtended = false;
         }
 
         private void Respawn(ModelWorld world)
@@ -66,7 +81,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             world.Player.DrillExtended = false;
 
             worldViewportService.EnsurePadding(world, world.SpawnWorldPosition);
-            deathMessageTimer = DeathMessageDuration;
+            awaitingRespawn = false;
         }
 
         private static void ClearInventory(AGridBox[,] grid)
@@ -79,6 +94,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                     grid[x, y].Count = 0;
                 }
             }
+        }
+
+        private static bool WasAnyKeyJustPressed(KeyboardState currentKeyboardState, KeyboardState previousKeyboardState)
+        {
+            Keys[] pressedKeys = currentKeyboardState.GetPressedKeys();
+
+            foreach (Keys key in pressedKeys)
+            {
+                if (!previousKeyboardState.IsKeyDown(key))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

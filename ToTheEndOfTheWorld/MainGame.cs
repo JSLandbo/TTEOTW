@@ -33,6 +33,7 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerFuelSystem playerFuelSystem = new();
         private readonly PlayerHeatSystem playerHeatSystem = new();
         private readonly PlayerHullSystem playerHullSystem = new();
+        private readonly PlayerFallDamageProtectionService playerFallDamageProtectionService = new();
         private PlayerDeathSystem playerDeathSystem;
         private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
@@ -57,6 +58,7 @@ namespace ToTheEndOfTheWorld
         private UiManager uiManager;
         private InventoryOverlay inventoryOverlay;
         private SpriteFont blockPlaceholderFont;
+        private Texture2D youDiedTexture;
         private UiWorld.DeathOverlay deathOverlay;
         private Texture2D placeholderTileTexture;
         private int logicalViewportWidth;
@@ -115,8 +117,8 @@ namespace ToTheEndOfTheWorld
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
-            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerHullSystem, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, _pixels);
+            playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerHullSystem, playerFallDamageProtectionService, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, playerFallDamageProtectionService, _pixels);
 
             world = ContextHandler.LoadWorld();
 
@@ -165,7 +167,8 @@ namespace ToTheEndOfTheWorld
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
             blockPlaceholderFont = Content.Load<SpriteFont>("File");
-            deathOverlay = new UiWorld.DeathOverlay(blockPlaceholderFont);
+            youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
+            deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
             placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
             placeholderTileTexture.SetData(new[] { Color.White });
             debugHudRenderer.LoadContent(Content);
@@ -182,7 +185,18 @@ namespace ToTheEndOfTheWorld
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
             {
+                playerFallDamageProtectionService.Clear();
                 playerDeathSystem.SelfDestruct(world);
+            }
+
+            if (playerDeathSystem.TryHandleDeath(world))
+            {
+                playerFallDamageProtectionService.Clear();
+                playerDeathSystem.TryRespawnOnInput(world, keyboardState, previousKeyboardState);
+                previousKeyboardState = keyboardState;
+                previousMouseState = mouseState;
+                base.Update(gameTime);
+                return;
             }
 
             if (uiManager.BlocksGameplay)
@@ -194,6 +208,7 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            playerFallDamageProtectionService.BeginFrame();
             PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
             ModelLibrary.Abstract.APlayer player = world.Player;
@@ -213,9 +228,10 @@ namespace ToTheEndOfTheWorld
             int resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
             for (int i = 0; i < resolutionSteps; i++)
             {
-                playerMiningSystem.Update(world, player, deltaTime);
+                float downwardImpactVelocity = Math.Max(0.0f, player.YVelocity);
+                playerMiningSystem.Update(world, player, deltaTime, downwardImpactVelocity);
 
-                if (!playerWorldMovementResolver.ResolveStep(world, player))
+                if (!playerWorldMovementResolver.ResolveStep(world, player, downwardImpactVelocity))
                 {
                     break;
                 }
@@ -229,7 +245,6 @@ namespace ToTheEndOfTheWorld
             playerHeatSystem.Update(player, deltaTime);
             playerFuelSystem.Update(player, deltaTime);
             playerHullSystem.Update(player, deltaTime);
-            playerDeathSystem.Update(deltaTime);
             playerDeathSystem.TryHandleDeath(world);
 
             if (!blockedGameplayAtFrameStart)

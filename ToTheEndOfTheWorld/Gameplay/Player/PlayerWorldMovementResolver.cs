@@ -11,29 +11,31 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private readonly WorldViewportService worldViewportService;
         private readonly PlayerHullSystem playerHullSystem;
+        private readonly PlayerFallDamageProtectionService playerFallDamageProtectionService;
 
-        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, PlayerHullSystem playerHullSystem, int tileSize)
+        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, PlayerHullSystem playerHullSystem, PlayerFallDamageProtectionService playerFallDamageProtectionService, int tileSize)
         {
             this.tileSize = tileSize;
             tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
             this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
             this.worldViewportService = worldViewportService;
             this.playerHullSystem = playerHullSystem;
+            this.playerFallDamageProtectionService = playerFallDamageProtectionService;
         }
 
-        public bool ResolveStep(ModelWorld world, APlayer player)
+        public bool ResolveStep(ModelWorld world, APlayer player, float downwardImpactVelocity)
         {
             bool processedMovement = false;
 
             if (Math.Abs(player.XOffset) >= Math.Abs(player.YOffset))
             {
-                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
-                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true, downwardImpactVelocity);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false, downwardImpactVelocity);
             }
             else
             {
-                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false);
-                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: false, downwardImpactVelocity);
+                processedMovement |= TryProcessMovementAxis(world, player, horizontal: true, downwardImpactVelocity);
             }
 
             return processedMovement;
@@ -50,7 +52,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return Math.Max(1, (int)Math.Ceiling(largestOffset / tileSize) + 1);
         }
 
-        private bool TryProcessMovementAxis(ModelWorld world, APlayer player, bool horizontal)
+        private bool TryProcessMovementAxis(ModelWorld world, APlayer player, bool horizontal, float downwardImpactVelocity)
         {
             float offset = horizontal ? player.XOffset : player.YOffset;
             int direction = Math.Sign(offset);
@@ -69,9 +71,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 }
                 else
                 {
-                    if (direction > 0 && !IsProtectedFromFallDamageByMining(player))
+                    if (direction > 0 && !playerFallDamageProtectionService.IsProtectedThisFrame)
                     {
-                        playerHullSystem.ApplyFallDamage(player, Math.Max(0.0f, player.YVelocity));
+                        playerHullSystem.ApplyFallDamage(player, downwardImpactVelocity);
                     }
 
                     player.YOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
@@ -109,11 +111,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             );
 
             return worldBlockDefinitionResolver.IsObstructed(world, nextBlockVector);
-        }
-
-        private static bool IsProtectedFromFallDamageByMining(APlayer player)
-        {
-            return player.FacingDirection.Y > 0 && player.DrillExtended;
         }
     }
 }

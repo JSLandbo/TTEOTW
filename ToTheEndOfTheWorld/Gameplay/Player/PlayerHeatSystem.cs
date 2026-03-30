@@ -23,10 +23,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public float AddHeat(APlayer player, float heatAmount)
         {
-            if (heatAmount <= 0.0f)
-            {
-                return 0.0f;
-            }
+            if (heatAmount <= 0.0f) return 0.0f;
 
             float nextHeat = player.ThermalPlating.Thermals + heatAmount;
             float overflowHeat = Math.Max(0.0f, nextHeat - player.ThermalPlating.MaxThermals);
