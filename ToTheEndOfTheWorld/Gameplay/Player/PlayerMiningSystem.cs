@@ -88,6 +88,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
+            if (player.FacingDirection.Y > 0)
+            {
+                StopHorizontalMovementForVerticalMining(player);
+            }
+
             // Keep the old snap-and-stop behavior for blocks that survive the hit,
             // but let one-shot blocks break before they steal the ship's movement.
             if (!WillBeDestroyedByHit(interaction.Block, player.Drill.Damage))
@@ -210,6 +215,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool WillBeDestroyedByHit(ModelLibrary.Concrete.Blocks.Block block, float damage) =>
             !block.Ethereal && block.CurrentHealth <= damage;
+
+        private static void StopHorizontalMovementForVerticalMining(APlayer player)
+        {
+            player.XVelocity = 0.0f;
+            player.XOffset = 0.0f;
+        }
 
         private static void SnapPlayerToMiningBlock(APlayer player)
         {
