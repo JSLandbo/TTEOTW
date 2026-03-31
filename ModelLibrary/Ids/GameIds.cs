@@ -199,33 +199,45 @@ namespace ModelLibrary.Ids
 
             // public static class Consumeables TODO
             // {
-            //      public const short SmallDynamite = 10800;
-            //      public const short MediumDynamite = 10801;
-            //      public const short LargeDynamite = 10802;
-            //      public const short MassiveDynamite = 10803;
-            //      public const short GiantDynamite = 10804;
-            //      public const short NukeDynamite = 10805;
-            //      public const short SmallThermalCoolantPatch = 10900;
-            //      public const short LargeThermalCoolantPatch = 10901;
-            //      public const short SmallHullRepairKit = 11000;
-            //      public const short LargeHullRepairKit = 11001;
-            //      public const short RandomSurfaceTeleporter = 11101;
-            //      public const short RandomProximityTeleporter = 11102;
-            //      public const short RandomGlobalTeleporter = 11103;
-            //      public const short WorldSpawnTeleporter = 11104;
-            //      public const short SmallFuelCapsule = 11200;
-            //      public const short MediumFuelCapsule = 11201;
-            //      public const short LargeFuelCapsule = 11202;
-            //      public const short FullFuelCapsule = 11203;
-            //      public const short SmallOneTimeLaser = 11300;
-            //      public const short MediumOneTimeLaser = 11301;
-            //      public const short LargeOneTimeLaser = 11302;
-            //      public const short GiantOneTimeLaser = 11303;
+            //      public const short SmallDynamite = 10800; // 3x3 (around you, you DO get items)
+            //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items)
+            //      public const short LargeDynamite = 10802; // 7x7 (around you, you DO get items)
+            //      public const short MassiveDynamite = 10803; // 9x9 (around you, you DO get items)
+            //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items)
+            //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items)
 
-            //      public const short InventoryToSurfaceChestTeleporter = 11400;
+            //      public const short SmallThermalCoolantPatch = 10900; // Cools you by 100
+            //      public const short LargeThermalCoolantPatch = 10901; // Cools you by 250
+            //      public const short FullThermalCoolantPatch = 10902; // Cools you 100% (or just like 999999f)
 
-            //      public const short SmallMoneyBag = 30000;
-            //      public const short LargeMoneyBag = 30001;
+            //      public const short SmallHullRepairKit = 11000; // Repairs 100 hull
+            //      public const short LargeHullRepairKit = 11001; // Repairs 250 hull
+            //      public const short FullHullRepairKit = 11002; // Repairs 100% full (or just like, 999999f)
+
+            //      public const short RandomSurfaceTeleporter = 11101; // Teleports you to a random place on 0 y-axis (can be far away, world is almost infinite)
+            //      public const short RandomProximityTeleporter = 11102; // Teleports you randomly within 500 blocks (not inside buildings)
+            //      public const short RandomGlobalTeleporter = 11103; // Teleports you randomly (not inside buildings), dangerous! (world is almost infinite)
+            //      public const short WorldSpawnTeleporter = 11104; // Teleports you to spawn
+
+            //      public const short SmallFuelCapsule = 11200; // Contains 20 fuel (goes directly to your fueltank)
+            //      public const short MediumFuelCapsule = 11201; // Contains 50 fuel (goes directly to your fueltank)
+            //      public const short LargeFuelCapsule = 11202; // Contains 250 fuel (goes directly to your fueltank)
+            //      public const short FullFuelCapsule = 11203; // Contains 100% fuel (or just like, 999999f)
+
+            //      public const short SmallOneTimeLaser = 11300; // Drills down 1 wide and 10 deep (you get no drops)
+            //      public const short MediumOneTimeLaser = 11301; // Drills down 2 wide and 25 deep (you get no drops)
+            //      public const short LargeOneTimeLaser = 11302; // Drills down 3 wide and 50 deep (you get no drops)
+            //      public const short GiantOneTimeLaser = 11303; // Drills down 5 wide and 100 deep (you get no drops)
+
+            //      public const short InventoryToSurfaceChestTeleporter = 11400; // Teleports your loot to chest
+
+            //      public const short ShortTemporaryShield = 11401; // Prevents all damage for 2 seconds
+            //      public const short LongTemporaryShield = 11402; // Prevents all damage for 5 seconds
+
+            //      public const short Radar = 11500; // Gives you the ability to see what all the blocks on the screen are
+
+            //      public const short SmallMoneyBag = 30000; // Gives you 50000
+            //      public const short LargeMoneyBag = 30001; // Gives you 1000000
             //
             // }
         }

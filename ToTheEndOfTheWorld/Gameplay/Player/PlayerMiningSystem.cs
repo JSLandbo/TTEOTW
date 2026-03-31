@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
+using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Concrete.Blocks;
 using System;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
@@ -8,6 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
     public sealed class PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
     {
         private readonly float miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
+        private const float DepthHardnessModifier = 0.001f;
 
         public bool Update(ModelWorld world, APlayer player, float deltaTime)
         {
@@ -67,8 +70,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             }
 
             WorldInteraction interaction = GetOrCreateMiningInteraction(world, blockVector);
+            float effectiveHardness = GetEffectiveHardness(interaction.Block, worldTile.Y);
+            float effectiveDamage = GetEffectiveDamage(player.Drill.Damage, worldTile.Y);
 
-            if (interaction.Block.Hardness > player.Drill.Hardness)
+            if (effectiveHardness > player.Drill.Hardness || effectiveDamage <= 0.0f)
             {
                 player.DrillExtended = false;
 
@@ -89,9 +94,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             // Keep the old snap-and-stop behavior for blocks that survive the hit,
             // but let one-shot blocks break before they steal the ship's movement.
-            if (!WillBeDestroyedByHit(interaction.Block, player.Drill.Damage))
+            // BUT... TODO: Reconsider this. Mining at 100.000f speed is ridiulously (like, lmao) op
+            if (!WillBeDestroyedByHit(interaction.Block, effectiveDamage))
             {
-                SnapPlayerToMiningBlock(player);
+              SnapPlayerToMiningBlock(player);
             }
 
             player.DrillExtended = true;
@@ -191,9 +197,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             WorldInteraction interaction = GetOrCreateMiningInteraction(world, targetVector);
 
-            if (interaction.Block.Hardness <= player.Drill.Hardness)
+            float effectiveHardness = GetEffectiveHardness(interaction.Block, targetTile.Y);
+
+            if (effectiveHardness <= player.Drill.Hardness)
             {
-                float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.1f;
+                float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.0f;
 
                 interaction.Block.TakeDamage(player.Drill.Damage);
 
@@ -221,7 +229,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out WorldInteraction interaction))
             {
-                ModelLibrary.Concrete.Blocks.Block block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
+                Block block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
                 interaction = new WorldInteraction(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
                 block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, interaction);
                 interactions.Add(interaction);
@@ -230,7 +238,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return interaction;
         }
 
-        private static bool WillBeDestroyedByHit(ModelLibrary.Concrete.Blocks.Block block, float damage) => !block.Ethereal && block.CurrentHealth <= damage;
+        private static bool WillBeDestroyedByHit(Block block, float damage)
+        {
+            return !block.Ethereal && block.CurrentHealth <= damage;
+        }
 
         private static void StopHorizontalMovementForVerticalMining(APlayer player)
         {
@@ -317,7 +328,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return false;
             }
 
-            foreach (ModelLibrary.Abstract.Buildings.ABuilding building in world.Buildings)
+            foreach (ABuilding building in world.Buildings)
             {
                 if (building.ContainsTile(tile.X, tile.Y))
                 {
@@ -326,6 +337,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             }
 
             return false;
+        }
+
+        private static float GetEffectiveHardness(Block block, long depth)
+        {
+            return block.Hardness + (Math.Max(0L, depth) * DepthHardnessModifier);
+        }
+
+        private static float GetEffectiveDamage(float damage, long depth)
+        {
+            return Math.Max(0.0f, damage - (Math.Max(0L, depth) * DepthHardnessModifier));
         }
     }
 }
