@@ -64,7 +64,7 @@ namespace ModelLibrary.Abstract
         public bool Mining { get; set; } = false;
         public bool DrillExtended { get; set; } = false;
         public string Name { get; set; } = "Undefined";
-        public double Cash { get; set; } = 100000000.0f;
+        public double Cash { get; set; } = 0.0f;
         public AThermalPlating ThermalPlating { get; set; }
         public AEngine Engine { get; set; }
         public AHull Hull { get; set; }

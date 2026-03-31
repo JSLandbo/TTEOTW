@@ -45,7 +45,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 float yTarget = player.MovementInput.Y * settings.AirMaximumSpeed;
                 float yChangeRate =
                     player.MovementInput.Y < 0
-                        ? settings.AirAcceleration + settings.AirDrag
+                        ? GetUpwardAcceleration(player)
                         : Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
                             ? settings.AirAcceleration + settings.AirDrag
                             : settings.AirAcceleration;
@@ -81,11 +81,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float MoveTowards(float current, float target, float maxDelta)
         {
-            if (Math.Abs(target - current) <= maxDelta)
-            {
-                return target;
-            }
-
+            if (Math.Abs(target - current) <= maxDelta) return target;
             return current + Math.Sign(target - current) * maxDelta;
         }
 
@@ -98,6 +94,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private static float GetUpwardIdleDrag(float velocity)
         {
             return Math.Abs(velocity) * UpwardIdleDragFactor;
+        }
+
+        private static float GetUpwardAcceleration(APlayer player)
+        {
+            if (player.Thruster.Power <= 0.0f) return 0.0f;
+            float liftRatio = Math.Clamp((player.Thruster.Power - player.Weight) / player.Thruster.Power, 0.0f, 1.0f);
+            return player.Thruster.Acceleration * liftRatio;
         }
     }
 }
