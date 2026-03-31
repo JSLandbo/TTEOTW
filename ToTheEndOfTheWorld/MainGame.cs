@@ -74,7 +74,7 @@ namespace ToTheEndOfTheWorld
             graphics = new GraphicsDeviceManager(this);
             playerVerticalImpactService = new PlayerVerticalImpactService(playerHullSystem);
             worldInteractionService = new WorldInteractionService();
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content/Graphics";
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += HandleClientSizeChanged;
