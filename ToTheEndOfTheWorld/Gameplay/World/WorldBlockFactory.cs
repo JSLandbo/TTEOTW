@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Concrete.Blocks;
+using ModelLibrary.Ids;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
@@ -12,8 +13,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
             Block block = new(definition.Value.block);
 
-            // TODO: Key 2 is dirt, consider other ores as well!
-            if (definition.Key == 2 && y > 0)
+            // TODO: Consider other ores as well!
+            if (definition.Key == GameIds.Blocks.Dirt && y > 0)
             {
                 block.CurrentHealth += 0.001f * y;
                 block.MaximumHealth += 0.001f * y;
