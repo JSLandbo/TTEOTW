@@ -197,7 +197,7 @@ namespace ModelLibrary.Ids
                 public const short RockFilter = 10702;
             }
 
-            // public static class Consumeables TODO
+            // public static class Consumeables TODO: Implement this.
             // {
             //      public const short SmallDynamite = 10800; // 3x3 (around you, you DO get items) 100 damage, 1 million hardness
             //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items) 500 damage, 1 million hardness
