@@ -32,7 +32,7 @@ namespace ToTheEndOfTheWorld.Context
 
             AddTexturedBlock(manager, GameIds.Blocks.Grass, "Grass", "Blocks/GrassBlock", hardness: 0, health: 50, minimumDepth: 11, maximumDepth: 11, occurrenceSpan: new Vector2(0f, 100f), worth: 5, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Dirt, "Dirt", "Blocks/DirtBlock", hardness: 0, health: 10, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(0f, 100f), worth: 1, weight: 1.0f);
-            AddTexturedBlock(manager, GameIds.Blocks.Gravel, "Gravel", "Blocks/Gravel", hardness: 1, health: 5, minimumDepth: 15, maximumDepth: 220, occurrenceSpan: new Vector2(0f, 2f), worth: 2, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Gravel, "Gravel", "Blocks/GravelBlock", hardness: 1, health: 5, minimumDepth: 15, maximumDepth: 220, occurrenceSpan: new Vector2(0f, 2f), worth: 2, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Rock, "Rock", "Blocks/StoneBlock", hardness: 20, health: 50, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(2f, 4f), worth: 5, weight: 2.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Granite, "Granite", "Blocks/GraniteBlock", hardness: 50, health: 100, minimumDepth: 8000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(4f, 5f), worth: 8, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.IronOre, "Iron ore", "Blocks/IronBlock", hardness: 15, health: 75, minimumDepth: 100, maximumDepth: 800000, occurrenceSpan: new Vector2(5f, 6f), worth: 10, weight: 1.0f);

@@ -16,6 +16,8 @@ namespace ToTheEndOfTheWorld
 {
     public class MainGame : Game
     {
+        // dotnet mgcb-editor
+
         /* 
             IDEAS:
           
