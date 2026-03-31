@@ -11,19 +11,11 @@ namespace ToTheEndOfTheWorld.Context
         public static void SaveWorld(ModelWorld world)
         {
             string file = GetWorldFilePath();
-            File.WriteAllText(
-                file,
-                UtilityLibrary.Extensions.Compress(
-                    JsonConvert.SerializeObject(
-                        world,
-                typeof(ModelWorld),
-                        new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.Auto
-                        }
-                    )
-                )
-            );
+            File.WriteAllText(file, UtilityLibrary.Extensions.Compress(JsonConvert.SerializeObject(world, typeof(ModelWorld),
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            })));
         }
 
         public static ModelWorld? LoadWorld()
@@ -35,16 +27,11 @@ namespace ToTheEndOfTheWorld.Context
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<ModelWorld>(
-                UtilityLibrary.Extensions.Decompress(
-                    File.ReadAllText(file)
-                ),
-                new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto,
-                    NullValueHandling = NullValueHandling.Ignore,
-                }
-            )!;
+            return JsonConvert.DeserializeObject<ModelWorld>(UtilityLibrary.Extensions.Decompress(File.ReadAllText(file)), new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                NullValueHandling = NullValueHandling.Ignore,
+            })!;
         }
 
         private static string GetWorldFilePath()
@@ -52,6 +39,7 @@ namespace ToTheEndOfTheWorld.Context
             string file = Path.Combine(BasePath, "World.txt");
             CreateDirectoryIfNotExists(file);
             CreateFileIfNotExists(file);
+
             return file;
         }
 
@@ -69,7 +57,10 @@ namespace ToTheEndOfTheWorld.Context
 
         private static void CreateFileIfNotExists(string file)
         {
-            if (File.Exists(file)) return;
+            if (File.Exists(file))
+            {
+                return;
+            }
             using FileStream f = File.Create(file);
             f.Close();
         }

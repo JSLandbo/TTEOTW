@@ -6,7 +6,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
     {
         public float Speed { get; set; }
         public float Acceleration { get; set; }
-        public float StandbyFuelConsumption { get; set; } // When idling
-        public float ActiveFuelConsumption { get; set; } // When Mining
+        public float StandbyFuelConsumption { get; set; }
+        public float ActiveFuelConsumption { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using ModelLibrary.Abstract;
+using ModelLibrary.Abstract.PlayerShipComponents;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
@@ -18,8 +19,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public static PlayerMovementSettings FromPlayer(APlayer player)
         {
-            ModelLibrary.Abstract.PlayerShipComponents.AThruster thruster = player.Thruster;
-            ModelLibrary.Abstract.PlayerShipComponents.AEngine engine = player.Engine;
+            AThruster thruster = player.Thruster;
+            AEngine engine = player.Engine;
             float airMaximumSpeed = thruster.Speed;
             float groundMaximumSpeed = engine.Speed;
             float airAcceleration = thruster.Acceleration;

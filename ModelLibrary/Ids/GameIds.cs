@@ -196,6 +196,38 @@ namespace ModelLibrary.Ids
                 public const short DirtFilter = 10701;
                 public const short RockFilter = 10702;
             }
+
+            // public static class Consumeables TODO
+            // {
+            //      public const short SmallDynamite = 10800;
+            //      public const short MediumDynamite = 10801;
+            //      public const short LargeDynamite = 10802;
+            //      public const short MassiveDynamite = 10803;
+            //      public const short GiantDynamite = 10804;
+            //      public const short NukeDynamite = 10805;
+            //      public const short SmallThermalCoolantPatch = 10900;
+            //      public const short LargeThermalCoolantPatch = 10901;
+            //      public const short SmallHullRepairKit = 11000;
+            //      public const short LargeHullRepairKit = 11001;
+            //      public const short RandomSurfaceTeleporter = 11101;
+            //      public const short RandomProximityTeleporter = 11102;
+            //      public const short RandomGlobalTeleporter = 11103;
+            //      public const short WorldSpawnTeleporter = 11104;
+            //      public const short SmallFuelCapsule = 11200;
+            //      public const short MediumFuelCapsule = 11201;
+            //      public const short LargeFuelCapsule = 11202;
+            //      public const short FullFuelCapsule = 11203;
+            //      public const short SmallOneTimeLaser = 11300;
+            //      public const short MediumOneTimeLaser = 11301;
+            //      public const short LargeOneTimeLaser = 11302;
+            //      public const short GiantOneTimeLaser = 11303;
+
+            //      public const short InventoryToSurfaceChestTeleporter = 11400;
+
+            //      public const short SmallMoneyBag = 30000;
+            //      public const short LargeMoneyBag = 30001;
+            //
+            // }
         }
     }
 }

@@ -148,19 +148,19 @@ namespace ToTheEndOfTheWorld.Context.Items
         {
             Add(GameIds.Items.Gadgets.GadgetBelt, new GameItemDefinition(
                 "GadgetBelt",
-                new Dictionary<PlayerOrientation, Texture2D>(),
+                [],
                 new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 10000.0f, Weight: 1.0f),
                 buyable: true,
                 type: EGameItemType.Item));
             Add(GameIds.Items.Gadgets.DirtFilter, new GameItemDefinition(
                 "DirtFilter",
-                new Dictionary<PlayerOrientation, Texture2D>(),
+                [],
                 new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
                 buyable: true,
                 type: EGameItemType.Item));
             Add(GameIds.Items.Gadgets.RockFilter, new GameItemDefinition(
                 "RockFilter",
-                new Dictionary<PlayerOrientation, Texture2D>(),
+                [],
                 new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
                 buyable: true,
                 type: EGameItemType.Item));

@@ -17,7 +17,6 @@ namespace ModelLibrary.Concrete.Buildings
         bool IsBackground = true,
         bool IsDestructible = false,
         EBuildingInteraction Interaction = EBuildingInteraction.None,
-        string InteractionPrompt = null) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt)
-    {
-    }
+        string InteractionPrompt = null
+    ) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, InteractionPrompt);
 }

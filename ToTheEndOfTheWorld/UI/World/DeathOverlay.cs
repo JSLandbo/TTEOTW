@@ -3,15 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ToTheEndOfTheWorld.UI.World
 {
-    public sealed class DeathOverlay
+    public sealed class DeathOverlay(Texture2D youDiedTexture)
     {
-        private readonly Texture2D youDiedTexture;
-
-        public DeathOverlay(Texture2D youDiedTexture)
-        {
-            this.youDiedTexture = youDiedTexture;
-        }
-
         public void Draw(SpriteBatch spriteBatch, int viewportWidth, bool shouldShow)
         {
             if (!shouldShow)

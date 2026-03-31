@@ -8,8 +8,8 @@ using ModelLibrary.Ids;
 using System;
 using System.Collections.Generic;
 using ToTheEndOfTheWorld.Gameplay.Events;
-using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI;
+using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld
@@ -176,7 +176,7 @@ namespace ToTheEndOfTheWorld
             youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
             placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
-            placeholderTileTexture.SetData(new[] { Color.White });
+            placeholderTileTexture.SetData([Color.White]);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
             gadgetBarRenderer.LoadContent(GraphicsDevice, Content);

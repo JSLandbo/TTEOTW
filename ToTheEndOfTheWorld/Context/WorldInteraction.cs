@@ -12,23 +12,11 @@ namespace ToTheEndOfTheWorld.Context
         ExplosionZone
     }
 
-    public sealed class WorldInteraction
+    public sealed class WorldInteraction(WorldInteractionType type, WorldTileBounds tileBounds, Block block = null, bool isDestructible = false)
     {
-        public WorldInteraction(
-            WorldInteractionType type,
-            WorldTileBounds tileBounds,
-            Block block = null,
-            bool isDestructible = false)
-        {
-            Type = type;
-            TileBounds = tileBounds;
-            Block = block;
-            IsDestructible = isDestructible;
-        }
-
-        public WorldInteractionType Type { get; }
-        public WorldTileBounds TileBounds { get; }
-        public Block Block { get; }
-        public bool IsDestructible { get; }
+        public WorldInteractionType Type { get; } = type;
+        public WorldTileBounds TileBounds { get; } = tileBounds;
+        public Block Block { get; } = block;
+        public bool IsDestructible { get; } = isDestructible;
     }
 }

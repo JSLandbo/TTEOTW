@@ -5,25 +5,23 @@ using ModelLibrary.Concrete.PlayerShipComponents;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerDeathSystem
+    public sealed class PlayerDeathSystem(GameItemsRepository items, WorldViewportService worldViewportService)
     {
-        private readonly GameItemsRepository items;
-        private readonly WorldViewportService worldViewportService;
         private bool awaitingRespawn;
-
-        public PlayerDeathSystem(GameItemsRepository items, WorldViewportService worldViewportService)
-        {
-            this.items = items;
-            this.worldViewportService = worldViewportService;
-        }
 
         public bool ShouldShowDeathMessage => awaitingRespawn;
 
         public bool TryHandleDeath(ModelWorld world)
         {
-            if (awaitingRespawn) return true;
+            if (awaitingRespawn)
+            {
+                return true;
+            }
 
-            if (world.Player.Hull.Health > 0.0f)  return false;
+            if (world.Player.Hull.Health > 0.0f)
+            {
+                return false;
+            }
 
             EnterDeathState(world);
 
@@ -83,6 +81,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             world.Player.DrillExtended = false;
 
             worldViewportService.EnsurePadding(world, world.SpawnWorldPosition);
+
             awaitingRespawn = false;
         }
 

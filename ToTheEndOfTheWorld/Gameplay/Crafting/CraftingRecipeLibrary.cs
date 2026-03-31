@@ -3,19 +3,12 @@ using ModelLibrary.Ids;
 
 namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {
-    public sealed class CraftingRecipeLibrary
+    public sealed class CraftingRecipeLibrary(WorldElementsRepository blocks)
     {
-        private readonly WorldElementsRepository blocks;
-
-        public CraftingRecipeLibrary(WorldElementsRepository blocks)
-        {
-            this.blocks = blocks;
-        }
-
         public CraftingRecipe[] CreateRecipes()
         {
-            return new[]
-            {
+            return
+            [
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1),
@@ -30,7 +23,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64)),
                     CreateOutput: () => CreateBlockItem(GameIds.Blocks.WingOfLife),
                     OutputCount: 64)
-            };
+            ];
         }
 
         private Block CreateBlockItem(short blockId)

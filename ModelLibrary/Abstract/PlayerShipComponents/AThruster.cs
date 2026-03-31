@@ -4,10 +4,10 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
 {
     public abstract class AThruster : AType
     {
-        public float ActiveFuelConsumption { get; set; } // When moving around
-        public float ActiveHeatGeneration { get; set; } // When moving around
-        public float Speed { get; set; } // Top speed of air-movement for ship
-        public float Acceleration { get; set; } // How fast ship increases speed
-        public float Power { get; set; } // How much can the thrusters air-lift
+        public float ActiveFuelConsumption { get; set; }
+        public float ActiveHeatGeneration { get; set; }
+        public float Speed { get; set; }
+        public float Acceleration { get; set; }
+        public float Power { get; set; } // Lifting capacity
     }
 }

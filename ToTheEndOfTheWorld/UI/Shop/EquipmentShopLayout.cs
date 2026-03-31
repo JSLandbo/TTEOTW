@@ -3,7 +3,7 @@ using ModelLibrary.Abstract.Grids;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public readonly struct EquipmentShopLayout
+    public readonly struct EquipmentShopLayout(Rectangle panelRectangle, Point gridStart)
     {
         public const int MinimumPanelWidth = 500;
         public const int MinimumPanelHeight = 350;
@@ -21,16 +21,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public const int RowSpacing = 18;
         public const int PanelHorizontalPadding = 32;
 
-        public EquipmentShopLayout(Rectangle panelRectangle, Point gridStart)
-        {
-            PanelRectangle = panelRectangle;
-            HeaderRectangle = new Rectangle(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
-            GridStart = gridStart;
-        }
-
-        public Rectangle PanelRectangle { get; }
-        public Rectangle HeaderRectangle { get; }
-        public Point GridStart { get; }
+        public Rectangle PanelRectangle { get; } = panelRectangle;
+        public Rectangle HeaderRectangle { get; } = new Rectangle(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
+        public Point GridStart { get; } = gridStart;
 
         public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid)
         {

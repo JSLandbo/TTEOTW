@@ -1,24 +1,20 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using ModelLibrary.Abstract.Grids;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.World
 {
-    public sealed class GadgetBarRenderer
+    public sealed class GadgetBarRenderer(WorldElementsRepository blocks, GameItemsRepository items)
     {
         private const float KeyLabelScale = 1.0f;
 
-        private readonly ItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
-
-        public GadgetBarRenderer(WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            textureResolver = new ItemTextureResolver(blocks, items);
-        }
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -38,12 +34,12 @@ namespace ToTheEndOfTheWorld.UI.World
             for (int slotIndex = 0; slotIndex < GadgetBarLayout.TotalSlotCount; slotIndex++)
             {
                 Rectangle slotRectangle = GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, slotIndex);
-                ModelLibrary.Abstract.Grids.AGridBox slot = world.Player.GadgetSlots.InternalGrid[slotIndex, 0];
+                AGridBox slot = world.Player.GadgetSlots.InternalGrid[slotIndex, 0];
 
                 Color backgroundColor = slotIndex < GadgetBarLayout.HotbarSlotCount
                     ? new Color(42, 42, 42, 220)
                     : new Color(34, 34, 34, 220);
-                Color borderColor = new Color(132, 132, 132);
+                Color borderColor = new(132, 132, 132);
 
                 slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, isHovered: false);
 
@@ -56,7 +52,6 @@ namespace ToTheEndOfTheWorld.UI.World
 
         private void DrawKeyLabel(SpriteBatch spriteBatch, string text, Rectangle slotRectangle)
         {
-            Vector2 size = textFont.MeasureString(text) * KeyLabelScale;
             Vector2 position = new(slotRectangle.X + 5, slotRectangle.Y + 3);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, new Color(232, 232, 232), KeyLabelScale);
         }

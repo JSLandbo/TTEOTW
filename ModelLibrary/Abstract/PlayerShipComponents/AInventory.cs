@@ -31,6 +31,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
             if (Items?.InternalGrid == null)
             {
                 ContentsWeight = 0.0f;
+
                 return;
             }
 
@@ -48,7 +49,10 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
                         continue;
                     }
 
-                    float itemWeight = slot.Item is ABlock block ? block.Info?.Weight ?? 0.0f : slot.Item.Weight;
+                    float itemWeight = slot.Item is ABlock block
+                        ? block.Info?.Weight ?? 0.0f
+                        : slot.Item.Weight;
+
                     totalWeight += itemWeight * slot.Count;
                 }
             }

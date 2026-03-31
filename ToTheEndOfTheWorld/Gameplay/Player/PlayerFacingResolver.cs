@@ -48,7 +48,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static bool FacingMatchesInput(Vector2 facingDirection, Vector2 input)
         {
-            if (facingDirection == Vector2.Zero) return false;
+            if (facingDirection == Vector2.Zero)
+            {
+                return false;
+            }
 
             if (facingDirection.X != 0)
             {

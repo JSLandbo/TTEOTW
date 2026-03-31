@@ -1,4 +1,5 @@
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Blocks;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
     {
         public SellSummary GetSellSummary(ModelWorld world)
         {
-            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
+            AInventory inventory = world.Player.Inventory;
             AGridBox[,] grid = inventory.Items.InternalGrid;
             Dictionary<short, SellableInventoryEntry> entries = [];
             double totalValue = 0.0;
@@ -40,12 +41,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 }
             }
 
-            return new SellSummary(entries.Values.OrderBy(entry => entry.Item.Name).ToList(), totalValue);
+            return new SellSummary([.. entries.Values.OrderBy(entry => entry.Item.Name)], totalValue);
         }
 
         public double SellAll(ModelWorld world)
         {
-            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
+            AInventory inventory = world.Player.Inventory;
             AGridBox[,] grid = inventory.Items.InternalGrid;
             double totalEarned = GetSellSummary(world).TotalValue;
 
@@ -66,6 +67,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             world.Player.Cash += totalEarned;
+
             return totalEarned;
         }
 
@@ -79,6 +81,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             slotValue = unitSellValue * slot.Count;
+
             return true;
         }
 
@@ -94,10 +97,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             if (item is Block block)
             {
                 unitSellValue = block.Worth;
+
                 return unitSellValue > 0;
             }
 
             unitSellValue = item.Worth * 0.5;
+
             return unitSellValue > 0;
         }
 

@@ -30,7 +30,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             float excessVelocity = impactVelocity - FallDamageVelocityThreshold;
 
-            if (excessVelocity <= 0.0f) return;
+            if (excessVelocity <= 0.0f)
+            {
+                return;
+            }
 
             player.Hull.TakeDamage(excessVelocity * FallDamagePerExcessVelocity);
         }
@@ -49,7 +52,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float GetHeatRatio(APlayer player)
         {
-            if (player.ThermalPlating.MaxThermals <= 0.0f) return 0.0f;
+            if (player.ThermalPlating.MaxThermals <= 0.0f)
+            {
+                return 0.0f;
+            }
 
             return Math.Clamp(player.ThermalPlating.Thermals / player.ThermalPlating.MaxThermals, 0.0f, 1.0f);
         }

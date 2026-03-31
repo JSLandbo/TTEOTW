@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using ModelLibrary.Abstract;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.World
@@ -17,7 +18,7 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world)
         {
-            ModelLibrary.Abstract.APlayer player = world.Player;
+            APlayer player = world.Player;
             Vector2 worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             int lineHeight = (int)(textFont.LineSpacing * DebugTextScale) + 2;
             int startX = 8;

@@ -11,7 +11,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class GadgetShopOverlay : IInteractionOverlay
+    public sealed class GadgetShopOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
         private const int PanelWidth = 620;
         private const int PanelHeight = 760;
@@ -22,25 +22,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int GridSlotSize = 64;
         private const int GridSpacing = 8;
         private const double GadgetBeltPrice = 10000.0;
-        private readonly InventoryService inventoryService;
-        private readonly GameItemsRepository items;
         private const float TitleTextScale = 1.35f;
         private const float BodyTextScale = 1.15f;
         private const float ButtonTextScale = 1.2f;
 
-        private readonly ItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
         private ItemSlotRenderer slotRenderer = null!;
         private bool isOpen;
         private ABuilding currentBuilding = null!;
-
-        public GadgetShopOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            this.inventoryService = inventoryService;
-            this.items = items;
-            textureResolver = new ItemTextureResolver(blocks, items);
-        }
 
         public EBuildingInteraction Action => EBuildingInteraction.GadgetShop;
         public bool IsOpen => isOpen;
@@ -71,6 +62,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 (currentKeyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E)))
             {
                 isOpen = false;
+
                 return;
             }
 
@@ -79,6 +71,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
                 TryBuyGadgetBelt(world);
+
                 return;
             }
 
@@ -114,12 +107,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, buttonRectangle, canBuy ? new Color(92, 116, 82) : new Color(64, 64, 64));
             DrawRectangleOutline(spriteBatch, buttonRectangle, 2, canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110));
             DrawCenteredText(spriteBatch, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
+
             if (!alreadyOwned)
             {
                 GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {GadgetBeltPrice:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
             }
 
             DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned);
+
             if (!alreadyOwned)
             {
                 spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
@@ -164,6 +159,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             world.Player.Cash -= slot.Item.Worth;
+
             return true;
         }
 
@@ -202,6 +198,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                     {
                         slotX = x;
                         slotY = y;
+
                         return true;
                     }
                 }
@@ -209,6 +206,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             slotX = -1;
             slotY = -1;
+
             return false;
         }
 

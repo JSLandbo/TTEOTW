@@ -1,18 +1,11 @@
 using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.Types;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class EquipmentShopService
+    public sealed class EquipmentShopService(InventoryService inventoryService, GameItemsRepository items)
     {
-        private readonly InventoryService inventoryService;
-        private readonly GameItemsRepository items;
-
-        public EquipmentShopService(InventoryService inventoryService, GameItemsRepository items)
-        {
-            this.inventoryService = inventoryService;
-            this.items = items;
-        }
-
         public bool TryBuy(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
             if (building.StorageGrid == null)
@@ -20,14 +13,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 return false;
             }
 
-            ModelLibrary.Abstract.Grids.AGridBox[,] grid = building.StorageGrid.InternalGrid;
+            AGridBox[,] grid = building.StorageGrid.InternalGrid;
 
             if (slotX < 0 || slotX >= grid.GetLength(0) || slotY < 0 || slotY >= grid.GetLength(1))
             {
                 return false;
             }
 
-            ModelLibrary.Abstract.Grids.AGridBox slot = grid[slotX, slotY];
+            AGridBox slot = grid[slotX, slotY];
 
             if (slot.Item == null)
             {
@@ -40,7 +33,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             // Shop slots hold item definitions; buying creates a fresh concrete item.
-            ModelLibrary.Abstract.Types.AType purchasedItem = items.Create(slot.Item.ID);
+            AType purchasedItem = items.Create(slot.Item.ID);
 
             if (purchasedItem == null || !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
             {
@@ -48,6 +41,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             world.Player.Cash -= slot.Item.Worth;
+
             return true;
         }
     }

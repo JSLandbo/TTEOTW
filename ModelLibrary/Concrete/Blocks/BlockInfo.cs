@@ -13,15 +13,7 @@ namespace ModelLibrary.Concrete.Blocks
             this.MaximumDepth = MaximumDepth;
             this.Weight = Weight;
             this.MiningHeatGeneration = MiningHeatGeneration;
-
-            if (OccurrenceSpan is { })
-            {
-                this.OccurrenceSpan = OccurrenceSpan;
-            }
-            else
-            {
-                this.OccurrenceSpan = new Vector2(0, 0);
-            }
+            this.OccurrenceSpan = OccurrenceSpan;
         }
     }
 }

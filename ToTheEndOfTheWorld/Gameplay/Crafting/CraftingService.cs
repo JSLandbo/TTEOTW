@@ -5,15 +5,8 @@ using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {
-    public sealed class CraftingService
+    public sealed class CraftingService(IReadOnlyList<CraftingRecipe> recipes)
     {
-        private readonly IReadOnlyList<CraftingRecipe> recipes;
-
-        public CraftingService(IReadOnlyList<CraftingRecipe> recipes)
-        {
-            this.recipes = recipes;
-        }
-
         public bool TryCraft(AGridBox[,] craftingGrid, AGridBox outputSlot, int maxStackSize)
         {
             if (!TryResolveRecipe(craftingGrid, outputSlot, maxStackSize, out CraftingRecipe recipe, out AType craftedItem, out int craftedCount, out int craftCount))
@@ -37,6 +30,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
             }
 
             ConsumeRecipeIngredients(craftingGrid, recipe, craftCount);
+
             return true;
         }
 
@@ -51,6 +45,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
                 recipe = candidate;
                 craftedItem = candidate.CreateOutput();
+
                 if (craftedItem == null || candidate.OutputCount <= 0)
                 {
                     continue;
@@ -77,6 +72,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 }
 
                 craftedCount = candidate.OutputCount * craftCount;
+
                 return true;
             }
 
@@ -94,6 +90,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 for (int x = 0; x < craftingGrid.GetLength(0); x++)
                 {
                     CraftingIngredient ingredient = recipe.Pattern[x, y];
+
                     if (ingredient == null)
                     {
                         continue;
@@ -127,6 +124,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         if (slot.Item != null && slot.Count > 0)
                         {
                             craftCount = 0;
+
                             return false;
                         }
 
@@ -136,6 +134,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     if (slot.Item == null || slot.Count < ingredient.RequiredCount || slot.Item.ID != ingredient.ItemId)
                     {
                         craftCount = 0;
+
                         return false;
                     }
 
@@ -147,6 +146,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
             if (!hasRequiredIngredient || craftCount <= 0)
             {
                 craftCount = 0;
+
                 return false;
             }
 

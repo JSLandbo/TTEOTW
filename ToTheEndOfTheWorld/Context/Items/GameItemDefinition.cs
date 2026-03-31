@@ -7,33 +7,22 @@ using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.Context.Items
 {
-    public sealed class GameItemDefinition
+    public sealed class GameItemDefinition(
+        string name,
+        Dictionary<PlayerOrientation, Texture2D> textures,
+        AType definition,
+        bool buyable = false,
+        EGameItemType type = EGameItemType.Item,
+        EEquipmentType equipmentType = EEquipmentType.None,
+        int tier = 0)
     {
-        public GameItemDefinition(
-            string name,
-            Dictionary<PlayerOrientation, Texture2D> textures,
-            AType definition,
-            bool buyable = false,
-            EGameItemType type = EGameItemType.Item,
-            EEquipmentType equipmentType = EEquipmentType.None,
-            int tier = 0)
-        {
-            Name = name;
-            Textures = textures;
-            Definition = definition;
-            Buyable = buyable;
-            Type = type;
-            EquipmentType = equipmentType;
-            Tier = tier;
-        }
-
-        public string Name { get; }
-        public Dictionary<PlayerOrientation, Texture2D> Textures { get; }
-        public AType Definition { get; }
-        public bool Buyable { get; }
-        public EGameItemType Type { get; }
-        public EEquipmentType EquipmentType { get; }
-        public int Tier { get; }
+        public string Name { get; } = name; // TODO: Name not used? What is this class even for?
+        public Dictionary<PlayerOrientation, Texture2D> Textures { get; } = textures;
+        public AType Definition { get; } = definition;
+        public bool Buyable { get; } = buyable;
+        public EGameItemType Type { get; } = type;
+        public EEquipmentType EquipmentType { get; } = equipmentType;
+        public int Tier { get; } = tier;
 
         public AType Create()
         {

@@ -6,7 +6,7 @@ namespace ModelLibrary.Abstract.Grids
     public abstract class AGrid
     {
         public Vector2 InternalCoordinate { get; set; }
-        public AGridBox[,] InternalGrid { get; set; }
+        public AGridBox[,] InternalGrid { get; set; } = null!;
         [JsonIgnore]
         public Action? OnChanged { get; set; }
 

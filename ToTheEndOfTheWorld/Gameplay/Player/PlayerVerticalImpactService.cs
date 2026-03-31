@@ -1,20 +1,14 @@
-using System;
 using ModelLibrary.Abstract;
+using System;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerVerticalImpactService
+    public sealed class PlayerVerticalImpactService(PlayerHullSystem playerHullSystem)
     {
         private const int MinimumProtectionFramesAfterDownwardMining = 4;
-        private readonly PlayerHullSystem playerHullSystem;
         private int framesRemaining;
         private bool isProtectedThisFrame;
         private float downwardImpactVelocityThisStep;
-
-        public PlayerVerticalImpactService(PlayerHullSystem playerHullSystem)
-        {
-            this.playerHullSystem = playerHullSystem;
-        }
 
         public void BeginFrame()
         {
@@ -56,7 +50,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             framesRemaining = Math.Max(
                 framesRemaining,
-                Math.Max(MinimumProtectionFramesAfterDownwardMining, player.Drill.MiningAreaSize));
+                Math.Max(MinimumProtectionFramesAfterDownwardMining, player.Drill.MiningAreaSize)
+            );
         }
 
         public void Clear()

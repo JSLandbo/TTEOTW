@@ -20,6 +20,7 @@ namespace ToTheEndOfTheWorld.Context
                 if (interactions[i].Type == interactionType)
                 {
                     interaction = interactions[i];
+
                     return true;
                 }
             }

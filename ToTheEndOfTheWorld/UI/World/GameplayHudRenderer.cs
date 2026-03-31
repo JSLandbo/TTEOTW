@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using ModelLibrary.Abstract;
 using System;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -14,7 +15,7 @@ namespace ToTheEndOfTheWorld.UI.World
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
-            pixelTexture.SetData(new[] { Color.White });
+            pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
         }
 
@@ -25,7 +26,7 @@ namespace ToTheEndOfTheWorld.UI.World
 
         private void DrawPlayerHud(SpriteBatch spriteBatch, ModelWorld world, InventoryService inventoryService, int viewportWidth)
         {
-            ModelLibrary.Abstract.APlayer player = world.Player;
+            APlayer player = world.Player;
             string moneyText = $"Money: {Math.Floor(player.Cash)}";
             string fuelText = $"Fuel: {player.FuelTank.Fuel:0.00}/{player.FuelTank.Capacity:0.00}";
             string heatText = $"Heat: {player.ThermalPlating.Thermals:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
@@ -89,6 +90,7 @@ namespace ToTheEndOfTheWorld.UI.World
             capacityRectangle.Y = weightRectangle.Bottom + cardSpacing;
 
             int cardWidth = Math.Max(Math.Max(moneyRectangle.Width, fuelRectangle.Width), Math.Max(inventoryRectangle.Width, Math.Max(hullRectangle.Width, Math.Max(weightRectangle.Width, capacityRectangle.Width))));
+
             moneyRectangle.Width = cardWidth;
             fuelRectangle.Width = cardWidth;
             inventoryRectangle.Width = cardWidth;

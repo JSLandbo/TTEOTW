@@ -8,18 +8,12 @@ using ModelLibrary.Ids;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class EquipmentShopBuildingFactory
+    public sealed class EquipmentShopBuildingFactory(GameItemsRepository items)
     {
         private const int BuildingTilesWide = 4;
         private const int BuildingTilesHigh = 2;
         private const int GridColumns = 10;
         private const int GridRows = 7;
-        private readonly GameItemsRepository items;
-
-        public EquipmentShopBuildingFactory(GameItemsRepository items)
-        {
-            this.items = items;
-        }
 
         public ABuilding Create(long worldX, long worldY)
         {
@@ -87,6 +81,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 for (int x = 0; x < grid.InternalGrid.GetLength(0); x++)
                 {
                     AGridBox slot = grid.InternalGrid[x, y];
+
                     if (slot?.Item != null)
                     {
                         return false;

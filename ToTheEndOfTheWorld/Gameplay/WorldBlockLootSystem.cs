@@ -1,5 +1,8 @@
-using ToTheEndOfTheWorld.Gameplay.Events;
+using ModelLibrary.Abstract;
+using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Ids;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
@@ -19,7 +22,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
         {
-            if (!blockLootResolver.TryResolve(gameEvent.BlockId, out ModelLibrary.Concrete.Blocks.Block loot, out int count))
+            if (!blockLootResolver.TryResolve(gameEvent.BlockId, out Block loot, out int count))
             {
                 return;
             }
@@ -32,12 +35,9 @@ namespace ToTheEndOfTheWorld.Gameplay
             inventoryService.TryAdd(gameEvent.World.Player.Inventory, loot, count);
         }
 
-        private static bool ShouldDiscardFilteredLoot(ModelLibrary.Abstract.APlayer player, ModelLibrary.Concrete.Blocks.Block loot)
+        private static bool ShouldDiscardFilteredLoot(APlayer player, Block loot)
         {
-            if (loot == null)
-            {
-                return false;
-            }
+            if (loot == null) return false;
 
             if (loot.ID == GameIds.Blocks.Dirt)
             {
@@ -52,11 +52,11 @@ namespace ToTheEndOfTheWorld.Gameplay
             return false;
         }
 
-        private static bool HasUtilityItem(ModelLibrary.Abstract.APlayer player, short itemId)
+        private static bool HasUtilityItem(APlayer player, short itemId)
         {
             for (int x = UtilitySlotStartIndex; x < UtilitySlotStartIndex + UtilitySlotCount; x++)
             {
-                ModelLibrary.Abstract.Grids.AGridBox slot = player.GadgetSlots.InternalGrid[x, 0];
+                AGridBox slot = player.GadgetSlots.InternalGrid[x, 0];
 
                 if (slot?.Item?.ID == itemId && slot.Count > 0)
                 {

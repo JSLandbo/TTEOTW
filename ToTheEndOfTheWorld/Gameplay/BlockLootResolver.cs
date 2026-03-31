@@ -2,15 +2,8 @@ using ModelLibrary.Concrete.Blocks;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
-    public sealed class BlockLootResolver
+    public sealed class BlockLootResolver(WorldElementsRepository blocks)
     {
-        private readonly WorldElementsRepository blocks;
-
-        public BlockLootResolver(WorldElementsRepository blocks)
-        {
-            this.blocks = blocks;
-        }
-
         public bool TryResolve(short blockId, out Block loot, out int count)
         {
             loot = null;
@@ -26,6 +19,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 Name = blockDefinition.Name
             };
             count = 1;
+
             return true;
         }
     }

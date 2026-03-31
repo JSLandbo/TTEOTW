@@ -6,25 +6,14 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Common
 {
-    public sealed class ItemSlotRenderer
+    public sealed class ItemSlotRenderer(ItemTextureResolver textureResolver, Texture2D pixelTexture, SpriteFont textFont, float stackTextScale = 1.05f)
     {
         private const float HoverItemScale = 0.95f;
-        private readonly ItemTextureResolver textureResolver;
-        private readonly Texture2D pixelTexture;
-        private readonly SpriteFont textFont;
-        private readonly float stackTextScale;
-
-        public ItemSlotRenderer(ItemTextureResolver textureResolver, Texture2D pixelTexture, SpriteFont textFont, float stackTextScale = 1.05f)
-        {
-            this.textureResolver = textureResolver;
-            this.pixelTexture = pixelTexture;
-            this.textFont = textFont;
-            this.stackTextScale = stackTextScale;
-        }
 
         public void DrawGridSlot(SpriteBatch spriteBatch, Rectangle slotRectangle, AGridBox slot, Color backgroundColor, Color borderColor, bool showCount = true, bool isHovered = false)
         {
             spriteBatch.Draw(pixelTexture, slotRectangle, backgroundColor);
+
             if (isHovered)
             {
                 spriteBatch.Draw(pixelTexture, slotRectangle, Color.White * 0.08f);
@@ -57,6 +46,7 @@ namespace ToTheEndOfTheWorld.UI.Common
                 string itemName = string.IsNullOrWhiteSpace(item.Name) ? $"ID{item.ID}" : item.Name;
                 string label = itemName.Length > 3 ? itemName[..3].ToUpperInvariant() : itemName.ToUpperInvariant();
                 GameTextRenderer.DrawBoldString(spriteBatch, textFont, label, new Vector2(bounds.X + 4, bounds.Y + 2), Color.White, stackTextScale);
+
                 return;
             }
 

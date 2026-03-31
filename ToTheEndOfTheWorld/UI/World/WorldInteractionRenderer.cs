@@ -57,6 +57,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 if (buildingTexture == null)
                 {
                     spriteBatch.Draw(pixelTexture, buildingRectangle, Color.Black);
+
                     continue;
                 }
 

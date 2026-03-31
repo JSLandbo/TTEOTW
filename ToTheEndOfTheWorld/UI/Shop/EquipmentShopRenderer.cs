@@ -10,27 +10,21 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class EquipmentShopRenderer
+    public sealed class EquipmentShopRenderer(WorldElementsRepository blocks, GameItemsRepository items)
     {
         private const float TitleTextScale = 1.35f;
-        private const float BodyTextScale = 1.2f;
         private const float PriceTextScale = 1.1f;
         private const float FooterTextScale = 1.1f;
 
-        private readonly ItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
 
-        public EquipmentShopRenderer(WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            textureResolver = new ItemTextureResolver(blocks, items);
-        }
-
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
-            pixelTexture.SetData(new[] { Color.White });
+            pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }

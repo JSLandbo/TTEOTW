@@ -34,9 +34,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private static bool TryGetClickedSlot(Point mousePosition, EquipmentShopLayout layout, AGridBox[,] grid, out int slotX, out int slotY)
         {
-            slotX = -1;
-            slotY = -1;
-
             for (slotY = 0; slotY < grid.GetLength(1); slotY++)
             {
                 for (slotX = 0; slotX < grid.GetLength(0); slotX++)
@@ -52,6 +49,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             slotX = -1;
             slotY = -1;
+
             return false;
         }
 

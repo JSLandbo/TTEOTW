@@ -5,10 +5,6 @@ namespace ModelLibrary.Concrete.Items
 {
     public sealed class Item : AType
     {
-        public Item()
-        {
-        }
-
         public Item(Item other)
         {
             ID = other.ID;

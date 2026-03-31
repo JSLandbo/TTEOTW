@@ -11,7 +11,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed class InventoryOverlay : IGameOverlay
+    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items) : IGameOverlay
     {
         private const float HeaderTextScale = 1.35f;
         private const float SummaryTextScale = 1.15f;
@@ -19,11 +19,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private const float StackTextScale = 1.05f;
         private readonly Grid craftingGrid = new(new Vector2(0, 0), new GridBox[3, 3]);
         private readonly GridBox craftOutputSlot = new(null, 0);
-        private readonly InventoryService inventoryService;
-        private readonly CraftingService craftingService;
-        private readonly InventoryItemUseService itemUseService;
         private readonly InventoryInteractionController interactionController = new();
-        private readonly ItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private Texture2D trashbinTexture;
@@ -32,14 +29,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private InventoryLayout currentLayout;
         private bool isOpen;
         private bool selfDestructRequested;
-
-        public InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            this.inventoryService = inventoryService;
-            this.craftingService = craftingService;
-            this.itemUseService = itemUseService;
-            textureResolver = new ItemTextureResolver(blocks, items);
-        }
 
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
@@ -54,7 +43,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
-            pixelTexture.SetData(new[] { Color.White });
+            pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
             trashbinTexture = content.Load<Texture2D>("General/Trashbin");
             suicideTexture = content.Load<Texture2D>("General/Suicide");
@@ -222,7 +211,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private void DrawEquipmentSummaryLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight)
         {
             AType equippedItem = itemUseService.GetEquippedItem(world, slotType);
-            string line = itemUseService.GetSummaryText(world, slotType, equippedItem);
+            string line = itemUseService.GetSummaryText(slotType, equippedItem);
             string tier = itemUseService.GetTierLabel(equippedItem);
             Color accentColor = GetTierAccentColor(tier, equippedItem == null);
             Rectangle cardRectangle = new(textX, textY, currentLayout.EquipmentInfoRectangle.Width - 12, lineHeight - 4);
@@ -241,6 +230,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             bool isHovered = currentLayout.TrashBinRectangle.Contains(interactionController.MousePosition);
 
             spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, backgroundColor);
+
             if (isHovered)
             {
                 spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, Color.White * 0.08f);

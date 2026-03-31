@@ -4,22 +4,10 @@ using System;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerWorldMovementResolver
+    public sealed class PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
     {
-        private readonly float tileSize;
-        private readonly float tileTransitionOffset;
-        private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
-        private readonly WorldViewportService worldViewportService;
-        private readonly PlayerVerticalImpactService playerVerticalImpactService;
-
-        public PlayerWorldMovementResolver(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldViewportService worldViewportService, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
-        {
-            this.tileSize = tileSize;
-            tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
-            this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
-            this.worldViewportService = worldViewportService;
-            this.playerVerticalImpactService = playerVerticalImpactService;
-        }
+        private readonly float tileSize = tileSize;
+        private readonly float tileTransitionOffset = tileSize * PlayerWorldTuning.TileTransitionOffsetRatio;
 
         public bool ResolveStep(ModelWorld world, APlayer player)
         {
@@ -55,12 +43,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             float offset = horizontal ? player.XOffset : player.YOffset;
             int direction = Math.Sign(offset);
 
-            if (direction == 0)
-            {
-                return false;
-            }
+            if (direction == 0) return false;
 
-            if (IsAxisObstructed(world, player, horizontal, direction))
+            if (IsAxisObstructed(world, horizontal, direction))
             {
                 if (horizontal)
                 {
@@ -100,9 +85,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return true;
         }
 
-        private bool IsAxisObstructed(ModelWorld world, APlayer player, bool horizontal, int direction)
+        private bool IsAxisObstructed(ModelWorld world, bool horizontal, int direction)
         {
             Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
+
             Vector2 nextBlockVector = new(
                 location.X + (horizontal ? direction : 0),
                 location.Y + (horizontal ? 0 : direction)

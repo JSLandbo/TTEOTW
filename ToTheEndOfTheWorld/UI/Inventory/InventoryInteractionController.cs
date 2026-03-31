@@ -148,6 +148,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 heldSourceSlot = slot;
                 slot.Item = null;
                 slot.Count = 0;
+
                 return;
             }
 
@@ -155,7 +156,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             {
                 slot.Item = HeldItem;
                 slot.Count = HeldCount;
+
                 ClearHeldItem();
+
                 return;
             }
 
@@ -237,6 +240,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             HeldItem = heldItem;
             HeldCount = heldCount;
+
             return true;
         }
 
@@ -256,11 +260,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 if (layout.GetEquipmentSlotRectangle(candidate).Contains(position))
                 {
                     slotType = candidate;
+
                     return true;
                 }
             }
 
             slotType = default;
+
             return false;
         }
 
@@ -292,11 +298,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     }
 
                     slot = player.GadgetSlots.InternalGrid[x, 0];
+
                     return true;
                 }
             }
 
             slot = null;
+
             return false;
         }
 
@@ -316,12 +324,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     if (slotRectangle.Contains(position))
                     {
                         slot = grid[x, y];
+
                         return true;
                     }
                 }
             }
 
             slot = null;
+
             return false;
         }
 

@@ -81,13 +81,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float MoveTowards(float current, float target, float maxDelta)
         {
-            if (Math.Abs(target - current) <= maxDelta) return target;
+            if (Math.Abs(target - current) <= maxDelta)
+            {
+                return target;
+            }
+
             return current + Math.Sign(target - current) * maxDelta;
         }
 
         private static float GetHorizontalIdleDrag(float velocity, bool isGrounded)
         {
             float dragFactor = isGrounded ? GroundHorizontalDragFactor : AirHorizontalDragFactor;
+
             return Math.Abs(velocity) * dragFactor;
         }
 
@@ -98,8 +103,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float GetUpwardAcceleration(APlayer player)
         {
-            if (player.Thruster.Power <= 0.0f) return 0.0f;
+            if (player.Thruster.Power <= 0.0f)
+            {
+                return 0.0f;
+            }
+
             float liftRatio = Math.Clamp((player.Thruster.Power - player.Weight) / player.Thruster.Power, 0.0f, 1.0f);
+
             return player.Thruster.Acceleration * liftRatio;
         }
     }

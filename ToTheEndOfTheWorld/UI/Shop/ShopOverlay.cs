@@ -10,7 +10,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class ShopOverlay : IInteractionOverlay
+    public sealed class ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
         private const int PanelWidth = 860;
         private const int PanelHeight = 656;
@@ -31,9 +31,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const float ListBodyTextScale = 1.1f;
         private const float ButtonTextScale = 1.25f;
         private const float FooterTextScale = 1.1f;
-
-        private readonly ShopService shopService;
-        private readonly ItemTextureResolver textureResolver;
+        private readonly ItemTextureResolver textureResolver = new(blocks, items);
 
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
@@ -41,12 +39,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private bool isOpen;
         private int scrollOffset;
         private Point mousePosition;
-
-        public ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            this.shopService = shopService;
-            textureResolver = new ItemTextureResolver(blocks, items);
-        }
 
         public EBuildingInteraction Action => EBuildingInteraction.Shop;
         public bool IsOpen => isOpen;
@@ -61,7 +53,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
-            pixelTexture.SetData(new[] { Color.White });
+            pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
@@ -76,6 +68,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
             {
                 isOpen = false;
+
                 return;
             }
 

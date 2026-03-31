@@ -5,7 +5,7 @@ namespace ModelLibrary.Concrete.Blocks
 {
     public class Block : ABlock
     {
-        public event EventHandler OnBlockDestroyed;
+        public event EventHandler? OnBlockDestroyed;
 
         public Block(Block original)
         {
@@ -47,12 +47,8 @@ namespace ModelLibrary.Concrete.Blocks
             }
         }
 
-        public float PercentDamaged()
-        {
-            return 1.0f - CurrentHealth / MaximumHealth;
-        }
+        public float PercentDamaged() => 1.0f - CurrentHealth / MaximumHealth;
 
-        // Etheral blocks do not block player ship from moving on over them.
         public bool BlockIsEthereal() => Ethereal;
     }
 }

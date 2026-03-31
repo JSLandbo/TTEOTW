@@ -5,17 +5,8 @@ using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.UI.Common
 {
-    public sealed class ItemTextureResolver
+    public sealed class ItemTextureResolver(WorldElementsRepository blocks, GameItemsRepository items)
     {
-        private readonly WorldElementsRepository blocks;
-        private readonly GameItemsRepository items;
-
-        public ItemTextureResolver(WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            this.blocks = blocks;
-            this.items = items;
-        }
-
         public Texture2D Resolve(AType item)
         {
             if (item is Block block && blocks.TryGetValue(block.ID, out (string Name, Texture2D Texture, Block block) blockDefinition))

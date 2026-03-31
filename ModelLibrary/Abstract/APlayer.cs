@@ -5,22 +5,9 @@ using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract
 {
-    public abstract class APlayer
+    public abstract class APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGrid gadgetSlots, bool hasGadgetBelt = false)
     {
         private Vector2 _facingDirection = new(0, 0);
-
-        protected APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGrid gadgetSlots, bool hasGadgetBelt = false)
-        {
-            ThermalPlating = thermalPlating ?? throw new ArgumentNullException(nameof(thermalPlating));
-            Engine = engine ?? throw new ArgumentNullException(nameof(engine));
-            Hull = hull ?? throw new ArgumentNullException(nameof(hull));
-            Drill = drill ?? throw new ArgumentNullException(nameof(drill));
-            Inventory = inventory ?? throw new ArgumentNullException(nameof(inventory));
-            Thruster = thruster ?? throw new ArgumentNullException(nameof(thruster));
-            FuelTank = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
-            GadgetSlots = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
-            HasGadgetBelt = hasGadgetBelt;
-        }
 
         public Vector2 Coordinates { get; set; } = new(0, 0);
         public Vector2 MovementInput { get; set; } = new(0, 0);
@@ -65,15 +52,15 @@ namespace ModelLibrary.Abstract
         public bool DrillExtended { get; set; } = false;
         public string Name { get; set; } = "Undefined";
         public double Cash { get; set; } = 0.0f;
-        public AThermalPlating ThermalPlating { get; set; }
-        public AEngine Engine { get; set; }
-        public AHull Hull { get; set; }
-        public ADrill Drill { get; set; }
-        public AInventory Inventory { get; set; }
-        public AThruster Thruster { get; set; }
-        public AFuelTank FuelTank { get; set; }
-        public AGrid GadgetSlots { get; set; }
-        public bool HasGadgetBelt { get; set; }
+        public AThermalPlating ThermalPlating { get; set; } = thermalPlating ?? throw new ArgumentNullException(nameof(thermalPlating));
+        public AEngine Engine { get; set; } = engine ?? throw new ArgumentNullException(nameof(engine));
+        public AHull Hull { get; set; } = hull ?? throw new ArgumentNullException(nameof(hull));
+        public ADrill Drill { get; set; } = drill ?? throw new ArgumentNullException(nameof(drill));
+        public AInventory Inventory { get; set; } = inventory ?? throw new ArgumentNullException(nameof(inventory));
+        public AThruster Thruster { get; set; } = thruster ?? throw new ArgumentNullException(nameof(thruster));
+        public AFuelTank FuelTank { get; set; } = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
+        public AGrid GadgetSlots { get; set; } = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
+        public bool HasGadgetBelt { get; set; } = hasGadgetBelt;
         public float Weight => GetEquippedWeight() + Inventory.ContentsWeight;
 
         public void ResetVelocity()
@@ -91,6 +78,7 @@ namespace ModelLibrary.Abstract
                 Drill.Weight +
                 Inventory.Weight +
                 Thruster.Weight +
+                // GadgetSlots.Weight + TODO: GadgetSlots should be an object like AInventory
                 FuelTank.Weight;
         }
 

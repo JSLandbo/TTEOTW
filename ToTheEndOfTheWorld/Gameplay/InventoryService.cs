@@ -1,3 +1,4 @@
+using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 
@@ -34,12 +35,12 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return true;
             }
 
-            if (!CanAccept(inventory, item, count))
+            if (!CanAccept(inventory, count))
             {
                 return false;
             }
 
-            ModelLibrary.Abstract.Grids.AGridBox[,] grid = inventory.Items.InternalGrid;
+            AGridBox[,] grid = inventory.Items.InternalGrid;
             int maxStackSize = GetMaxStackSize(inventory);
             int remainingCount = count;
 
@@ -47,7 +48,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    ModelLibrary.Abstract.Grids.AGridBox slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
                     if (slot.Item == null || !CanStackTogether(slot.Item, item) || slot.Count >= maxStackSize)
                     {
@@ -70,12 +71,9 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    ModelLibrary.Abstract.Grids.AGridBox slot = grid[x, y];
+                    AGridBox slot = grid[x, y];
 
-                    if (slot.Item != null)
-                    {
-                        continue;
-                    }
+                    if (slot.Item != null) continue;
 
                     int amountToAdd = remainingCount > maxStackSize ? maxStackSize : remainingCount;
                     slot.Item = item;
@@ -92,7 +90,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return false;
         }
 
-        public bool CanAccept(AInventory inventory, AType item, int count)
+        public bool CanAccept(AInventory inventory, int count)
         {
             if (count <= 0)
             {
@@ -115,7 +113,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         public int GetUsedCapacity(AInventory inventory)
         {
             int usedCapacity = 0;
-            ModelLibrary.Abstract.Grids.AGridBox[,] grid = inventory.Items.InternalGrid;
+            AGridBox[,] grid = inventory.Items.InternalGrid;
 
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -137,6 +135,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             int usedCapacity = GetUsedCapacity(inventory);
             float percent = (usedCapacity / inventory.SizeLimit) * 100.0f;
+
             return (int)percent;
         }
 
@@ -145,6 +144,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             int usedCapacity = GetUsedCapacity(inventory);
             int totalCapacity = (int)inventory.SizeLimit;
             int remainingCapacity = totalCapacity - usedCapacity;
+
             return remainingCapacity > 0 ? remainingCapacity : 0;
         }
     }

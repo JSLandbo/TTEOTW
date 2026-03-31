@@ -7,22 +7,15 @@ using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class EquipmentShopOverlay : IInteractionOverlay
+    public sealed class EquipmentShopOverlay(EquipmentShopService equipmentShopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
-        private readonly EquipmentShopService equipmentShopService;
         private readonly EquipmentShopInteractionController interactionController = new();
-        private readonly EquipmentShopRenderer renderer;
+        private readonly EquipmentShopRenderer renderer = new(blocks, items);
 
         private ABuilding building = null!;
         private EquipmentShopLayout currentLayout;
         private bool isOpen;
         private Point mousePosition;
-
-        public EquipmentShopOverlay(EquipmentShopService equipmentShopService, WorldElementsRepository blocks, GameItemsRepository items)
-        {
-            this.equipmentShopService = equipmentShopService;
-            renderer = new EquipmentShopRenderer(blocks, items);
-        }
 
         public EBuildingInteraction Action => EBuildingInteraction.EquipmentShop;
         public bool IsOpen => isOpen;

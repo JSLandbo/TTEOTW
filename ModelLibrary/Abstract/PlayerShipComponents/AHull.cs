@@ -1,7 +1,5 @@
 ﻿using ModelLibrary.Abstract.Types;
 
-using System;
-
 namespace ModelLibrary.Abstract.PlayerShipComponents
 {
     public abstract class AHull : AType

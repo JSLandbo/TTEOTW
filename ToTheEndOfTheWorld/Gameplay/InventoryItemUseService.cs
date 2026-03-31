@@ -6,17 +6,8 @@ using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
-    public sealed class InventoryItemUseService
+    public sealed class InventoryItemUseService(InventoryService inventoryService, GameItemsRepository items)
     {
-        private readonly InventoryService inventoryService;
-        private readonly GameItemsRepository items;
-
-        public InventoryItemUseService(InventoryService inventoryService, GameItemsRepository items)
-        {
-            this.inventoryService = inventoryService;
-            this.items = items;
-        }
-
         public AType GetEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType)
         {
             return slotType switch
@@ -57,12 +48,14 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             AType equippedItem = GetEquippedItem(world, slotType);
+
             if (equippedItem != null && !inventoryService.TryAdd(world.Player.Inventory, equippedItem, 1))
             {
                 return false;
             }
 
             ApplyEquippedItem(world, slotType, createdItem);
+
             heldCount--;
 
             if (heldCount <= 0)
@@ -89,7 +82,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             };
         }
 
-        public string GetSummaryText(ModelWorld world, EPlayerEquipmentSlotType slotType, AType equippedItem)
+        public string GetSummaryText(EPlayerEquipmentSlotType slotType, AType equippedItem)
         {
             if (equippedItem == null)
             {
@@ -119,6 +112,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             string[] nameParts = item.Name.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+
             return nameParts.Length == 0 ? "Unknown" : nameParts[0];
         }
 
@@ -176,6 +170,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 return false;
             }
+
             int usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
 
             if (usedCapacity > heldInventory.SizeLimit)
@@ -191,8 +186,11 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             world.Player.Inventory = upgradedInventory;
+
             heldItem = CreateEmptyInventoryItem(currentInventory);
+
             heldCount = 1;
+
             return true;
         }
 
