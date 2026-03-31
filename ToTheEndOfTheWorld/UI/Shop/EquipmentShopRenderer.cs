@@ -1,10 +1,10 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
-using System;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 

@@ -1,25 +1,22 @@
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Concrete.Blocks;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
-    public sealed class WorldBlockFactory
+    public sealed class WorldBlockFactory(WorldBlockDefinitionResolver worldBlockDefinitionResolver)
     {
-        private readonly WorldBlockDefinitionResolver worldBlockDefinitionResolver;
-
-        public WorldBlockFactory(WorldBlockDefinitionResolver worldBlockDefinitionResolver)
-        {
-            this.worldBlockDefinitionResolver = worldBlockDefinitionResolver;
-        }
-
         public Block CreateMutableWorldBlock(float x, float y)
         {
-            System.Collections.Generic.KeyValuePair<int, (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, Block block)> definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
+            KeyValuePair<int, (string Name, Texture2D Texture, Block block)> definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
+
             Block block = new(definition.Value.block);
 
-            if (definition.Key == 2 && x > 0)
+            if (definition.Key == 2 && y > 0)
             {
-                block.CurrentHealth += 0.01f * x;
-                block.MaximumHealth += 0.01f * x;
+                block.CurrentHealth += 0.001f * y;
+                block.MaximumHealth += 0.001f * y;
+                block.Hardness += 0.001f * y;
             }
 
             return block;

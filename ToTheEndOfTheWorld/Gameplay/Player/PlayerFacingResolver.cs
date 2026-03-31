@@ -1,6 +1,6 @@
+using System;
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract;
-using System;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {

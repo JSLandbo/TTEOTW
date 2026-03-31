@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Blocks;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {

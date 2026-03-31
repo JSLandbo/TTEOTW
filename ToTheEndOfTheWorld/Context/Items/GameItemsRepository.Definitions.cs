@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
@@ -6,7 +7,6 @@ using ModelLibrary.Concrete.Items;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
-using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.Context.Items
 {

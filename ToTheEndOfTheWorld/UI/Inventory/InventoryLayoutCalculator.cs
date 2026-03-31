@@ -1,6 +1,6 @@
+using System;
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
-using System;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {

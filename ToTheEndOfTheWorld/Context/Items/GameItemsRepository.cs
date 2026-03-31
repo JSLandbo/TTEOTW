@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using ModelLibrary.Abstract.Types;
-using System.Collections.Generic;
 
 namespace ToTheEndOfTheWorld.Context.Items
 {

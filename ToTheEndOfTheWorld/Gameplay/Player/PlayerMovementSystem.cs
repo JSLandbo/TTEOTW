@@ -1,5 +1,5 @@
-using ModelLibrary.Abstract;
 using System;
+using ModelLibrary.Abstract;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {

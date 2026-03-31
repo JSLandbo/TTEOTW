@@ -1,8 +1,8 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract;
-using System;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.World

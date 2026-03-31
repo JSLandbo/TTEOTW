@@ -1,5 +1,5 @@
-using ModelLibrary.Abstract.Types;
 using System;
+using ModelLibrary.Abstract.Types;
 
 namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {

@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
-using System;
-using System.Collections.Generic;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.UI;
 using ToTheEndOfTheWorld.UI.Inventory;
