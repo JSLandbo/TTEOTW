@@ -37,7 +37,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             float fuelUsage = player.Engine.StandbyFuelConsumption;
 
-            if (includeMovement && player.MovementInput != Vector2.Zero)
+            if (!includeMining && includeMovement && player.MovementInput != Vector2.Zero)
             {
                 fuelUsage += UsesThrustersForMovement(player, isGrounded)
                     ? player.Thruster.ActiveFuelConsumption
