@@ -199,12 +199,12 @@ namespace ModelLibrary.Ids
 
             // public static class Consumeables TODO
             // {
-            //      public const short SmallDynamite = 10800; // 3x3 (around you, you DO get items)
-            //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items)
-            //      public const short LargeDynamite = 10802; // 7x7 (around you, you DO get items)
-            //      public const short MassiveDynamite = 10803; // 9x9 (around you, you DO get items)
-            //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items)
-            //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items)
+            //      public const short SmallDynamite = 10800; // 3x3 (around you, you DO get items) 100 damage, 1 million hardness
+            //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items) 500 damage, 1 million hardness
+            //      public const short LargeDynamite = 10802; // 7x7 (around you, you DO get items) 2500 damage, 1 million hardness
+            //      public const short MassiveDynamite = 10803; // 9x9 (around you, you DO get items) 10000 damage, 1 million hardness
+            //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items) 100000 damage, 1 million hardness
+            //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items) 1000000 damage, 1 million hardness
 
             //      public const short SmallThermalCoolantPatch = 10900; // Cools you by 100
             //      public const short LargeThermalCoolantPatch = 10901; // Cools you by 250
