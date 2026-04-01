@@ -58,7 +58,7 @@ namespace ToTheEndOfTheWorld.UI.World
             }
         }
 
-        public void DrawInteractionPrompt(SpriteBatch spriteBatch, ABuilding building, int viewportWidth, int viewportHeight)
+        public void DrawInteractionPrompt(SpriteBatch spriteBatch, ABuilding building, int viewportHeight)
         {
             if (building == null)
             {

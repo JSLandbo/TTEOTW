@@ -34,6 +34,7 @@ namespace ToTheEndOfTheWorld.UI.Common
         {
             Texture2D texture = textureResolver.Resolve(item);
 
+            // TODO: Remove this when all textures are in place.
             if (texture == null)
             {
                 Rectangle fallbackRectangle = ScaleRectangleInside(bounds, scale, 3);
@@ -55,6 +56,7 @@ namespace ToTheEndOfTheWorld.UI.Common
         {
             Texture2D texture = textureResolver.Resolve(item);
 
+            // TODO: Remove this when all textures are in place
             if (texture == null)
             {
                 DrawItem(spriteBatch, item, bounds);

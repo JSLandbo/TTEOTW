@@ -416,7 +416,7 @@ namespace ToTheEndOfTheWorld
             {
                 return;
             }
-            worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportWidth, logicalViewportHeight);
+            worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportHeight);
         }
 
         private static bool UsesThrustersForMovement(APlayer player, bool isGrounded)
