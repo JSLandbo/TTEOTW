@@ -7,25 +7,15 @@ using ModelLibrary.Ids;
 
 namespace ToTheEndOfTheWorld.Context
 {
-    public class WorldElementsRepository : Dictionary<int, (string Name, Texture2D Texture, Block block)>
+    public class WorldElementsRepository : Dictionary<int, (string Name, Texture2D Texture, int Frames, Block block)>
     {
-        private readonly Dictionary<int, string> placeholderLabels = [];
-        private int nextPlaceholderLabel = 1;
-
         public WorldElementsRepository(ContentManager manager)
         {
             InitializeCollection(manager);
         }
 
-        public bool TryGetPlaceholderLabel(int blockId, out string label)
-        {
-            return placeholderLabels.TryGetValue(blockId, out label);
-        }
-
         private void InitializeCollection(ContentManager manager)
         {
-            Texture2D placeholderTexture = manager.Load<Texture2D>("Blocks/SkeletonBlock");
-
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Breaking, "Breaking", "General/Breaking/Breaking", ethereal: true, weight: 0.0f);
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Background, "Background", "Blocks/DirtBlockBackground", ethereal: true, weight: 0.0f);
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Air, "Air", "Blocks/AirBlock", ethereal: true, minimumDepth: long.MinValue, maximumDepth: 10, occurrenceSpan: new Vector2(0f, 100f), weight: 0.0f);
@@ -81,16 +71,16 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.Ring, "Ring","Blocks/RingBlock", hardness: 200, health: 500, minimumDepth: 6000, maximumDepth: 700000, occurrenceSpan: new Vector2(14.93f, 15.00f), worth: 500, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Ruby, "Ruby", "Blocks/RubyBlock", hardness: 100, health: 380, minimumDepth: 3600, maximumDepth: 360000, occurrenceSpan: new Vector2(15.00f, 15.15f), worth: 120, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Sapphire, "Sapphire", "Blocks/SapphireBlock", hardness: 105, health: 390, minimumDepth: 3700, maximumDepth: 370000, occurrenceSpan: new Vector2(15.15f, 15.30f), worth: 120, weight: 1.0f);
-            AddPlaceholderBlock(placeholderTexture, GameIds.Blocks.Silicon, "Silicon", hardness: 45, health: 170, minimumDepth: 1400, maximumDepth: 120000, occurrenceSpan: new Vector2(15.30f, 15.45f), worth: 20, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Silicon, "Silicon", "Blocks/SiliconBlock", hardness: 45, health: 170, minimumDepth: 1400, maximumDepth: 120000, occurrenceSpan: new Vector2(15.30f, 15.45f), worth: 20, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Skeleton, "Skeleton", "Blocks/SkeletonBlock", hardness: 8, health: 25, minimumDepth: 40, maximumDepth: 7000, occurrenceSpan: new Vector2(15.45f, 15.52f), worth: 35, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Sulphur, "Sulphur", "Blocks/SulphurBlock", hardness: 25, health: 90, minimumDepth: 500, maximumDepth: 30000, occurrenceSpan: new Vector2(15.52f, 15.67f), worth: 16, weight: 1.0f);
-            AddPlaceholderBlock(placeholderTexture, GameIds.Blocks.Titanium, "Titanium", hardness: 240, health: 900, minimumDepth: 6200, maximumDepth: 700000, occurrenceSpan: new Vector2(15.67f, 15.82f), worth: 220, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Titanium, "Titanium", "Blocks/TitaniumBlock", hardness: 240, health: 900, minimumDepth: 6200, maximumDepth: 700000, occurrenceSpan: new Vector2(15.67f, 15.82f), worth: 220, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Topaz, "Topaz", "Blocks/TopazBlock", hardness: 82, health: 330, minimumDepth: 3000, maximumDepth: 300000, occurrenceSpan: new Vector2(15.82f, 15.97f), worth: 85, weight: 1.0f);
-            AddPlaceholderBlock(placeholderTexture, GameIds.Blocks.Treasure, "Treasure", hardness: 250, health: 700, minimumDepth: 6500, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(15.97f, 16.05f), worth: 2000, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Treasure, "Treasure", "Blocks/TreasureBlock", hardness: 250, health: 700, minimumDepth: 6500, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(15.97f, 16.05f), worth: 2000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Tungsten, "Tungsten", "Blocks/TungstenBlock", hardness: 300, health: 1100, minimumDepth: 7000, maximumDepth: 800000, occurrenceSpan: new Vector2(16.05f, 16.20f), worth: 160, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Uranium, "Uranium", "Blocks/UraniumBlock", hardness: 380, health: 1400, minimumDepth: 7600, maximumDepth: 900000, occurrenceSpan: new Vector2(16.20f, 16.35f), worth: 350, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Water, "Water", "Blocks/WaterBlock", hardness: 1, health: 20, minimumDepth: 8, maximumDepth: 80, occurrenceSpan: new Vector2(16.35f, 16.45f), weight: 0.0f);
-            AddPlaceholderBlock(placeholderTexture, GameIds.Blocks.Wood, "Wood", hardness: 3, health: 15, minimumDepth: 11, maximumDepth: 40, occurrenceSpan: new Vector2(16.45f, 16.55f), worth: 4, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Wood, "Wood", "Blocks/WoodBlock", hardness: 3, health: 15, minimumDepth: 11, maximumDepth: 40, occurrenceSpan: new Vector2(16.45f, 16.55f), worth: 4, weight: 1.0f);
 
             AddTexturedBlock(manager, GameIds.Blocks.Rainbow, "Rainbow", "Blocks/RainbowBlock", hardness: 2600, health: 14000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.55f, 16.63f), worth: 12000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.DinosaurBone, "Dinosaur bone", "Blocks/DinosaurBoneBlock", hardness: 80, health: 300, minimumDepth: 3200, maximumDepth: 90000, occurrenceSpan: new Vector2(16.63f, 16.71f), worth: 75, weight: 1.0f);
@@ -102,7 +92,7 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.Hole, "Hole", "Blocks/DirtBlockBackground", hardness: 0, health: 0, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(17.07f, 30.00f), worth: 0, ethereal: true, weight: 0.0f);
         }
 
-        private void AddRuntimeBlock(ContentManager manager, short id, string name, string assetPath, bool ethereal, long minimumDepth = long.MinValue, long maximumDepth = long.MaxValue, Vector2? occurrenceSpan = null, float weight = 1.0f)
+        private void AddRuntimeBlock(ContentManager manager, short id, string name, string assetPath, bool ethereal, long minimumDepth = long.MinValue, long maximumDepth = long.MaxValue, Vector2? occurrenceSpan = null, float weight = 1.0f, int frames = 1)
         {
             BlockInfo info = new(
                 MinimumDepth: minimumDepth,
@@ -111,10 +101,10 @@ namespace ToTheEndOfTheWorld.Context
                 Weight: weight);
 
             Block block = new(ID: id, Ethereal: ethereal, Info: info);
-            Add(id, (name, manager.Load<Texture2D>(assetPath), block));
+            Add(id, (name, manager.Load<Texture2D>(assetPath), frames, block));
         }
 
-        private void AddTexturedBlock(ContentManager manager, short id, string name, string assetPath, float hardness, float health, long minimumDepth, long maximumDepth, Vector2 occurrenceSpan, float worth = 0, bool ethereal = false, float miningHeatGeneration = 0.1f, float weight = 1.0f)
+        private void AddTexturedBlock(ContentManager manager, short id, string name, string assetPath, float hardness, float health, long minimumDepth, long maximumDepth, Vector2 occurrenceSpan, float worth = 0, bool ethereal = false, float miningHeatGeneration = 0.1f, float weight = 1.0f, int frames = 1)
         {
             BlockInfo info = new(
                 MinimumDepth: minimumDepth,
@@ -124,22 +114,7 @@ namespace ToTheEndOfTheWorld.Context
                 MiningHeatGeneration: miningHeatGeneration);
 
             Block block = new(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
-            Add(id, (name, manager.Load<Texture2D>(assetPath), block));
-        }
-        
-        private void AddPlaceholderBlock(Texture2D placeholderTexture, short id, string name, float hardness, float health, long minimumDepth, long maximumDepth, Vector2 occurrenceSpan, float worth = 0, bool ethereal = false, float miningHeatGeneration = 0.1f, float weight = 1.0f)
-        {
-            BlockInfo info = new(
-                MinimumDepth: minimumDepth,
-                MaximumDepth: maximumDepth,
-                OccurrenceSpan: occurrenceSpan,
-                Weight: weight,
-                MiningHeatGeneration: miningHeatGeneration);
-
-            Block block = new(ID: id, Ethereal: ethereal, Hardness: hardness, Health: health, Worth: worth, Info: info);
-            Add(id, (name, placeholderTexture, block));
-            placeholderLabels[id] = nextPlaceholderLabel.ToString();
-            nextPlaceholderLabel++;
+            Add(id, (name, manager.Load<Texture2D>(assetPath), frames, block));
         }
     }
 }

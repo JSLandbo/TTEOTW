@@ -14,7 +14,8 @@ namespace ToTheEndOfTheWorld.Context.Items
         bool buyable = false,
         EGameItemType type = EGameItemType.Item,
         EEquipmentType equipmentType = EEquipmentType.None,
-        int tier = 0)
+        int tier = 0,
+        int frames = 1)
     {
         public string Name { get; } = name; // TODO: Name not used? What is this class even for?
         public Dictionary<PlayerOrientation, Texture2D> Textures { get; } = textures;
@@ -23,6 +24,7 @@ namespace ToTheEndOfTheWorld.Context.Items
         public EGameItemType Type { get; } = type;
         public EEquipmentType EquipmentType { get; } = equipmentType;
         public int Tier { get; } = tier;
+        public int Frames { get; } = frames < 1 ? 1 : frames;
 
         public AType Create()
         {

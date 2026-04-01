@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI;
 using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
@@ -247,10 +249,12 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
             playerVerticalImpactService.BeginFrame();
             PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
             ModelLibrary.Abstract.APlayer player = world.Player;
+            APlayer player = world.Player;
             Vector2 facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
             bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
@@ -340,42 +344,23 @@ namespace ToTheEndOfTheWorld
 
                 location.X -= player.XOffset;
                 location.Y -= player.YOffset;
+                Rectangle destinationRectangle = new((int)location.X, (int)location.Y, _pixels, _pixels);
 
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
                 {
-                    spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Background].Texture, location, Color.White);
+                    spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Background].Texture, destinationRectangle, Color.White);
                 }
                 else
                 {
-                    KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
+                    KeyValuePair<int, (string Name, Texture2D Texture, int Frames, Block block)> block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
 
-                    // THIS WILL BE REMOVED ONCE GRAPHICS ARE IMPLEMENTED
-                    if (blocks.TryGetPlaceholderLabel(block.Key, out string placeholderLabel))
-                    {
-                        Rectangle outerRectangle = new((int)location.X, (int)location.Y, _pixels, _pixels);
-                        Rectangle innerRectangle = new((int)location.X + 4, (int)location.Y + 4, _pixels - 8, _pixels - 8);
-                        spriteBatch.Draw(placeholderTileTexture, outerRectangle, new Color(18, 18, 22));
-                        spriteBatch.Draw(placeholderTileTexture, innerRectangle, new Color(42, 44, 56));
-
-                        float scale = placeholderLabel.Length > 1 ? 0.8f : 1.0f;
-                        Vector2 size = blockPlaceholderFont.MeasureString(placeholderLabel) * scale;
-                        Vector2 textPosition = new(
-                            location.X + ((_pixels - size.X) / 2.0f),
-                            location.Y + ((_pixels - size.Y) / 2.0f));
-
-                        GameTextRenderer.DrawBoldString(spriteBatch, blockPlaceholderFont, placeholderLabel, textPosition, Color.White, scale);
-                    }
-                    else
-                    {
-                        spriteBatch.Draw(block.Value.Texture, location, Color.White);
-                    }
+                    TextureAnimationHelper.Draw(spriteBatch, block.Value.Texture, destinationRectangle, block.Value.Frames, Color.White);
 
                     if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out WorldInteraction interaction))
                     {
                         float percentDamaged = interaction.Block.PercentDamaged();
-
-                        spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Breaking].Texture, location, Color.White * percentDamaged);
+                        spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Breaking].Texture, destinationRectangle, Color.White * percentDamaged);
                     }
                 }
             }

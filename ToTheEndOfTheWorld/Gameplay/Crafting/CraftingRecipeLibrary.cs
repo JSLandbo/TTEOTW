@@ -49,7 +49,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
 
         private Block CreateBlockItem(short blockId)
         {
-            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, Block block) blockDefinition))
+            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, int Frames, Block block) blockDefinition))
             {
                 return null;
             }

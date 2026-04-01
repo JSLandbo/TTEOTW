@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ModelLibrary.Abstract;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.Gameplay.Graphics;
 
 namespace ToTheEndOfTheWorld.UI.World
 {
@@ -13,7 +15,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 (float)(viewportHeight / 2.0) - (0.5f * tileSize)
             );
 
-            ModelLibrary.Abstract.APlayer player = world.Player;
+            APlayer player = world.Player;
             PlayerOrientation orientation = player.Orientation;
             bool drillExtended = player.DrillExtended;
             GameItemDefinition drill = items[player.Drill.ID];
@@ -21,24 +23,30 @@ namespace ToTheEndOfTheWorld.UI.World
 
             if (orientation.Equals(PlayerOrientation.Base))
             {
-                spriteBatch.Draw(hull.Textures[PlayerOrientation.Base], playerPosition, Color.White);
+                DrawAnimatedTexture(spriteBatch, hull.Textures[PlayerOrientation.Base], hull.Frames, playerPosition);
 
                 return;
             }
 
             if (drillExtended)
             {
-                spriteBatch.Draw(hull.Textures[orientation], playerPosition, Color.White);
+                DrawAnimatedTexture(spriteBatch, hull.Textures[orientation], hull.Frames, playerPosition);
 
                 float drillPositionX = playerPosition.X + (player.FacingDirection.X * tileSize);
                 float drillPositionY = playerPosition.Y + (player.FacingDirection.Y * tileSize);
 
-                spriteBatch.Draw(drill.Textures[orientation], new Vector2(drillPositionX, drillPositionY), Color.White);
+                DrawAnimatedTexture(spriteBatch, drill.Textures[orientation], drill.Frames, new Vector2(drillPositionX, drillPositionY));
 
                 return;
             }
 
-            spriteBatch.Draw(hull.Textures[PlayerOrientation.Base], playerPosition, Color.White);
+            DrawAnimatedTexture(spriteBatch, hull.Textures[PlayerOrientation.Base], hull.Frames, playerPosition);
+        }
+
+        private void DrawAnimatedTexture(SpriteBatch spriteBatch, Texture2D texture, int frames, Vector2 position)
+        {
+            Rectangle destinationRectangle = new((int)position.X, (int)position.Y, tileSize, tileSize);
+            TextureAnimationHelper.Draw(spriteBatch, texture, destinationRectangle, frames, Color.White);
         }
     }
 }

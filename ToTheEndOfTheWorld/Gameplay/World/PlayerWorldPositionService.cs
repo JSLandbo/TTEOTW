@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using ModelLibrary.Abstract;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
@@ -6,7 +7,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
     {
         public static Vector2 GetPlayerWorldPosition(ModelWorld world)
         {
-            ModelLibrary.Abstract.APlayer player = world.Player;
+            APlayer player = world.Player;
             return world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
         }
 

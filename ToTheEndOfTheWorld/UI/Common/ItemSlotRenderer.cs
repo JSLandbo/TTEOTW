@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Common
@@ -50,7 +51,9 @@ namespace ToTheEndOfTheWorld.UI.Common
                 return;
             }
 
-            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, texture.Width, texture.Height, scale), Color.White);
+            int frames = textureResolver.ResolveFrames(item);
+            var frame = TextureAnimationHelper.GetFrame(frames, texture);
+            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, frame.Width, frame.Height, scale), frame.SourceRectangle, Color.White);
         }
 
         public void DrawItemFitted(SpriteBatch spriteBatch, AType item, Rectangle bounds, int padding = 3)
@@ -69,7 +72,9 @@ namespace ToTheEndOfTheWorld.UI.Common
             float scaleY = availableHeight / (float)texture.Height;
             float scale = System.MathF.Min(1.0f, System.MathF.Min(scaleX, scaleY));
 
-            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, texture.Width, texture.Height, scale), Color.White);
+            int frames = textureResolver.ResolveFrames(item);
+            var frame = TextureAnimationHelper.GetFrame(frames, texture);
+            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, frame.Width, frame.Height, scale), frame.SourceRectangle, Color.White);
         }
 
         public void DrawStackCount(SpriteBatch spriteBatch, int count, Rectangle bounds)

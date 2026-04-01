@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
     {
         public Block CreateMutableWorldBlock(float x, float y)
         {
-            KeyValuePair<int, (string Name, Texture2D Texture, Block block)> definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
+            KeyValuePair<int, (string Name, Texture2D Texture, int Frames, Block block)> definition = worldBlockDefinitionResolver.GetWorldBlock(x, y);
 
             Block block = new(definition.Value.block);
 

@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             loot = null;
             count = 0;
 
-            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, Block block) blockDefinition) || blockId <= 0)
+            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, int Frames, Block block) blockDefinition) || blockId <= 0)
             {
                 return false;
             }

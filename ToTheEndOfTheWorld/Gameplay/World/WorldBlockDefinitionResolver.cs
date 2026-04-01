@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Ids;
 using UtilityLibrary;
-using BlockDefinition = System.Collections.Generic.KeyValuePair<int, (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, ModelLibrary.Concrete.Blocks.Block block)>;
+using BlockDefinition = System.Collections.Generic.KeyValuePair<int, (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, int Frames, ModelLibrary.Concrete.Blocks.Block block)>;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {

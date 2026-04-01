@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.UI.Common
     {
         public Texture2D Resolve(AType item)
         {
-            if (item is Block block && blocks.TryGetValue(block.ID, out (string Name, Texture2D Texture, Block block) blockDefinition))
+            if (item is Block block && blocks.TryGetValue(block.ID, out (string Name, Texture2D Texture, int Frames, Block block) blockDefinition))
             {
                 return blockDefinition.Texture;
             }
@@ -28,6 +28,21 @@ namespace ToTheEndOfTheWorld.UI.Common
             }
 
             return null;
+        }
+
+        public int ResolveFrames(AType item)
+        {
+            if (item is Block block && blocks.TryGetValue(block.ID, out (string Name, Texture2D Texture, int Frames, Block block) blockDefinition))
+            {
+                return blockDefinition.Frames;
+            }
+
+            if (items.TryGetValue(item.ID, out GameItemDefinition itemDefinition))
+            {
+                return itemDefinition.Frames;
+            }
+
+            return 1;
         }
     }
 }

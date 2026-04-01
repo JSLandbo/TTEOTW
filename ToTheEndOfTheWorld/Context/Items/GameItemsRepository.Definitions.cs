@@ -166,14 +166,14 @@ namespace ToTheEndOfTheWorld.Context.Items
                 type: EGameItemType.Item));
         }
 
-        private void AddDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition)
+        private void AddDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, int frames = 1)
         {
-            Add(id, new GameItemDefinition(name, textures, definition));
+            Add(id, new GameItemDefinition(name, textures, definition, frames: frames));
         }
 
-        private void AddEquipmentDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, EEquipmentType equipmentType, int tier)
+        private void AddEquipmentDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, EEquipmentType equipmentType, int tier, int frames = 1)
         {
-            Add(id, new GameItemDefinition(name, textures, definition, buyable: true, type: EGameItemType.Equipment, equipmentType: equipmentType, tier: tier));
+            Add(id, new GameItemDefinition(name, textures, definition, buyable: true, type: EGameItemType.Equipment, equipmentType: equipmentType, tier: tier, frames: frames));
         }
 
         private static Dictionary<PlayerOrientation, Texture2D> LoadSingleTexture(ContentManager manager, string assetName)
