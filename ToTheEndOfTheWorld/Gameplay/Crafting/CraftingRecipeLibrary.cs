@@ -18,11 +18,32 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64),
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), null, new CraftingIngredient(GameIds.Blocks.Dirt, 64),
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64), new CraftingIngredient(GameIds.Blocks.Dirt, 64)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.WingOfLife),
-                    OutputCount: 64)
+                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1),
+                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1),
+                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Granite),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1),
+                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1),
+                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Lava),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1),
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1),
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Tungsten),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1),
+                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1),
+                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1)),
+                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Bedrock),
+                    OutputCount: 1)
             ];
         }
 

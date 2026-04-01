@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete;
+using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Events;
@@ -347,7 +348,7 @@ namespace ToTheEndOfTheWorld
                 }
                 else
                 {
-                    KeyValuePair<int, (string Name, Texture2D Texture, ModelLibrary.Concrete.Blocks.Block block)> block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
+                    KeyValuePair<int, (string Name, Texture2D Texture, Block block)> block = worldBlockDefinitionResolver.GetWorldBlock(pair.Value.X, pair.Value.Y);
 
                     // THIS WILL BE REMOVED ONCE GRAPHICS ARE IMPLEMENTED
                     if (blocks.TryGetPlaceholderLabel(block.Key, out string placeholderLabel))
