@@ -253,7 +253,6 @@ namespace ToTheEndOfTheWorld
             playerVerticalImpactService.BeginFrame();
             PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
-            ModelLibrary.Abstract.APlayer player = world.Player;
             APlayer player = world.Player;
             Vector2 facingDirection = playerFacingResolver.Resolve(player, intent);
             player.ApplyIntent(intent.MovementInput, facingDirection);
@@ -310,8 +309,9 @@ namespace ToTheEndOfTheWorld
 
             spriteBatch.Begin();
 
-            DrawRenderedWorld();
-            worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, _pixels);
+            UiWorld.WorldScreenTransform worldScreenTransform = new(_pixels, (int)world.Player.XOffset, (int)world.Player.YOffset);
+            DrawRenderedWorld(worldScreenTransform);
+            worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, worldScreenTransform);
             DrawPlayerShip();
             debugHudRenderer.Draw(spriteBatch, world);
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
@@ -332,19 +332,11 @@ namespace ToTheEndOfTheWorld
             base.Draw(gameTime);
         }
 
-        private void DrawRenderedWorld()
+        private void DrawRenderedWorld(UiWorld.WorldScreenTransform worldScreenTransform)
         {
             foreach (KeyValuePair<Vector2, Vector2> pair in world.WorldRender)
             {
-                ModelLibrary.Abstract.APlayer player = world.Player;
-                Vector2 location = new(
-                    pair.Key.X * _pixels - (0.5f * _pixels),
-                    pair.Key.Y * _pixels - (0.5f * _pixels)
-                );
-
-                location.X -= player.XOffset;
-                location.Y -= player.YOffset;
-                Rectangle destinationRectangle = new((int)location.X, (int)location.Y, _pixels, _pixels);
+                Rectangle destinationRectangle = worldScreenTransform.GetTileRectangle(pair.Key);
 
 
                 if (world.WorldTrails.ContainsKey(pair.Value))

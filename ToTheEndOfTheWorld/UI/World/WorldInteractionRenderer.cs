@@ -21,7 +21,7 @@ namespace ToTheEndOfTheWorld.UI.World
             textFont = content.Load<SpriteFont>("File");
         }
 
-        public void DrawBuildings(SpriteBatch spriteBatch, ModelWorld world, WorldViewportService worldViewportService, int tileSize)
+        public void DrawBuildings(SpriteBatch spriteBatch, ModelWorld world, WorldViewportService worldViewportService, WorldScreenTransform worldScreenTransform)
         {
             if (world.Buildings == null)
             {
@@ -38,19 +38,10 @@ namespace ToTheEndOfTheWorld.UI.World
                     continue;
                 }
 
-                float renderKeyX = playerKey.X + (building.WorldX - centerWorldPosition.X);
-                float renderKeyY = playerKey.Y + (building.WorldY - centerWorldPosition.Y);
-                Vector2 location = new(
-                    renderKeyX * tileSize - (0.5f * tileSize) - world.Player.XOffset + building.XOffset,
-                    renderKeyY * tileSize - (0.5f * tileSize) - world.Player.YOffset + building.YOffset
-                );
+                int renderKeyX = (int)(playerKey.X + (building.WorldX - centerWorldPosition.X));
+                int renderKeyY = (int)(playerKey.Y + (building.WorldY - centerWorldPosition.Y));
 
-                Rectangle buildingRectangle = new(
-                    (int)location.X,
-                    (int)location.Y,
-                    building.TilesWide * tileSize,
-                    building.TilesHigh * tileSize
-                );
+                Rectangle buildingRectangle = worldScreenTransform.GetTileRectangle(renderKeyX, renderKeyY, building.TilesWide, building.TilesHigh, building.XOffset, building.YOffset);
 
                 Texture2D buildingTexture = textureResolver.Resolve(building);
 
