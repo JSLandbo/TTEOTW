@@ -37,7 +37,7 @@ namespace ToTheEndOfTheWorld.UI.World
             for (int slotIndex = 0; slotIndex < GadgetBarLayout.TotalSlotCount; slotIndex++)
             {
                 Rectangle slotRectangle = GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, slotIndex);
-                AGridBox slot = world.Player.GadgetSlots.InternalGrid[slotIndex, 0];
+                AGridBox slot = world.Player.GadgetSlots.Items.InternalGrid[slotIndex, 0];
 
                 Color backgroundColor = slotIndex < GadgetBarLayout.HotbarSlotCount
                     ? new Color(42, 42, 42, 220)
@@ -47,7 +47,8 @@ namespace ToTheEndOfTheWorld.UI.World
 
                 bool isHovered = isInteractive
                     && slotRectangle.Contains(mousePosition)
-                    && UiSlotInteractionHelper.CanInteractWithSlot(slot, hasHeldItem);
+                    && UiSlotInteractionHelper.CanInteractWithSlot(slot, hasHeldItem)
+                    && (inventoryOverlay == null || inventoryOverlay.CanPlaceHeldItemInGadgetSlot(world.Player.GadgetSlots, slotIndex));
                 slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, isHovered: isHovered);
 
                 if (slotIndex < GadgetBarLayout.HotbarSlotCount)

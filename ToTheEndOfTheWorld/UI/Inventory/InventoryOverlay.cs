@@ -35,6 +35,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public bool BlocksGameplay => isOpen;
         public bool HasHeldItem => interactionController.HasHeldItem;
 
+        public bool CanPlaceHeldItemInGadgetSlot(AGadgetInventory gadgetSlots, int slotIndex)
+        {
+            return !interactionController.HasHeldItem || gadgetSlots.CanPlaceInSlot(slotIndex, interactionController.HeldItem);
+        }
+
         public bool ConsumeSelfDestructRequest()
         {
             bool requested = selfDestructRequested;

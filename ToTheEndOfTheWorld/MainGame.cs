@@ -179,7 +179,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 100f // Starting allowance
+                Cash = 1000000000f // Starting allowance
             };
 
             return new ModelWorld(

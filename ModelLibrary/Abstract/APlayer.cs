@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract
 {
-    public abstract class APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGrid gadgetSlots, bool hasGadgetBelt = false)
+    public abstract class APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGadgetInventory gadgetSlots, bool hasGadgetBelt = false)
     {
         private Vector2 _facingDirection = new(0, 0);
 
@@ -58,9 +57,9 @@ namespace ModelLibrary.Abstract
         public AInventory Inventory { get; set; } = inventory ?? throw new ArgumentNullException(nameof(inventory));
         public AThruster Thruster { get; set; } = thruster ?? throw new ArgumentNullException(nameof(thruster));
         public AFuelTank FuelTank { get; set; } = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
-        public AGrid GadgetSlots { get; set; } = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
+        public AGadgetInventory GadgetSlots { get; set; } = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
         public bool HasGadgetBelt { get; set; } = hasGadgetBelt;
-        public float Weight => GetEquippedWeight() + Inventory.ContentsWeight;
+        public float Weight => GetEquippedWeight() + Inventory.ContentsWeight + GadgetSlots.ContentsWeight;
 
         public void ResetVelocity()
         {
@@ -77,7 +76,7 @@ namespace ModelLibrary.Abstract
                 Drill.Weight +
                 Inventory.Weight +
                 Thruster.Weight +
-                // GadgetSlots.Weight + TODO: GadgetSlots should be an object like AInventory
+                GadgetSlots.Weight +
                 FuelTank.Weight;
         }
 

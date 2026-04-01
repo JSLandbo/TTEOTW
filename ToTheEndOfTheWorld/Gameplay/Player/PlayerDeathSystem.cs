@@ -61,7 +61,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private void Respawn(ModelWorld world)
         {
             ClearInventory(world.Player.Inventory.Items.InternalGrid);
-            ClearInventory(world.Player.GadgetSlots.InternalGrid);
+            ClearInventory(world.Player.GadgetSlots.Items.InternalGrid);
 
             short thermalPlatingId = world.Player.ThermalPlating.ID;
             short hullId = world.Player.Hull.ID;

@@ -59,7 +59,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     return;
                 }
 
-                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox clickedSlot))
+                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox clickedSlot, out int gadgetSlotIndex)
+                    && (gadgetSlotIndex < 0 || world.Player.GadgetSlots.CanPlaceInSlot(gadgetSlotIndex, HeldItem)))
                 {
                     MoveStack(clickedSlot);
                 }
@@ -67,7 +68,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState) && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot))
+            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState) && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot, out _))
             {
                 TakeSingleItem(rightClickedSlot);
             }
@@ -161,7 +162,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return true;
             }
 
-            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot) && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
+            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot, out int gadgetSlotIndex)
+                && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem)
+                && (!HasHeldItem || gadgetSlotIndex < 0 || player.GadgetSlots.CanPlaceInSlot(gadgetSlotIndex, HeldItem));
         }
 
         private void MoveStack(AGridBox slot)
@@ -300,22 +303,25 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot)
+        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot, out int gadgetSlotIndex)
         {
             if (TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {
+                gadgetSlotIndex = -1;
                 return true;
             }
 
             if (layout.OutputSlotRectangle.Contains(position))
             {
                 slot = craftOutputSlot;
+                gadgetSlotIndex = -1;
 
                 return true;
             }
 
             if (TryGetClickedSlot(inventoryGrid, layout.InventoryStart.X, layout.InventoryStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {
+                gadgetSlotIndex = -1;
                 return true;
             }
 
@@ -328,13 +334,15 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                         continue;
                     }
 
-                    slot = player.GadgetSlots.InternalGrid[x, 0];
+                    slot = player.GadgetSlots.Items.InternalGrid[x, 0];
+                    gadgetSlotIndex = x;
 
                     return true;
                 }
             }
 
             slot = null;
+            gadgetSlotIndex = -1;
 
             return false;
         }

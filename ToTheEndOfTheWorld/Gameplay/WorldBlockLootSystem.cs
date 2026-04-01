@@ -56,7 +56,7 @@ namespace ToTheEndOfTheWorld.Gameplay
         {
             for (int x = UtilitySlotStartIndex; x < UtilitySlotStartIndex + UtilitySlotCount; x++)
             {
-                AGridBox slot = player.GadgetSlots.InternalGrid[x, 0];
+                AGridBox slot = player.GadgetSlots.Items.InternalGrid[x, 0];
 
                 if (slot?.Item?.ID == itemId && slot.Count > 0)
                 {
