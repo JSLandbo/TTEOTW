@@ -14,7 +14,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
     public sealed class GadgetShopOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
         private const int PanelWidth = 620;
-        private const int PanelHeight = 760;
+        private const int PanelHeight = 708;
+        private const int HeaderHeight = 58;
         private const int ButtonWidth = 320;
         private const int ButtonHeight = 72;
         private const int GridColumns = 6;
@@ -92,6 +93,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle buttonRectangle = GetBuyButtonRectangle(viewportWidth, viewportHeight);
             Rectangle gridRectangle = GetGridRectangle(panelRectangle);
             bool alreadyOwned = world.Player.HasGadgetBelt;
@@ -100,6 +102,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
+            spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), new Color(244, 240, 229), TitleTextScale);
@@ -120,8 +123,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
                 DrawCenteredText(spriteBatch, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
             }
-
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 52), new Color(188, 188, 188), BodyTextScale);
         }
 
         private static void TryBuyGadgetBelt(ModelWorld world)

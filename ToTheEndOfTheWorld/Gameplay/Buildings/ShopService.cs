@@ -11,6 +11,26 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
     {
         public SellSummary GetSellSummary(ModelWorld world)
         {
+            return GetSellSummary(world, SellFilter.All);
+        }
+
+        public SellSummary GetOreSellSummary(ModelWorld world)
+        {
+            return GetSellSummary(world, SellFilter.BlocksOnly);
+        }
+
+        public double SellAll(ModelWorld world)
+        {
+            return Sell(world, SellFilter.All);
+        }
+
+        public double SellOres(ModelWorld world)
+        {
+            return Sell(world, SellFilter.BlocksOnly);
+        }
+
+        private SellSummary GetSellSummary(ModelWorld world, SellFilter filter)
+        {
             AInventory inventory = world.Player.Inventory;
             AGridBox[,] grid = inventory.Items.InternalGrid;
             Dictionary<short, SellableInventoryEntry> entries = [];
@@ -22,7 +42,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 {
                     AGridBox slot = grid[x, y];
 
-                    if (!TryGetUnitSellValue(slot.Item, out double unitSellValue) || slot.Count <= 0)
+                    if (!CanSell(slot.Item, filter) || !TryGetUnitSellValue(slot.Item, out double unitSellValue) || slot.Count <= 0)
                     {
                         continue;
                     }
@@ -44,11 +64,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             return new SellSummary([.. entries.Values.OrderBy(entry => entry.Item.Name)], totalValue);
         }
 
-        public double SellAll(ModelWorld world)
+        private double Sell(ModelWorld world, SellFilter filter)
         {
             AInventory inventory = world.Player.Inventory;
             AGridBox[,] grid = inventory.Items.InternalGrid;
-            double totalEarned = GetSellSummary(world).TotalValue;
+            double totalEarned = GetSellSummary(world, filter).TotalValue;
 
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -56,7 +76,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 {
                     AGridBox slot = grid[x, y];
 
-                    if (!TryGetSellValue(slot, out _))
+                    if (!TryGetSellValue(slot, filter, out _))
                     {
                         continue;
                     }
@@ -71,11 +91,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             return totalEarned;
         }
 
-        private bool TryGetSellValue(AGridBox slot, out double slotValue)
+        private bool TryGetSellValue(AGridBox slot, SellFilter filter, out double slotValue)
         {
             slotValue = 0.0;
 
-            if (slot.Item == null || slot.Count <= 0 || !TryGetUnitSellValue(slot.Item, out double unitSellValue))
+            if (slot.Item == null || slot.Count <= 0 || !CanSell(slot.Item, filter) || !TryGetUnitSellValue(slot.Item, out double unitSellValue))
             {
                 return false;
             }
@@ -83,6 +103,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             slotValue = unitSellValue * slot.Count;
 
             return true;
+        }
+
+        private static bool CanSell(AType item, SellFilter filter)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            return filter switch
+            {
+                SellFilter.All => true,
+                SellFilter.BlocksOnly => item is Block,
+                _ => false
+            };
         }
 
         private static bool TryGetUnitSellValue(AType item, out double unitSellValue)
@@ -104,6 +139,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             unitSellValue = item.Worth * 0.5;
 
             return unitSellValue > 0;
+        }
+
+        private enum SellFilter
+        {
+            All,
+            BlocksOnly
         }
 
         public sealed record SellableInventoryEntry(AType Item, int Count, double TotalValue);

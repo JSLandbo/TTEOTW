@@ -12,9 +12,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
     public sealed class FuelStationOverlay : IInteractionOverlay
     {
         private const int PanelWidth = 460;
-        private const int PanelHeight = 240;
+        private const int PanelHeight = 210;
+        private const int HeaderHeight = 58;
         private const int ButtonWidth = 260;
         private const int ButtonHeight = 62;
+        private const int ContentPadding = 20;
         private const float TitleTextScale = 1.35f;
         private const float BodyTextScale = 1.2f;
         private const float ButtonTextScale = 1.3f;
@@ -69,6 +71,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle refuelButtonRectangle = GetRefuelButtonRectangle(viewportWidth, viewportHeight);
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
@@ -76,16 +79,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
+            spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             spriteBatch.Draw(pixelTexture, refuelButtonRectangle, canRefuel ? new Color(86, 110, 78) : new Color(64, 64, 64));
 
             DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
             DrawRectangleOutline(spriteBatch, refuelButtonRectangle, 2, canRefuel ? new Color(152, 182, 140) : new Color(110, 110, 110));
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.FuelTank.Fuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + 22, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + 22, panelRectangle.Y + 108), new Color(214, 214, 214), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.FuelTank.Fuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), new Color(214, 214, 214), BodyTextScale);
             DrawCenteredText(spriteBatch, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 40), new Color(188, 188, 188), BodyTextScale);
         }
 
         private static float RefuelAllAffordable(ModelWorld world)
@@ -105,7 +108,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetRefuelButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            return new Rectangle((viewportWidth - ButtonWidth) / 2, (viewportHeight - PanelHeight) / 2 + 146, ButtonWidth, ButtonHeight);
+            int panelTop = (viewportHeight - PanelHeight) / 2;
+            return new Rectangle((viewportWidth - ButtonWidth) / 2, panelTop + PanelHeight - ContentPadding - ButtonHeight + 6, ButtonWidth, ButtonHeight);
         }
 
         private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)

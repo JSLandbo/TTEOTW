@@ -8,9 +8,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public const int MinimumPanelWidth = 500;
         public const int MinimumPanelHeight = 350;
         public const int HeaderHeight = 58;
-        public const int GridTop = 102;
-        public const int GridBottomPadding = 66;
-        public const int FooterTextBottomPadding = 42;
+        public const int GridTop = HeaderHeight + 20;
+        public const int GridBottomPadding = 20;
         public const int TitlePaddingLeft = 20;
         public const int TitlePaddingTop = 14;
         public const int MoneyPaddingTop = 68;
@@ -19,7 +18,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public const int PriceHeight = 24;
         public const int PriceBottomSpacing = 6;
         public const int RowSpacing = 18;
-        public const int PanelHorizontalPadding = 32;
+        public const int PanelHorizontalPadding = 20;
 
         public Rectangle PanelRectangle { get; } = panelRectangle;
         public Rectangle HeaderRectangle { get; } = new Rectangle(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);

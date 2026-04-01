@@ -13,12 +13,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
     public sealed class ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
         private const int PanelWidth = 860;
-        private const int PanelHeight = 656;
+        private const int PanelHeight = 620;
         private const int HeaderHeight = 58;
         private const int CardHeight = 52;
-        private const int ButtonWidth = 360;
+        private const int ButtonWidth = 300;
         private const int ButtonHeight = 56;
-        private const int SectionPadding = 22;
+        private const int ButtonGap = 20;
+        private const int SectionPadding = 20;
         private const int ValueListTop = 138;
         private const int ValueListHeight = 324;
         private const int ValueRowHeight = 76;
@@ -86,9 +87,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 scrollOffset = Math.Clamp(scrollOffset, 0, maxScrollOffset);
             }
 
-            if (WasLeftClicked(currentMouseState, previousMouseState) && GetSellButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
+            if (!WasLeftClicked(currentMouseState, previousMouseState))
+            {
+                return;
+            }
+
+            if (GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
                 shopService.SellAll(world);
+
+                return;
+            }
+
+            if (GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
+            {
+                shopService.SellOres(world);
             }
         }
 
@@ -103,9 +116,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle valueCardRectangle = new(panelRectangle.X + SectionPadding, panelRectangle.Y + 76, panelRectangle.Width - (SectionPadding * 2), CardHeight);
             Rectangle valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
-            Rectangle sellButtonRectangle = GetSellButtonRectangle(viewportWidth, viewportHeight);
+            Rectangle sellAllButtonRectangle = GetSellAllButtonRectangle(viewportWidth, viewportHeight);
+            Rectangle sellOresButtonRectangle = GetSellOresButtonRectangle(viewportWidth, viewportHeight);
             ShopService.SellSummary sellSummary = shopService.GetSellSummary(world);
+            ShopService.SellSummary oreSellSummary = shopService.GetOreSellSummary(world);
             double saleValue = Math.Floor(sellSummary.TotalValue);
+            double oreSaleValue = Math.Floor(oreSellSummary.TotalValue);
 
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
@@ -113,19 +129,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             spriteBatch.Draw(pixelTexture, valueCardRectangle, new Color(30, 30, 30));
             spriteBatch.Draw(pixelTexture, valueListRectangle, new Color(27, 27, 27));
-            spriteBatch.Draw(pixelTexture, sellButtonRectangle, saleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, sellAllButtonRectangle, saleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
 
             DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
             DrawRectangleOutline(spriteBatch, valueCardRectangle, 1, new Color(78, 78, 78));
             DrawRectangleOutline(spriteBatch, valueListRectangle, 1, new Color(68, 68, 68));
-            DrawRectangleOutline(spriteBatch, sellButtonRectangle, 2, saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110));
+            DrawRectangleOutline(spriteBatch, sellAllButtonRectangle, 2, saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110));
+            DrawRectangleOutline(spriteBatch, sellOresButtonRectangle, 2, oreSaleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
 
             DrawSellableValueList(spriteBatch, sellSummary.Entries, valueListRectangle);
-            DrawCenteredText(spriteBatch, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(panelRectangle.X + 20, panelRectangle.Bottom - 40), new Color(188, 188, 188), FooterTextScale);
+            DrawCenteredText(spriteBatch, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellAllButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+            DrawCenteredText(spriteBatch, oreSaleValue > 0 ? $"Sell Ores ({oreSaleValue})" : "Sell Ores", sellOresButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
         }
 
         private void DrawSellableValueList(SpriteBatch spriteBatch, System.Collections.Generic.IReadOnlyList<ShopService.SellableInventoryEntry> sellableEntries, Rectangle rectangle)
@@ -195,9 +213,20 @@ namespace ToTheEndOfTheWorld.UI.Shop
             return new Rectangle(entryX, entryY, entryWidth, ValueRowHeight - 6);
         }
 
-        private Rectangle GetSellButtonRectangle(int viewportWidth, int viewportHeight)
+        private Rectangle GetSellAllButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            return new Rectangle((viewportWidth - ButtonWidth) / 2, (viewportHeight - PanelHeight) / 2 + 544, ButtonWidth, ButtonHeight);
+            int panelLeft = (viewportWidth - PanelWidth) / 2;
+            int panelTop = (viewportHeight - PanelHeight) / 2;
+            int buttonsTop = panelTop + PanelHeight - ButtonHeight - 20;
+            int buttonsLeft = panelLeft + ((PanelWidth - ((ButtonWidth * 2) + ButtonGap)) / 2);
+
+            return new Rectangle(buttonsLeft, buttonsTop, ButtonWidth, ButtonHeight);
+        }
+
+        private Rectangle GetSellOresButtonRectangle(int viewportWidth, int viewportHeight)
+        {
+            Rectangle sellAllButtonRectangle = GetSellAllButtonRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(sellAllButtonRectangle.Right + ButtonGap, sellAllButtonRectangle.Y, ButtonWidth, ButtonHeight);
         }
 
         private Rectangle GetValueListRectangle(int viewportWidth, int viewportHeight)

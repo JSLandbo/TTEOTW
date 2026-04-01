@@ -14,8 +14,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
     {
         private const float TitleTextScale = 1.35f;
         private const float PriceTextScale = 1.1f;
-        private const float FooterTextScale = 1.1f;
-
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;
@@ -49,8 +47,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                     DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, slotRectangle.Contains(mousePosition));
                 }
             }
-
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Press E or Escape to close", new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Bottom - EquipmentShopLayout.FooterTextBottomPadding), new Color(188, 188, 188), FooterTextScale);
         }
 
         private void DrawSlot(SpriteBatch spriteBatch, ModelWorld world, AGridBox slot, Rectangle priceRectangle, Rectangle slotRectangle, bool isHovered)
