@@ -61,7 +61,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
         private BlockDefinition ResolveBaseTerrain(float x, float y)
         {
             float waterNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.08f) + 173.0f, (y * 0.08f) + 421.0f) * 100.0f;
-            
+
 
             BlockDefinition water = GetDefinition(GameIds.Blocks.Water);
             if (IsWithinDepth(y, water) && waterNoise <= 5.0f)
