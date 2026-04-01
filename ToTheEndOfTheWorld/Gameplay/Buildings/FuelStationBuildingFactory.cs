@@ -21,8 +21,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 StorageGrid: null,
                 IsBackground: true,
                 IsDestructible: false,
-                Interaction: EBuildingInteraction.FuelStation,
-                InteractionPrompt: "Press E to open shop");
+                Interaction: EBuildingInteraction.FuelStation);
         }
     }
 }

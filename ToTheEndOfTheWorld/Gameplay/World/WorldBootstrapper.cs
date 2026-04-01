@@ -1,24 +1,11 @@
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
-    public sealed class WorldBootstrapper
+    public sealed class WorldBootstrapper(
+        SellShopBuildingFactory sellShopBuildingFactory,
+        EquipmentShopBuildingFactory equipmentShopBuildingFactory,
+        FuelStationBuildingFactory fuelStationBuildingFactory,
+        GadgetShopBuildingFactory gadgetShopBuildingFactory)
     {
-        private readonly SellShopBuildingFactory sellShopBuildingFactory;
-        private readonly EquipmentShopBuildingFactory equipmentShopBuildingFactory;
-        private readonly FuelStationBuildingFactory fuelStationBuildingFactory;
-        private readonly GadgetShopBuildingFactory gadgetShopBuildingFactory;
-
-        public WorldBootstrapper(
-            SellShopBuildingFactory sellShopBuildingFactory,
-            EquipmentShopBuildingFactory equipmentShopBuildingFactory,
-            FuelStationBuildingFactory fuelStationBuildingFactory,
-            GadgetShopBuildingFactory gadgetShopBuildingFactory)
-        {
-            this.sellShopBuildingFactory = sellShopBuildingFactory;
-            this.equipmentShopBuildingFactory = equipmentShopBuildingFactory;
-            this.fuelStationBuildingFactory = fuelStationBuildingFactory;
-            this.gadgetShopBuildingFactory = gadgetShopBuildingFactory;
-        }
-
         public void EnsureInitialized(ModelWorld world)
         {
             world.Buildings ??= [];

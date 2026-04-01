@@ -13,11 +13,7 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public static Rectangle GetSlotRectangle(int viewportWidth, int viewportHeight, int slotIndex)
         {
-            int totalWidth = (HotbarSlotCount * SlotSize)
-                             + ((HotbarSlotCount - 1) * SlotSpacing)
-                             + SpecialSlotGap
-                             + (2 * SlotSize)
-                             + SlotSpacing;
+            int totalWidth = (HotbarSlotCount * SlotSize) + ((HotbarSlotCount - 1) * SlotSpacing) + SpecialSlotGap + (2 * SlotSize) + SlotSpacing;
             int startX = (viewportWidth - totalWidth) / 2;
             int y = viewportHeight - BottomMargin - SlotSize;
 

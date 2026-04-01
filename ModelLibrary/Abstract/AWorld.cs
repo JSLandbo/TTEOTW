@@ -6,7 +6,7 @@ namespace ModelLibrary.Abstract
     public abstract class AWorld
     {
         public APlayer Player { get; set; } = null!;
-        public List<ABuilding>? Buildings { get; set; } = [];
+        public List<ABuilding> Buildings { get; set; } = [];
         public int BlocksWide { get; set; } = 0;
         public int BlocksHigh { get; set; } = 0;
         public Vector2 SpawnWorldPosition { get; set; } = Vector2.Zero;

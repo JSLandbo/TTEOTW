@@ -158,8 +158,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawSlot(SpriteBatch spriteBatch, AGridBox slot, Rectangle slotRectangle)
         {
-            bool isHovered = UiSlotInteractionHelper.CanInteractWithSlot(slot, interactionController.HasHeldItem)
-                && slotRectangle.Contains(interactionController.MousePosition);
+            bool isHovered = UiSlotInteractionHelper.CanInteractWithSlot(slot, interactionController.HasHeldItem) && slotRectangle.Contains(interactionController.MousePosition);
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(62, 62, 62), new Color(124, 124, 124), isHovered: isHovered);
         }
 

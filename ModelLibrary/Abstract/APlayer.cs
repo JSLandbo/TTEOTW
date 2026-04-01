@@ -50,7 +50,6 @@ namespace ModelLibrary.Abstract
 
         public bool Mining { get; set; } = false;
         public bool DrillExtended { get; set; } = false;
-        public string Name { get; set; } = "Undefined";
         public double Cash { get; set; } = 0.0f;
         public AThermalPlating ThermalPlating { get; set; } = thermalPlating ?? throw new ArgumentNullException(nameof(thermalPlating));
         public AEngine Engine { get; set; } = engine ?? throw new ArgumentNullException(nameof(engine));

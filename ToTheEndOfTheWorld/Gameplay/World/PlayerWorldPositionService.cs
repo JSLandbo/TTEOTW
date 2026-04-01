@@ -11,6 +11,8 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             return world.WorldRender[new Vector2(player.Coordinates.X, player.Coordinates.Y)];
         }
 
+
+        // TODO: What for? Finding center of tnt? Or?.... not used, yet,
         public static WorldTile GetPlayerWorldTile(ModelWorld world)
         {
             Vector2 worldPosition = GetPlayerWorldPosition(world);

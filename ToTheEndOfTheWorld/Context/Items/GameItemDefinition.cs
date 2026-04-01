@@ -8,7 +8,7 @@ using ModelLibrary.Enums;
 namespace ToTheEndOfTheWorld.Context.Items
 {
     public sealed class GameItemDefinition(
-        string name,
+        string name, // TODO: What is?
         Dictionary<PlayerOrientation, Texture2D> textures,
         AType definition,
         bool buyable = false,
@@ -17,7 +17,6 @@ namespace ToTheEndOfTheWorld.Context.Items
         int tier = 0,
         int frames = 1)
     {
-        public string Name { get; } = name; // TODO: Name not used? What is this class even for?
         public Dictionary<PlayerOrientation, Texture2D> Textures { get; } = textures;
         public AType Definition { get; } = definition;
         public bool Buyable { get; } = buyable;

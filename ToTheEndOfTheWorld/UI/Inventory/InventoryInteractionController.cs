@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
@@ -65,8 +66,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState)
-                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot))
+            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState) && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot))
             {
                 TakeSingleItem(rightClickedSlot);
             }
@@ -136,7 +136,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             ClearHeldItem();
         }
 
-        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, ModelLibrary.Abstract.APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight)
+        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight)
         {
             if (layout.CraftButtonRectangle.Contains(position))
             {
@@ -160,8 +160,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return true;
             }
 
-            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot)
-                && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
+            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot) && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
         }
 
         private void MoveStack(AGridBox slot)
@@ -300,7 +299,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, ModelLibrary.Abstract.APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot)
+        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot)
         {
             if (TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {

@@ -12,11 +12,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 return;
             }
 
-            Rectangle destinationRectangle = new(
-                (viewportWidth - youDiedTexture.Width) / 2,
-                48,
-                youDiedTexture.Width,
-                youDiedTexture.Height);
+            Rectangle destinationRectangle = new((viewportWidth - youDiedTexture.Width) / 2, 48, youDiedTexture.Width, youDiedTexture.Height);
 
             spriteBatch.Draw(youDiedTexture, destinationRectangle, Color.White);
         }

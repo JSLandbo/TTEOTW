@@ -28,6 +28,8 @@ namespace ToTheEndOfTheWorld.Context
             return false;
         }
 
+        // TODO: These for dynamite and stuff?
+
         public IReadOnlyList<WorldInteraction> GetAll(WorldTile worldTile)
         {
             if (!interactionsByTile.TryGetValue(worldTile, out List<WorldInteraction> interactions))

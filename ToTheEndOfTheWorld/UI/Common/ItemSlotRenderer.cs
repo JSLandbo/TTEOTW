@@ -47,8 +47,8 @@ namespace ToTheEndOfTheWorld.UI.Common
             }
 
             int frames = textureResolver.ResolveFrames(item);
-            var frame = TextureAnimationHelper.GetFrame(frames, texture);
-            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, frame.Width, frame.Height, scale), frame.SourceRectangle, Color.White);
+            var (SourceRectangle, Width, Height) = TextureAnimationHelper.GetFrame(frames, texture);
+            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
         }
 
         public void DrawItemFitted(SpriteBatch spriteBatch, AType item, Rectangle bounds, int padding = 3)
@@ -68,8 +68,8 @@ namespace ToTheEndOfTheWorld.UI.Common
             float scale = System.MathF.Min(1.0f, System.MathF.Min(scaleX, scaleY));
 
             int frames = textureResolver.ResolveFrames(item);
-            var frame = TextureAnimationHelper.GetFrame(frames, texture);
-            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, frame.Width, frame.Height, scale), frame.SourceRectangle, Color.White);
+            var (SourceRectangle, Width, Height) = TextureAnimationHelper.GetFrame(frames, texture);
+            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
         }
 
         public void DrawStackCount(SpriteBatch spriteBatch, int count, Rectangle bounds)

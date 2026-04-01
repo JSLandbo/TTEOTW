@@ -26,8 +26,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 StorageGrid: CreateShopGrid(),
                 IsBackground: true,
                 IsDestructible: false,
-                Interaction: EBuildingInteraction.GadgetShop,
-                InteractionPrompt: "Press E to open shop");
+                Interaction: EBuildingInteraction.GadgetShop);
         }
 
         private Grid CreateShopGrid()

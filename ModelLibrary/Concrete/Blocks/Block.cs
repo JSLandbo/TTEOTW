@@ -48,7 +48,5 @@ namespace ModelLibrary.Concrete.Blocks
         }
 
         public float PercentDamaged() => 1.0f - CurrentHealth / MaximumHealth;
-
-        public bool BlockIsEthereal() => Ethereal;
     }
 }

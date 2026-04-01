@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Concrete.Blocks;
 
 namespace ToTheEndOfTheWorld.Gameplay
@@ -9,7 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             loot = null;
             count = 0;
 
-            if (!blocks.TryGetValue(blockId, out (string Name, Microsoft.Xna.Framework.Graphics.Texture2D Texture, int Frames, Block block) blockDefinition) || blockId <= 0)
+            if (!blocks.TryGetValue(blockId, out (string Name, Texture2D Texture, int Frames, Block block) blockDefinition) || blockId <= 0)
             {
                 return false;
             }

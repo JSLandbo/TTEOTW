@@ -8,7 +8,9 @@ namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class WorldInteractionRenderer
     {
+        private const string PromptText = "Press E to interact";
         private const float PromptTextScale = 1.3f;
+        private const int PromptMargin = 20;
         private readonly WorldBuildingTextureResolver textureResolver = new();
         private Texture2D pixelTexture;
         private SpriteFont textFont;
@@ -58,21 +60,21 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void DrawInteractionPrompt(SpriteBatch spriteBatch, ABuilding building, int viewportWidth, int viewportHeight)
         {
-            if (building == null || string.IsNullOrWhiteSpace(building.InteractionPrompt))
+            if (building == null)
             {
                 return;
             }
 
-            Vector2 promptSize = textFont.MeasureString(building.InteractionPrompt) * PromptTextScale;
+            Vector2 promptSize = textFont.MeasureString(PromptText) * PromptTextScale;
             Rectangle promptRectangle = new(
-                (int)((viewportWidth - promptSize.X) / 2) - 16,
-                viewportHeight - 64,
+                PromptMargin,
+                viewportHeight - PromptMargin - (int)promptSize.Y - 18,
                 (int)promptSize.X + 32,
                 (int)promptSize.Y + 18
             );
 
             spriteBatch.Draw(pixelTexture, promptRectangle, new Color(0, 0, 0, 180));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, building.InteractionPrompt, new Vector2(promptRectangle.X + 16, promptRectangle.Y + 8), Color.White, PromptTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, PromptText, new Vector2(promptRectangle.X + 16, promptRectangle.Y + 8), Color.White, PromptTextScale);
         }
     }
 }

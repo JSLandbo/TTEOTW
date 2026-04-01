@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
@@ -29,16 +28,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 StorageGrid: CreateShopGrid(),
                 IsBackground: true,
                 IsDestructible: false,
-                Interaction: EBuildingInteraction.EquipmentShop,
-                InteractionPrompt: "Press E to open equipment shop");
-        }
-
-        public void EnsureStorage(ABuilding building)
-        {
-            if (building.StorageGrid == null || IsUnstocked(building.StorageGrid))
-            {
-                building.StorageGrid = CreateShopGrid();
-            }
+                Interaction: EBuildingInteraction.EquipmentShop);
         }
 
         private Grid CreateShopGrid()
@@ -72,24 +62,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             return storageGrid;
-        }
-
-        private static bool IsUnstocked(AGrid grid)
-        {
-            for (int y = 0; y < grid.InternalGrid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.InternalGrid.GetLength(0); x++)
-                {
-                    AGridBox slot = grid.InternalGrid[x, y];
-
-                    if (slot?.Item != null)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
         }
     }
 }

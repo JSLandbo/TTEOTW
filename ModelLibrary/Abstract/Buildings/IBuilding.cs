@@ -17,7 +17,6 @@ namespace ModelLibrary.Abstract.Buildings
         public bool IsBackground { get; set; }
         public bool IsDestructible { get; set; }
         public EBuildingInteraction Interaction { get; set; }
-        public string InteractionPrompt { get; set; }
         public bool ContainsTile(long worldX, long worldY);
     }
 }

@@ -88,6 +88,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 StopHorizontalMovementForVerticalMining(player);
             }
 
+            // TODO: Consider this, mining at 100.000f is ridiculously fast lmao.
             // Keep the old snap-and-stop behavior for blocks that survive the hit,
             // but let one-shot blocks break before they steal the ship's movement.
             if (!WillBeDestroyedByHit(interaction.Block, player.Drill.Damage))

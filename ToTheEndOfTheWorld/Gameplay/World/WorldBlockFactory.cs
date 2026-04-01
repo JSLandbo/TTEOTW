@@ -13,7 +13,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
             Block block = new(definition.Value.block);
 
-            // TODO: Consider other ores as well!
+            // TODO: Consider hardening other ores as well!
             if (definition.Key == GameIds.Blocks.Dirt && y > 0)
             {
                 block.CurrentHealth += 0.001f * y;

@@ -13,7 +13,6 @@ using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI;
 using ToTheEndOfTheWorld.UI.Inventory;
-using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld
 {
@@ -69,18 +68,11 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerHullSystem playerHullSystem = new();
         private readonly PlayerVerticalImpactService playerVerticalImpactService;
         private PlayerDeathSystem playerDeathSystem;
-        private WorldBootstrapper worldBootstrapper;
         private readonly WorldInteractionService worldInteractionService;
         private readonly WorldViewportService worldViewportService = new();
         private readonly GameEventBus eventBus = new();
         private readonly InventoryService inventoryService = new();
         private readonly ShopService shopService = new();
-        private InventoryItemUseService inventoryItemUseService;
-        private EquipmentShopService equipmentShopService;
-        private SellShopBuildingFactory sellShopBuildingFactory;
-        private EquipmentShopBuildingFactory equipmentShopBuildingFactory;
-        private FuelStationBuildingFactory fuelStationBuildingFactory;
-        private GadgetShopBuildingFactory gadgetShopBuildingFactory;
         private readonly UiWorld.DebugHudRenderer debugHudRenderer = new();
         private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
         private UiWorld.GadgetBarRenderer gadgetBarRenderer;
@@ -90,10 +82,8 @@ namespace ToTheEndOfTheWorld
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
         private UiWorld.PlayerShipRenderer playerShipRenderer;
-        private CraftingService craftingService;
         private UiManager uiManager;
         private InventoryOverlay inventoryOverlay;
-        private Texture2D youDiedTexture;
         private UiWorld.DeathOverlay deathOverlay;
         private int logicalViewportWidth;
         private int logicalViewportHeight;
@@ -125,17 +115,17 @@ namespace ToTheEndOfTheWorld
         {
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
-            inventoryItemUseService = new InventoryItemUseService(inventoryService, items);
-            sellShopBuildingFactory = new SellShopBuildingFactory();
-            equipmentShopBuildingFactory = new EquipmentShopBuildingFactory(items);
-            fuelStationBuildingFactory = new FuelStationBuildingFactory();
-            gadgetShopBuildingFactory = new GadgetShopBuildingFactory(items);
-            worldBootstrapper = new WorldBootstrapper(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
+            InventoryItemUseService inventoryItemUseService = new(inventoryService, items);
+            SellShopBuildingFactory sellShopBuildingFactory = new();
+            EquipmentShopBuildingFactory equipmentShopBuildingFactory = new(items);
+            FuelStationBuildingFactory fuelStationBuildingFactory = new();
+            GadgetShopBuildingFactory gadgetShopBuildingFactory = new(items);
+            WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
-            craftingService = new CraftingService(new CraftingRecipeLibrary(blocks).CreateRecipes());
+            CraftingService craftingService = new(new CraftingRecipeLibrary(blocks).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
-            equipmentShopService = new EquipmentShopService(inventoryService, items);
+            EquipmentShopService equipmentShopService = new(inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
             inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
             playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
@@ -189,7 +179,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 100000000000f // Starting allowance
+                Cash = 100f // Starting allowance
             };
 
             return new ModelWorld(
@@ -206,7 +196,7 @@ namespace ToTheEndOfTheWorld
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
-            youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
+            Texture2D youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
@@ -315,14 +305,8 @@ namespace ToTheEndOfTheWorld
             debugHudRenderer.Draw(spriteBatch, world);
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
+            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
-            gadgetBarRenderer.Draw(
-                spriteBatch,
-                world,
-                logicalViewportWidth,
-                logicalViewportHeight,
-                uiMousePosition,
-                inventoryOverlay);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();
@@ -435,7 +419,7 @@ namespace ToTheEndOfTheWorld
             worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportWidth, logicalViewportHeight);
         }
 
-        private static bool UsesThrustersForMovement(ModelLibrary.Abstract.APlayer player, bool isGrounded)
+        private static bool UsesThrustersForMovement(APlayer player, bool isGrounded)
         {
             return player.MovementInput.Y < 0 || (!isGrounded && player.MovementInput.X != 0);
         }
@@ -450,8 +434,8 @@ namespace ToTheEndOfTheWorld
             }
 
             Mouse.SetCursor(shouldUseHandCursor ? MouseCursor.Hand : MouseCursor.Arrow);
+
             isUsingHandCursor = shouldUseHandCursor;
         }
-
     }
 }
