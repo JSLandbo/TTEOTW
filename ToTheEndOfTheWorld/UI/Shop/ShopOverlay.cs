@@ -31,7 +31,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const float ListTitleTextScale = 1.2f;
         private const float ListBodyTextScale = 1.1f;
         private const float ButtonTextScale = 1.25f;
-        private const float FooterTextScale = 1.1f;
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
 
         private ItemSlotRenderer slotRenderer;
@@ -66,7 +65,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
+            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
             {
                 isOpen = false;
 
@@ -87,7 +86,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 scrollOffset = Math.Clamp(scrollOffset, 0, maxScrollOffset);
             }
 
-            if (!WasLeftClicked(currentMouseState, previousMouseState))
+            if (!UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))
             {
                 return;
             }
@@ -131,12 +130,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, valueListRectangle, new Color(27, 27, 27));
             spriteBatch.Draw(pixelTexture, sellAllButtonRectangle, saleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
             spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            bool isSellAllHovered = saleValue > 0 && sellAllButtonRectangle.Contains(mousePosition);
+            bool isSellOresHovered = oreSaleValue > 0 && sellOresButtonRectangle.Contains(mousePosition);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellAllButtonRectangle, isSellAllHovered);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellOresButtonRectangle, isSellOresHovered);
 
-            DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
-            DrawRectangleOutline(spriteBatch, valueCardRectangle, 1, new Color(78, 78, 78));
-            DrawRectangleOutline(spriteBatch, valueListRectangle, 1, new Color(68, 68, 68));
-            DrawRectangleOutline(spriteBatch, sellAllButtonRectangle, 2, saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110));
-            DrawRectangleOutline(spriteBatch, sellOresButtonRectangle, 2, oreSaleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueCardRectangle, 1, new Color(78, 78, 78));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueListRectangle, 1, new Color(68, 68, 68));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellAllButtonRectangle, 2, UiInteractionStyle.GetBorderColor(saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellAllHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellOresButtonRectangle, 2, UiInteractionStyle.GetBorderColor(oreSaleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellOresHovered));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
@@ -164,13 +167,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 }
 
                 Rectangle firstEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 0);
-                DrawSellableEntry(spriteBatch, sellableEntries[firstEntryIndex], firstEntryRectangle, firstEntryRectangle.Contains(mousePosition));
+                DrawSellableEntry(spriteBatch, sellableEntries[firstEntryIndex], firstEntryRectangle);
 
                 int secondEntryIndex = firstEntryIndex + 1;
                 if (secondEntryIndex < sellableEntries.Count)
                 {
                     Rectangle secondEntryRectangle = GetValueEntryRectangle(rectangle, visibleIndex, 1);
-                    DrawSellableEntry(spriteBatch, sellableEntries[secondEntryIndex], secondEntryRectangle, secondEntryRectangle.Contains(mousePosition));
+                    DrawSellableEntry(spriteBatch, sellableEntries[secondEntryIndex], secondEntryRectangle);
                 }
             }
 
@@ -180,7 +183,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
         }
 
-        private void DrawSellableEntry(SpriteBatch spriteBatch, ShopService.SellableInventoryEntry entry, Rectangle entryRectangle, bool isHovered)
+        private void DrawSellableEntry(SpriteBatch spriteBatch, ShopService.SellableInventoryEntry entry, Rectangle entryRectangle)
         {
             Rectangle iconRectangle = new(
                 entryRectangle.X + ValueEntryPadding,
@@ -189,15 +192,10 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 ValueIconSize);
             Vector2 titlePosition = new(iconRectangle.Right + 14, entryRectangle.Y + 8);
             Vector2 detailPosition = new(iconRectangle.Right + 14, entryRectangle.Y + 38);
-            spriteBatch.Draw(pixelTexture, entryRectangle, isHovered ? new Color(44, 44, 44) : new Color(35, 35, 35));
-            if (isHovered)
-            {
-                spriteBatch.Draw(pixelTexture, entryRectangle, Color.White * 0.05f);
-            }
+            spriteBatch.Draw(pixelTexture, entryRectangle, new Color(35, 35, 35));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, entryRectangle, 1, new Color(52, 52, 52));
 
-            DrawRectangleOutline(spriteBatch, entryRectangle, 1, isHovered ? new Color(110, 110, 110) : new Color(52, 52, 52));
-
-            slotRenderer.DrawItem(spriteBatch, entry.Item, iconRectangle, isHovered ? 0.95f : 1.0f);
+            slotRenderer.DrawItem(spriteBatch, entry.Item, iconRectangle);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, entry.Item.Name, titlePosition, new Color(236, 236, 236), ListTitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {Math.Floor(entry.TotalValue)}", detailPosition, new Color(214, 214, 214), ListBodyTextScale);
@@ -266,30 +264,15 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
-        private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
+        public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
-        }
-
-        private static bool WasLeftClicked(MouseState currentState, MouseState previousState)
-        {
-            return currentState.LeftButton == ButtonState.Pressed && previousState.LeftButton == ButtonState.Released;
-        }
-
-        private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
-        {
-            foreach (Keys key in keys)
+            if (!isOpen)
             {
-                if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            return (shopService.GetSellSummary(world).TotalValue > 0 && GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+                || (shopService.GetOreSellSummary(world).TotalValue > 0 && GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition));
         }
     }
 }

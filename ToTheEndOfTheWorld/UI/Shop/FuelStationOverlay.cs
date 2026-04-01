@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
@@ -24,6 +25,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;
         private bool isOpen;
+        private Point mousePosition;
 
         public EBuildingInteraction Action => EBuildingInteraction.FuelStation;
         public bool IsOpen => isOpen;
@@ -48,15 +50,15 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if ((currentKeyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape)) ||
-                (currentKeyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E)))
+            mousePosition = currentMouseState.Position;
+
+            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
             {
                 isOpen = false;
                 return;
             }
 
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                previousMouseState.LeftButton == ButtonState.Released &&
+            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
                 RefuelAllAffordable(world);
@@ -81,9 +83,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             spriteBatch.Draw(pixelTexture, refuelButtonRectangle, canRefuel ? new Color(86, 110, 78) : new Color(64, 64, 64));
+            bool isHovered = canRefuel && refuelButtonRectangle.Contains(mousePosition);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, refuelButtonRectangle, isHovered);
 
-            DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
-            DrawRectangleOutline(spriteBatch, refuelButtonRectangle, 2, canRefuel ? new Color(152, 182, 140) : new Color(110, 110, 110));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, refuelButtonRectangle, 2, UiInteractionStyle.GetBorderColor(canRefuel ? new Color(152, 182, 140) : new Color(110, 110, 110), isHovered));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.FuelTank.Fuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
@@ -121,12 +125,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
-        private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
+        public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
+            if (!isOpen)
+            {
+                return false;
+            }
+
+            float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
+            float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
+            return affordableFuel > 0.0f && GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
         }
     }
 }

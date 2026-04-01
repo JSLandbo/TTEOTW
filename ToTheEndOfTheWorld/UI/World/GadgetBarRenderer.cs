@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Grids;
 using ToTheEndOfTheWorld.UI.Common;
+using ToTheEndOfTheWorld.UI.Inventory;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.World
@@ -24,12 +25,14 @@ namespace ToTheEndOfTheWorld.UI.World
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
         }
 
-        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight, Point mousePosition, InventoryOverlay? inventoryOverlay)
         {
             if (!world.Player.HasGadgetBelt)
             {
                 return;
             }
+
+            bool isInteractive = inventoryOverlay?.IsOpen == true;
 
             for (int slotIndex = 0; slotIndex < GadgetBarLayout.TotalSlotCount; slotIndex++)
             {
@@ -40,8 +43,12 @@ namespace ToTheEndOfTheWorld.UI.World
                     ? new Color(42, 42, 42, 220)
                     : new Color(34, 34, 34, 220);
                 Color borderColor = new(132, 132, 132);
+                bool hasHeldItem = inventoryOverlay?.HasHeldItem == true;
 
-                slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, isHovered: false);
+                bool isHovered = isInteractive
+                    && slotRectangle.Contains(mousePosition)
+                    && UiSlotInteractionHelper.CanInteractWithSlot(slot, hasHeldItem);
+                slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, isHovered: isHovered);
 
                 if (slotIndex < GadgetBarLayout.HotbarSlotCount)
                 {

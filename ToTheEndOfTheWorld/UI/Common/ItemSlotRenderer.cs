@@ -14,13 +14,8 @@ namespace ToTheEndOfTheWorld.UI.Common
         public void DrawGridSlot(SpriteBatch spriteBatch, Rectangle slotRectangle, AGridBox slot, Color backgroundColor, Color borderColor, bool showCount = true, bool isHovered = false)
         {
             spriteBatch.Draw(pixelTexture, slotRectangle, backgroundColor);
-
-            if (isHovered)
-            {
-                spriteBatch.Draw(pixelTexture, slotRectangle, Color.White * 0.08f);
-            }
-
-            DrawRectangleOutline(spriteBatch, slotRectangle, 2, isHovered ? UiColorHelper.Brighten(borderColor, 36) : borderColor);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, slotRectangle, isHovered);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, slotRectangle, 2, UiInteractionStyle.GetBorderColor(borderColor, isHovered));
 
             if (slot.Item == null || slot.Count <= 0)
             {
@@ -83,14 +78,6 @@ namespace ToTheEndOfTheWorld.UI.Common
             Vector2 countSize = textFont.MeasureString(countText) * stackTextScale;
             Vector2 countPosition = new(bounds.Right - countSize.X - 6, bounds.Bottom - countSize.Y - 4);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, countText, countPosition, Color.White, stackTextScale);
-        }
-
-        private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
-        {
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
         }
 
         private static Rectangle GetNaturalTextureRectangle(Rectangle bounds, int textureWidth, int textureHeight, float scale)

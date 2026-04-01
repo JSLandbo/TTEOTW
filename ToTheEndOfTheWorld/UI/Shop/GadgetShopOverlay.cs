@@ -33,6 +33,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private ItemSlotRenderer slotRenderer = null!;
         private bool isOpen;
         private ABuilding currentBuilding = null!;
+        private Point mousePosition;
 
         public EBuildingInteraction Action => EBuildingInteraction.GadgetShop;
         public bool IsOpen => isOpen;
@@ -59,16 +60,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if ((currentKeyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape)) ||
-                (currentKeyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E)))
+            mousePosition = currentMouseState.Position;
+
+            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
             {
                 isOpen = false;
 
                 return;
             }
 
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                previousMouseState.LeftButton == ButtonState.Released &&
+            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
                 TryBuyGadgetBelt(world);
@@ -77,8 +78,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             if (world.Player.HasGadgetBelt &&
-                currentMouseState.LeftButton == ButtonState.Pressed &&
-                previousMouseState.LeftButton == ButtonState.Released &&
+                UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 TryGetClickedShopSlot(currentMouseState.Position, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
                 TryBuyGadget(world, slotX, slotY);
@@ -103,12 +103,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
-            DrawRectangleOutline(spriteBatch, panelRectangle, 2, new Color(108, 108, 108));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), new Color(244, 240, 229), TitleTextScale);
 
             spriteBatch.Draw(pixelTexture, buttonRectangle, canBuy ? new Color(92, 116, 82) : new Color(64, 64, 64));
-            DrawRectangleOutline(spriteBatch, buttonRectangle, 2, canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110));
+            bool isButtonHovered = canBuy && buttonRectangle.Contains(mousePosition);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, buttonRectangle, isButtonHovered);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, buttonRectangle, 2, UiInteractionStyle.GetBorderColor(canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110), isButtonHovered));
             DrawCenteredText(spriteBatch, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
 
             if (!alreadyOwned)
@@ -116,7 +118,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {GadgetBeltPrice:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
             }
 
-            DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned);
+            DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned, world);
 
             if (!alreadyOwned)
             {
@@ -211,7 +213,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             return false;
         }
 
-        private void DrawShopGrid(SpriteBatch spriteBatch, Rectangle gridRectangle, AGridBox[,] shopGrid, bool isEnabled)
+        private void DrawShopGrid(SpriteBatch spriteBatch, Rectangle gridRectangle, AGridBox[,] shopGrid, bool isEnabled, ModelWorld world)
         {
             for (int y = 0; y < GridRows; y++)
             {
@@ -223,13 +225,15 @@ namespace ToTheEndOfTheWorld.UI.Shop
                         GridSlotSize,
                         GridSlotSize);
                     AGridBox slot = shopGrid?[x, y] ?? new ModelLibrary.Concrete.Grids.GridBox(null, 0);
+                    bool isHovered = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && slotRectangle.Contains(mousePosition);
                     slotRenderer.DrawGridSlot(
                         spriteBatch,
                         slotRectangle,
                         slot,
                         isEnabled ? new Color(44, 44, 44) : new Color(10, 10, 10),
                         isEnabled ? new Color(108, 108, 108) : new Color(20, 20, 20),
-                        showCount: false);
+                        showCount: false,
+                        isHovered: isHovered);
                 }
             }
         }
@@ -243,12 +247,26 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
-        private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
+        public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
+            if (!isOpen)
+            {
+                return false;
+            }
+
+            bool canBuyBelt = !world.Player.HasGadgetBelt && world.Player.Cash >= GadgetBeltPrice;
+            if (canBuyBelt && GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                return true;
+            }
+
+            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageGrid?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
+            {
+                return false;
+            }
+
+            AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
+            return slot.Item != null && world.Player.Cash >= slot.Item.Worth;
         }
     }
 }

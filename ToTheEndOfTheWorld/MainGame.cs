@@ -93,15 +93,15 @@ namespace ToTheEndOfTheWorld
         private CraftingService craftingService;
         private UiManager uiManager;
         private InventoryOverlay inventoryOverlay;
-        private SpriteFont blockPlaceholderFont;
         private Texture2D youDiedTexture;
         private UiWorld.DeathOverlay deathOverlay;
-        private Texture2D placeholderTileTexture;
         private int logicalViewportWidth;
         private int logicalViewportHeight;
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
         private bool isApplyingResize;
+        private Point uiMousePosition;
+        private bool isUsingHandCursor;
 
         public MainGame()
         {
@@ -206,11 +206,8 @@ namespace ToTheEndOfTheWorld
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
-            blockPlaceholderFont = Content.Load<SpriteFont>("File");
             youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
-            placeholderTileTexture = new Texture2D(GraphicsDevice, 1, 1);
-            placeholderTileTexture.SetData([Color.White]);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
             gadgetBarRenderer.LoadContent(GraphicsDevice, Content);
@@ -222,8 +219,10 @@ namespace ToTheEndOfTheWorld
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
+            uiMousePosition = mouseState.Position;
             bool blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
+            UpdateUiCursor(mouseState.Position);
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
             {
                 playerVerticalImpactService.Clear();
@@ -317,7 +316,13 @@ namespace ToTheEndOfTheWorld
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
-            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
+            gadgetBarRenderer.Draw(
+                spriteBatch,
+                world,
+                logicalViewportWidth,
+                logicalViewportHeight,
+                uiMousePosition,
+                inventoryOverlay);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();
@@ -433,6 +438,19 @@ namespace ToTheEndOfTheWorld
         private static bool UsesThrustersForMovement(ModelLibrary.Abstract.APlayer player, bool isGrounded)
         {
             return player.MovementInput.Y < 0 || (!isGrounded && player.MovementInput.X != 0);
+        }
+
+        private void UpdateUiCursor(Point mousePosition)
+        {
+            bool shouldUseHandCursor = uiManager.IsPointerOverInteractiveElement(world, mousePosition, logicalViewportWidth, logicalViewportHeight);
+
+            if (shouldUseHandCursor == isUsingHandCursor)
+            {
+                return;
+            }
+
+            Mouse.SetCursor(shouldUseHandCursor ? MouseCursor.Hand : MouseCursor.Arrow);
+            isUsingHandCursor = shouldUseHandCursor;
         }
 
     }

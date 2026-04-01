@@ -4,6 +4,7 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.World;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
@@ -16,6 +17,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public AType HeldItem { get; private set; }
         public int HeldCount { get; private set; }
         public Point MousePosition { get; private set; }
+        public bool HasHeldItem => HeldItem != null && HeldCount > 0;
 
         public void Update(
             MouseState currentMouseState,
@@ -34,7 +36,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             MousePosition = currentMouseState.Position;
             currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
 
-            if (WasLeftClicked(currentMouseState, previousMouseState))
+            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))
             {
                 if (layout.CraftButtonRectangle.Contains(MousePosition))
                 {
@@ -63,7 +65,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (WasRightClicked(currentMouseState, previousMouseState)
+            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState)
                 && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot))
             {
                 TakeSingleItem(rightClickedSlot);
@@ -132,6 +134,34 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public void ClearHeldItemState()
         {
             ClearHeldItem();
+        }
+
+        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, ModelLibrary.Abstract.APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight)
+        {
+            if (layout.CraftButtonRectangle.Contains(position))
+            {
+                return true;
+            }
+
+            if (layout.SelfDestructButtonRectangle.Contains(position))
+            {
+                return true;
+            }
+
+            if (HeldItem != null && layout.TrashBinRectangle.Contains(position))
+            {
+                return true;
+            }
+
+            if (HeldItem != null
+                && TryGetClickedEquipmentSlot(position, layout, out EPlayerEquipmentSlotType equipmentSlot)
+                && itemUseService.CanEquip(HeldItem, equipmentSlot))
+            {
+                return true;
+            }
+
+            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot)
+                && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
         }
 
         private void MoveStack(AGridBox slot)
@@ -335,14 +365,5 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool WasLeftClicked(MouseState currentMouseState, MouseState previousMouseState)
-        {
-            return currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released;
-        }
-
-        private static bool WasRightClicked(MouseState currentMouseState, MouseState previousMouseState)
-        {
-            return currentMouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Released;
-        }
     }
 }

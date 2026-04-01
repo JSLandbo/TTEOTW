@@ -35,7 +35,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, new Rectangle(layout.PanelRectangle.X + 3, layout.PanelRectangle.Y + 4, layout.PanelRectangle.Width, layout.PanelRectangle.Height), new Color(0, 0, 0, 70));
             spriteBatch.Draw(pixelTexture, layout.PanelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, layout.HeaderRectangle, new Color(44, 44, 44));
-            DrawRectangleOutline(spriteBatch, layout.PanelRectangle, 2, new Color(108, 108, 108));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, layout.PanelRectangle, 2, new Color(108, 108, 108));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, building.Name, new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Y + EquipmentShopLayout.TitlePaddingTop - 2), new Color(244, 240, 229), TitleTextScale);
             for (int y = 0; y < grid.GetLength(1); y++)
@@ -44,7 +44,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 {
                     Rectangle priceRectangle = layout.GetPriceRectangle(x, y);
                     Rectangle slotRectangle = layout.GetSlotRectangle(x, y);
-                    DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, slotRectangle.Contains(mousePosition));
+                    bool isHovered = grid[x, y].Item != null && world.Player.Cash >= grid[x, y].Item.Worth && slotRectangle.Contains(mousePosition);
+                    DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, isHovered);
                 }
             }
         }
@@ -75,19 +76,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             string priceText = Math.Floor(item.Worth).ToString();
             Vector2 priceSize = textFont.MeasureString(priceText) * PriceTextScale;
             spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(8, 8, 8));
-            DrawRectangleOutline(spriteBatch, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(18, 18, 18));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(18, 18, 18));
             Vector2 pricePosition = new(
                 priceRectangle.Center.X - (priceSize.X / 2f),
                 priceRectangle.Y + ((priceRectangle.Height - priceSize.Y) / 2f) - 1);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(42, 42, 42), PriceTextScale);
-        }
-
-        private void DrawRectangleOutline(SpriteBatch spriteBatch, Rectangle rectangle, int thickness, Color color)
-        {
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Bottom - thickness, rectangle.Width, thickness), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color);
-            spriteBatch.Draw(pixelTexture, new Rectangle(rectangle.Right - thickness, rectangle.Y, thickness, rectangle.Height), color);
         }
 
     }

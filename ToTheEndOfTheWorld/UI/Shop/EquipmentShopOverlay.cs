@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.UI.Shop
@@ -70,6 +71,37 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private void EnsureLayout(int viewportWidth, int viewportHeight)
         {
             currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid);
+        }
+
+        public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
+        {
+            if (!isOpen || building?.StorageGrid?.InternalGrid == null)
+            {
+                return false;
+            }
+
+            EnsureLayout(viewportWidth, viewportHeight);
+            AGridBox[,] grid = building.StorageGrid.InternalGrid;
+
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    AGridBox slot = grid[x, y];
+
+                    if (slot.Item == null || world.Player.Cash < slot.Item.Worth)
+                    {
+                        continue;
+                    }
+
+                    if (currentLayout.GetSlotRectangle(x, y).Contains(mousePosition))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

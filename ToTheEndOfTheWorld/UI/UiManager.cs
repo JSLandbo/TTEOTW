@@ -56,6 +56,24 @@ namespace ToTheEndOfTheWorld.UI
             }
         }
 
+        public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
+        {
+            foreach (IGameOverlay overlay in overlays)
+            {
+                if (!overlay.IsOpen)
+                {
+                    continue;
+                }
+
+                if (overlay.IsPointerOverInteractiveElement(world, mousePosition, viewportWidth, viewportHeight))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool Open(ABuilding building)
         {
             foreach (IGameOverlay overlay in overlays)
