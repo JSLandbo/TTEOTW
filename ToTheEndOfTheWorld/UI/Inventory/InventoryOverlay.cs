@@ -98,7 +98,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory = world.Player.Inventory;
+            AInventory inventory = world.Player.Inventory;
             spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
             spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, new Color(24, 24, 24));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.PanelRectangle, 2, new Color(92, 92, 92));

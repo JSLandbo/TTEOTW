@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
@@ -30,7 +31,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             CraftingService craftingService,
             ModelWorld world,
             InventoryItemUseService itemUseService,
-            ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory,
+            AInventory inventory,
             int viewportWidth,
             int viewportHeight)
         {
@@ -72,7 +73,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
         }
 
-        public void ReleaseHeldItem(InventoryService inventoryService, ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory)
+        public void ReleaseHeldItem(InventoryService inventoryService, AInventory inventory)
         {
             if (HeldItem == null || HeldCount <= 0)
             {
@@ -105,7 +106,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
         }
 
-        public void ReturnCraftingGridToInventory(InventoryService inventoryService, ModelLibrary.Abstract.PlayerShipComponents.AInventory inventory, Grid craftingGrid)
+        public void ReturnCraftingGridToInventory(InventoryService inventoryService, AInventory inventory, Grid craftingGrid)
         {
             AGridBox[,] grid = craftingGrid.InternalGrid;
 

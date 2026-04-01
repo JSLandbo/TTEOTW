@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
@@ -224,7 +225,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                         gridRectangle.Y + (y * (GridSlotSize + GridSpacing)),
                         GridSlotSize,
                         GridSlotSize);
-                    AGridBox slot = shopGrid?[x, y] ?? new ModelLibrary.Concrete.Grids.GridBox(null, 0);
+                    AGridBox slot = shopGrid?[x, y] ?? new GridBox(null, 0);
                     bool isHovered = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && slotRectangle.Contains(mousePosition);
                     slotRenderer.DrawGridSlot(
                         spriteBatch,

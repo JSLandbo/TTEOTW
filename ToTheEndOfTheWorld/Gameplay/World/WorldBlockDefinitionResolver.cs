@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using ModelLibrary.Abstract.Blocks;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Ids;
 using UtilityLibrary;
@@ -107,7 +108,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         private static bool MatchesDefinition(BlockDefinition block, float x, float y)
         {
-            ModelLibrary.Abstract.Blocks.ABlockInfo info = block.Value.block.Info;
+            ABlockInfo info = block.Value.block.Info;
 
             if (y < info.MinimumDepth || y > info.MaximumDepth)
             {
