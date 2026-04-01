@@ -43,18 +43,18 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 if (layout.CraftButtonRectangle.Contains(MousePosition))
                 {
                     craftingService.TryCraft(craftingGrid.InternalGrid, craftOutputSlot, currentMaxStackSize);
+
                     return;
                 }
 
                 if (HeldItem != null && layout.TrashBinRectangle.Contains(MousePosition))
                 {
                     ClearHeldItem();
+
                     return;
                 }
 
-                if (HeldItem != null
-                    && TryGetClickedEquipmentSlot(MousePosition, layout, out EPlayerEquipmentSlotType equipmentSlot)
-                    && TryEquipHeldItem(world, itemUseService, equipmentSlot))
+                if (HeldItem != null && TryGetClickedEquipmentSlot(MousePosition, layout, out EPlayerEquipmentSlotType equipmentSlot) && TryEquipHeldItem(world, itemUseService, equipmentSlot))
                 {
                     return;
                 }
@@ -83,6 +83,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             if (inventoryService.TryAdd(inventory, HeldItem, HeldCount))
             {
                 ClearHeldItem();
+
                 return;
             }
 
@@ -96,6 +97,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 heldSourceSlot.Item = HeldItem;
                 heldSourceSlot.Count = HeldCount;
                 ClearHeldItem();
+
                 return;
             }
 
@@ -154,9 +156,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return true;
             }
 
-            if (HeldItem != null
-                && TryGetClickedEquipmentSlot(position, layout, out EPlayerEquipmentSlotType equipmentSlot)
-                && itemUseService.CanEquip(HeldItem, equipmentSlot))
+            if (HeldItem != null && TryGetClickedEquipmentSlot(position, layout, out EPlayerEquipmentSlotType equipmentSlot) && itemUseService.CanEquip(HeldItem, equipmentSlot))
             {
                 return true;
             }
@@ -310,6 +310,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             if (layout.OutputSlotRectangle.Contains(position))
             {
                 slot = craftOutputSlot;
+
                 return true;
             }
 

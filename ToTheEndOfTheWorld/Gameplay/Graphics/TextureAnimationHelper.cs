@@ -12,6 +12,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Graphics
         public static (Rectangle? SourceRectangle, int Width, int Height) GetFrame(int frames, Texture2D texture, double secondsPerFrame = DefaultSecondsPerFrame)
         {
             Rectangle? sourceRectangle = GetSourceRectangle(frames, texture, secondsPerFrame);
+
             return (sourceRectangle, sourceRectangle?.Width ?? texture.Width, sourceRectangle?.Height ?? texture.Height);
         }
 
@@ -34,6 +35,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Graphics
 
             int frameWidth = texture.Width / frames;
             int currentFrame = (int)(TotalSeconds / secondsPerFrame) % frames;
+
             return new Rectangle(currentFrame * frameWidth, 0, frameWidth, texture.Height);
         }
     }
