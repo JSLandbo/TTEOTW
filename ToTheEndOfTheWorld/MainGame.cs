@@ -98,7 +98,7 @@ namespace ToTheEndOfTheWorld
             WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
-            CraftingService craftingService = new(new CraftingRecipeLibrary(blocks).CreateRecipes());
+            CraftingService craftingService = new(new CraftingRecipeLibrary(items).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
