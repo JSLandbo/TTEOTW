@@ -189,6 +189,7 @@ namespace ToTheEndOfTheWorld
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
+            TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
 
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
             {
@@ -265,7 +266,6 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
             worldEffects.Update();
             playerVerticalImpactService.BeginFrame();
             int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
