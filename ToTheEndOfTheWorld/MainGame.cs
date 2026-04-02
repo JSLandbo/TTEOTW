@@ -206,8 +206,7 @@ namespace ToTheEndOfTheWorld
                     worldInteractionService.TryHandleInteraction(uiManager, world);
                 }
             }
-
-            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.I))
+            else if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.I))
             {
                 if (inventoryOverlay?.IsOpen == true)
                 {
@@ -221,6 +220,17 @@ namespace ToTheEndOfTheWorld
                     }
 
                     inventoryOverlay?.Open();
+                }
+            }
+            else if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
+            {
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                }
+                if (uiManager.BlocksGameplay)
+                {
+                    uiManager.CloseTopmost(world);
                 }
             }
 

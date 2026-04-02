@@ -81,7 +81,7 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.Uranium, "Uranium", "Blocks/UraniumBlock", hardness: 380, health: 1400, minimumDepth: 7600, maximumDepth: 900000, occurrenceSpan: new Vector2(16.20f, 16.35f), worth: 350, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Water, "Water", "Blocks/WaterBlock", hardness: 1, health: 20, minimumDepth: 8, maximumDepth: 80, occurrenceSpan: new Vector2(16.35f, 16.45f), weight: 0.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Wood, "Wood", "Blocks/WoodBlock", hardness: 3, health: 15, minimumDepth: 11, maximumDepth: 40, occurrenceSpan: new Vector2(16.45f, 16.55f), worth: 4, weight: 1.0f);
-
+            
             AddTexturedBlock(manager, GameIds.Blocks.Rainbow, "Rainbow", "Blocks/RainbowBlock", hardness: 2600, health: 14000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.55f, 16.63f), worth: 12000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.DinosaurBone, "Dinosaur bone", "Blocks/DinosaurBoneBlock", hardness: 80, health: 300, minimumDepth: 3200, maximumDepth: 90000, occurrenceSpan: new Vector2(16.63f, 16.71f), worth: 75, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.ShardOfDeath, "Shard of death", "Blocks/ShardOfDeathBlock", hardness: 3200, health: 18000, minimumDepth: 24000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.71f, 16.79f), worth: 18000, weight: 1.0f);
@@ -90,6 +90,8 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.WingOfDeath, "Wing of death", "Blocks/WingOfDeathBlock", hardness: 2800, health: 16000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.93f, 17.00f), worth: 15000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.WingOfLife, "Wing of life", "Blocks/WingOfLifeBlock", hardness: 2800, health: 16000, minimumDepth: 22000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(17.00f, 17.07f), worth: 15000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Hole, "Hole", "Blocks/DirtBlockBackground", hardness: 0, health: 0, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(17.07f, 30.00f), worth: 0, ethereal: true, weight: 0.0f);
+
+            AddTexturedBlock(manager, GameIds.Blocks.Coal, "Coal", "Blocks/CoalBlock", hardness: 2, health: 5, minimumDepth: 6, maximumDepth: 12000, occurrenceSpan: new Vector2(30.00f, 30.40f), worth: 2, weight: 0.2f);
         }
 
         private void AddRuntimeBlock(ContentManager manager, short id, string name, string assetPath, bool ethereal, long minimumDepth = long.MinValue, long maximumDepth = long.MaxValue, Vector2? occurrenceSpan = null, float weight = 1.0f, int frames = 1)
