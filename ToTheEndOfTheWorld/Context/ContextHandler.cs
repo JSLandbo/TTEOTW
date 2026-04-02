@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
 namespace ToTheEndOfTheWorld.Context
@@ -11,6 +12,7 @@ namespace ToTheEndOfTheWorld.Context
         public static void SaveWorld(ModelWorld world)
         {
             string file = GetWorldFilePath();
+            world.SavedPlayerWorldPosition = ResolvePlayerWorldPosition(world);
             File.WriteAllText(file, UtilityLibrary.Extensions.Compress(JsonConvert.SerializeObject(world, typeof(ModelWorld),
             new JsonSerializerSettings
             {
@@ -41,6 +43,16 @@ namespace ToTheEndOfTheWorld.Context
             CreateFileIfNotExists(file);
 
             return file;
+        }
+
+        private static Vector2 ResolvePlayerWorldPosition(ModelWorld world)
+        {
+            if (world.WorldRender == null || world.WorldRender.Count == 0)
+            {
+                return world.SavedPlayerWorldPosition;
+            }
+
+            return world.WorldRender[new Vector2(world.Player.Coordinates.X, world.Player.Coordinates.Y)];
         }
 
         private static void CreateDirectoryIfNotExists(string file)

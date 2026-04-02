@@ -132,7 +132,11 @@ namespace ToTheEndOfTheWorld
             world ??= CreateNewWorld(_blocksWide, _blocksHigh);
             world.BlocksWide = _blocksWide;
             world.BlocksHigh = _blocksHigh;
-            worldViewportService.EnsurePadding(world);
+            Vector2 initialWorldPosition = world.SavedPlayerWorldPosition != Vector2.Zero
+                ? world.SavedPlayerWorldPosition
+                : world.Player.Coordinates;
+            worldViewportService.EnsurePadding(world, initialWorldPosition);
+            world.SavedPlayerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
             if (world.SpawnWorldPosition == Vector2.Zero)
             {
                 world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);

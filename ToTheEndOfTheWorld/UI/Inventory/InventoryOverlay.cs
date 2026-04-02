@@ -310,11 +310,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawHeldStack(SpriteBatch spriteBatch, AType item, int count, Point mousePosition)
         {
-            const int heldSlotSize = 52;
+            int heldSlotSize = currentLayout.SlotSize;
             Rectangle heldRectangle = new(mousePosition.X - (heldSlotSize / 2), mousePosition.Y - (heldSlotSize / 2), heldSlotSize, heldSlotSize);
-            spriteBatch.Draw(pixelTexture, heldRectangle, new Color(68, 68, 68, 220));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, heldRectangle, 2, new Color(168, 168, 168));
-            slotRenderer.DrawItemFitted(spriteBatch, item, heldRectangle);
+            slotRenderer.DrawItem(spriteBatch, item, heldRectangle);
             slotRenderer.DrawStackCount(spriteBatch, count, heldRectangle);
         }
 

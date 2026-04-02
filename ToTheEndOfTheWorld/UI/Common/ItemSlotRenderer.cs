@@ -39,21 +39,6 @@ namespace ToTheEndOfTheWorld.UI.Common
             spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
         }
 
-        public void DrawItemFitted(SpriteBatch spriteBatch, AType item, Rectangle bounds, int padding = 3)
-        {
-            Texture2D texture = textureResolver.Resolve(item);
-
-            int availableWidth = System.Math.Max(1, bounds.Width - (padding * 2));
-            int availableHeight = System.Math.Max(1, bounds.Height - (padding * 2));
-            float scaleX = availableWidth / (float)texture.Width;
-            float scaleY = availableHeight / (float)texture.Height;
-            float scale = System.MathF.Min(1.0f, System.MathF.Min(scaleX, scaleY));
-
-            int frames = textureResolver.ResolveFrames(item);
-            var (SourceRectangle, Width, Height) = TextureAnimationHelper.GetFrame(frames, texture);
-            spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
-        }
-
         public void DrawStackCount(SpriteBatch spriteBatch, int count, Rectangle bounds)
         {
             string countText = count.ToString();
