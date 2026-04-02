@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using ModelLibrary.Abstract.Types;
 

@@ -1,8 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;

@@ -20,35 +20,6 @@ namespace ToTheEndOfTheWorld
     {
         // dotnet mgcb-editor
 
-        /* 
-            IDEAS:
-          
-            10)
-            Vi skal have implementeret et lydsystem og lydbibliotek.
-            Feks når man køber noget, når man miner noget, når noget går i stykker.. når man bruger en item. når man equipper noget. når man sælger noget.
-
-            11)
-            Fjern "skalering" ved window resize, vi skal i stedet ændre hvor mange blokke man kan se..
-
-            12)
-            Balancering. Den her bliver svært.. Alle tingene skal gerne give mening. Det skal give mening at købe alle upgrades.
-
-            13) Man skal kunne "sell everything" og "sell ores" i shop hvor man sælger.
-
-            14) Kun item types skal kunne være i utility bar.. (items til højre, consumeables i 1,2,3,4)
-
-            15) Vi skal have en lang række diggables som udelukkende er til crafting recipes. (Tier 8 og 9 skal kun være craftable på sigt)
-
-            16) Storage chest building med 12x12 inventory og 512 max stacks og sort function plus "move everything to player" og "move everything to chest". Ting skal være draggeable fra inventory  og utility belt til chest og vice versa.
-
-            17) "Sort" (sortering) knap i inventory.
-
-            19) Når man klikker noget i inventory og bevæger musen over en tile, så er "selected item" on-top og den tile i inventory lyser op. Det skal også fungere for utilitybelt/gadgetbelt.
-
-            20) Overvej at man ikke skal kunne se hvad ALT på skærmen er. Men at det altid kun er Air + buildings + 1 block rundt om det man har minet eller er hvor man har været.
-
-        */
-
         private static readonly string GameTitle = "To The End Of The World";
         private static readonly string GameVersion = "V1.10";
         private static readonly int _pixels = 64;
@@ -186,12 +157,12 @@ namespace ToTheEndOfTheWorld
             };
 
             return new ModelWorld(
-                Player: player,               // ContextHandler.LoadPlayer();
-                Buildings: [],                // ContextHandler.LoadBuildings();
-                BlocksWide: _blocksWide,      // Calculated
-                BlocksHigh: _blocksHigh,      // Calculated
-                WorldRender: [],              // Dynamically updated
-                WorldTrails: []               // ContextHandler.LoadWorldTrails();
+                Player: player,            
+                Buildings: [],              
+                BlocksWide: _blocksWide,   
+                BlocksHigh: _blocksHigh, 
+                WorldRender: [],      
+                WorldTrails: []   
             );
         }
 

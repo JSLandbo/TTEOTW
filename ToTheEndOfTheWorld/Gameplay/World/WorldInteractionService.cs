@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
-using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI;
+using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
