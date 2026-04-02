@@ -245,6 +245,31 @@ namespace ModelLibrary.Ids
             {
                 public const short SmallDynamite = 10800;
             }
+
+            public static class CratingMaterials
+            {
+                public const short IronIngot = 10900;
+                public const short CopperIngot = 10901;
+                public const short TinIngot = 10902;
+                public const short SilverIngot = 10903;
+                public const short GoldIngot = 10904;
+                public const short LeadIngot = 10905;
+                public const short AluminiumIngot = 10906;
+                public const short ZincIngot = 10907;
+                public const short NickelIngot = 10908;
+                public const short BismuthIngot = 10909;
+
+                public const short TitaniumIngot = 10950;
+                public const short TungstenIngot = 10951;
+                public const short UraniumIngot = 10952;
+                public const short OsmiumIngot = 10953;
+                public const short CobaltIngot = 10954;
+                public const short ChromiumIngot = 10955;
+                public const short PlatinumIngot = 10956;
+                public const short RainbowIngot = 10957;
+                public const short MythrilIngot = 10958;
+                public const short AdamantiumIngot = 10959;
+            }
         }
     }
 }
