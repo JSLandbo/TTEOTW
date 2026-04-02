@@ -59,12 +59,62 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Bismuth, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BismuthIngot),
                     OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Titanium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TitaniumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TungstenIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Uranium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.UraniumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Osmium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.OsmiumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Cobalt, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CobaltIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Chromium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ChromiumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Platinum, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.PlatinumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Rainbow, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.RainbowIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Mythril, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.MythrilIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Adamantium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumIngot),
+                    OutputCount: 1),
             ];
         }
 
         private AType CreateItem(short itemId)
         {
-            return items.Create((short)itemId);
+            return items.Create(itemId);
         }
 
         private static CraftingIngredient[,] CreatePattern(

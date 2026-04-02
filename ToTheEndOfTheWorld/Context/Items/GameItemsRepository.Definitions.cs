@@ -247,6 +247,67 @@ namespace ToTheEndOfTheWorld.Context.Items
                 LoadSingleTexture(manager, "CraftingMaterials/BismuthIngot"),
                 new Item(ID: GameIds.Items.CratingMaterials.BismuthIngot, Name: "Bismuth Ingot", Worth: 30.0f, Weight: 0.5f)
             );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TitaniumIngot,
+                "Titanium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/TitaniumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.TitaniumIngot, Name: "Titanium Ingot", Worth: 220.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TungstenIngot,
+                "Tungsten Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/TungstenIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.TungstenIngot, Name: "Tungsten Ingot", Worth: 160.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.UraniumIngot,
+                "Uranium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/UraniumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.UraniumIngot, Name: "Uranium Ingot", Worth: 350.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.OsmiumIngot,
+                "Osmium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/OsmiumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.OsmiumIngot, Name: "Osmium Ingot", Worth: 140.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.CobaltIngot,
+                "Cobalt Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/CobaltIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.CobaltIngot, Name: "Cobalt Ingot", Worth: 85.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.ChromiumIngot,
+                "Chromium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/ChromiumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.ChromiumIngot, Name: "Chromium Ingot", Worth: 70.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.PlatinumIngot,
+                "Platinum Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/PlatinumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.PlatinumIngot, Name: "Platinum Ingot", Worth: 180.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.RainbowIngot,
+                "Rainbow Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/RainbowIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.RainbowIngot, Name: "Rainbow Ingot", Worth: 250.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.MythrilIngot,
+                "Mythril Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/MythrilIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.MythrilIngot, Name: "Mythril Ingot", Worth: 500.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.AdamantiumIngot,
+                "Adamantium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/AdamantiumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 1000.0f, Weight: 0.5f), 
+                frames: 4
+            );
         }
 
         private void AddDefinition<T>(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, T definition, bool buyable = false, EGameItemType type = EGameItemType.Item, int frames = 1) where T : AType
