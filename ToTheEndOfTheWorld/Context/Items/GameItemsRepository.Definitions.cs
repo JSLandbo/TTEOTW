@@ -191,13 +191,55 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.CratingMaterials.IronIngot,
                 "Iron Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/IronIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 20.0f, Weight: 1.0f)
+                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 10.0f, Weight: 0.5f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.CopperIngot,
                 "Copper Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/CopperIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Copper Ingot", Worth: 30.0f, Weight: 1.0f)
+                new Item(ID: GameIds.Items.CratingMaterials.CopperIngot, Name: "Copper Ingot", Worth: 20.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TinIngot,
+                "Tin Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/TinIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.TinIngot, Name: "Tin Ingot", Worth: 8.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.SilverIngot,
+                "Silver Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/SilverIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.SilverIngot, Name: "Silver Ingot", Worth: 35.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.GoldIngot,
+                "Gold Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/GoldIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.GoldIngot, Name: "Gold Ingot", Worth: 100.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.LeadIngot,
+                "Lead Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/LeadIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.LeadIngot, Name: "Lead Ingot", Worth: 12.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.AluminiumIngot,
+                "Aluminium Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/AluminiumIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.AluminiumIngot, Name: "Aluminium Ingot", Worth: 15.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.ZincIngot,
+                "Zinc Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/ZincIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.ZincIngot, Name: "Zinc Ingot", Worth: 18.0f, Weight: 0.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.NickelIngot,
+                "Nickel Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/NickelIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.NickelIngot, Name: "Nickel Ingot", Worth: 25.0f, Weight: 0.5f)
             );
         }
 

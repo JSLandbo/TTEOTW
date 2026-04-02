@@ -33,7 +33,7 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.Nickel, "Nickel", "Blocks/NickelBlock", hardness: 35, health: 300, minimumDepth: 1200, maximumDepth: 140000, occurrenceSpan: new Vector2(8.5f, 9f), worth: 25, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.TinOre, "Tin ore", "Blocks/TinBlock", hardness: 10, health: 50, minimumDepth: 400, maximumDepth: 20000, occurrenceSpan: new Vector2(9f, 9.5f), worth: 8, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.SilverOre, "Silver ore", "Blocks/SilverBlock", hardness: 20, health: 85, minimumDepth: 1600, maximumDepth: 200000, occurrenceSpan: new Vector2(9.5f, 10f), worth: 35, weight: 1.0f);
-            AddTexturedBlock(manager, GameIds.Blocks.GoldOre, "Gold ore", "Blocks/GoldBlock", hardness: 20, health: 250, minimumDepth: 2400, maximumDepth: 400000, occurrenceSpan: new Vector2(10f, 10.25f), worth: 50, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.GoldOre, "Gold ore", "Blocks/GoldBlock", hardness: 20, health: 250, minimumDepth: 2400, maximumDepth: 400000, occurrenceSpan: new Vector2(10f, 10.25f), worth: 100, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Mythril, "Mythril", "Blocks/MythrilBlock", hardness: 500, health: 2500, minimumDepth: 6000, maximumDepth: 800000, occurrenceSpan: new Vector2(10.25f, 10.50f), worth: 250, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Adamantium, "Adamantium", "Blocks/AdamantiumBlock", hardness: 1500, health: 8500, minimumDepth: 12000, maximumDepth: 1600000, occurrenceSpan: new Vector2(10.50f, 10.625f), worth: 1000, weight: 1.0f);
 
