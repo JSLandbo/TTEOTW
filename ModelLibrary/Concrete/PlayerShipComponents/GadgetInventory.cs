@@ -60,7 +60,7 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
                 for (int y = 0; y < sourceGrid.GetLength(1); y++)
                 {
                     AGridBox slot = sourceGrid[x, y];
-                    clonedGrid[x, y] = new GridBox(slot?.Item, slot?.Count ?? 0);
+                    clonedGrid[x, y] = new GridBox(slot.Item, slot.Count);
                 }
             }
 

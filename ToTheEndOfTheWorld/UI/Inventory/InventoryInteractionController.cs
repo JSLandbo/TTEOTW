@@ -344,7 +344,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
                     if (HeldItem != null && !player.GadgetSlots.CanPlaceInSlot(x, HeldItem))
                     {
-                        break;
+                        return false;
                     }
 
                     slot = player.GadgetSlots.Items.InternalGrid[x, 0];

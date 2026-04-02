@@ -44,7 +44,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
                 {
                     AGridBox slot = grid[x, y];
 
-                    if (slot?.Item == null || slot.Count <= 0)
+                    if (slot.Item == null || slot.Count <= 0)
                     {
                         continue;
                     }
