@@ -91,6 +91,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
+            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState)
+                && currentLayout.SortButtonRectangle.Contains(currentMouseState.Position)
+                && !interactionController.HasHeldItem)
+            {
+                inventoryService.SortByName(world.Player.Inventory);
+                return;
+            }
+
             interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight);
         }
 
@@ -138,6 +146,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             DrawEquipmentSummary(spriteBatch, world);
 
             DrawGrid(spriteBatch, inventory.Items.InternalGrid, currentLayout.InventoryStart.X, currentLayout.InventoryStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
+            DrawSortButton(spriteBatch);
             DrawTrashBin(spriteBatch);
 
             if (interactionController.HeldItem != null && interactionController.HeldCount > 0)
@@ -243,6 +252,20 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.TrashBinRectangle, isHovered);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.TrashBinRectangle, 2, UiInteractionStyle.GetBorderColor(borderColor, isHovered));
             DrawCenteredTexture(spriteBatch, trashbinTexture, currentLayout.TrashBinRectangle, canTrashHeldItem ? Color.White : Color.White * 0.55f);
+        }
+
+        private void DrawSortButton(SpriteBatch spriteBatch)
+        {
+            bool canSort = !interactionController.HasHeldItem;
+            bool isHovered = canSort && currentLayout.SortButtonRectangle.Contains(interactionController.MousePosition);
+            Color backgroundColor = canSort ? new Color(56, 68, 92) : new Color(40, 44, 52);
+            Color borderColor = canSort ? new Color(124, 156, 214) : new Color(88, 96, 112);
+            Color textColor = canSort ? Color.White : Color.White * 0.55f;
+
+            spriteBatch.Draw(pixelTexture, currentLayout.SortButtonRectangle, backgroundColor);
+            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.SortButtonRectangle, isHovered);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.SortButtonRectangle, 2, UiInteractionStyle.GetBorderColor(borderColor, isHovered));
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Sort", currentLayout.SortButtonRectangle, textColor, ButtonTextScale);
         }
 
         private void DrawSelfDestructButton(SpriteBatch spriteBatch)

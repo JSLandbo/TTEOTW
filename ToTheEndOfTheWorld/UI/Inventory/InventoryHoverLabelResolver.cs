@@ -32,6 +32,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return "Trash";
             }
 
+            if (layout.SortButtonRectangle.Contains(mousePosition))
+            {
+                return "Sort";
+            }
+
             if (TryGetEquipmentHoverLabel(world, itemUseService, layout, mousePosition, out string equipmentHoverLabel))
             {
                 return equipmentHoverLabel;

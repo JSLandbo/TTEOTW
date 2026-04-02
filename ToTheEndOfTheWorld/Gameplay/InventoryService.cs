@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
@@ -137,6 +139,81 @@ namespace ToTheEndOfTheWorld.Gameplay
             float percent = (usedCapacity / inventory.SizeLimit) * 100.0f;
 
             return (int)percent;
+        }
+
+        public void SortByName(AInventory inventory)
+        {
+            AGridBox[,] grid = inventory.Items.InternalGrid;
+            int maxStackSize = GetMaxStackSize(inventory);
+            List<(AType Item, int Count)> entries = [];
+
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    AGridBox slot = grid[x, y];
+
+                    if (slot.Item == null || slot.Count <= 0)
+                    {
+                        continue;
+                    }
+
+                    entries.Add((slot.Item, slot.Count));
+                }
+            }
+
+            entries.Sort((left, right) =>
+            {
+                return string.Compare(left.Item.Name, right.Item.Name, StringComparison.OrdinalIgnoreCase);
+            });
+
+            List<(AType Item, int Count)> groupedEntries = [];
+
+            foreach ((AType item, int count) in entries)
+            {
+                if (groupedEntries.Count > 0 && CanStackTogether(groupedEntries[^1].Item, item))
+                {
+                    (AType groupedItem, int groupedCount) = groupedEntries[^1];
+                    groupedEntries[^1] = (groupedItem, groupedCount + count);
+                    continue;
+                }
+
+                groupedEntries.Add((item, count));
+            }
+
+            int entryIndex = 0;
+            int remainingCount = groupedEntries.Count > 0 ? groupedEntries[0].Count : 0;
+
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    AGridBox slot = grid[x, y];
+
+                    if (entryIndex < groupedEntries.Count)
+                    {
+                        (AType item, int count) = groupedEntries[entryIndex];
+                        int slotCount = item.Stackable ? Math.Min(remainingCount, maxStackSize) : 1;
+                        slot.Item = item;
+                        slot.Count = slotCount;
+                        remainingCount -= slotCount;
+
+                        if (remainingCount <= 0)
+                        {
+                            entryIndex++;
+                            if (entryIndex < groupedEntries.Count)
+                            {
+                                remainingCount = groupedEntries[entryIndex].Count;
+                            }
+                        }
+
+                        continue;
+                    }
+
+                    slot.Item = null;
+                    slot.Count = 0;
+                }
+            }
         }
 
         private int GetRemainingCapacity(AInventory inventory)

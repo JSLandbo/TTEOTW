@@ -14,6 +14,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         Rectangle SelfDestructButtonRectangle,
         Point CraftingStart,
         Point InventoryStart,
+        Rectangle SortButtonRectangle,
         Rectangle TrashBinRectangle,
         Rectangle OutputSlotRectangle,
         Rectangle CraftButtonRectangle,

@@ -156,6 +156,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return true;
             }
 
+            if (HeldItem == null && layout.SortButtonRectangle.Contains(position))
+            {
+                return true;
+            }
+
             if (HeldItem != null && layout.TrashBinRectangle.Contains(position))
             {
                 return true;

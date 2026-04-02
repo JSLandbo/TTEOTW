@@ -89,9 +89,15 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int inventoryStartX = inventorySectionRectangle.X + ((inventorySectionRectangle.Width - inventorySectionWidth) / 2);
             int inventoryStartY = inventorySectionRectangle.Y + sectionPadding;
             const int trashBinCornerOverlapX = 86;
+            const int sortButtonGap = 10;
             Rectangle trashBinRectangle = new(
                 panelX + panelWidth - slotSize + trashBinCornerOverlapX,
                 panelY + panelHeight - slotSize,
+                slotSize,
+                slotSize);
+            Rectangle sortButtonRectangle = new(
+                trashBinRectangle.X,
+                trashBinRectangle.Y - slotSize - sortButtonGap,
                 slotSize,
                 slotSize);
 
@@ -106,6 +112,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 selfDestructButtonRectangle,
                 new Point(craftingStartX, craftingStartY),
                 new Point(inventoryStartX, inventoryStartY),
+                sortButtonRectangle,
                 trashBinRectangle,
                 new Rectangle(outputSlotX, outputSlotY, slotSize, slotSize),
                 craftButtonRectangle,
