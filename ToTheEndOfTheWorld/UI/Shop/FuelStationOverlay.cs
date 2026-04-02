@@ -52,12 +52,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             mousePosition = currentMouseState.Position;
 
-            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
-            {
-                isOpen = false;
-                return;
-            }
-
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
@@ -121,6 +115,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
             return affordableFuel > 0.0f && GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
+        }
+
+        public void Close(ModelWorld world)
+        {
+            isOpen = false;
         }
 
     }

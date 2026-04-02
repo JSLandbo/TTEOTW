@@ -12,6 +12,7 @@ using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Inventory;
 
 namespace ToTheEndOfTheWorld
@@ -188,7 +189,19 @@ namespace ToTheEndOfTheWorld
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
-            bool blockedGameplayAtFrameStart = uiManager.BlocksGameplay;
+
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
+            {
+                if (uiManager.BlocksGameplay)
+                {
+                    uiManager.CloseTopmost(world);
+                }
+                else if (!worldInteractionService.TryHandleInteraction(uiManager, world))
+                {
+                    inventoryOverlay?.Open();
+                }
+            }
+
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
             UpdateUiCursor(mouseState.Position);
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
@@ -264,11 +277,6 @@ namespace ToTheEndOfTheWorld
             playerFuelSystem.Update(player, deltaTime, isGrounded);
             playerHullSystem.Update(player, deltaTime);
             playerDeathSystem.TryHandleDeath(world);
-
-            if (!blockedGameplayAtFrameStart)
-            {
-                worldInteractionService.TryHandleInteraction(keyboardState, previousKeyboardState, uiManager, world);
-            }
 
             previousKeyboardState = keyboardState;
             previousMouseState = mouseState;

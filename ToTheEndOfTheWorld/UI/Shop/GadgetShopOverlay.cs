@@ -63,13 +63,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             mousePosition = currentMouseState.Position;
 
-            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
-            {
-                isOpen = false;
-
-                return;
-            }
-
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
@@ -251,6 +244,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
             return slot.Item?.Name;
+        }
+
+        public void Close(ModelWorld world)
+        {
+            isOpen = false;
         }
     }
 }

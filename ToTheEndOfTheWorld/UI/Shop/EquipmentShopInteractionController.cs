@@ -8,11 +8,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class EquipmentShopInteractionController
     {
-        public bool ShouldClose(KeyboardState currentKeyboardState, KeyboardState previousKeyboardState)
-        {
-            return UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState);
-        }
-
         public void TryHandleBuy(MouseState currentMouseState, MouseState previousMouseState, EquipmentShopLayout layout, ModelWorld world, ABuilding building, EquipmentShopService equipmentShopService)
         {
             if (!UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))

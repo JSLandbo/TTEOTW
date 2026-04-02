@@ -37,6 +37,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public bool BlocksGameplay => isOpen;
         public bool HasHeldItem => interactionController.HasHeldItem;
 
+        public void Open()
+        {
+            isOpen = true;
+        }
+
         public bool ConsumeSelfDestructRequest()
         {
             bool requested = selfDestructRequested;
@@ -56,23 +61,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.I))
-            {
-                isOpen = !isOpen;
-
-                if (!isOpen)
-                {
-                    interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid);
-                    interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory);
-                }
-            }
-            else if (isOpen && UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape))
-            {
-                isOpen = false;
-                interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid);
-                interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory);
-            }
-
             if (!isOpen)
             {
                 return;
@@ -100,6 +88,18 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight);
+        }
+
+        public void Close(ModelWorld world)
+        {
+            if (!isOpen)
+            {
+                return;
+            }
+
+            isOpen = false;
+            interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid);
+            interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory);
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)

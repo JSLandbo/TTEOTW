@@ -13,6 +13,7 @@ namespace ToTheEndOfTheWorld.UI
         void LoadContent(GraphicsDevice graphicsDevice, ContentManager content);
         void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight);
         void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight);
+        void Close(ModelWorld world);
         bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight) => false;
         string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight) => null;
     }

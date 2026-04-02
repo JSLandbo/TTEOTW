@@ -1,20 +1,13 @@
-using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI;
-using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldInteractionService
     {
-        public bool TryHandleInteraction(KeyboardState currentState, KeyboardState previousState, UiManager uiManager, ModelWorld world)
+        public bool TryHandleInteraction(UiManager uiManager, ModelWorld world)
         {
-            if (!UiInputHelper.WasJustPressed(currentState, previousState, Keys.E))
-            {
-                return false;
-            }
-
             if (!TryGetCurrentBuilding(world, out ABuilding building) || building.Interaction == EBuildingInteraction.None)
             {
                 return false;

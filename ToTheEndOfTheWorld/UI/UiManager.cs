@@ -122,6 +122,23 @@ namespace ToTheEndOfTheWorld.UI
             return false;
         }
 
+        public bool CloseTopmost(ModelWorld world)
+        {
+            for (int i = overlays.Count - 1; i >= 0; i--)
+            {
+                IGameOverlay overlay = overlays[i];
+                if (!overlay.IsOpen)
+                {
+                    continue;
+                }
+
+                overlay.Close(world);
+                return true;
+            }
+
+            return false;
+        }
+
         public T? GetOverlay<T>() where T : class, IGameOverlay
         {
             foreach (IGameOverlay overlay in overlays)

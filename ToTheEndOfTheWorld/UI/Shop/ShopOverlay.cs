@@ -65,13 +65,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
-            {
-                isOpen = false;
-
-                return;
-            }
-
             Rectangle listRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
             ShopService.SellSummary sellSummary = shopService.GetSellSummary(world);
             int totalRows = GetTotalValueRows(sellSummary.Entries.Count);
@@ -259,6 +252,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
         {
             return (shopService.GetSellSummary(world).TotalValue > 0 && GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
                 || (shopService.GetOreSellSummary(world).TotalValue > 0 && GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition));
+        }
+
+        public void Close(ModelWorld world)
+        {
+            isOpen = false;
         }
 
     }

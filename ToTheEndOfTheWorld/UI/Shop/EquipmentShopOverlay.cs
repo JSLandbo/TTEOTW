@@ -43,13 +43,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (interactionController.ShouldClose(currentKeyboardState, previousKeyboardState))
-            {
-                isOpen = false;
-
-                return;
-            }
-
             if (building?.StorageGrid == null)
             {
                 return;
@@ -99,6 +92,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             bool found = UiGridHitTestHelper.TryGetCoordinates(grid.GetLength(0), grid.GetLength(1), mousePosition, currentLayout.GetSlotRectangle, out int slotX, out int slotY);
             item = found ? grid[slotX, slotY].Item : null;
             return item != null;
+        }
+
+        public void Close(ModelWorld world)
+        {
+            isOpen = false;
         }
     }
 }
