@@ -60,7 +60,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 }
 
                 if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox clickedSlot, out int gadgetSlotIndex)
-                    && (gadgetSlotIndex < 0 || world.Player.GadgetSlots.CanPlaceInSlot(gadgetSlotIndex, HeldItem)))
+                    && (HeldItem == null || gadgetSlotIndex < 0 || world.Player.GadgetSlots.CanPlaceInSlot(gadgetSlotIndex, HeldItem)))
                 {
                     MoveStack(clickedSlot);
                 }
@@ -68,9 +68,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState) && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot, out _))
+            if (HeldItem != null
+                && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState)
+                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot, out int rightClickGadgetSlotIndex)
+                && (rightClickGadgetSlotIndex < 0 || world.Player.GadgetSlots.CanPlaceInSlot(rightClickGadgetSlotIndex, HeldItem)))
             {
-                TakeSingleItem(rightClickedSlot);
+                PlaceSingleHeldItem(rightClickedSlot);
             }
         }
 
@@ -225,32 +228,43 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             heldSourceSlot = slot;
         }
 
-        private void TakeSingleItem(AGridBox slot)
+        private void PlaceSingleHeldItem(AGridBox slot)
         {
+            if (HeldItem == null || HeldCount <= 0)
+            {
+                return;
+            }
+
             if (slot.Item == null || slot.Count <= 0)
             {
+                slot.Item = HeldItem;
+                slot.Count = 1;
+                HeldCount -= 1;
+
+                if (HeldCount == 0)
+                {
+                    ClearHeldItem();
+                }
+
                 return;
             }
 
-            if (HeldItem != null && !InventoryService.CanStackTogether(HeldItem, slot.Item))
+            if (!InventoryService.CanStackTogether(HeldItem, slot.Item))
             {
                 return;
             }
 
-            if (HeldCount >= currentMaxStackSize)
+            if (slot.Count >= currentMaxStackSize)
             {
                 return;
             }
 
-            HeldItem ??= slot.Item;
-            HeldCount += 1;
-            heldSourceSlot ??= slot;
-            slot.Count -= 1;
+            slot.Count += 1;
+            HeldCount -= 1;
 
-            if (slot.Count <= 0)
+            if (HeldCount == 0)
             {
-                slot.Item = null;
-                slot.Count = 0;
+                ClearHeldItem();
             }
         }
 
