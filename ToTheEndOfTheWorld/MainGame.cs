@@ -192,12 +192,34 @@ namespace ToTheEndOfTheWorld
 
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
             {
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                }
+
                 if (uiManager.BlocksGameplay)
                 {
                     uiManager.CloseTopmost(world);
                 }
-                else if (!worldInteractionService.TryHandleInteraction(uiManager, world))
+                else
                 {
+                    worldInteractionService.TryHandleInteraction(uiManager, world);
+                }
+            }
+
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.I))
+            {
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                }
+                else
+                {
+                    if (uiManager.BlocksGameplay)
+                    {
+                        uiManager.CloseTopmost(world);
+                    }
+
                     inventoryOverlay?.Open();
                 }
             }
