@@ -250,11 +250,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return false;
-            }
-
             bool canBuyBelt = !world.Player.HasGadgetBelt && world.Player.Cash >= GadgetBeltPrice;
             if (canBuyBelt && GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
             {
@@ -268,6 +263,17 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
             return slot.Item != null && world.Player.Cash >= slot.Item.Worth;
+        }
+
+        public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
+        {
+            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageGrid?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
+            {
+                return null;
+            }
+
+            AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
+            return slot.Item?.Name;
         }
     }
 }

@@ -266,13 +266,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return false;
-            }
-
             return (shopService.GetSellSummary(world).TotalValue > 0 && GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
                 || (shopService.GetOreSellSummary(world).TotalValue > 0 && GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition));
         }
+
     }
 }

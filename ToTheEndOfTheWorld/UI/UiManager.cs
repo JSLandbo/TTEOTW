@@ -4,12 +4,15 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
+using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.UI
 {
     public sealed class UiManager
     {
         private readonly List<IGameOverlay> overlays = [];
+        private readonly UiHoverLabelRenderer hoverLabelRenderer = new();
+        private Point lastMousePosition;
 
         public bool BlocksGameplay
         {
@@ -34,6 +37,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
+            hoverLabelRenderer.LoadContent(graphicsDevice, content);
             foreach (IGameOverlay overlay in overlays)
             {
                 overlay.LoadContent(graphicsDevice, content);
@@ -42,6 +46,7 @@ namespace ToTheEndOfTheWorld.UI
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
+            lastMousePosition = currentMouseState.Position;
             foreach (IGameOverlay overlay in overlays)
             {
                 overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
@@ -53,6 +58,12 @@ namespace ToTheEndOfTheWorld.UI
             foreach (IGameOverlay overlay in overlays)
             {
                 overlay.Draw(spriteBatch, world, viewportWidth, viewportHeight);
+            }
+
+            string hoverLabel = GetHoverLabel(world, viewportWidth, viewportHeight);
+            if (!string.IsNullOrWhiteSpace(hoverLabel))
+            {
+                hoverLabelRenderer.Draw(spriteBatch, hoverLabel, viewportWidth);
             }
         }
 
@@ -72,6 +83,27 @@ namespace ToTheEndOfTheWorld.UI
             }
 
             return false;
+        }
+
+        private string GetHoverLabel(ModelWorld world, int viewportWidth, int viewportHeight)
+        {
+            for (int i = overlays.Count - 1; i >= 0; i--)
+            {
+                IGameOverlay overlay = overlays[i];
+
+                if (!overlay.IsOpen)
+                {
+                    continue;
+                }
+
+                string hoverLabel = overlay.GetHoverLabel(world, lastMousePosition, viewportWidth, viewportHeight);
+                if (!string.IsNullOrWhiteSpace(hoverLabel))
+                {
+                    return hoverLabel;
+                }
+            }
+
+            return null;
         }
 
         public bool Open(ABuilding building)

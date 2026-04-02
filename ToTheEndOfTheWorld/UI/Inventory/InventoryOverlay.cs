@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +22,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private readonly Grid craftingGrid = new(new Vector2(0, 0), new GridBox[3, 3]);
         private readonly GridBox craftOutputSlot = new(null, 0);
         private readonly InventoryInteractionController interactionController = new();
+        private readonly InventoryHoverLabelResolver hoverLabelResolver = new();
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
@@ -165,13 +167,10 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSlots(SpriteBatch spriteBatch, ModelWorld world)
         {
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Hull);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Drill);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Engine);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Inventory);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank);
-            DrawEquipmentSlot(spriteBatch, world, EPlayerEquipmentSlotType.Thruster);
+            foreach (EPlayerEquipmentSlotType slotType in Enum.GetValues<EPlayerEquipmentSlotType>())
+            {
+                DrawEquipmentSlot(spriteBatch, world, slotType);
+            }
         }
 
         private void DrawEquipmentSlot(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType)
@@ -195,17 +194,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSummary(SpriteBatch spriteBatch, ModelWorld world)
         {
-            EPlayerEquipmentSlotType[] summarySlots =
-            [
-                EPlayerEquipmentSlotType.ThermalPlating,
-                EPlayerEquipmentSlotType.Engine,
-                EPlayerEquipmentSlotType.Inventory,
-                EPlayerEquipmentSlotType.FuelTank,
-                EPlayerEquipmentSlotType.Hull,
-                EPlayerEquipmentSlotType.Drill,
-                EPlayerEquipmentSlotType.Thruster
-            ];
-
             const int panelPaddingX = 14;
             const int panelPaddingY = 10;
             int lineHeight = (int)System.Math.Ceiling(textFont.MeasureString("Hg").Y * SummaryTextScale) + 6;
@@ -222,19 +210,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int separatorLeft = summaryRectangle.X + panelPaddingX;
             int separatorWidth = summaryRectangle.Width - (panelPaddingX * 2);
 
-            for (int i = 0; i < summarySlots.Length; i++)
-            {
-                DrawEquipmentSummaryTextLine(
-                    spriteBatch,
-                    world,
-                    summarySlots[i],
-                    ref textY,
-                    summaryRectangle.X + panelPaddingX,
-                    lineHeight,
-                    separatorLeft,
-                    separatorWidth,
-                    drawSeparator: i < summarySlots.Length - 1);
-            }
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Engine, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Inventory, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Hull, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Drill, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
+            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Thruster, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: false);
         }
 
         private void DrawEquipmentSummaryTextLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight, int separatorLeft, int separatorWidth, bool drawSeparator)
@@ -275,13 +257,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             DrawCenteredTexture(spriteBatch, suicideTexture, currentLayout.SelfDestructButtonRectangle, Color.White);
         }
 
+        public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
+        {
+            return hoverLabelResolver.Resolve(world, mousePosition, currentLayout, craftingGrid, craftOutputSlot, itemUseService, viewportWidth, viewportHeight);
+        }
+
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return false;
-            }
-
             return interactionController.IsPointerOverInteractiveElement(
                 mousePosition,
                 currentLayout,

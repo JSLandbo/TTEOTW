@@ -127,14 +127,10 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return false;
-            }
-
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
             return affordableFuel > 0.0f && GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
         }
+
     }
 }

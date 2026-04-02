@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract;
@@ -299,16 +300,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool TryGetClickedEquipmentSlot(Point position, InventoryLayout layout, out EPlayerEquipmentSlotType slotType)
         {
-            foreach (EPlayerEquipmentSlotType candidate in new[]
-            {
-                EPlayerEquipmentSlotType.ThermalPlating,
-                EPlayerEquipmentSlotType.Inventory,
-                EPlayerEquipmentSlotType.FuelTank,
-                EPlayerEquipmentSlotType.Drill,
-                EPlayerEquipmentSlotType.Hull,
-                EPlayerEquipmentSlotType.Engine,
-                EPlayerEquipmentSlotType.Thruster
-            })
+            foreach (EPlayerEquipmentSlotType candidate in Enum.GetValues<EPlayerEquipmentSlotType>())
             {
                 if (layout.GetEquipmentSlotRectangle(candidate).Contains(position))
                 {

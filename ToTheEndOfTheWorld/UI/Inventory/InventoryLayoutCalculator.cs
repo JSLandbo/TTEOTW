@@ -89,10 +89,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int inventoryStartX = inventorySectionRectangle.X + ((inventorySectionRectangle.Width - inventorySectionWidth) / 2);
             int inventoryStartY = inventorySectionRectangle.Y + sectionPadding;
             const int trashBinCornerOverlapX = 86;
-            const int trashBinCornerOverlapY = 0;
             Rectangle trashBinRectangle = new(
                 panelX + panelWidth - slotSize + trashBinCornerOverlapX,
-                panelY + panelHeight - slotSize + trashBinCornerOverlapY,
+                panelY + panelHeight - slotSize,
                 slotSize,
                 slotSize);
 

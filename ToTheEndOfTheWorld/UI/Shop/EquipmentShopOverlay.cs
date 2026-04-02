@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.Types;
 using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.UI.Shop
@@ -75,8 +76,23 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen || building?.StorageGrid?.InternalGrid == null)
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
+                && hoveredItem != null
+                && world.Player.Cash >= hoveredItem.Worth;
+        }
+
+        public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
+        {
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
+                ? hoveredItem?.Name
+                : null;
+        }
+
+        private bool TryGetHoveredItem(Point mousePosition, int viewportWidth, int viewportHeight, out AType item)
+        {
+            if (building?.StorageGrid?.InternalGrid == null)
             {
+                item = null;
                 return false;
             }
 
@@ -87,20 +103,17 @@ namespace ToTheEndOfTheWorld.UI.Shop
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    AGridBox slot = grid[x, y];
-
-                    if (slot.Item == null || world.Player.Cash < slot.Item.Worth)
+                    if (!currentLayout.GetSlotRectangle(x, y).Contains(mousePosition))
                     {
                         continue;
                     }
 
-                    if (currentLayout.GetSlotRectangle(x, y).Contains(mousePosition))
-                    {
-                        return true;
-                    }
+                    item = grid[x, y].Item;
+                    return true;
                 }
             }
 
+            item = null;
             return false;
         }
     }
