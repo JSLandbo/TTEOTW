@@ -4,7 +4,7 @@ using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract
 {
-    public abstract class APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGadgetInventory gadgetSlots, bool hasGadgetBelt = false)
+    public abstract class APlayer(AThermalPlating thermalPlating, AEngine engine, AHull hull, ADrill drill, AInventory inventory, AThruster thruster, AFuelTank fuelTank, AGadgetInventory gadgetSlots, bool hasGadgetBelt = false, float? currentHeat = null, float? currentHull = null, float? currentFuel = null)
     {
         private Vector2 _facingDirection = new(0, 0);
 
@@ -59,6 +59,9 @@ namespace ModelLibrary.Abstract
         public AFuelTank FuelTank { get; set; } = fuelTank ?? throw new ArgumentNullException(nameof(fuelTank));
         public AGadgetInventory GadgetSlots { get; set; } = gadgetSlots ?? throw new ArgumentNullException(nameof(gadgetSlots));
         public bool HasGadgetBelt { get; set; } = hasGadgetBelt;
+        public float CurrentHeat { get; set; } = Math.Clamp(currentHeat ?? thermalPlating.Thermals, 0.0f, thermalPlating.MaxThermals);
+        public float CurrentHull { get; set; } = Math.Clamp(currentHull ?? hull.Health, 0.0f, hull.Health);
+        public float CurrentFuel { get; set; } = Math.Clamp(currentFuel ?? fuelTank.Fuel, 0.0f, fuelTank.Capacity);
         public float Weight => GetEquippedWeight() + Inventory.ContentsWeight + GadgetSlots.ContentsWeight;
 
         public void ResetVelocity()

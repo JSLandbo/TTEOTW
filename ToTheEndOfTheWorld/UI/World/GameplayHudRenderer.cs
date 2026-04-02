@@ -28,9 +28,9 @@ namespace ToTheEndOfTheWorld.UI.World
         {
             APlayer player = world.Player;
             string moneyText = $"Money: {Math.Floor(player.Cash)}";
-            string fuelText = $"Fuel: {player.FuelTank.Fuel:0.00}/{player.FuelTank.Capacity:0.00}";
-            string heatText = $"Heat: {player.ThermalPlating.Thermals:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
-            string hullText = $"Hull: {player.Hull.Health:0}";
+            string fuelText = $"Fuel: {player.CurrentFuel:0.00}/{player.FuelTank.Capacity:0.00}";
+            string heatText = $"Heat: {player.CurrentHeat:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
+            string hullText = $"Hull: {player.CurrentHull:0}";
             string weightText = $"Weight: {player.Weight:0.##}/{player.Thruster.Power:0.##}";
             string capacityText = $"Inventory: {inventoryService.GetUsedCapacityPercent(player.Inventory)}%";
             const float hudScale = 1.05f;

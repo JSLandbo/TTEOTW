@@ -8,6 +8,11 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
     {
         private AGrid items = null!;
 
+        protected AInventory()
+        {
+            Stackable = false;
+        }
+
         public float SizeLimit { get; set; }
         public int MaxStackSize { get; set; }
         public AGrid Items

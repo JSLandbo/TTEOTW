@@ -24,13 +24,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 includeMining: player.Mining
             );
 
-            player.FuelTank.Fuel = Math.Clamp(player.FuelTank.Fuel - fuelUsage * deltaTime, 0.0f, player.FuelTank.Capacity);
+            player.CurrentFuel = Math.Clamp(player.CurrentFuel - fuelUsage * deltaTime, 0.0f, player.FuelTank.Capacity);
         }
 
         private static bool CanAfford(APlayer player, float deltaTime, bool isGrounded, bool includeMovement, bool includeMining)
         {
             float requiredFuel = GetFuelUsagePerSecond(player, isGrounded, includeMovement, includeMining) * deltaTime;
-            return player.FuelTank.Fuel >= requiredFuel;
+            return player.CurrentFuel >= requiredFuel;
         }
 
         private static float GetFuelUsagePerSecond(APlayer player, bool isGrounded, bool includeMovement, bool includeMining)

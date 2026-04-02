@@ -1,3 +1,4 @@
+using System;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
@@ -86,10 +87,10 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             return slotType switch
             {
-                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} | Heat {((ThermalPlating)equippedItem).Thermals:0}/{((ThermalPlating)equippedItem).MaxThermals:0} | Dissipation {((ThermalPlating)equippedItem).ThermalDissipation:0.#}/s",
+                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} | Heat Capacity {((ThermalPlating)equippedItem).MaxThermals:0} | Dissipation {((ThermalPlating)equippedItem).ThermalDissipation:0.#}/s",
                 EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Engine)equippedItem).Speed:0.#} | Acceleration {((Engine)equippedItem).Acceleration:0.#} | Active Fuel {((Engine)equippedItem).ActiveFuelConsumption:0.##}/s",
                 EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} | Used Capacity {inventoryService.GetUsedCapacity((Inventory)equippedItem):0}/{((Inventory)equippedItem).SizeLimit:0} ({inventoryService.GetUsedCapacityPercent((Inventory)equippedItem)}%) | Max Stack {((Inventory)equippedItem).MaxStackSize}",
-                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} | Fuel {((FuelTank)equippedItem).Fuel:0.##}/{((FuelTank)equippedItem).Capacity:0.##} ({((((FuelTank)equippedItem).Capacity <= 0 ? 0 : (((FuelTank)equippedItem).Fuel / ((FuelTank)equippedItem).Capacity) * 100f)):0.#}%)",
+                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} | Fuel Capacity {((FuelTank)equippedItem).Capacity:0.##}",
                 EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} | Health {((Hull)equippedItem).Health:0} | Durability {((Hull)equippedItem).Durability:0.#}",
                 EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} | Damage {((Drill)equippedItem).Damage:0.##} | Area {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | Hardness {((Drill)equippedItem).Hardness:0.#} | Fuel Usage {((Drill)equippedItem).ActiveFuelConsumption:0.##}/s",
                 EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Thruster)equippedItem).Speed:0.#} | Acceleration {((Thruster)equippedItem).Acceleration:0.#} | Power {((Thruster)equippedItem).Power:0.#} | Heat {((Thruster)equippedItem).ActiveHeatGeneration:0.#}/s",
@@ -130,9 +131,11 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 case EPlayerEquipmentSlotType.ThermalPlating:
                     world.Player.ThermalPlating = (ThermalPlating)item;
+                    world.Player.CurrentHeat = Math.Clamp(world.Player.CurrentHeat, 0.0f, world.Player.ThermalPlating.MaxThermals);
                     break;
                 case EPlayerEquipmentSlotType.Hull:
                     world.Player.Hull = (Hull)item;
+                    world.Player.CurrentHull = Math.Clamp(world.Player.CurrentHull, 0.0f, world.Player.Hull.Health);
                     break;
                 case EPlayerEquipmentSlotType.Drill:
                     world.Player.Drill = (Drill)item;
@@ -145,6 +148,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                     break;
                 case EPlayerEquipmentSlotType.FuelTank:
                     world.Player.FuelTank = (FuelTank)item;
+                    world.Player.CurrentFuel = Math.Clamp(world.Player.CurrentFuel, 0.0f, world.Player.FuelTank.Capacity);
                     break;
                 case EPlayerEquipmentSlotType.Thruster:
                     world.Player.Thruster = (Thruster)item;

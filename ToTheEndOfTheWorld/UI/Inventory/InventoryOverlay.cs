@@ -122,15 +122,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             Vector2 headerTextPosition = new(currentLayout.PanelRectangle.X + 24, currentLayout.PanelRectangle.Y + 11);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, inventory.Name, headerTextPosition, Color.White, HeaderTextScale);
 
-            string capacityText = $"Capacity: {inventory.SizeLimit}";
-            Vector2 capacitySize = textFont.MeasureString(capacityText) * HeaderTextScale;
-            GameTextRenderer.DrawBoldString(
-                spriteBatch,
-                textFont,
-                capacityText,
-                new Vector2(currentLayout.HeaderRectangle.Right - capacitySize.X - 24, currentLayout.PanelRectangle.Y + 11),
-                new Color(185, 185, 185),
-                HeaderTextScale);
             DrawSelfDestructButton(spriteBatch);
 
             DrawGrid(spriteBatch, craftingGrid.InternalGrid, currentLayout.CraftingStart.X, currentLayout.CraftingStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);

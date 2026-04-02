@@ -7,8 +7,8 @@ using Newtonsoft.Json;
 namespace ModelLibrary.Concrete
 {
     [method: JsonConstructor]
-    public class Player(Engine Engine, Hull Hull, Drill Drill, Inventory Inventory, Thruster Thruster, FuelTank FuelTank, ThermalPlating ThermalPlating, GadgetInventory? GadgetSlots = null, bool HasGadgetBelt = false)
-        : APlayer(ThermalPlating, Engine, Hull, Drill, Inventory, Thruster, FuelTank, GadgetSlots ?? CreateDefaultGadgetSlots(), HasGadgetBelt)
+    public class Player(Engine Engine, Hull Hull, Drill Drill, Inventory Inventory, Thruster Thruster, FuelTank FuelTank, ThermalPlating ThermalPlating, GadgetInventory? GadgetSlots = null, bool HasGadgetBelt = false, float? CurrentHeat = null, float? CurrentHull = null, float? CurrentFuel = null)
+        : APlayer(ThermalPlating, Engine, Hull, Drill, Inventory, Thruster, FuelTank, GadgetSlots ?? CreateDefaultGadgetSlots(), HasGadgetBelt, CurrentHeat, CurrentHull, CurrentFuel)
     {
         private static GadgetInventory CreateDefaultGadgetSlots()
         {

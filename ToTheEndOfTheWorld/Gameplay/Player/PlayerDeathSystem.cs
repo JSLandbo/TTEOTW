@@ -18,7 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return true;
             }
 
-            if (world.Player.Hull.Health > 0.0f)
+            if (world.Player.CurrentHull > 0.0f)
             {
                 return false;
             }
@@ -30,7 +30,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public void SelfDestruct(ModelWorld world)
         {
-            world.Player.Hull.Health = 0.0f;
+            world.Player.CurrentHull = 0.0f;
             EnterDeathState(world);
         }
 
@@ -70,6 +70,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             world.Player.ThermalPlating = items.Create<ThermalPlating>(thermalPlatingId);
             world.Player.Hull = items.Create<Hull>(hullId);
             world.Player.FuelTank = items.Create<FuelTank>(fuelTankId);
+            world.Player.CurrentHeat = 0.0f;
+            world.Player.CurrentHull = world.Player.Hull.Health;
+            world.Player.CurrentFuel = world.Player.FuelTank.Capacity;
 
             world.Player.XVelocity = 0.0f;
             world.Player.YVelocity = 0.0f;

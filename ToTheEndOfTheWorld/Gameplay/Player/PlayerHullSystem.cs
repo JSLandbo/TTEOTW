@@ -35,19 +35,19 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            player.Hull.TakeDamage(excessVelocity * FallDamagePerExcessVelocity);
+            ApplyDamage(player, excessVelocity * FallDamagePerExcessVelocity);
         }
 
         public bool WouldTakeFallDamage(float impactVelocity) => impactVelocity > FallDamageVelocityThreshold;
 
         public void ApplyExplosionDamage(APlayer player, float damage)
         {
-            player.Hull.TakeDamage(damage);
+            ApplyDamage(player, damage);
         }
 
         public void ApplyHeatOverflowDamage(APlayer player, float overflowHeat)
         {
-            player.Hull.TakeDamage(overflowHeat);
+            ApplyDamage(player, overflowHeat);
         }
 
         private static float GetHeatRatio(APlayer player)
@@ -57,7 +57,17 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return 0.0f;
             }
 
-            return Math.Clamp(player.ThermalPlating.Thermals / player.ThermalPlating.MaxThermals, 0.0f, 1.0f);
+            return Math.Clamp(player.CurrentHeat / player.ThermalPlating.MaxThermals, 0.0f, 1.0f);
+        }
+
+        private static void ApplyDamage(APlayer player, float damage)
+        {
+            if (damage <= 0.0f)
+            {
+                return;
+            }
+
+            player.CurrentHull = Math.Max(0.0f, player.CurrentHull - damage);
         }
 
         private static float Lerp(float start, float end, float amount)

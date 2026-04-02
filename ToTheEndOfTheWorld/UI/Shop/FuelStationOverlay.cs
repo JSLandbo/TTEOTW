@@ -75,7 +75,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle refuelButtonRectangle = GetRefuelButtonRectangle(viewportWidth, viewportHeight);
-            float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
+            float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
             bool canRefuel = affordableFuel > 0.0f;
 
@@ -90,14 +90,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, refuelButtonRectangle, 2, UiInteractionStyle.GetBorderColor(canRefuel ? new Color(152, 182, 140) : new Color(110, 110, 110), isHovered));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.FuelTank.Fuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.CurrentFuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), new Color(214, 214, 214), BodyTextScale);
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
         }
 
         private static float RefuelAllAffordable(ModelWorld world)
         {
-            float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
+            float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
 
             if (missingFuel <= 0.0f || world.Player.Cash <= 0.0)
             {
@@ -105,7 +105,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             float fuelPurchased = MathF.Min(missingFuel, (float)world.Player.Cash);
-            world.Player.FuelTank.Fuel += fuelPurchased;
+            world.Player.CurrentFuel += fuelPurchased;
             world.Player.Cash -= fuelPurchased;
             return fuelPurchased;
         }
@@ -118,7 +118,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            float missingFuel = world.Player.FuelTank.Capacity - world.Player.FuelTank.Fuel;
+            float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
             return affordableFuel > 0.0f && GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
         }
