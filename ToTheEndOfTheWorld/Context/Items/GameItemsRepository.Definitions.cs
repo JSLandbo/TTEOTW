@@ -174,7 +174,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallDynamite,
                 "SmallDynamite",
                 LoadSingleTexture(manager, "Dynamite/DynamiteTierOne"),
-                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 1.0f),
+                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 1.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable);
         }

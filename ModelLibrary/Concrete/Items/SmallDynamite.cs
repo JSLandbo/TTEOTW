@@ -13,16 +13,18 @@ namespace ModelLibrary.Concrete.Items
             Weight = other.Weight;
             Stackable = other.Stackable;
             ExplosionAreaSize = other.ExplosionAreaSize;
+            ExplosionPlaybackFrames = other.ExplosionPlaybackFrames;
             Damage = other.Damage;
             MaxHardness = other.MaxHardness;
         }
 
         [JsonConstructor]
-        public SmallDynamite(short ID, string Name, int ExplosionAreaSize, float Damage, float MaxHardness, float Worth = 0.0f, float Weight = 0.0f, bool Stackable = true)
+        public SmallDynamite(short ID, string Name, int ExplosionAreaSize, int ExplosionPlaybackFrames, float Damage, float MaxHardness, float Worth = 0.0f, float Weight = 0.0f, bool Stackable = true)
         {
             this.ID = ID;
             this.Name = Name;
             this.ExplosionAreaSize = ExplosionAreaSize;
+            this.ExplosionPlaybackFrames = ExplosionPlaybackFrames;
             this.Damage = Damage;
             this.MaxHardness = MaxHardness;
             this.Worth = Worth;
@@ -31,6 +33,7 @@ namespace ModelLibrary.Concrete.Items
         }
 
         public int ExplosionAreaSize { get; set; }
+        public int ExplosionPlaybackFrames { get; set; }
         public float Damage { get; set; }
         public float MaxHardness { get; set; }
     }

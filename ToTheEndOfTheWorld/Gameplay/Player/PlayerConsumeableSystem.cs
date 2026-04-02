@@ -2,11 +2,12 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Items;
-using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.Context;
+    using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerConsumeableSystem(WorldBlockDamageService worldBlockDamageService)
+    public sealed class PlayerConsumeableSystem(WorldBlockDamageService worldBlockDamageService, WorldEffectsRepository worldEffects)
     {
         public void TryUse(ModelWorld world, int slotIndex)
         {
@@ -49,7 +50,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 for (int x = -halfExtent; x <= halfExtent; x++)
                 {
                     Vector2 targetVector = new(center.X + x, center.Y + y);
-                    worldBlockDamageService.TryDamageBlock(world, targetVector, dynamite.Damage, dynamite.MaxHardness, WorldBlockDestroyMethod.Destroyed, out _);
+
+                    if (!worldBlockDamageService.TryDamageBlock(world, targetVector, dynamite.Damage, dynamite.MaxHardness, WorldBlockDestroyMethod.Destroyed, out _))
+                    {
+                        continue;
+                    }
+
+                    worldEffects.Add(new WorldEffect(WorldEffectType.Explosion, new WorldTile((long)targetVector.X, (long)targetVector.Y), dynamite.ExplosionPlaybackFrames));
                 }
             }
         }

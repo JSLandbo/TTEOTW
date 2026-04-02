@@ -40,8 +40,6 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return TryEquipInventoryFromHeld(world, ref heldItem, ref heldCount);
             }
 
-            AType createdItem = items.Create(heldItem.ID);
-
             AType equippedItem = GetEquippedItem(world, slotType);
 
             if (equippedItem != null && !inventoryService.TryAdd(world.Player.Inventory, equippedItem, 1))
@@ -49,7 +47,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
-            ApplyEquippedItem(world, slotType, createdItem);
+            ApplyEquippedItem(world, slotType, heldItem);
 
             heldCount--;
 

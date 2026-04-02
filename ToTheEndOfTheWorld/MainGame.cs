@@ -27,7 +27,9 @@ namespace ToTheEndOfTheWorld
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private RenderTarget2D sceneRenderTarget;
-        private WorldInteractionsRepository interactions;
+        private MiningInteractionsRepository miningInteractions;
+        private WorldEffectsRepository worldEffects;
+        private WorldEffectDefinitionsRepository worldEffectDefinitions;
         private WorldElementsRepository blocks;
         private GameItemsRepository items;
         private ModelWorld world;
@@ -117,11 +119,12 @@ namespace ToTheEndOfTheWorld
             logicalViewportWidth = graphics.PreferredBackBufferWidth;
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
-            interactions = new WorldInteractionsRepository();
-            WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus);
+            miningInteractions = new MiningInteractionsRepository();
+            worldEffects = new WorldEffectsRepository();
+            WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
             playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
-            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService);
+            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService, worldEffects);
 
             world = ContextHandler.LoadWorld();
 
@@ -176,6 +179,7 @@ namespace ToTheEndOfTheWorld
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
             gadgetBarRenderer.LoadContent(GraphicsDevice, Content);
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
+            worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
         }
 
@@ -213,6 +217,7 @@ namespace ToTheEndOfTheWorld
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
+            worldEffects.Update();
             playerVerticalImpactService.BeginFrame();
             int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
             if (consumeableSlotIndex.HasValue)
@@ -307,7 +312,7 @@ namespace ToTheEndOfTheWorld
             foreach (KeyValuePair<Vector2, Vector2> pair in world.WorldRender)
             {
                 Rectangle destinationRectangle = worldScreenTransform.GetTileRectangle(pair.Key);
-
+                WorldTile worldTile = new((long)pair.Value.X, (long)pair.Value.Y);
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
                 {
@@ -319,11 +324,18 @@ namespace ToTheEndOfTheWorld
 
                     TextureAnimationHelper.Draw(spriteBatch, block.Value.Texture, destinationRectangle, block.Value.Frames, Color.White);
 
-                    if (interactions.TryGet(new WorldTile((long)pair.Value.X, (long)pair.Value.Y), WorldInteractionType.Mining, out WorldInteraction interaction))
+                    if (miningInteractions.TryGet(worldTile, out MiningInteraction interaction))
                     {
                         float percentDamaged = interaction.Block.PercentDamaged();
                         spriteBatch.Draw(blocks[GameIds.RuntimeBlocks.Breaking].Texture, destinationRectangle, Color.White * percentDamaged);
                     }
+                }
+
+                foreach (WorldEffect effect in worldEffects.GetAll(worldTile))
+                {
+                    (Texture2D Texture, int SpriteFrames) definition = worldEffectDefinitions[effect.Type];
+                    Rectangle? sourceRectangle = TextureAnimationHelper.GetSourceRectangleForFrame(effect.PlayedFrames, definition.SpriteFrames, definition.Texture);
+                    spriteBatch.Draw(definition.Texture, destinationRectangle, sourceRectangle, Color.White);
                 }
             }
         }

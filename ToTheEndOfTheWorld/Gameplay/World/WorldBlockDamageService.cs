@@ -5,14 +5,14 @@ using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
 {
-    public sealed class WorldBlockDamageService(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus)
+    public sealed class WorldBlockDamageService(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, MiningInteractionsRepository interactions, GameEventBus eventBus)
     {
-        public bool TryGetBlockInteraction(ModelWorld world, Vector2 targetVector, out WorldInteraction interaction)
+        public bool TryGetBlockInteraction(ModelWorld world, Vector2 targetVector, out MiningInteraction interaction)
         {
             return TryGetBlockInteraction(world, targetVector, out interaction, out _);
         }
 
-        public bool TryGetBlockInteraction(ModelWorld world, Vector2 targetVector, out WorldInteraction interaction, out bool isBlockedByBuilding)
+        public bool TryGetBlockInteraction(ModelWorld world, Vector2 targetVector, out MiningInteraction interaction, out bool isBlockedByBuilding)
         {
             WorldTile worldTile = new((long)targetVector.X, (long)targetVector.Y);
             isBlockedByBuilding = IsInsideBuilding(world, worldTile);
@@ -23,10 +23,10 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return false;
             }
 
-            if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out interaction))
+            if (!interactions.TryGet(worldTile, out interaction))
             {
                 Block block = worldBlockFactory.CreateMutableWorldBlock(targetVector.X, targetVector.Y);
-                WorldInteraction createdInteraction = new(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
+                MiningInteraction createdInteraction = new(new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
                 interactions.Add(createdInteraction);
                 interaction = createdInteraction;
             }
@@ -36,7 +36,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public bool TryDamageBlock(ModelWorld world, Vector2 targetVector, float damage, float maxHardness, WorldBlockDestroyMethod destroyMethod, out Block block)
         {
-            if (!TryGetBlockInteraction(world, targetVector, out WorldInteraction interaction) || interaction.Block.Hardness > maxHardness)
+            if (!TryGetBlockInteraction(world, targetVector, out MiningInteraction interaction) || interaction.Block.Hardness > maxHardness)
             {
                 block = null;
                 return false;
@@ -54,7 +54,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             return true;
         }
 
-        private void OnBlockDestroyed(ModelWorld world, WorldInteraction interaction, WorldBlockDestroyMethod destroyMethod)
+        private void OnBlockDestroyed(ModelWorld world, MiningInteraction interaction, WorldBlockDestroyMethod destroyMethod)
         {
             Vector2 location = new(interaction.TileBounds.X, interaction.TileBounds.Y);
             world.WorldTrails.Add(location, true);
