@@ -68,7 +68,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
         {
             AInventory inventory = world.Player.Inventory;
             AGridBox[,] grid = inventory.Items.InternalGrid;
-            double totalEarned = GetSellSummary(world, filter).TotalValue;
+            double totalEarned = 0.0;
 
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -76,11 +76,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 {
                     AGridBox slot = grid[x, y];
 
-                    if (!TryGetSellValue(slot, filter, out _))
+                    if (!TryGetSellValue(slot, filter, out double slotValue))
                     {
                         continue;
                     }
 
+                    totalEarned += slotValue;
                     slot.Item = null;
                     slot.Count = 0;
                 }

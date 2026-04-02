@@ -34,19 +34,6 @@ namespace ToTheEndOfTheWorld.UI.Common
         {
             Texture2D texture = textureResolver.Resolve(item);
 
-            // TODO: Remove this when all textures are in place.
-            if (texture == null)
-            {
-                Rectangle fallbackRectangle = ScaleRectangleInside(bounds, scale, 3);
-                spriteBatch.Draw(pixelTexture, fallbackRectangle, new Color(118, 87, 53));
-
-                string itemName = string.IsNullOrWhiteSpace(item.Name) ? $"ID{item.ID}" : item.Name;
-                string label = itemName.Length > 3 ? itemName[..3].ToUpperInvariant() : itemName.ToUpperInvariant();
-                GameTextRenderer.DrawBoldString(spriteBatch, textFont, label, new Vector2(bounds.X + 4, bounds.Y + 2), Color.White, stackTextScale);
-
-                return;
-            }
-
             int frames = textureResolver.ResolveFrames(item);
             var (SourceRectangle, Width, Height) = TextureAnimationHelper.GetFrame(frames, texture);
             spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
@@ -55,13 +42,6 @@ namespace ToTheEndOfTheWorld.UI.Common
         public void DrawItemFitted(SpriteBatch spriteBatch, AType item, Rectangle bounds, int padding = 3)
         {
             Texture2D texture = textureResolver.Resolve(item);
-
-            // TODO: Remove this when all textures are in place
-            if (texture == null)
-            {
-                DrawItem(spriteBatch, item, bounds);
-                return;
-            }
 
             int availableWidth = System.Math.Max(1, bounds.Width - (padding * 2));
             int availableHeight = System.Math.Max(1, bounds.Height - (padding * 2));
@@ -94,17 +74,5 @@ namespace ToTheEndOfTheWorld.UI.Common
                 scaledHeight);
         }
 
-        private static Rectangle ScaleRectangleInside(Rectangle bounds, float scale, int inset)
-        {
-            Rectangle innerRectangle = new(bounds.X + inset, bounds.Y + inset, bounds.Width - (inset * 2), bounds.Height - (inset * 2));
-            int scaledWidth = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Width * scale));
-            int scaledHeight = System.Math.Max(1, (int)System.MathF.Round(innerRectangle.Height * scale));
-
-            return new Rectangle(
-                innerRectangle.X + ((innerRectangle.Width - scaledWidth) / 2),
-                innerRectangle.Y + ((innerRectangle.Height - scaledHeight) / 2),
-                scaledWidth,
-                scaledHeight);
-        }
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
 
@@ -28,7 +29,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 EBuildingInteraction.EquipmentShop => equipmentShopTexture,
                 EBuildingInteraction.FuelStation => fuelStationTexture,
                 EBuildingInteraction.GadgetShop => gadgetShopTexture,
-                _ => null
+                _ => throw new InvalidOperationException($"No building texture registered for interaction '{building.Interaction}'.")
             };
         }
     }

@@ -19,7 +19,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 EPlayerEquipmentSlotType.Inventory => world.Player.Inventory,
                 EPlayerEquipmentSlotType.FuelTank => world.Player.FuelTank,
                 EPlayerEquipmentSlotType.Thruster => world.Player.Thruster,
-                _ => null
+                _ => throw new System.ArgumentOutOfRangeException(nameof(slotType), slotType, null)
             };
         }
 
@@ -41,11 +41,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             AType createdItem = items.Create(heldItem.ID);
-
-            if (createdItem == null)
-            {
-                return false;
-            }
 
             AType equippedItem = GetEquippedItem(world, slotType);
 
@@ -78,7 +73,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 EPlayerEquipmentSlotType.Inventory => "Inventory",
                 EPlayerEquipmentSlotType.FuelTank => "Fuel Tank",
                 EPlayerEquipmentSlotType.Thruster => "Thruster",
-                _ => string.Empty
+                _ => throw new System.ArgumentOutOfRangeException(nameof(slotType), slotType, null)
             };
         }
 
@@ -197,20 +192,8 @@ namespace ToTheEndOfTheWorld.Gameplay
         private Inventory CreateEmptyInventoryItem(Inventory source)
         {
             Inventory createdInventory = items.Create<Inventory>(source.ID);
-
-            if (createdInventory != null)
-            {
-                return createdInventory;
-            }
-
-            return new Inventory(
-                ID: source.ID,
-                Items: CreateEmptyGrid(source.Items),
-                SizeLimit: source.SizeLimit,
-                Name: source.Name,
-                Worth: source.Worth,
-                Weight: source.Weight,
-                MaxStackSize: source.MaxStackSize);
+            createdInventory.Items = CreateEmptyGrid(source.Items);
+            return createdInventory;
         }
 
         private static Grid CreateEmptyGrid(AGrid source)
@@ -228,7 +211,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 {
                     AGridBox slot = sourceGrid[x, y];
 
-                    if (slot?.Item == null || slot.Count <= 0)
+                    if (slot.Item == null || slot.Count <= 0)
                     {
                         continue;
                     }

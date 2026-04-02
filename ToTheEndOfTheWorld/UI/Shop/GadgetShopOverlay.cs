@@ -157,7 +157,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             AType purchasedItem = items.Create(slot.Item.ID);
 
-            if (purchasedItem == null || !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
+            if (!inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
             {
                 return false;
             }

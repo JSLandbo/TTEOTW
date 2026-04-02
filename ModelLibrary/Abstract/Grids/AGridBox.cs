@@ -9,7 +9,7 @@ namespace ModelLibrary.Abstract.Grids
         private int count;
 
         [JsonIgnore]
-        internal AGrid? OwnerGrid { get; set; }
+        public AGrid? OwnerGrid { get; set; }
 
         public AType? Item
         {

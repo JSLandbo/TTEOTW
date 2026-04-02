@@ -35,14 +35,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
         {
             Grid storageGrid = new(Vector2.Zero, new GridBox[GridColumns, GridRows]);
 
-            for (int y = 0; y < storageGrid.InternalGrid.GetLength(1); y++)
-            {
-                for (int x = 0; x < storageGrid.InternalGrid.GetLength(0); x++)
-                {
-                    storageGrid.InternalGrid[x, y] = new GridBox(null, 0);
-                }
-            }
-
             foreach (GameItemDefinition itemDefinition in items.Values)
             {
                 if (!itemDefinition.Buyable || itemDefinition.Type != EGameItemType.Equipment || itemDefinition.EquipmentType == EEquipmentType.None)

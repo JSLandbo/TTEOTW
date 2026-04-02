@@ -23,11 +23,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Graphics
 
         public static Rectangle? GetSourceRectangle(int frames, Texture2D texture, double secondsPerFrame = DefaultSecondsPerFrame)
         {
-            if (texture == null || texture.Width <= 0)
-            {
-                return null;
-            }
-
             if (frames <= 1 || texture.Width % frames != 0)
             {
                 return new Rectangle(0, 0, texture.Width, texture.Height);

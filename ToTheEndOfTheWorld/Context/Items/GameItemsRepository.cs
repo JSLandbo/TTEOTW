@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Microsoft.Xna.Framework.Content;
 using ModelLibrary.Abstract.Types;
 
@@ -13,12 +14,24 @@ namespace ToTheEndOfTheWorld.Context.Items
 
         public AType Create(short itemId)
         {
-            return TryGetValue(itemId, out GameItemDefinition itemDefinition) ? itemDefinition.Create() : null;
+            if (!TryGetValue(itemId, out GameItemDefinition itemDefinition))
+            {
+                throw new KeyNotFoundException($"No item definition registered for id {itemId}.");
+            }
+
+            return itemDefinition.Create();
         }
 
         public T Create<T>(short itemId) where T : AType
         {
-            return Create(itemId) as T;
+            AType createdItem = Create(itemId);
+
+            if (createdItem is not T typedItem)
+            {
+                throw new InvalidOperationException($"Item id {itemId} does not create a {typeof(T).Name}.");
+            }
+
+            return typedItem;
         }
     }
 }

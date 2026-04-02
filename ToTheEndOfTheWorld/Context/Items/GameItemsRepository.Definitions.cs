@@ -154,13 +154,13 @@ namespace ToTheEndOfTheWorld.Context.Items
                 type: EGameItemType.Item));
             Add(GameIds.Items.Gadgets.DirtFilter, new GameItemDefinition(
                 "DirtFilter",
-                [],
+                LoadSingleTexture(manager, "Blocks/DirtBlock"),
                 new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
                 buyable: true,
                 type: EGameItemType.Item));
             Add(GameIds.Items.Gadgets.RockFilter, new GameItemDefinition(
                 "RockFilter",
-                [],
+                LoadSingleTexture(manager, "Blocks/StoneBlock"),
                 new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
                 buyable: true,
                 type: EGameItemType.Item));

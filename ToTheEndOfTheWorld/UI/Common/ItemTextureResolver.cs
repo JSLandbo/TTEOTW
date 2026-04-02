@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Enums;
@@ -27,7 +28,7 @@ namespace ToTheEndOfTheWorld.UI.Common
                 }
             }
 
-            return null;
+            throw new InvalidOperationException($"No texture registered for item '{item.Name}' ({item.ID}).");
         }
 
         public int ResolveFrames(AType item)

@@ -53,14 +53,15 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public void Move(ModelWorld world, float x, float y)
         {
-            Dictionary<Vector2, Vector2> updated = [];
-
-            foreach (KeyValuePair<Vector2, Vector2> block in world.WorldRender)
+            for (int renderX = -1; renderX <= world.BlocksWide + 1; renderX++)
             {
-                updated.Add(new Vector2(block.Key.X, block.Key.Y), new Vector2(block.Value.X + x, block.Value.Y + y));
+                for (int renderY = -1; renderY <= world.BlocksHigh + 1; renderY++)
+                {
+                    Vector2 renderKey = new(renderX, renderY);
+                    Vector2 worldLocation = world.WorldRender[renderKey];
+                    world.WorldRender[renderKey] = new Vector2(worldLocation.X + x, worldLocation.Y + y);
+                }
             }
-
-            world.WorldRender = updated;
         }
     }
 }

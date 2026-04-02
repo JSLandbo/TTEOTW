@@ -25,11 +25,6 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void DrawBuildings(SpriteBatch spriteBatch, ModelWorld world, WorldViewportService worldViewportService, WorldScreenTransform worldScreenTransform)
         {
-            if (world.Buildings == null)
-            {
-                return;
-            }
-
             Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
             Vector2 playerKey = world.Player.Coordinates;
 
@@ -46,25 +41,12 @@ namespace ToTheEndOfTheWorld.UI.World
                 Rectangle buildingRectangle = worldScreenTransform.GetTileRectangle(renderKeyX, renderKeyY, building.TilesWide, building.TilesHigh, building.XOffset, building.YOffset);
 
                 Texture2D buildingTexture = textureResolver.Resolve(building);
-
-                if (buildingTexture == null)
-                {
-                    spriteBatch.Draw(pixelTexture, buildingRectangle, Color.Black);
-
-                    continue;
-                }
-
                 spriteBatch.Draw(buildingTexture, buildingRectangle, Color.White);
             }
         }
 
         public void DrawInteractionPrompt(SpriteBatch spriteBatch, ABuilding building, int viewportHeight)
         {
-            if (building == null)
-            {
-                return;
-            }
-
             Vector2 promptSize = textFont.MeasureString(PromptText) * PromptTextScale;
             Rectangle promptRectangle = new(
                 PromptMargin,

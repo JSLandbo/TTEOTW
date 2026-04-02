@@ -19,6 +19,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
                 if (items != null)
                 {
                     items.OnChanged = RecalculateContentsWeight;
+                    ConfigureGrid(items);
                 }
                 RecalculateContentsWeight();
             }
@@ -58,6 +59,11 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
             }
 
             ContentsWeight = totalWeight;
+        }
+
+        protected virtual void ConfigureGrid(AGrid grid)
+        {
+            grid.PlacementValidator = null;
         }
     }
 }

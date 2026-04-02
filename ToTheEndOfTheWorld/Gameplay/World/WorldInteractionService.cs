@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI;
 
 namespace ToTheEndOfTheWorld.Gameplay.World
@@ -9,7 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
     {
         public bool TryHandleInteraction(KeyboardState currentState, KeyboardState previousState, UiManager uiManager, ModelWorld world)
         {
-            if (!WasJustPressed(currentState, previousState, Keys.E))
+            if (!UiInputHelper.WasJustPressed(currentState, previousState, Keys.E))
             {
                 return false;
             }
@@ -24,12 +25,6 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
         public bool TryGetCurrentBuilding(ModelWorld world, out ABuilding building)
         {
-            if (world.Buildings == null)
-            {
-                building = null;
-                return false;
-            }
-
             Microsoft.Xna.Framework.Vector2 worldPosition = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             long tileX = (long)worldPosition.X;
             long tileY = (long)worldPosition.Y;
@@ -46,19 +41,6 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             }
 
             building = null;
-            return false;
-        }
-
-        private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
-        {
-            foreach (Keys key in keys)
-            {
-                if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
     }

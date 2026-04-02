@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Items;
@@ -37,7 +38,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 FuelTank fuelTank => new FuelTank(fuelTank),
                 Thruster thruster => new Thruster(thruster),
                 Item item => new Item(item),
-                _ => null
+                _ => throw new InvalidOperationException($"Unsupported item definition type '{Definition.GetType().Name}'.")
             };
         }
     }
