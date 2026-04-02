@@ -81,21 +81,21 @@ namespace ToTheEndOfTheWorld.Gameplay
         {
             if (equippedItem == null)
             {
-                return $"{GetSlotLabel(slotType)} | No upgrade equipped";
+                return $"{GetSlotLabel(slotType)} | Empty";
             }
 
             string tier = GetTierLabel(equippedItem);
 
             return slotType switch
             {
-                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} Tier | {((ThermalPlating)equippedItem).Thermals:0.00}/{((ThermalPlating)equippedItem).MaxThermals:0.00} Heat | {((ThermalPlating)equippedItem).ThermalDissipation:0.#} Dissipation",
-                EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Engine)equippedItem).ActiveFuelConsumption:0.#} Fuel/sec",
-                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Inventory)equippedItem).SizeLimit:0} Capacity | x{((Inventory)equippedItem).MaxStackSize}",
-                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} Tier | {((FuelTank)equippedItem).Fuel:0.00}/{((FuelTank)equippedItem).Capacity:0.00} Fuel",
-                EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Hull)equippedItem).Health:0} HP",
-                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Drill)equippedItem).Damage:0.##} Damage | {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | {((Drill)equippedItem).ActiveFuelConsumption:0.##} Fuel/sec",
-                EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} Tier | {((Thruster)equippedItem).Speed:0.#} Speed",
-                _ => $"{GetSlotLabel(slotType)} | {tier} Tier"
+                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} | Heat {((ThermalPlating)equippedItem).Thermals:0}/{((ThermalPlating)equippedItem).MaxThermals:0} | Dissipation {((ThermalPlating)equippedItem).ThermalDissipation:0.#}/s",
+                EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Engine)equippedItem).Speed:0.#} | Acceleration {((Engine)equippedItem).Acceleration:0.#} | Active Fuel {((Engine)equippedItem).ActiveFuelConsumption:0.##}/s",
+                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} | Used Capacity {inventoryService.GetUsedCapacity((Inventory)equippedItem):0}/{((Inventory)equippedItem).SizeLimit:0} ({inventoryService.GetUsedCapacityPercent((Inventory)equippedItem)}%) | Max Stack {((Inventory)equippedItem).MaxStackSize}",
+                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} | Fuel {((FuelTank)equippedItem).Fuel:0.##}/{((FuelTank)equippedItem).Capacity:0.##} ({((((FuelTank)equippedItem).Capacity <= 0 ? 0 : (((FuelTank)equippedItem).Fuel / ((FuelTank)equippedItem).Capacity) * 100f)):0.#}%)",
+                EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} | Health {((Hull)equippedItem).Health:0} | Durability {((Hull)equippedItem).Durability:0.#}",
+                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} | Damage {((Drill)equippedItem).Damage:0.##} | Area {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | Hardness {((Drill)equippedItem).Hardness:0.#} | Fuel Usage {((Drill)equippedItem).ActiveFuelConsumption:0.##}/s",
+                EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Thruster)equippedItem).Speed:0.#} | Acceleration {((Thruster)equippedItem).Acceleration:0.#} | Power {((Thruster)equippedItem).Power:0.#} | Heat {((Thruster)equippedItem).ActiveHeatGeneration:0.#}/s",
+                _ => $"{GetSlotLabel(slotType)} | {tier}"
             };
         }
 

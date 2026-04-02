@@ -314,7 +314,7 @@ namespace ToTheEndOfTheWorld
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(samplerState: SamplerState.LinearClamp);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             spriteBatch.Draw(sceneRenderTarget, GetPresentationRectangle(), Color.White);
             spriteBatch.End();
 

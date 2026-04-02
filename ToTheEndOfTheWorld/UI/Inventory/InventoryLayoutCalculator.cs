@@ -15,8 +15,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             const int sectionGap = 18;
             const int outputGap = 18;
             const int equipmentGap = 24;
-            const int equipmentInfoGap = 20;
-            const int equipmentInfoWidth = 500;
+            const int equipmentInfoGap = 24;
+            const int equipmentInfoWidth = 840;
             const int sectionPadding = 16;
             const int dividerHeight = 1;
             int craftingColumns = 3;
@@ -88,9 +88,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 slotSize);
             int inventoryStartX = inventorySectionRectangle.X + ((inventorySectionRectangle.Width - inventorySectionWidth) / 2);
             int inventoryStartY = inventorySectionRectangle.Y + sectionPadding;
+            const int trashBinCornerOverlapX = 86;
+            const int trashBinCornerOverlapY = 0;
             Rectangle trashBinRectangle = new(
-                inventorySectionRectangle.Right - sectionPadding - slotSize,
-                inventorySectionRectangle.Bottom - sectionPadding - slotSize,
+                panelX + panelWidth - slotSize + trashBinCornerOverlapX,
+                panelY + panelHeight - slotSize + trashBinCornerOverlapY,
                 slotSize,
                 slotSize);
 

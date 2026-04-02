@@ -14,10 +14,10 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 {
     public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items) : IGameOverlay
     {
-        private const float HeaderTextScale = 1.35f;
-        private const float SummaryTextScale = 1.15f;
-        private const float ButtonTextScale = 1.15f;
-        private const float StackTextScale = 1.05f;
+        private const float HeaderTextScale = 1.15f;
+        private const float SummaryTextScale = 1.0f;
+        private const float ButtonTextScale = 1.0f;
+        private const float StackTextScale = 0.95f;
         private readonly Grid craftingGrid = new(new Vector2(0, 0), new GridBox[3, 3]);
         private readonly GridBox craftOutputSlot = new(null, 0);
         private readonly InventoryInteractionController interactionController = new();
@@ -195,31 +195,59 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void DrawEquipmentSummary(SpriteBatch spriteBatch, ModelWorld world)
         {
-            int textX = currentLayout.EquipmentInfoRectangle.X;
-            int textY = currentLayout.EquipmentInfoRectangle.Y + 2;
-            int lineHeight = (int)(textFont.LineSpacing * SummaryTextScale) + 12;
+            EPlayerEquipmentSlotType[] summarySlots =
+            [
+                EPlayerEquipmentSlotType.ThermalPlating,
+                EPlayerEquipmentSlotType.Engine,
+                EPlayerEquipmentSlotType.Inventory,
+                EPlayerEquipmentSlotType.FuelTank,
+                EPlayerEquipmentSlotType.Hull,
+                EPlayerEquipmentSlotType.Drill,
+                EPlayerEquipmentSlotType.Thruster
+            ];
 
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Engine, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Inventory, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Hull, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Drill, ref textY, textX, lineHeight);
-            DrawEquipmentSummaryLine(spriteBatch, world, EPlayerEquipmentSlotType.Thruster, ref textY, textX, lineHeight);
+            const int panelPaddingX = 14;
+            const int panelPaddingY = 10;
+            int lineHeight = (int)System.Math.Ceiling(textFont.MeasureString("Hg").Y * SummaryTextScale) + 6;
+            Rectangle summaryRectangle = new(
+                currentLayout.EquipmentInfoRectangle.X,
+                currentLayout.EquipmentInfoRectangle.Y,
+                currentLayout.EquipmentInfoRectangle.Width - 16,
+                currentLayout.EquipmentInfoRectangle.Height);
+
+            spriteBatch.Draw(pixelTexture, summaryRectangle, new Color(40, 40, 40));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, summaryRectangle, 1, new Color(96, 96, 96));
+
+            int textY = summaryRectangle.Y + panelPaddingY;
+            int separatorLeft = summaryRectangle.X + panelPaddingX;
+            int separatorWidth = summaryRectangle.Width - (panelPaddingX * 2);
+
+            for (int i = 0; i < summarySlots.Length; i++)
+            {
+                DrawEquipmentSummaryTextLine(
+                    spriteBatch,
+                    world,
+                    summarySlots[i],
+                    ref textY,
+                    summaryRectangle.X + panelPaddingX,
+                    lineHeight,
+                    separatorLeft,
+                    separatorWidth,
+                    drawSeparator: i < summarySlots.Length - 1);
+            }
         }
 
-        private void DrawEquipmentSummaryLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight)
+        private void DrawEquipmentSummaryTextLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight, int separatorLeft, int separatorWidth, bool drawSeparator)
         {
             AType equippedItem = itemUseService.GetEquippedItem(world, slotType);
             string line = itemUseService.GetSummaryText(slotType, equippedItem);
-            string tier = itemUseService.GetTierLabel(equippedItem);
-            Color accentColor = GetTierAccentColor(tier, equippedItem == null);
-            Rectangle cardRectangle = new(textX, textY, currentLayout.EquipmentInfoRectangle.Width - 12, lineHeight - 4);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line, new Vector2(textX, textY), new Color(244, 244, 244), SummaryTextScale);
 
-            spriteBatch.Draw(pixelTexture, cardRectangle, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)42));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, cardRectangle, 1, new Color(accentColor.R, accentColor.G, accentColor.B, (byte)120));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line, new Vector2(textX + 10, textY + 6), new Color(244, 244, 244), SummaryTextScale);
             textY += lineHeight;
+            if (drawSeparator)
+            {
+                spriteBatch.Draw(pixelTexture, new Rectangle(separatorLeft, textY - 3, separatorWidth, 1), new Color(76, 76, 76));
+            }
         }
 
         private void DrawTrashBin(SpriteBatch spriteBatch)
@@ -276,29 +304,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     grid[x, y].Count = 0;
                 }
             }
-        }
-
-        private static Color GetTierAccentColor(string tier, bool isEmpty)
-        {
-            if (isEmpty)
-            {
-                return new Color(102, 102, 102);
-            }
-
-            return tier.ToLowerInvariant() switch
-            {
-                "scrap" => new Color(132, 106, 82),
-                "copper" => new Color(184, 114, 64),
-                "iron" => new Color(148, 156, 166),
-                "gold" => new Color(216, 184, 74),
-                "crystal" => new Color(98, 196, 224),
-                "diamond" => new Color(114, 218, 255),
-                "radioactive" => new Color(106, 212, 92),
-                "rainbow" => new Color(194, 108, 228),
-                "mythril" => new Color(88, 224, 196),
-                "adamant" => new Color(255, 112, 112),
-                _ => new Color(124, 124, 124)
-            };
         }
 
         private void DrawHeldStack(SpriteBatch spriteBatch, AType item, int count, Point mousePosition)

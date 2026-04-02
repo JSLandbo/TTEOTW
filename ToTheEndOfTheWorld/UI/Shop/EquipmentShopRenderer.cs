@@ -12,8 +12,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class EquipmentShopRenderer(WorldElementsRepository blocks, GameItemsRepository items)
     {
-        private const float TitleTextScale = 1.35f;
-        private const float PriceTextScale = 1.1f;
+        private const float TitleTextScale = 1.15f;
+        private const float PriceTextScale = 1.0f;
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;

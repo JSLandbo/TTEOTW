@@ -33,7 +33,7 @@ namespace ToTheEndOfTheWorld.UI.World
             string hullText = $"Hull: {player.Hull.Health:0}";
             string weightText = $"Weight: {player.Weight:0.##}/{player.Thruster.Power:0.##}";
             string capacityText = $"Inventory: {inventoryService.GetUsedCapacityPercent(player.Inventory)}%";
-            const float hudScale = 1.35f;
+            const float hudScale = 1.05f;
             const int cardPaddingX = 14;
             const int cardPaddingY = 10;
             const int cardSpacing = 10;

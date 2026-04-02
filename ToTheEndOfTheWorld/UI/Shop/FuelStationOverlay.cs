@@ -18,9 +18,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int ButtonWidth = 260;
         private const int ButtonHeight = 62;
         private const int ContentPadding = 20;
-        private const float TitleTextScale = 1.35f;
-        private const float BodyTextScale = 1.2f;
-        private const float ButtonTextScale = 1.3f;
+        private const float TitleTextScale = 1.15f;
+        private const float BodyTextScale = 1.0f;
+        private const float ButtonTextScale = 1.0f;
 
         private Texture2D pixelTexture = null!;
         private SpriteFont textFont = null!;

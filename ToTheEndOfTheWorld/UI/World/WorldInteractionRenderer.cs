@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.UI.World
     public sealed class WorldInteractionRenderer
     {
         private const string PromptText = "Press E to interact";
-        private const float PromptTextScale = 1.3f;
+        private const float PromptTextScale = 1.0f;
         private const int PromptMargin = 20;
         private readonly WorldBuildingTextureResolver textureResolver = new();
         private Texture2D pixelTexture;

@@ -26,11 +26,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int ValueColumnGap = 12;
         private const int ValueEntryPadding = 10;
         private const int ValueIconSize = 64;
-        private const float TitleTextScale = 1.35f;
-        private const float BodyTextScale = 1.35f;
-        private const float ListTitleTextScale = 1.2f;
-        private const float ListBodyTextScale = 1.1f;
-        private const float ButtonTextScale = 1.25f;
+        private const float TitleTextScale = 1.15f;
+        private const float BodyTextScale = 1.05f;
+        private const float ListTitleTextScale = 1.0f;
+        private const float ListBodyTextScale = 0.95f;
+        private const float ButtonTextScale = 1.0f;
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
 
         private ItemSlotRenderer slotRenderer;

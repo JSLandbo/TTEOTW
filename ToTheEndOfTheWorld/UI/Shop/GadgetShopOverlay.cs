@@ -24,9 +24,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int GridSlotSize = 64;
         private const int GridSpacing = 8;
         private const double GadgetBeltPrice = 10000.0;
-        private const float TitleTextScale = 1.35f;
-        private const float BodyTextScale = 1.15f;
-        private const float ButtonTextScale = 1.2f;
+        private const float TitleTextScale = 1.15f;
+        private const float BodyTextScale = 1.0f;
+        private const float ButtonTextScale = 1.0f;
 
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private Texture2D pixelTexture = null!;

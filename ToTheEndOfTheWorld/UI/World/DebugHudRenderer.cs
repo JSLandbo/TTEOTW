@@ -8,7 +8,7 @@ namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class DebugHudRenderer
     {
-        private const float DebugTextScale = 1.15f;
+        private const float DebugTextScale = 1.0f;
         private SpriteFont textFont;
 
         public void LoadContent(ContentManager content)
