@@ -305,8 +305,9 @@ namespace ToTheEndOfTheWorld
             debugHudRenderer.Draw(spriteBatch, world);
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
-            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
+            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
+            inventoryOverlay?.DrawHeldItemOnTop(spriteBatch);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();

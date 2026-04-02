@@ -149,10 +149,16 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             DrawSortButton(spriteBatch);
             DrawTrashBin(spriteBatch);
 
-            if (interactionController.HeldItem != null && interactionController.HeldCount > 0)
+        }
+
+        public void DrawHeldItemOnTop(SpriteBatch spriteBatch)
+        {
+            if (!isOpen || interactionController.HeldItem == null || interactionController.HeldCount <= 0)
             {
-                DrawHeldStack(spriteBatch, interactionController.HeldItem, interactionController.HeldCount, interactionController.MousePosition);
+                return;
             }
+
+            DrawHeldStack(spriteBatch, interactionController.HeldItem, interactionController.HeldCount, interactionController.MousePosition);
         }
 
         private void DrawGrid(SpriteBatch spriteBatch, AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing)
