@@ -155,19 +155,22 @@ namespace ToTheEndOfTheWorld.Context.Items
                 "Gadget Belt",
                 [],
                 new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 10000.0f, Weight: 1.0f),
-                buyable: true);
+                buyable: true
+            );
             AddDefinition(
                 GameIds.Items.Gadgets.DirtFilter,
                 "Dirt Filter",
                 LoadSingleTexture(manager, "Blocks/DirtBlock"),
                 new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
-                buyable: true);
+                buyable: true
+            );
             AddDefinition(
                 GameIds.Items.Gadgets.RockFilter,
                 "Rock Filter",
                 LoadSingleTexture(manager, "Blocks/StoneBlock"),
                 new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
-                buyable: true);
+                buyable: true
+            );
         }
 
         private void RegisterConsumeables(ContentManager manager)
@@ -178,7 +181,8 @@ namespace ToTheEndOfTheWorld.Context.Items
                 LoadSingleTexture(manager, "Dynamite/DynamiteTierOne"),
                 new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 1.0f),
                 buyable: true,
-                type: EGameItemType.Consumeable);
+                type: EGameItemType.Consumeable
+            );
         }
 
         private void RegisterMaterials(ContentManager manager)
@@ -187,7 +191,14 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.CratingMaterials.IronIngot,
                 "Iron Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/IronIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 20.0f, Weight: 1.0f));
+                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 20.0f, Weight: 1.0f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.CopperIngot,
+                "Copper Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/CopperIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Copper Ingot", Worth: 30.0f, Weight: 1.0f)
+            );
         }
 
         private void AddDefinition<T>(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, T definition, bool buyable = false, EGameItemType type = EGameItemType.Item, int frames = 1) where T : AType
