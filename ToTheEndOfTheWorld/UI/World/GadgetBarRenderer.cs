@@ -33,6 +33,7 @@ namespace ToTheEndOfTheWorld.UI.World
             }
 
             bool isInteractive = inventoryOverlay?.IsOpen == true;
+            bool isPointerOverInteractiveElement = isInteractive && inventoryOverlay!.IsPointerOverInteractiveElement(world, mousePosition, viewportWidth, viewportHeight);
 
             for (int slotIndex = 0; slotIndex < GadgetBarLayout.TotalSlotCount; slotIndex++)
             {
@@ -48,7 +49,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 bool isHovered = isInteractive
                     && slotRectangle.Contains(mousePosition)
                     && UiSlotInteractionHelper.CanInteractWithSlot(slot, hasHeldItem)
-                    && (inventoryOverlay == null || inventoryOverlay.CanPlaceHeldItemInGadgetSlot(world.Player.GadgetSlots, slotIndex));
+                    && isPointerOverInteractiveElement;
                 slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, isHovered: isHovered);
 
                 if (slotIndex < GadgetBarLayout.HotbarSlotCount)
