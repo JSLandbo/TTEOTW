@@ -99,7 +99,7 @@ namespace ToTheEndOfTheWorld
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             CraftingService craftingService = new(new CraftingRecipeLibrary(blocks).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
-            EquipmentShopService equipmentShopService = new(inventoryService, items);
+            EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
             inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
             playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);

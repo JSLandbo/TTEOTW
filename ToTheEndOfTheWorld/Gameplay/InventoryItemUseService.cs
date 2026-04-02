@@ -41,14 +41,10 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return TryEquipInventoryFromHeld(world, ref heldItem, ref heldCount);
             }
 
-            AType equippedItem = GetEquippedItem(world, slotType);
-
-            if (equippedItem != null && !inventoryService.TryAdd(world.Player.Inventory, equippedItem, 1))
+            if (!TryEquipStandardItem(world, slotType, heldItem))
             {
                 return false;
             }
-
-            ApplyEquippedItem(world, slotType, heldItem);
 
             heldCount--;
 
@@ -59,6 +55,18 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return true;
+        }
+
+        public bool TryEquip(ModelWorld world, AType item)
+        {
+            if (item == null || !TryGetEquipmentSlotType(item, out EPlayerEquipmentSlotType slotType))
+            {
+                return false;
+            }
+
+            return slotType == EPlayerEquipmentSlotType.Inventory
+                ? TryEquipInventory(world, (Inventory)item)
+                : TryEquipStandardItem(world, slotType, item);
         }
 
         public string GetSlotLabel(EPlayerEquipmentSlotType slotType)
@@ -110,19 +118,40 @@ namespace ToTheEndOfTheWorld.Gameplay
             return nameParts.Length == 0 ? "Unknown" : nameParts[0];
         }
 
-        private static bool MatchesSlot(AType item, EPlayerEquipmentSlotType slotType)
+        public bool TryGetEquipmentSlotType(AType item, out EPlayerEquipmentSlotType slotType)
         {
-            return slotType switch
+            switch (item)
             {
-                EPlayerEquipmentSlotType.ThermalPlating => item is ThermalPlating,
-                EPlayerEquipmentSlotType.Hull => item is Hull,
-                EPlayerEquipmentSlotType.Drill => item is Drill,
-                EPlayerEquipmentSlotType.Engine => item is Engine,
-                EPlayerEquipmentSlotType.Inventory => item is Inventory,
-                EPlayerEquipmentSlotType.FuelTank => item is FuelTank,
-                EPlayerEquipmentSlotType.Thruster => item is Thruster,
-                _ => false
-            };
+                case ThermalPlating:
+                    slotType = EPlayerEquipmentSlotType.ThermalPlating;
+                    return true;
+                case Hull:
+                    slotType = EPlayerEquipmentSlotType.Hull;
+                    return true;
+                case Drill:
+                    slotType = EPlayerEquipmentSlotType.Drill;
+                    return true;
+                case Engine:
+                    slotType = EPlayerEquipmentSlotType.Engine;
+                    return true;
+                case Inventory:
+                    slotType = EPlayerEquipmentSlotType.Inventory;
+                    return true;
+                case FuelTank:
+                    slotType = EPlayerEquipmentSlotType.FuelTank;
+                    return true;
+                case Thruster:
+                    slotType = EPlayerEquipmentSlotType.Thruster;
+                    return true;
+                default:
+                    slotType = default;
+                    return false;
+            }
+        }
+
+        private bool MatchesSlot(AType item, EPlayerEquipmentSlotType slotType)
+        {
+            return TryGetEquipmentSlotType(item, out EPlayerEquipmentSlotType itemSlotType) && itemSlotType == slotType;
         }
 
         private static void ApplyEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
@@ -156,6 +185,20 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
         }
 
+        private bool TryEquipStandardItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
+        {
+            AType equippedItem = GetEquippedItem(world, slotType);
+
+            if (equippedItem != null && !inventoryService.TryAdd(world.Player.Inventory, equippedItem, 1))
+            {
+                return false;
+            }
+
+            ApplyEquippedItem(world, slotType, item);
+
+            return true;
+        }
+
         private bool TryEquipInventoryFromHeld(ModelWorld world, ref AType heldItem, ref int heldCount)
         {
             if (heldItem is not Inventory heldInventory || heldCount <= 0)
@@ -168,16 +211,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
-            int usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
-
-            if (usedCapacity > heldInventory.SizeLimit)
-            {
-                return false;
-            }
-
-            Inventory upgradedInventory = new(heldInventory);
-
-            if (!TryMoveInventoryContents(currentInventory, upgradedInventory))
+            if (!TryCreateEquippedInventory(currentInventory, heldInventory, out Inventory upgradedInventory))
             {
                 return false;
             }
@@ -191,6 +225,48 @@ namespace ToTheEndOfTheWorld.Gameplay
             return true;
         }
 
+        private bool TryEquipInventory(ModelWorld world, Inventory inventoryItem)
+        {
+            if (world.Player.Inventory is not Inventory currentInventory)
+            {
+                return false;
+            }
+
+            if (!TryCreateEquippedInventory(currentInventory, inventoryItem, out Inventory upgradedInventory))
+            {
+                return false;
+            }
+
+            if (!inventoryService.TryAdd(upgradedInventory, CreateEmptyInventoryItem(currentInventory), 1))
+            {
+                return false;
+            }
+
+            world.Player.Inventory = upgradedInventory;
+
+            return true;
+        }
+
+        private bool TryCreateEquippedInventory(Inventory currentInventory, Inventory inventoryItem, out Inventory upgradedInventory)
+        {
+            upgradedInventory = null;
+            int usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
+
+            if (usedCapacity > inventoryItem.SizeLimit)
+            {
+                return false;
+            }
+
+            upgradedInventory = new Inventory(inventoryItem);
+
+            if (!TryMoveInventoryContents(currentInventory, upgradedInventory))
+            {
+                upgradedInventory = null;
+                return false;
+            }
+
+            return true;
+        }
         private Inventory CreateEmptyInventoryItem(Inventory source)
         {
             Inventory createdInventory = items.Create<Inventory>(source.ID);

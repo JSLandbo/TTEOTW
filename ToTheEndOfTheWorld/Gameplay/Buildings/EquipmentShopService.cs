@@ -4,7 +4,7 @@ using ModelLibrary.Abstract.Types;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class EquipmentShopService(InventoryService inventoryService, GameItemsRepository items)
+    public sealed class EquipmentShopService(InventoryItemUseService itemUseService, InventoryService inventoryService, GameItemsRepository items)
     {
         public bool TryBuy(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
@@ -30,14 +30,37 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             // Shop slots hold item definitions; buying creates a fresh concrete item.
             AType purchasedItem = items.Create(slot.Item.ID);
 
-            if (!inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
+            bool wasEquipped = itemUseService.TryEquip(world, purchasedItem);
+
+            if (!wasEquipped && !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
             {
                 return false;
+            }
+
+            if (wasEquipped)
+            {
+                ApplyFreshPurchasedState(world, purchasedItem);
             }
 
             world.Player.Cash -= slot.Item.Worth;
 
             return true;
+        }
+
+        private static void ApplyFreshPurchasedState(ModelWorld world, AType purchasedItem)
+        {
+            switch (purchasedItem)
+            {
+                case ModelLibrary.Concrete.PlayerShipComponents.ThermalPlating:
+                    world.Player.CurrentHeat = 0.0f;
+                    break;
+                case ModelLibrary.Concrete.PlayerShipComponents.Hull:
+                    world.Player.CurrentHull = world.Player.Hull.Health;
+                    break;
+                case ModelLibrary.Concrete.PlayerShipComponents.FuelTank:
+                    world.Player.CurrentFuel = world.Player.FuelTank.Capacity;
+                    break;
+            }
         }
     }
 }
