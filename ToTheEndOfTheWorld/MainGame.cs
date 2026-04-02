@@ -161,12 +161,12 @@ namespace ToTheEndOfTheWorld
             };
 
             return new ModelWorld(
-                Player: player,            
-                Buildings: [],              
-                BlocksWide: _blocksWide,   
-                BlocksHigh: _blocksHigh, 
-                WorldRender: [],      
-                WorldTrails: []   
+                Player: player,
+                Buildings: [],
+                BlocksWide: _blocksWide,
+                BlocksHigh: _blocksHigh,
+                WorldRender: [],
+                WorldTrails: []
             );
         }
 
@@ -225,7 +225,9 @@ namespace ToTheEndOfTheWorld
             }
 
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
+
             UpdateUiCursor(mouseState.Position);
+
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
             {
                 playerVerticalImpactService.Clear();
@@ -239,6 +241,7 @@ namespace ToTheEndOfTheWorld
                 previousKeyboardState = keyboardState;
                 previousMouseState = mouseState;
                 base.Update(gameTime);
+
                 return;
             }
 
@@ -247,6 +250,7 @@ namespace ToTheEndOfTheWorld
                 previousKeyboardState = keyboardState;
                 previousMouseState = mouseState;
                 base.Update(gameTime);
+
                 return;
             }
 

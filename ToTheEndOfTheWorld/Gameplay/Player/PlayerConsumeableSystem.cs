@@ -2,8 +2,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Items;
-using ToTheEndOfTheWorld.Context;
-    using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
