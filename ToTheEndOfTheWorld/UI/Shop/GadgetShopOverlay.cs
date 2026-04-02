@@ -63,7 +63,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             mousePosition = currentMouseState.Position;
 
-            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
+            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
             {
                 isOpen = false;
 
@@ -101,7 +101,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             bool canBuy = !alreadyOwned && world.Player.Cash >= GadgetBeltPrice;
             AGridBox[,] shopGrid = currentBuilding?.StorageGrid?.InternalGrid;
 
-            spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
+            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
@@ -112,7 +112,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             bool isButtonHovered = canBuy && buttonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, buttonRectangle, isButtonHovered);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, buttonRectangle, 2, UiInteractionStyle.GetBorderColor(canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110), isButtonHovered));
-            DrawCenteredText(spriteBatch, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
 
             if (!alreadyOwned)
             {
@@ -124,7 +124,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (!alreadyOwned)
             {
                 spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
-                DrawCenteredText(spriteBatch, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
+                UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
             }
         }
 
@@ -186,32 +186,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private bool TryGetClickedShopSlot(Point mousePosition, int viewportWidth, int viewportHeight, out int slotX, out int slotY)
         {
-            Rectangle gridRectangle = GetGridRectangle(new Rectangle((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight));
-
-            for (int y = 0; y < GridRows; y++)
-            {
-                for (int x = 0; x < GridColumns; x++)
-                {
-                    Rectangle slotRectangle = new(
-                        gridRectangle.X + (x * (GridSlotSize + GridSpacing)),
-                        gridRectangle.Y + (y * (GridSlotSize + GridSpacing)),
-                        GridSlotSize,
-                        GridSlotSize);
-
-                    if (slotRectangle.Contains(mousePosition))
-                    {
-                        slotX = x;
-                        slotY = y;
-
-                        return true;
-                    }
-                }
-            }
-
-            slotX = -1;
-            slotY = -1;
-
-            return false;
+            return UiGridHitTestHelper.TryGetCoordinates(GridColumns, GridRows, mousePosition, (x, y) => GetShopSlotRectangle(viewportWidth, viewportHeight, x, y), out slotX, out slotY);
         }
 
         private void DrawShopGrid(SpriteBatch spriteBatch, Rectangle gridRectangle, AGridBox[,] shopGrid, bool isEnabled, ModelWorld world)
@@ -220,11 +195,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             {
                 for (int x = 0; x < GridColumns; x++)
                 {
-                    Rectangle slotRectangle = new(
-                        gridRectangle.X + (x * (GridSlotSize + GridSpacing)),
-                        gridRectangle.Y + (y * (GridSlotSize + GridSpacing)),
-                        GridSlotSize,
-                        GridSlotSize);
+                    Rectangle slotRectangle = GetShopSlotRectangle(gridRectangle, x, y);
                     AGridBox slot = shopGrid?[x, y] ?? new GridBox(null, 0);
                     bool isHovered = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && slotRectangle.Contains(mousePosition);
                     slotRenderer.DrawGridSlot(
@@ -239,13 +210,19 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
         }
 
-        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)
+        private Rectangle GetShopSlotRectangle(int viewportWidth, int viewportHeight, int slotX, int slotY)
         {
-            Vector2 size = textFont.MeasureString(text) * scale;
-            Vector2 position = new(
-                rectangle.X + ((rectangle.Width - size.X) / 2f),
-                rectangle.Y + ((rectangle.Height - size.Y) / 2f));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
+            Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            return GetShopSlotRectangle(GetGridRectangle(panelRectangle), slotX, slotY);
+        }
+
+        private static Rectangle GetShopSlotRectangle(Rectangle gridRectangle, int slotX, int slotY)
+        {
+            return new Rectangle(
+                gridRectangle.X + (slotX * (GridSlotSize + GridSpacing)),
+                gridRectangle.Y + (slotY * (GridSlotSize + GridSpacing)),
+                GridSlotSize,
+                GridSlotSize);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

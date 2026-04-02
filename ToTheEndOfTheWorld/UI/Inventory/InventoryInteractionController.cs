@@ -356,29 +356,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool TryGetClickedSlot(AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing, Point position, out AGridBox slot)
         {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.GetLength(0); x++)
-                {
-                    Rectangle slotRectangle = new(
-                        startX + (x * (slotSize + slotSpacing)),
-                        startY + (y * (slotSize + slotSpacing)),
-                        slotSize,
-                        slotSize
-                    );
-
-                    if (slotRectangle.Contains(position))
-                    {
-                        slot = grid[x, y];
-
-                        return true;
-                    }
-                }
-            }
-
-            slot = null;
-
-            return false;
+            return UiGridHitTestHelper.TryGetSlot(grid, startX, startY, slotSize, slotSpacing, position, out slot);
         }
 
     }

@@ -26,5 +26,10 @@ namespace ToTheEndOfTheWorld.UI.Common
 
             return false;
         }
+
+        public static bool WasCloseRequested(KeyboardState currentState, KeyboardState previousState)
+        {
+            return WasJustPressed(currentState, previousState, Keys.Escape, Keys.E);
+        }
     }
 }

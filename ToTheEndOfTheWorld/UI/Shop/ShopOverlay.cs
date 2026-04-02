@@ -65,7 +65,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
+            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
             {
                 isOpen = false;
 
@@ -122,7 +122,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             double saleValue = Math.Floor(sellSummary.TotalValue);
             double oreSaleValue = Math.Floor(oreSellSummary.TotalValue);
 
-            spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
+            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
@@ -145,8 +145,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
 
             DrawSellableValueList(spriteBatch, sellSummary.Entries, valueListRectangle);
-            DrawCenteredText(spriteBatch, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellAllButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
-            DrawCenteredText(spriteBatch, oreSaleValue > 0 ? $"Sell Ores ({oreSaleValue})" : "Sell Ores", sellOresButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellAllButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, oreSaleValue > 0 ? $"Sell Ores ({oreSaleValue})" : "Sell Ores", sellOresButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
         }
 
         private void DrawSellableValueList(SpriteBatch spriteBatch, System.Collections.Generic.IReadOnlyList<ShopService.SellableInventoryEntry> sellableEntries, Rectangle rectangle)
@@ -253,15 +253,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             spriteBatch.Draw(pixelTexture, trackRectangle, new Color(55, 55, 55));
             spriteBatch.Draw(pixelTexture, thumbRectangle, new Color(170, 170, 170));
-        }
-
-        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)
-        {
-            Vector2 size = textFont.MeasureString(text) * scale;
-            Vector2 position = new(
-                rectangle.X + ((rectangle.Width - size.X) / 2f),
-                rectangle.Y + ((rectangle.Height - size.Y) / 2f));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

@@ -52,7 +52,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             mousePosition = currentMouseState.Position;
 
-            if (UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E))
+            if (UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState))
             {
                 isOpen = false;
                 return;
@@ -79,7 +79,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
             bool canRefuel = affordableFuel > 0.0f;
 
-            spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
+            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             spriteBatch.Draw(pixelTexture, refuelButtonRectangle, canRefuel ? new Color(86, 110, 78) : new Color(64, 64, 64));
@@ -92,7 +92,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.FuelTank.Fuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), new Color(214, 214, 214), BodyTextScale);
-            DrawCenteredText(spriteBatch, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
         }
 
         private static float RefuelAllAffordable(ModelWorld world)
@@ -114,15 +114,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
         {
             int panelTop = (viewportHeight - PanelHeight) / 2;
             return new Rectangle((viewportWidth - ButtonWidth) / 2, panelTop + PanelHeight - ContentPadding - ButtonHeight + 6, ButtonWidth, ButtonHeight);
-        }
-
-        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle rectangle, Color color, float scale)
-        {
-            Vector2 size = textFont.MeasureString(text) * scale;
-            Vector2 position = new(
-                rectangle.X + ((rectangle.Width - size.X) / 2f),
-                rectangle.Y + ((rectangle.Height - size.Y) / 2f));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, color, scale);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

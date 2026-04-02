@@ -6,6 +6,7 @@ using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
@@ -45,6 +46,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (interactionController.ShouldClose(currentKeyboardState, previousKeyboardState))
             {
                 isOpen = false;
+
                 return;
             }
 
@@ -76,16 +78,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
-                && hoveredItem != null
-                && world.Player.Cash >= hoveredItem.Worth;
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem) && world.Player.Cash >= hoveredItem.Worth;
         }
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
-                ? hoveredItem?.Name
-                : null;
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem) ? hoveredItem.Name : null;
         }
 
         private bool TryGetHoveredItem(Point mousePosition, int viewportWidth, int viewportHeight, out AType item)
@@ -98,23 +96,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             EnsureLayout(viewportWidth, viewportHeight);
             AGridBox[,] grid = building.StorageGrid.InternalGrid;
-
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.GetLength(0); x++)
-                {
-                    if (!currentLayout.GetSlotRectangle(x, y).Contains(mousePosition))
-                    {
-                        continue;
-                    }
-
-                    item = grid[x, y].Item;
-                    return true;
-                }
-            }
-
-            item = null;
-            return false;
+            bool found = UiGridHitTestHelper.TryGetCoordinates(grid.GetLength(0), grid.GetLength(1), mousePosition, currentLayout.GetSlotRectangle, out int slotX, out int slotY);
+            item = found ? grid[slotX, slotY].Item : null;
+            return item != null;
         }
     }
 }

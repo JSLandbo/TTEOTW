@@ -102,7 +102,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             AInventory inventory = world.Player.Inventory;
-            spriteBatch.Draw(pixelTexture, new Rectangle(0, 0, viewportWidth, viewportHeight), Color.Black * 0.45f);
+            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, new Color(24, 24, 24));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.PanelRectangle, 2, new Color(92, 92, 92));
             spriteBatch.Draw(pixelTexture, currentLayout.HeaderRectangle, new Color(42, 42, 42));
@@ -133,7 +133,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             bool isCraftButtonHovered = currentLayout.CraftButtonRectangle.Contains(interactionController.MousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, isCraftButtonHovered);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, 2, UiInteractionStyle.GetBorderColor(new Color(146, 146, 146), isCraftButtonHovered));
-            DrawCenteredText(spriteBatch, "Craft", currentLayout.CraftButtonRectangle, ButtonTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Craft", currentLayout.CraftButtonRectangle, Color.White, ButtonTextScale);
             DrawEquipmentSlots(spriteBatch, world);
             DrawEquipmentSummary(spriteBatch, world);
 
@@ -296,13 +296,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, heldRectangle, 2, new Color(168, 168, 168));
             slotRenderer.DrawItemFitted(spriteBatch, item, heldRectangle);
             slotRenderer.DrawStackCount(spriteBatch, count, heldRectangle);
-        }
-
-        private void DrawCenteredText(SpriteBatch spriteBatch, string text, Rectangle bounds, float scale)
-        {
-            Vector2 textSize = textFont.MeasureString(text) * scale;
-            Vector2 textPosition = new(bounds.Center.X - (textSize.X / 2), bounds.Center.Y - (textSize.Y / 2));
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, textPosition, Color.White, scale);
         }
 
         private static void DrawCenteredTexture(SpriteBatch spriteBatch, Texture2D texture, Rectangle bounds, Color color)

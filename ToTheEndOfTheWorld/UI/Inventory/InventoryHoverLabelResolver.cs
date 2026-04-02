@@ -5,6 +5,7 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.World;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
@@ -87,28 +88,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private static bool TryGetGridHoverLabel(AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing, Point mousePosition, out string hoverLabel)
         {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.GetLength(0); x++)
-                {
-                    Rectangle slotRectangle = new(
-                        startX + (x * (slotSize + slotSpacing)),
-                        startY + (y * (slotSize + slotSpacing)),
-                        slotSize,
-                        slotSize);
-
-                    if (!slotRectangle.Contains(mousePosition))
-                    {
-                        continue;
-                    }
-
-                    hoverLabel = grid[x, y].Item?.Name;
-                    return true;
-                }
-            }
-
-            hoverLabel = null;
-            return false;
+            bool found = UiGridHitTestHelper.TryGetSlot(grid, startX, startY, slotSize, slotSpacing, mousePosition, out AGridBox slot);
+            hoverLabel = found ? slot.Item?.Name : null;
+            return found;
         }
     }
 }

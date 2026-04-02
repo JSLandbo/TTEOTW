@@ -10,7 +10,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
     {
         public bool ShouldClose(KeyboardState currentKeyboardState, KeyboardState previousKeyboardState)
         {
-            return UiInputHelper.WasJustPressed(currentKeyboardState, previousKeyboardState, Keys.Escape, Keys.E);
+            return UiInputHelper.WasCloseRequested(currentKeyboardState, previousKeyboardState);
         }
 
         public void TryHandleBuy(MouseState currentMouseState, MouseState previousMouseState, EquipmentShopLayout layout, ModelWorld world, ABuilding building, EquipmentShopService equipmentShopService)
@@ -35,23 +35,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private static bool TryGetClickedSlot(Point mousePosition, EquipmentShopLayout layout, AGridBox[,] grid, out int slotX, out int slotY)
         {
-            for (slotY = 0; slotY < grid.GetLength(1); slotY++)
-            {
-                for (slotX = 0; slotX < grid.GetLength(0); slotX++)
-                {
-                    if (!layout.GetSlotRectangle(slotX, slotY).Contains(mousePosition))
-                    {
-                        continue;
-                    }
-
-                    return true;
-                }
-            }
-
-            slotX = -1;
-            slotY = -1;
-
-            return false;
+            return UiGridHitTestHelper.TryGetCoordinates(grid.GetLength(0), grid.GetLength(1), mousePosition, layout.GetSlotRectangle, out slotX, out slotY);
         }
 
     }
