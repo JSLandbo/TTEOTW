@@ -13,6 +13,31 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return new PlayerIntent(movementInput, facingDirection);
         }
 
+        public int? ReadTriggeredConsumeableSlot(KeyboardState currentState, KeyboardState previousState)
+        {
+            if (WasJustPressed(currentState, previousState, Keys.D1, Keys.NumPad1))
+            {
+                return 0;
+            }
+
+            if (WasJustPressed(currentState, previousState, Keys.D2, Keys.NumPad2))
+            {
+                return 1;
+            }
+
+            if (WasJustPressed(currentState, previousState, Keys.D3, Keys.NumPad3))
+            {
+                return 2;
+            }
+
+            if (WasJustPressed(currentState, previousState, Keys.D4, Keys.NumPad4))
+            {
+                return 3;
+            }
+
+            return null;
+        }
+
         private static Vector2 ReadMovementInput(KeyboardState state)
         {
             bool up = IsPressed(state, Keys.Up, Keys.W);

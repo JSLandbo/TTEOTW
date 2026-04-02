@@ -6,7 +6,7 @@ using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockFactory worldBlockFactory, WorldInteractionsRepository interactions, GameEventBus eventBus, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
+    public sealed class PlayerMiningSystem(WorldBlockDefinitionResolver worldBlockDefinitionResolver, WorldBlockDamageService worldBlockDamageService, PlayerHeatSystem playerHeatSystem, PlayerHullSystem playerHullSystem, PlayerFuelSystem playerFuelSystem, PlayerVerticalImpactService playerVerticalImpactService, int tileSize)
     {
         private readonly float miningCenterTolerance = tileSize * PlayerWorldTuning.MiningCenterToleranceRatio;
 
@@ -30,7 +30,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             Vector2 location = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             Vector2 blockVector = new(location.X + player.FacingDirection.X, location.Y + player.FacingDirection.Y);
-            WorldTile worldTile = new((long)blockVector.X, (long)blockVector.Y);
 
             if (!isGrounded)
             {
@@ -53,21 +52,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return false;
             }
 
-            if (IsInsideBuilding(world, worldTile))
+            if (!worldBlockDamageService.TryGetBlockInteraction(world, blockVector, out WorldInteraction interaction, out bool isBlockedByBuilding))
             {
-                player.DrillExtended = false;
+                player.DrillExtended = isBlockedByBuilding
+                    ? false
+                    : ShouldKeepDrillExtendedWhileAdvancing(player);
 
                 return false;
             }
-
-            if (!worldBlockDefinitionResolver.IsObstructed(world, blockVector))
-            {
-                player.DrillExtended = ShouldKeepDrillExtendedWhileAdvancing(player);
-
-                return false;
-            }
-
-            WorldInteraction interaction = GetOrCreateMiningInteraction(world, blockVector);
 
             if (interaction.Block.Hardness > player.Drill.Hardness)
             {
@@ -183,53 +175,28 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private bool TryDamageBlock(ModelWorld world, APlayer player, Vector2 targetVector, out bool damagedBlock)
         {
-            damagedBlock = false;
-            WorldTile targetTile = new((long)targetVector.X, (long)targetVector.Y);
-
-            if (IsInsideBuilding(world, targetTile) || !worldBlockDefinitionResolver.IsObstructed(world, targetVector))
+            if (!worldBlockDamageService.TryDamageBlock(world, targetVector, player.Drill.Damage, player.Drill.Hardness, WorldBlockDestroyMethod.Mined, out Block block))
             {
+                damagedBlock = false;
                 return true;
             }
 
-            WorldInteraction interaction = GetOrCreateMiningInteraction(world, targetVector);
+            float heatGeneration = block.Info?.MiningHeatGeneration ?? 0.0f;
+            damagedBlock = true;
 
-            if (interaction.Block.Hardness <= player.Drill.Hardness)
+            if (player.FacingDirection.Y > 0)
             {
-                float heatGeneration = interaction.Block.Info?.MiningHeatGeneration ?? 0.0f;
+                playerVerticalImpactService.RefreshAfterDownwardMining(player);
+            }
 
-                interaction.Block.TakeDamage(player.Drill.Damage);
+            float overflowHeat = playerHeatSystem.AddHeat(player, heatGeneration);
 
-                damagedBlock = true;
-
-                if (player.FacingDirection.Y > 0)
-                {
-                    playerVerticalImpactService.RefreshAfterDownwardMining(player);
-                }
-
-                float overflowHeat = playerHeatSystem.AddHeat(player, heatGeneration);
-
-                if (overflowHeat > 0.0f)
-                {
-                    playerHullSystem.ApplyHeatOverflowDamage(player, overflowHeat);
-                }
+            if (overflowHeat > 0.0f)
+            {
+                playerHullSystem.ApplyHeatOverflowDamage(player, overflowHeat);
             }
 
             return true;
-        }
-
-        private WorldInteraction GetOrCreateMiningInteraction(ModelWorld world, Vector2 vector)
-        {
-            WorldTile worldTile = new((long)vector.X, (long)vector.Y);
-
-            if (!interactions.TryGet(worldTile, WorldInteractionType.Mining, out WorldInteraction interaction))
-            {
-                Block block = worldBlockFactory.CreateMutableWorldBlock(vector.X, vector.Y);
-                interaction = new WorldInteraction(WorldInteractionType.Mining, new WorldTileBounds(worldTile.X, worldTile.Y, 1, 1), block);
-                block.OnBlockDestroyed += (sender, e) => OnBlockDestroyed(world, interaction);
-                interactions.Add(interaction);
-            }
-
-            return interaction;
         }
 
         private static bool WillBeDestroyedByHit(Block block, float damage) => !block.Ethereal && block.CurrentHealth <= damage;
@@ -304,30 +271,5 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             return false;
         }
 
-        private void OnBlockDestroyed(ModelWorld world, WorldInteraction interaction)
-        {
-            Vector2 location = new(interaction.TileBounds.X, interaction.TileBounds.Y);
-            world.WorldTrails.Add(location, true);
-            interactions.Remove(interaction);
-            eventBus.Publish(new WorldBlockDestroyedEvent(world, interaction.Block.ID, new WorldTile(interaction.TileBounds.X, interaction.TileBounds.Y)));
-        }
-
-        private static bool IsInsideBuilding(ModelWorld world, WorldTile tile)
-        {
-            if (world.Buildings == null)
-            {
-                return false;
-            }
-
-            foreach (ModelLibrary.Abstract.Buildings.ABuilding building in world.Buildings)
-            {
-                if (building.ContainsTile(tile.X, tile.Y))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 }

@@ -81,6 +81,7 @@ namespace ToTheEndOfTheWorld
         private WorldBlockFactory worldBlockFactory;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
         private PlayerMiningSystem playerMiningSystem;
+        private PlayerConsumeableSystem playerConsumeableSystem;
         private UiWorld.PlayerShipRenderer playerShipRenderer;
         private UiManager uiManager;
         private InventoryOverlay inventoryOverlay;
@@ -146,8 +147,10 @@ namespace ToTheEndOfTheWorld
             logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             interactions = new WorldInteractionsRepository();
+            WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
-            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockFactory, interactions, eventBus, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
+            playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
+            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService);
 
             world = ContextHandler.LoadWorld();
 
@@ -240,6 +243,12 @@ namespace ToTheEndOfTheWorld
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
             playerVerticalImpactService.BeginFrame();
+            int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
+            if (consumeableSlotIndex.HasValue)
+            {
+                playerConsumeableSystem.TryUse(world, consumeableSlotIndex.Value);
+            }
+
             PlayerIntent intent = inputMapper.ReadPlayerIntent(keyboardState, previousKeyboardState);
 
             APlayer player = world.Player;

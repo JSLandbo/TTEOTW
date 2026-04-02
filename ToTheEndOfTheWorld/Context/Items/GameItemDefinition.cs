@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete.Items;
-using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 
 namespace ToTheEndOfTheWorld.Context.Items
@@ -12,6 +10,7 @@ namespace ToTheEndOfTheWorld.Context.Items
         string name, // TODO: What is?
         Dictionary<PlayerOrientation, Texture2D> textures,
         AType definition,
+        Func<AType> create,
         bool buyable = false,
         EGameItemType type = EGameItemType.Item,
         EEquipmentType equipmentType = EEquipmentType.None,
@@ -26,20 +25,6 @@ namespace ToTheEndOfTheWorld.Context.Items
         public int Tier { get; } = tier;
         public int Frames { get; } = frames < 1 ? 1 : frames;
 
-        public AType Create()
-        {
-            return Definition switch
-            {
-                ThermalPlating plating => new ThermalPlating(plating),
-                Hull hull => new Hull(hull),
-                Drill drill => new Drill(drill),
-                Engine engine => new Engine(engine),
-                Inventory inventory => new Inventory(inventory),
-                FuelTank fuelTank => new FuelTank(fuelTank),
-                Thruster thruster => new Thruster(thruster),
-                Item item => new Item(item),
-                _ => throw new InvalidOperationException($"Unsupported item definition type '{Definition.GetType().Name}'.")
-            };
-        }
+        public AType Create() => create();
     }
 }

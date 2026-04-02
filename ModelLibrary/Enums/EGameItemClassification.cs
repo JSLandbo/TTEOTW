@@ -3,7 +3,8 @@ namespace ModelLibrary.Enums
     public enum EGameItemType
     {
         Item = 0,
-        Equipment = 1
+        Equipment = 1,
+        Consumeable = 2
     }
 
     public enum EEquipmentType

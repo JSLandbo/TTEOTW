@@ -240,6 +240,10 @@ namespace ModelLibrary.Ids
             //      public const short LargeMoneyBag = 30001; // Gives you 1000000
             //
             // }
+            public static class Consumeables
+            {
+                public const short SmallDynamite = 10800;
+            }
         }
     }
 }

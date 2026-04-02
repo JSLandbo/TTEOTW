@@ -1,6 +1,7 @@
 using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Concrete.Blocks;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
@@ -8,8 +9,6 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class WorldBlockLootSystem
     {
-        private const int UtilitySlotStartIndex = 4;
-        private const int UtilitySlotCount = 2;
         private readonly BlockLootResolver blockLootResolver;
         private readonly InventoryService inventoryService;
 
@@ -22,6 +21,11 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
         {
+            if (gameEvent.Method != WorldBlockDestroyMethod.Mined)
+            {
+                return;
+            }
+
             if (!blockLootResolver.TryResolve(gameEvent.BlockId, out Block loot, out int count))
             {
                 return;
@@ -54,7 +58,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         private static bool HasUtilityItem(APlayer player, short itemId)
         {
-            for (int x = UtilitySlotStartIndex; x < UtilitySlotStartIndex + UtilitySlotCount; x++)
+            for (int x = GadgetInventory.DirtFilterSlotIndex; x < GadgetInventory.DirtFilterSlotIndex + GadgetInventory.UtilitySlotCount; x++)
             {
                 AGridBox slot = player.GadgetSlots.Items.InternalGrid[x, 0];
 

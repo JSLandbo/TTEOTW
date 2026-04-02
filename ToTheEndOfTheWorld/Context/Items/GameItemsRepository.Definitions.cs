@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,6 +33,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             RegisterThrusters(manager);
             RegisterHulls(manager);
             RegisterDrills(manager);
+            RegisterConsumeables(manager);
             RegisterGadgets(manager);
         }
 
@@ -146,34 +148,45 @@ namespace ToTheEndOfTheWorld.Context.Items
 
         private void RegisterGadgets(ContentManager manager)
         {
-            Add(GameIds.Items.Gadgets.GadgetBelt, new GameItemDefinition(
+            AddDefinition(
+                GameIds.Items.Gadgets.GadgetBelt,
                 "GadgetBelt",
                 [],
                 new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 10000.0f, Weight: 1.0f),
-                buyable: true,
-                type: EGameItemType.Item));
-            Add(GameIds.Items.Gadgets.DirtFilter, new GameItemDefinition(
+                buyable: true);
+            AddDefinition(
+                GameIds.Items.Gadgets.DirtFilter,
                 "DirtFilter",
                 LoadSingleTexture(manager, "Blocks/DirtBlock"),
                 new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
-                buyable: true,
-                type: EGameItemType.Item));
-            Add(GameIds.Items.Gadgets.RockFilter, new GameItemDefinition(
+                buyable: true);
+            AddDefinition(
+                GameIds.Items.Gadgets.RockFilter,
                 "RockFilter",
                 LoadSingleTexture(manager, "Blocks/StoneBlock"),
                 new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
+                buyable: true);
+        }
+
+        private void RegisterConsumeables(ContentManager manager)
+        {
+            AddDefinition(
+                GameIds.Items.Consumeables.SmallDynamite,
+                "SmallDynamite",
+                LoadSingleTexture(manager, "Dynamite/DynamiteTierOne"),
+                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 1.0f),
                 buyable: true,
-                type: EGameItemType.Item));
+                type: EGameItemType.Consumeable);
         }
 
-        private void AddDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, int frames = 1)
+        private void AddDefinition<T>(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, T definition, bool buyable = false, EGameItemType type = EGameItemType.Item, int frames = 1) where T : AType
         {
-            Add(id, new GameItemDefinition(name, textures, definition, frames: frames));
+            Add(id, new GameItemDefinition(name, textures, definition, () => CreateCopy(definition), buyable: buyable, type: type, frames: frames));
         }
 
-        private void AddEquipmentDefinition(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, AType definition, EEquipmentType equipmentType, int tier, int frames = 1)
+        private void AddEquipmentDefinition<T>(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, T definition, EEquipmentType equipmentType, int tier, int frames = 1) where T : AType
         {
-            Add(id, new GameItemDefinition(name, textures, definition, buyable: true, type: EGameItemType.Equipment, equipmentType: equipmentType, tier: tier, frames: frames));
+            Add(id, new GameItemDefinition(name, textures, definition, () => CreateCopy(definition), buyable: true, type: EGameItemType.Equipment, equipmentType: equipmentType, tier: tier, frames: frames));
         }
 
         private static Dictionary<PlayerOrientation, Texture2D> LoadSingleTexture(ContentManager manager, string assetName)
@@ -211,6 +224,24 @@ namespace ToTheEndOfTheWorld.Context.Items
         {
             return new Grid(Microsoft.Xna.Framework.Vector2.Zero, new GridBox[columns, rows]);
         }
+
+        private static AType CreateCopy(AType definition)
+        {
+            return definition switch
+            {
+                Item item => new Item(item),
+                SmallDynamite dynamite => new SmallDynamite(dynamite),
+                ThermalPlating plating => new ThermalPlating(plating),
+                Hull hull => new Hull(hull),
+                Drill drill => new Drill(drill),
+                Engine engine => new Engine(engine),
+                Inventory inventory => new Inventory(inventory),
+                FuelTank fuelTank => new FuelTank(fuelTank),
+                Thruster thruster => new Thruster(thruster),
+                _ => throw new InvalidOperationException($"Unsupported item definition type '{definition.GetType().Name}'.")
+            };
+        }
     }
 }
+
 

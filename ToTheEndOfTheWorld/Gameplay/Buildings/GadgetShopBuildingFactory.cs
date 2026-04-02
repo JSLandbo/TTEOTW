@@ -34,6 +34,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             Grid grid = new(Vector2.Zero, new GridBox[GridColumns, GridRows]);
             grid.InternalGrid[0, 0] = new GridBox(items.Create(GameIds.Items.Gadgets.DirtFilter), 1);
             grid.InternalGrid[1, 0] = new GridBox(items.Create(GameIds.Items.Gadgets.RockFilter), 1);
+            grid.InternalGrid[0, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallDynamite), 1);
 
             return grid;
         }

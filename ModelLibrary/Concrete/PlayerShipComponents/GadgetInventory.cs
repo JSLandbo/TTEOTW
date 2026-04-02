@@ -11,6 +11,7 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
     {
         public const int DirtFilterSlotIndex = 4;
         public const int RockFilterSlotIndex = 5;
+        public const int UtilitySlotCount = 2;
 
         public GadgetInventory(GadgetInventory original)
         {
@@ -42,12 +43,22 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
                 return false;
             }
 
+            if (IsConsumeableSlot(slotIndex))
+            {
+                return item is AConsumeable;
+            }
+
             return slotIndex switch
             {
                 DirtFilterSlotIndex => item.ID == GameIds.Items.Gadgets.DirtFilter,
                 RockFilterSlotIndex => item.ID == GameIds.Items.Gadgets.RockFilter,
-                _ => true
+                _ => false
             };
+        }
+
+        private static bool IsConsumeableSlot(int slotIndex)
+        {
+            return slotIndex is 0 or 1 or 2 or 3;
         }
 
         private static Grid CloneGrid(AGrid original)
