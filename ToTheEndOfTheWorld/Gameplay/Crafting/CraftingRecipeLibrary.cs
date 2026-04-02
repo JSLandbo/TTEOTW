@@ -11,39 +11,74 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
             [
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1),
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1),
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1), new CraftingIngredient(GameIds.Blocks.Dirt, 1)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Rock),
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Iron, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.IronIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1),
-                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1),
-                        new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1), new CraftingIngredient(GameIds.Blocks.Rock, 1)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Granite),
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Copper, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.CopperIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1),
-                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1),
-                        new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1), new CraftingIngredient(GameIds.Blocks.Granite, 1)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Lava),
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Tin, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.TinIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1),
-                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1),
-                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Lava, 1)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Tungsten),
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Silver, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.SilverIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1),
-                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1),
-                        new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1), new CraftingIngredient(GameIds.Blocks.Tungsten, 1)),
-                    CreateOutput: () => CreateBlockItem(GameIds.Blocks.Bedrock),
-                    OutputCount: 1)
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Gold, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.GoldIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Lead, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.LeadIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Aluminium, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.AluminiumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Zinc, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.ZincIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Nickel, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.NickelIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Bismuth, 1), null,
+                        null, null, null,
+                        null, null, null),
+                    CreateOutput: () => CreateBlockItem(GameIds.Items.CratingMaterials.BismuthIngot),
+                    OutputCount: 1),
             ];
         }
 

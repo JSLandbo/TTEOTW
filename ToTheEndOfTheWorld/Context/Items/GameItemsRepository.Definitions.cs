@@ -241,6 +241,12 @@ namespace ToTheEndOfTheWorld.Context.Items
                 LoadSingleTexture(manager, "CraftingMaterials/NickelIngot"),
                 new Item(ID: GameIds.Items.CratingMaterials.NickelIngot, Name: "Nickel Ingot", Worth: 25.0f, Weight: 0.5f)
             );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.BismuthIngot,
+                "Bismuth Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/BismuthIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.BismuthIngot, Name: "Bismuth Ingot", Worth: 30.0f, Weight: 0.5f)
+            );
         }
 
         private void AddDefinition<T>(int id, string name, Dictionary<PlayerOrientation, Texture2D> textures, T definition, bool buyable = false, EGameItemType type = EGameItemType.Item, int frames = 1) where T : AType
