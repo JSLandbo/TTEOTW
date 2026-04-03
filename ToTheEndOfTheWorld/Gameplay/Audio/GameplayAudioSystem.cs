@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using ModelLibrary.Abstract.Types;
 using ToTheEndOfTheWorld.Gameplay.Events;
+using ToTheEndOfTheWorld.Gameplay.Player;
 
 namespace ToTheEndOfTheWorld.Gameplay.Audio
 {
@@ -45,7 +47,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 audioService.StopLoop(AudioLoopChannel.Mining);
             }
 
-            if (isGrounded && world.Player.MovementInput != Vector2.Zero)
+            if (isGrounded && Math.Abs(world.Player.XVelocity) > PlayerWorldTuning.VelocityStopThreshold)
             {
                 audioService.EnsureLoop(AudioLoopChannel.Engine, SoundEffectId.LoopEngineActive);
             }
@@ -54,7 +56,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 audioService.StopLoop(AudioLoopChannel.Engine);
             }
 
-            if (!isGrounded && world.Player.MovementInput != Vector2.Zero)
+            if (PlayerThrusterUsageService.UsesThrustersForMovement(world.Player, isGrounded))
             {
                 audioService.EnsureLoop(AudioLoopChannel.Thruster, SoundEffectId.LoopThrusterActive);
             }
