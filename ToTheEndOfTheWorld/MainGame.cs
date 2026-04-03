@@ -23,9 +23,10 @@ namespace ToTheEndOfTheWorld
     public class MainGame : Game
     {
         // dotnet mgcb-editor
+        // dotnet publish -c Release -r win-x64
 
         private static readonly string GameTitle = "To The End Of The World";
-        private static readonly string GameVersion = "V1.10";
+        private static readonly string GameVersion = "V2.00";
         private static readonly int _pixels = 64;
 
         private readonly GraphicsDeviceManager graphics;
