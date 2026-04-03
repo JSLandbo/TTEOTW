@@ -19,6 +19,12 @@
 /processorParam:Quality=Best
 /build:Audio/Music/MainTheme.wav;Audio/Music/MainTheme
 
+#begin Audio/Sfx/EffectBoughtFromStore.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectBoughtFromStore.wav;Audio/Sfx/EffectBoughtFromStore
+
 #begin Audio/Sfx/EffectExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

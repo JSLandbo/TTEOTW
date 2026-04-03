@@ -16,6 +16,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             this.audioService = audioService;
             eventBus.Subscribe<ExplosionTriggeredEvent>(OnExplosionTriggered);
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
+            eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
         }
 
         public void SetTime(double totalSeconds)
@@ -69,6 +70,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             {
                 TryPlayOneShot(SoundEffectId.EffectMinedBlock, ref lastMinedBlockPlayedAt, 0.08);
             }
+        }
+
+        private void OnShopTransaction(ShopTransactionEvent gameEvent)
+        {
+            audioService.PlayOneShot(gameEvent.Type == ShopTransactionType.Bought
+                ? SoundEffectId.EffectBoughtFromStore
+                : SoundEffectId.EffectSoldToStore
+            );
         }
 
         private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)

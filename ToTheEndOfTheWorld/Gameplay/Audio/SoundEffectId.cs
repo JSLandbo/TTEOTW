@@ -6,6 +6,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         LoopEngine,
         LoopThruster,
         EffectExplosion,
-        EffectMinedBlock
+        EffectMinedBlock,
+        EffectBoughtFromStore,
+        EffectSoldToStore
     }
 }

@@ -4,10 +4,11 @@ using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Blocks;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class ShopService
+    public sealed class ShopService(GameEventBus eventBus)
     {
         public SellSummary GetSellSummary(ModelWorld world)
         {
@@ -87,7 +88,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 }
             }
 
-            world.Player.Cash += totalEarned;
+            if (totalEarned > 0.0)
+            {
+                world.Player.Cash += totalEarned;
+                eventBus.Publish(new ShopTransactionEvent(ShopTransactionType.Sold));
+            }
 
             return totalEarned;
         }

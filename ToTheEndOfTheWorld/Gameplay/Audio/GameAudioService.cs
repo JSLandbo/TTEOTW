@@ -16,11 +16,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         public void LoadContent(ContentManager content)
         {
             TryLoad(content, "Audio/Music/MainTheme", MusicTrack.MainTheme, musicTracks);
+
             TryLoad(content, "Audio/Sfx/LoopMining", SoundEffectId.LoopMining, soundEffects);
             TryLoad(content, "Audio/Sfx/LoopEngine", SoundEffectId.LoopEngine, soundEffects);
             TryLoad(content, "Audio/Sfx/LoopThruster", SoundEffectId.LoopThruster, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectExplosion", SoundEffectId.EffectExplosion, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectMinedBlock", SoundEffectId.EffectMinedBlock, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectBoughtFromStore", SoundEffectId.EffectBoughtFromStore, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectSoldToStore", SoundEffectId.EffectSoldToStore, soundEffects);
         }
 
         public void PlayMusic(MusicTrack track, bool restartIfSame = false)

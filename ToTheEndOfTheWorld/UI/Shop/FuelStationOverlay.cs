@@ -10,7 +10,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class FuelStationOverlay : IInteractionOverlay
+    public sealed class FuelStationOverlay(FuelStationService fuelStationService) : IInteractionOverlay
     {
         private const int PanelWidth = 460;
         private const int PanelHeight = 210;
@@ -55,7 +55,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
-                RefuelAllAffordable(world);
+                fuelStationService.TryRefuelAllAffordable(world);
             }
         }
 
@@ -87,21 +87,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.CurrentFuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), new Color(214, 214, 214), BodyTextScale);
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
-        }
-
-        private static float RefuelAllAffordable(ModelWorld world)
-        {
-            float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
-
-            if (missingFuel <= 0.0f || world.Player.Cash <= 0.0)
-            {
-                return 0.0f;
-            }
-
-            float fuelPurchased = MathF.Min(missingFuel, (float)world.Player.Cash);
-            world.Player.CurrentFuel += fuelPurchased;
-            world.Player.Cash -= fuelPurchased;
-            return fuelPurchased;
         }
 
         private Rectangle GetRefuelButtonRectangle(int viewportWidth, int viewportHeight)

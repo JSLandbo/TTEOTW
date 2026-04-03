@@ -1,10 +1,11 @@
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
-    public sealed class EquipmentShopService(InventoryItemUseService itemUseService, InventoryService inventoryService, GameItemsRepository items)
+    public sealed class EquipmentShopService(InventoryItemUseService itemUseService, InventoryService inventoryService, GameItemsRepository items, GameEventBus eventBus)
     {
         public bool TryBuy(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
@@ -43,6 +44,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             world.Player.Cash -= slot.Item.Worth;
+            eventBus.Publish(new ShopTransactionEvent(ShopTransactionType.Bought));
 
             return true;
         }

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
@@ -12,7 +11,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class GadgetShopOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
+    public sealed class GadgetShopOverlay(GadgetShopService gadgetShopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
         private const int PanelWidth = 620;
         private const int PanelHeight = 708;
@@ -23,7 +22,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int GridRows = 6;
         private const int GridSlotSize = 64;
         private const int GridSpacing = 8;
-        private const double GadgetBeltPrice = 10000.0;
         private const float TitleTextScale = 1.15f;
         private const float BodyTextScale = 1.0f;
         private const float ButtonTextScale = 1.0f;
@@ -66,7 +64,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
             {
-                TryBuyGadgetBelt(world);
+                gadgetShopService.TryBuyGadgetBelt(world);
 
                 return;
             }
@@ -75,7 +73,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 TryGetClickedShopSlot(currentMouseState.Position, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
-                TryBuyGadget(world, slotX, slotY);
+                gadgetShopService.TryBuyGadget(world, currentBuilding, slotX, slotY);
             }
         }
 
@@ -91,7 +89,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle buttonRectangle = GetBuyButtonRectangle(viewportWidth, viewportHeight);
             Rectangle gridRectangle = GetGridRectangle(panelRectangle);
             bool alreadyOwned = world.Player.HasGadgetBelt;
-            bool canBuy = !alreadyOwned && world.Player.Cash >= GadgetBeltPrice;
+            bool canBuy = !alreadyOwned && world.Player.Cash >= gadgetShopService.GadgetBeltPriceValue;
             AGridBox[,] shopGrid = currentBuilding?.StorageGrid?.InternalGrid;
 
             UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
@@ -109,7 +107,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             if (!alreadyOwned)
             {
-                GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {GadgetBeltPrice:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
+                GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {gadgetShopService.GadgetBeltPriceValue:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
             }
 
             DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned, world);
@@ -119,45 +117,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
                 UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
             }
-        }
-
-        private static void TryBuyGadgetBelt(ModelWorld world)
-        {
-            if (world.Player.HasGadgetBelt || world.Player.Cash < GadgetBeltPrice)
-            {
-                return;
-            }
-
-            world.Player.HasGadgetBelt = true;
-            world.Player.Cash -= GadgetBeltPrice;
-        }
-
-        private bool TryBuyGadget(ModelWorld world, int slotX, int slotY)
-        {
-            AGridBox[,] grid = currentBuilding?.StorageGrid?.InternalGrid;
-
-            if (grid == null || slotX < 0 || slotX >= grid.GetLength(0) || slotY < 0 || slotY >= grid.GetLength(1))
-            {
-                return false;
-            }
-
-            AGridBox slot = grid[slotX, slotY];
-
-            if (slot.Item == null || world.Player.Cash < slot.Item.Worth)
-            {
-                return false;
-            }
-
-            AType purchasedItem = items.Create(slot.Item.ID);
-
-            if (!inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
-            {
-                return false;
-            }
-
-            world.Player.Cash -= slot.Item.Worth;
-
-            return true;
         }
 
         private Rectangle GetBuyButtonRectangle(int viewportWidth, int viewportHeight)
@@ -220,7 +179,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            bool canBuyBelt = !world.Player.HasGadgetBelt && world.Player.Cash >= GadgetBeltPrice;
+            bool canBuyBelt = !world.Player.HasGadgetBelt && world.Player.Cash >= gadgetShopService.GadgetBeltPriceValue;
             if (canBuyBelt && GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
             {
                 return true;

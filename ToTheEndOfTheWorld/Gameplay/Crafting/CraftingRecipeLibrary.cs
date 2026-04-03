@@ -9,6 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
         {
             return
             [
+                // Coal
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Iron, 1)),
@@ -71,11 +72,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Uranium, 1)),
-                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.UraniumIngot),
-                    OutputCount: 1),
-                new CraftingRecipe(
-                    Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Osmium, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.OsmiumIngot),
                     OutputCount: 1),
@@ -94,19 +90,25 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Platinum, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.PlatinumIngot),
                     OutputCount: 1),
+                // Lava
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Rainbow, 1)),
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Uranium, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.UraniumIngot),
+                    OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Rainbow, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.RainbowIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Mythril, 1)),
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Mythril, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.MythrilIngot),
                     OutputCount: 1),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Adamantium, 1)),
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Adamantium, 1)),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumIngot),
                     OutputCount: 1),
             ];

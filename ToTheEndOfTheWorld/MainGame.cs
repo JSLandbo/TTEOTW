@@ -49,7 +49,7 @@ namespace ToTheEndOfTheWorld
         private readonly WorldViewportService worldViewportService = new();
         private readonly GameEventBus eventBus = new();
         private readonly InventoryService inventoryService = new();
-        private readonly ShopService shopService = new();
+        private readonly ShopService shopService;
         private readonly GameAudioService audioService = new();
         private readonly UiWorld.DebugHudRenderer debugHudRenderer = new();
         private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
@@ -78,6 +78,7 @@ namespace ToTheEndOfTheWorld
             graphics = new GraphicsDeviceManager(this);
             playerVerticalImpactService = new PlayerVerticalImpactService(playerHullSystem);
             worldInteractionService = new WorldInteractionService();
+            shopService = new ShopService(eventBus);
             Content.RootDirectory = "Content/Graphics";
             audioContent = new ContentManager(Services, "Content");
             IsMouseVisible = true;
@@ -97,6 +98,8 @@ namespace ToTheEndOfTheWorld
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
             InventoryItemUseService inventoryItemUseService = new(inventoryService, items);
+            FuelStationService fuelStationService = new(eventBus);
+            GadgetShopService gadgetShopService = new(inventoryService, items, eventBus);
             SellShopBuildingFactory sellShopBuildingFactory = new();
             EquipmentShopBuildingFactory equipmentShopBuildingFactory = new(items);
             FuelStationBuildingFactory fuelStationBuildingFactory = new();
@@ -106,8 +109,8 @@ namespace ToTheEndOfTheWorld
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             CraftingService craftingService = new(new CraftingRecipeLibrary(items).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
-            EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items);
-            uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, blocks, items);
+            EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items, eventBus);
+            uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, fuelStationService, gadgetShopService, blocks, items);
             inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
             playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
@@ -202,7 +205,6 @@ namespace ToTheEndOfTheWorld
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             gameplayAudioSystem.SetTime(totalSeconds);
             TextureAnimationHelper.TotalSeconds = totalSeconds;
-
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
@@ -284,9 +286,12 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             worldEffects.Update();
             playerVerticalImpactService.BeginFrame();
+
             int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
+
             if (consumeableSlotIndex.HasValue)
             {
                 playerConsumeableSystem.TryUse(world, consumeableSlotIndex.Value);
@@ -296,8 +301,11 @@ namespace ToTheEndOfTheWorld
 
             APlayer player = world.Player;
             Vector2 facingDirection = playerFacingResolver.Resolve(player, intent);
+
             player.ApplyIntent(intent.MovementInput, facingDirection);
+
             bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+
             if (!playerFuelSystem.CanAffordMovement(player, deltaTime, isGrounded))
             {
                 player.MovementInput = Vector2.Zero;
@@ -306,9 +314,11 @@ namespace ToTheEndOfTheWorld
             {
                 player.MovementInput = Vector2.Zero;
             }
+
             playerMovementSystem.Update(player, deltaTime, isGrounded);
 
             int resolutionSteps = playerWorldMovementResolver.EstimateRequiredIterations(player);
+
             bool minedThisFrame = false;
             for (int i = 0; i < resolutionSteps; i++)
             {
@@ -330,8 +340,8 @@ namespace ToTheEndOfTheWorld
             playerHeatSystem.Update(player, deltaTime);
             playerFuelSystem.Update(player, deltaTime, isGrounded);
             playerHullSystem.Update(player, deltaTime);
-            playerDeathSystem.TryHandleDeath(world);
             gameplayAudioSystem.Update(world, isGrounded);
+            playerDeathSystem.TryHandleDeath(world);
 
             previousKeyboardState = keyboardState;
             previousMouseState = mouseState;
