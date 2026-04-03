@@ -21,6 +21,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Sfx/LoopEngineActive", SoundEffectId.LoopEngineActive, soundEffects);
             TryLoad(content, "Audio/Sfx/LoopThrusterActive", SoundEffectId.LoopThrusterActive, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectExplosion", SoundEffectId.EffectExplosion, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectNuclearExplosion", SoundEffectId.EffectNuclearExplosion, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectMinedBlock", SoundEffectId.EffectMinedBlock, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectBoughtFromStore", SoundEffectId.EffectBoughtFromStore, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectSoldToStore", SoundEffectId.EffectSoldToStore, soundEffects);

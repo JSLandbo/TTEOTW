@@ -203,7 +203,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.NukeDynamite,
                 "Nuke Dynamite",
                 LoadSingleTexture(manager, "Consumeables/NukeDynamite"),
-                new NukeDynamite(ID: GameIds.Items.Consumeables.NukeDynamite, Name: "Nuke Dynamite", ExplosionAreaSize: 63, ExplosionPlaybackFrames: 40, Damage: 100000.0f, MaxHardness: 10000000.0f, Worth: 2500000.0f, Weight: 1000f),
+                new NukeDynamite(ID: GameIds.Items.Consumeables.NukeDynamite, Name: "Nuke Dynamite", ExplosionAreaSize: 63, ExplosionPlaybackFrames: 40, Damage: 100000.0f, MaxHardness: 10000000.0f, Worth: 2500000.0f, Weight: 1000f, ExplosionType: ExplosionType.Nuclear),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );

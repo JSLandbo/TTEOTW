@@ -23,7 +23,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 [SoundEffectId.EffectSoldToStore] = 25
             });
 
-            eventBus.Subscribe<ExplosionTriggeredEvent>(OnExplosionTriggered);
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
             eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
             eventBus.Subscribe<ConsumeableUsedEvent>(OnConsumeableUsed);
@@ -71,11 +70,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             oneShotSoundPlayer.Clear();
         }
 
-        private void OnExplosionTriggered(ExplosionTriggeredEvent gameEvent)
-        {
-            oneShotSoundPlayer.Play(SoundEffectId.EffectExplosion);
-        }
-
         private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
         {
             if (gameEvent.Method == WorldBlockDestroyMethod.Mined)
@@ -109,6 +103,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             if (gameEvent.Consumeable is AHullRepairKit)
             {
                 oneShotSoundPlayer.Play(SoundEffectId.EffectHullRepairKit);
+            }
+
+            if (gameEvent.Consumeable is ADynamite dynamite)
+            {
+                if (dynamite.ExplosionType.Equals(ExplosionType.Nuclear))
+                {
+                    oneShotSoundPlayer.Play(SoundEffectId.EffectNuclearExplosion);
+                    return;
+                }
+                oneShotSoundPlayer.Play(SoundEffectId.EffectExplosion);
             }
         }
 

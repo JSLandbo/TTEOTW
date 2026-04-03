@@ -1,5 +1,5 @@
-    using ModelLibrary.Abstract.Grids;
-    using ModelLibrary.Abstract.Types;
+using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.Types;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {

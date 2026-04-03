@@ -1,4 +1,3 @@
-using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Effects

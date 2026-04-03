@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Types;
-using ToTheEndOfTheWorld.Gameplay.Audio;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
@@ -11,7 +10,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             Vector2 center = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             int halfExtent = dynamite.ExplosionAreaSize / 2;
-            eventBus.Publish(new ExplosionTriggeredEvent(new WorldTile((long)center.X, (long)center.Y)));
+            eventBus.Publish(new ConsumeableUsedEvent(dynamite));
 
             for (int y = -halfExtent; y <= halfExtent; y++)
             {

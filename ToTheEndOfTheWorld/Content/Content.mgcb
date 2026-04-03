@@ -67,6 +67,13 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectMinedBlock.wav;Audio/Sfx/EffectMinedBlock
 
+
+#begin Audio/Sfx/EffectNuclearExplosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectNuclearExplosion.wav
+
 #begin Audio/Sfx/EffectSoldToStore.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

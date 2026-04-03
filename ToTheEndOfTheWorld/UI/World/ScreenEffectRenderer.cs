@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
 
 namespace ToTheEndOfTheWorld.UI.World
