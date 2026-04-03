@@ -49,6 +49,12 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHittingGround.wav;Audio/Sfx/EffectHittingGround
 
+#begin Audio/Sfx/EffectHullDamage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectHullDamage.wav;Audio/Sfx/EffectHullDamage
+
 #begin Audio/Sfx/EffectHullRepairKit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -97,11 +103,23 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/Freeware/LoopMining.wav;Audio/Sfx/Freeware/LoopMining
 
+#begin Audio/Sfx/LoopEngineActive.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/LoopEngineActive.wav;Audio/Sfx/LoopEngineActive
+
 #begin Audio/Sfx/LoopMining.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopMining.wav;Audio/Sfx/LoopMining
+
+#begin Audio/Sfx/LoopThrusterActive.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/LoopThrusterActive.wav;Audio/Sfx/LoopThrusterActive
 
 #begin Graphics/BaseShip/BaseBaseShip.png
 /importer:TextureImporter
@@ -1075,18 +1093,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/LargeFuelCapsule.png;Graphics/Consumeables/LargeFuelCapsule
 
-#begin Graphics/Consumeables/LargeFuelCapsule.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/LargeFuelCapsule.png
-
 #begin Graphics/Consumeables/MediumFuelCapsule.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1098,18 +1104,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/MediumFuelCapsule.png;Graphics/Consumeables/MediumFuelCapsule
-
-#begin Graphics/Consumeables/MediumFuelCapsule.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/MediumFuelCapsule.png
 
 #begin Graphics/Consumeables/SmallCoolantPatch.png
 /importer:TextureImporter
@@ -1123,18 +1117,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallCoolantPatch.png;Graphics/Consumeables/SmallCoolantPatch
 
-#begin Graphics/Consumeables/SmallCoolantPatch.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/SmallCoolantPatch.png
-
 #begin Graphics/Consumeables/SmallFuelCapsule.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1147,18 +1129,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallFuelCapsule.png;Graphics/Consumeables/SmallFuelCapsule
 
-#begin Graphics/Consumeables/SmallFuelCapsule.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/SmallFuelCapsule.png
-
 #begin Graphics/Consumeables/SmallHullRepairKit.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1169,7 +1139,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/SmallHullRepairKit.png
+/build:Graphics/Consumeables/SmallHullRepairKit.png;Graphics/Consumeables/SmallHullRepairKit
 
 #begin Graphics/CraftingMaterials/AdamantiumIngot.png
 /importer:TextureImporter

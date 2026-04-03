@@ -59,6 +59,7 @@ namespace ToTheEndOfTheWorld
         private UiWorld.GadgetBarRenderer gadgetBarRenderer;
         private readonly UiWorld.WorldInteractionRenderer worldInteractionRenderer = new();
         private readonly UiWorld.ScreenEffectRenderer screenEffectRenderer = new();
+        private ScreenEffectService screenEffectService;
         private GameplayAudioSystem gameplayAudioSystem;
         private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private WorldBlockFactory worldBlockFactory;
@@ -206,7 +207,7 @@ namespace ToTheEndOfTheWorld
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
             worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
             screenEffectDefinitions = new ScreenEffectDefinitionsRepository(Content);
-            _ = new ScreenEffectService(screenEffects, screenEffectDefinitions, eventBus);
+            screenEffectService = new ScreenEffectService(screenEffects, screenEffectDefinitions, eventBus);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
             //audioService.PlayMusic(MusicTrack.MainTheme);
@@ -268,6 +269,8 @@ namespace ToTheEndOfTheWorld
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             UpdateUiCursor(mouseState.Position);
+            worldEffects.Update();
+            screenEffects.Update();
 
             if (inventoryOverlay?.ConsumeTrashSoundRequest() == true)
             {
@@ -303,9 +306,6 @@ namespace ToTheEndOfTheWorld
             }
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            worldEffects.Update();
-            screenEffects.Update();
             playerVerticalImpactService.BeginFrame();
 
             int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
