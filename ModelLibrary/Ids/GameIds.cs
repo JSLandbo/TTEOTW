@@ -244,6 +244,7 @@ namespace ModelLibrary.Ids
             public static class Consumeables
             {
                 public const short SmallDynamite = 10800;
+                public const short SmallFuelCapsule = 11200;
             }
 
             public static class CratingMaterials

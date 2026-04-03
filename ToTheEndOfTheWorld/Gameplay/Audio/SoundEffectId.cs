@@ -8,6 +8,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectExplosion,
         EffectMinedBlock,
         EffectBoughtFromStore,
-        EffectSoldToStore
+        EffectSoldToStore,
+        EffectUsedFuelCapsule
     }
 }

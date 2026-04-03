@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ModelLibrary.Concrete.Items
 {
-    public sealed class SmallDynamite : AConsumeable
+    public sealed class SmallDynamite : ADynamite
     {
         public SmallDynamite(SmallDynamite other)
         {
@@ -31,10 +31,5 @@ namespace ModelLibrary.Concrete.Items
             this.Weight = Weight;
             this.Stackable = Stackable;
         }
-
-        public int ExplosionAreaSize { get; set; }
-        public int ExplosionPlaybackFrames { get; set; }
-        public float Damage { get; set; }
-        public float MaxHardness { get; set; }
     }
 }

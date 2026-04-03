@@ -183,6 +183,14 @@ namespace ToTheEndOfTheWorld.Context.Items
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
+            AddDefinition(
+                GameIds.Items.Consumeables.SmallFuelCapsule,
+                "Small Fuel Capsule",
+                LoadSingleTexture(manager, "Consumeables/SmallFuelCapsule"),
+                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 100.0f, Worth: 150.0f, Weight: 1.0f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
         }
 
         private void RegisterMaterials(ContentManager manager)
@@ -362,6 +370,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             {
                 Item item => new Item(item),
                 SmallDynamite dynamite => new SmallDynamite(dynamite),
+                SmallFuelCapsule fuelCapsule => new SmallFuelCapsule(fuelCapsule),
                 ThermalPlating plating => new ThermalPlating(plating),
                 Hull hull => new Hull(hull),
                 Drill drill => new Drill(drill),

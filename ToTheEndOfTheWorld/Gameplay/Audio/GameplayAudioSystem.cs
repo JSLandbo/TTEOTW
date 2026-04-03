@@ -1,4 +1,5 @@
 using System;
+using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Audio
@@ -17,6 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<ExplosionTriggeredEvent>(OnExplosionTriggered);
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
             eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
+            eventBus.Subscribe<ConsumeableUsedEvent>(OnConsumeableUsed);
         }
 
         public void SetTime(double totalSeconds)
@@ -78,6 +80,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 ? SoundEffectId.EffectBoughtFromStore
                 : SoundEffectId.EffectSoldToStore
             );
+        }
+
+        private void OnConsumeableUsed(ConsumeableUsedEvent gameEvent)
+        {
+            if (gameEvent.ItemId == GameIds.Items.Consumeables.SmallFuelCapsule)
+            {
+                audioService.PlayOneShot(SoundEffectId.EffectUsedFuelCapsule);
+            }
         }
 
         private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)

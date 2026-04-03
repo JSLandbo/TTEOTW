@@ -133,9 +133,11 @@ namespace ToTheEndOfTheWorld
             miningInteractions = new MiningInteractionsRepository();
             worldEffects = new WorldEffectsRepository();
             WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
+            DynamiteConsumeableService dynamiteConsumeableService = new(worldBlockDamageService, worldEffects, eventBus);
+            FuelCapsuleConsumeableService fuelCapsuleConsumeableService = new(eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
             playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
-            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService, worldEffects, eventBus);
+            playerConsumeableSystem = new PlayerConsumeableSystem(dynamiteConsumeableService, fuelCapsuleConsumeableService);
 
             world = ContextHandler.LoadWorld();
 
