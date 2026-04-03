@@ -1075,6 +1075,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/LargeFuelCapsule.png;Graphics/Consumeables/LargeFuelCapsule
 
+#begin Graphics/Consumeables/LargeFuelCapsule.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/LargeFuelCapsule.png
+
 #begin Graphics/Consumeables/MediumFuelCapsule.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1086,6 +1098,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/MediumFuelCapsule.png;Graphics/Consumeables/MediumFuelCapsule
+
+#begin Graphics/Consumeables/MediumFuelCapsule.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/MediumFuelCapsule.png
 
 #begin Graphics/Consumeables/SmallCoolantPatch.png
 /importer:TextureImporter
@@ -1099,6 +1123,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallCoolantPatch.png;Graphics/Consumeables/SmallCoolantPatch
 
+#begin Graphics/Consumeables/SmallCoolantPatch.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/SmallCoolantPatch.png
+
 #begin Graphics/Consumeables/SmallFuelCapsule.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1110,6 +1146,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallFuelCapsule.png;Graphics/Consumeables/SmallFuelCapsule
+
+#begin Graphics/Consumeables/SmallFuelCapsule.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/SmallFuelCapsule.png
+
+#begin Graphics/Consumeables/SmallHullRepairKit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/SmallHullRepairKit.png
 
 #begin Graphics/CraftingMaterials/AdamantiumIngot.png
 /importer:TextureImporter
