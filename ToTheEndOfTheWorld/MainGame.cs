@@ -216,7 +216,6 @@ namespace ToTheEndOfTheWorld
         protected override void Update(GameTime gameTime)
         {
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
-            gameplayAudioSystem.SetTime(totalSeconds);
             TextureAnimationHelper.TotalSeconds = totalSeconds;
             KeyboardState keyboardState = IsActive ? Keyboard.GetState() : default;
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());

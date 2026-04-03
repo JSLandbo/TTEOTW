@@ -27,7 +27,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Sfx/EffectUsedFuelCapsule", SoundEffectId.EffectUsedFuelCapsule, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectUsedTrashBin", SoundEffectId.EffectUsedTrashBin, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectYouDied", SoundEffectId.EffectYouDied, soundEffects);
-
             TryLoad(content, "Audio/Sfx/EffectCoolantPatch", SoundEffectId.EffectCoolantPatch, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectCraftedItem", SoundEffectId.EffectCraftedItem, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectHittingGround", SoundEffectId.EffectHittingGround, soundEffects);
@@ -66,6 +65,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             catch (InstancePlayLimitException)
             {
             }
+        }
+
+        public double GetDurationSeconds(SoundEffectId id)
+        {
+            if (!soundEffects.TryGetValue(id, out SoundEffect effect)) return 0.0;
+
+            return effect.Duration.TotalSeconds;
         }
 
         public void EnsureLoop(AudioLoopChannel channel, SoundEffectId id, float volume = 1.0f)

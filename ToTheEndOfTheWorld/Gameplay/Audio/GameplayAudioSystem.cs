@@ -1,6 +1,6 @@
-using System;
+using System.Collections.Generic;
+using System.Numerics;
 using ModelLibrary.Abstract.Types;
-using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Audio
@@ -8,14 +8,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
     public sealed class GameplayAudioSystem
     {
         private readonly GameAudioService audioService;
-
-        private double currentTotalSeconds;
-        private double lastExplosionPlayedAt = double.MinValue;
-        private double lastMinedBlockPlayedAt = double.MinValue;
+        private readonly ConcurrentOneShotSoundEffectPlayer oneShotSoundPlayer;
 
         public GameplayAudioSystem(GameAudioService audioService, GameEventBus eventBus)
         {
             this.audioService = audioService;
+
+            oneShotSoundPlayer = new ConcurrentOneShotSoundEffectPlayer(audioService, 2, new Dictionary<SoundEffectId, int>
+            {
+                [SoundEffectId.EffectExplosion] = 4,
+                [SoundEffectId.EffectHullDamage] = 1,
+                [SoundEffectId.EffectMinedBlock] = 1,
+                [SoundEffectId.EffectBoughtFromStore] = 25,
+                [SoundEffectId.EffectSoldToStore] = 25
+            });
+
             eventBus.Subscribe<ExplosionTriggeredEvent>(OnExplosionTriggered);
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
             eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
@@ -24,12 +31,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<PlayerSelfDestructedEvent>(OnPlayerSelfDestructed);
             eventBus.Subscribe<PlayerFallDamageEvent>(OnPlayerFallDamage);
             eventBus.Subscribe<PlayerCraftedItemEvent>(OnPlayerCraftedItem);
+            eventBus.Subscribe<PlayerHullDamagedEvent>(OnPlayerHullDamaged);
             eventBus.Subscribe<ScreenEffectRequestedEvent>(OnScreenEffectRequested);
-        }
-
-        public void SetTime(double totalSeconds)
-        {
-            this.currentTotalSeconds = totalSeconds;
         }
 
         public void Update(ModelWorld world, bool isGrounded)
@@ -43,18 +46,18 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 audioService.StopLoop(AudioLoopChannel.Mining);
             }
 
-            if (isGrounded && Math.Abs(world.Player.XVelocity) > PlayerWorldTuning.VelocityStopThreshold)
+            if (isGrounded && world.Player.MovementInput != Vector2.Zero)
             {
-                audioService.EnsureLoop(AudioLoopChannel.Engine, SoundEffectId.LoopEngine);
+                audioService.EnsureLoop(AudioLoopChannel.Engine, SoundEffectId.LoopEngineActive);
             }
             else
             {
                 audioService.StopLoop(AudioLoopChannel.Engine);
             }
 
-            if (PlayerThrusterUsageService.UsesThrustersForMovement(world.Player, isGrounded))
+            if (!isGrounded && world.Player.MovementInput != Vector2.Zero)
             {
-                audioService.EnsureLoop(AudioLoopChannel.Thruster, SoundEffectId.LoopThruster);
+                audioService.EnsureLoop(AudioLoopChannel.Thruster, SoundEffectId.LoopThrusterActive);
             }
             else
             {
@@ -65,24 +68,25 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         public void StopAllLoops()
         {
             audioService.StopAllLoops();
+            oneShotSoundPlayer.Clear();
         }
 
         private void OnExplosionTriggered(ExplosionTriggeredEvent gameEvent)
         {
-            TryPlayOneShot(SoundEffectId.EffectExplosion, ref lastExplosionPlayedAt, 0.05);
+            oneShotSoundPlayer.Play(SoundEffectId.EffectExplosion);
         }
 
         private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
         {
             if (gameEvent.Method == WorldBlockDestroyMethod.Mined)
             {
-                TryPlayOneShot(SoundEffectId.EffectMinedBlock, ref lastMinedBlockPlayedAt, 0.08);
+                oneShotSoundPlayer.Play(SoundEffectId.EffectMinedBlock);
             }
         }
 
         private void OnShopTransaction(ShopTransactionEvent gameEvent)
         {
-            audioService.PlayOneShot(gameEvent.Type == ShopTransactionType.Bought
+            oneShotSoundPlayer.Play(gameEvent.Type == ShopTransactionType.Bought
                 ? SoundEffectId.EffectBoughtFromStore
                 : SoundEffectId.EffectSoldToStore
             );
@@ -92,60 +96,53 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         {
             if (gameEvent.Consumeable is AFuelCapsule)
             {
-                audioService.PlayOneShot(SoundEffectId.EffectUsedFuelCapsule);
+                oneShotSoundPlayer.Play(SoundEffectId.EffectUsedFuelCapsule);
                 return;
             }
 
             if (gameEvent.Consumeable is ACoolantPatch)
             {
-                audioService.PlayOneShot(SoundEffectId.EffectCoolantPatch);
+                oneShotSoundPlayer.Play(SoundEffectId.EffectCoolantPatch);
                 return;
             }
 
             if (gameEvent.Consumeable is AHullRepairKit)
             {
-                audioService.PlayOneShot(SoundEffectId.EffectHullRepairKit);
+                oneShotSoundPlayer.Play(SoundEffectId.EffectHullRepairKit);
             }
         }
 
         private void OnTrashBinUsed(TrashBinUsedEvent gameEvent)
         {
-            audioService.PlayOneShot(SoundEffectId.EffectUsedTrashBin);
+            oneShotSoundPlayer.Play(SoundEffectId.EffectUsedTrashBin);
         }
 
         private void OnPlayerSelfDestructed(PlayerSelfDestructedEvent gameEvent)
         {
-            audioService.PlayOneShot(SoundEffectId.EffectYouDied);
+            oneShotSoundPlayer.Play(SoundEffectId.EffectYouDied);
         }
 
         private void OnPlayerFallDamage(PlayerFallDamageEvent gameEvent)
         {
-            audioService.PlayOneShot(SoundEffectId.EffectHittingGround);
+            oneShotSoundPlayer.Play(SoundEffectId.EffectHittingGround);
         }
 
         private void OnPlayerCraftedItem(PlayerCraftedItemEvent gameEvent)
         {
-            audioService.PlayOneShot(SoundEffectId.EffectCraftedItem);
+            oneShotSoundPlayer.Play(SoundEffectId.EffectCraftedItem);
+        }
+
+        private void OnPlayerHullDamaged(PlayerHullDamagedEvent gameEvent)
+        {
+            oneShotSoundPlayer.Play(SoundEffectId.EffectHullDamage);
         }
 
         private void OnScreenEffectRequested(ScreenEffectRequestedEvent gameEvent)
         {
             if (gameEvent.Type == ScreenEffectType.Explosion)
             {
-                audioService.PlayOneShot(SoundEffectId.EffectExplosion);
+                oneShotSoundPlayer.Play(SoundEffectId.EffectExplosion);
             }
-        }
-
-        private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)
-        {
-            if (currentTotalSeconds - lastPlayedAt < minimumReplayIntervalSeconds)
-            {
-                return;
-            }
-
-            audioService.PlayOneShot(id, volume);
-
-            lastPlayedAt = currentTotalSeconds;
         }
     }
 }
