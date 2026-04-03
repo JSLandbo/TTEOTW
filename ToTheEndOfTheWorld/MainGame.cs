@@ -23,7 +23,7 @@ namespace ToTheEndOfTheWorld
     public class MainGame : Game
     {
         // dotnet mgcb-editor
-        // dotnet publish -c Release -r win-x64
+        // dotnet publish -c Release -r win-x64 --self-contained true
 
         private static readonly string GameTitle = "To The End Of The World";
         private static readonly string GameVersion = "V2.00";
