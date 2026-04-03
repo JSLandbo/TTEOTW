@@ -8,22 +8,22 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
     {
         private const float FallDamageVelocityThreshold = 600.0f;
         private const float FallDamagePerExcessVelocity = 0.25f;
-        private const float ExplosionChancePerSecondAtMaxHeat = 0.35f;
-        private const float MinimumExplosionDamage = 15.0f;
-        private const float MaximumExplosionDamage = 60.0f;
+        private const float ExplosionChancePerSecondAtMaxHeat = 0.25f;
+        private const float MinimumExplosionDamage = 05.0f;
+        private const float MaximumExplosionDamage = 10.0f;
 
         public void Update(APlayer player, float deltaTime)
         {
             float heatRatio = GetHeatRatio(player);
 
-            if (heatRatio >= 1.0f)
+            if (heatRatio >= 0.95f)
             {
                 float explosionChance = ExplosionChancePerSecondAtMaxHeat * deltaTime;
 
-                // TODO: Make this, add sound and explosion animation on top of ship
                 if (Random.Shared.NextSingle() < explosionChance)
                 {
                     ApplyExplosionDamage(player, Lerp(MinimumExplosionDamage, MaximumExplosionDamage, Random.Shared.NextSingle()));
+                    eventBus.Publish(new ScreenEffectRequestedEvent(ScreenEffectType.Explosion));
                 }
             }
         }
@@ -74,9 +74,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             player.CurrentHull = Math.Max(0.0f, player.CurrentHull - damage);
         }
 
-        private static float Lerp(float start, float end, float amount)
-        {
-            return start + ((end - start) * amount);
-        }
+        private static float Lerp(float start, float end, float amount) => start + ((end - start) * amount);
     }
 }

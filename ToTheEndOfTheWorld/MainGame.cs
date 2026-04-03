@@ -11,6 +11,7 @@ using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
 using ToTheEndOfTheWorld.Gameplay.Audio;
+using ToTheEndOfTheWorld.Gameplay.Effects;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI;
@@ -34,6 +35,8 @@ namespace ToTheEndOfTheWorld
         private MiningInteractionsRepository miningInteractions;
         private WorldEffectsRepository worldEffects;
         private WorldEffectDefinitionsRepository worldEffectDefinitions;
+        private ScreenEffectsRepository screenEffects;
+        private ScreenEffectDefinitionsRepository screenEffectDefinitions;
         private WorldElementsRepository blocks;
         private GameItemsRepository items;
         private ModelWorld world;
@@ -55,6 +58,7 @@ namespace ToTheEndOfTheWorld
         private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
         private UiWorld.GadgetBarRenderer gadgetBarRenderer;
         private readonly UiWorld.WorldInteractionRenderer worldInteractionRenderer = new();
+        private readonly UiWorld.ScreenEffectRenderer screenEffectRenderer = new();
         private GameplayAudioSystem gameplayAudioSystem;
         private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private WorldBlockFactory worldBlockFactory;
@@ -133,6 +137,7 @@ namespace ToTheEndOfTheWorld
 
             miningInteractions = new MiningInteractionsRepository();
             worldEffects = new WorldEffectsRepository();
+            screenEffects = new ScreenEffectsRepository();
             WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
             DynamiteConsumeableService dynamiteConsumeableService = new(worldBlockDamageService, worldEffects, eventBus);
             FuelCapsuleConsumeableService fuelCapsuleConsumeableService = new(eventBus);
@@ -200,6 +205,8 @@ namespace ToTheEndOfTheWorld
             gadgetBarRenderer.LoadContent(GraphicsDevice, Content);
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
             worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
+            screenEffectDefinitions = new ScreenEffectDefinitionsRepository(Content);
+            _ = new ScreenEffectService(screenEffects, screenEffectDefinitions, eventBus);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
             //audioService.PlayMusic(MusicTrack.MainTheme);
@@ -298,6 +305,7 @@ namespace ToTheEndOfTheWorld
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             worldEffects.Update();
+            screenEffects.Update();
             playerVerticalImpactService.BeginFrame();
 
             int? consumeableSlotIndex = inputMapper.ReadTriggeredConsumeableSlot(keyboardState, previousKeyboardState);
@@ -370,6 +378,7 @@ namespace ToTheEndOfTheWorld
             DrawRenderedWorld(worldScreenTransform);
             worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, worldScreenTransform);
             DrawPlayerShip();
+            screenEffectRenderer.Draw(spriteBatch, screenEffects, screenEffectDefinitions, logicalViewportWidth, logicalViewportHeight);
             debugHudRenderer.Draw(spriteBatch, world);
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();

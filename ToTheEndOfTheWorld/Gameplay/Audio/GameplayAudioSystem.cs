@@ -1,5 +1,6 @@
 using System;
 using ModelLibrary.Abstract.Types;
+using ToTheEndOfTheWorld.Context;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Audio
@@ -23,6 +24,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<PlayerSelfDestructedEvent>(OnPlayerSelfDestructed);
             eventBus.Subscribe<PlayerFallDamageEvent>(OnPlayerFallDamage);
             eventBus.Subscribe<PlayerCraftedItemEvent>(OnPlayerCraftedItem);
+            eventBus.Subscribe<ScreenEffectRequestedEvent>(OnScreenEffectRequested);
         }
 
         public void SetTime(double totalSeconds)
@@ -124,6 +126,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         private void OnPlayerCraftedItem(PlayerCraftedItemEvent gameEvent)
         {
             audioService.PlayOneShot(SoundEffectId.EffectCraftedItem);
+        }
+
+        private void OnScreenEffectRequested(ScreenEffectRequestedEvent gameEvent)
+        {
+            if (gameEvent.Type == ScreenEffectType.Explosion)
+            {
+                audioService.PlayOneShot(SoundEffectId.EffectExplosion);
+            }
         }
 
         private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)
