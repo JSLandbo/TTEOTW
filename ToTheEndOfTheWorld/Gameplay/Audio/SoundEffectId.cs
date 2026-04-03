@@ -11,6 +11,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectSoldToStore,
         EffectUsedFuelCapsule,
         EffectUsedTrashBin,
-        EffectYouDied
+        EffectYouDied,
+        EffectCoolantPatch,
+        EffectCraftedItem,
+        EffectHittingGround,
+        EffectHullRepairKit
     }
 }

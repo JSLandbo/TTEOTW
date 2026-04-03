@@ -206,11 +206,9 @@ namespace ModelLibrary.Ids
             //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items) 100000 damage, 1 million hardness
             //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items) 1000000 damage, 1 million hardness
 
-            //      public const short SmallThermalCoolantPatch = 10900; // Cools you by 100
             //      public const short LargeThermalCoolantPatch = 10901; // Cools you by 250
             //      public const short FullThermalCoolantPatch = 10902; // Cools you 100% (or just like 999999f)
 
-            //      public const short SmallHullRepairKit = 11000; // Repairs 100 hull
             //      public const short LargeHullRepairKit = 11001; // Repairs 250 hull
             //      public const short FullHullRepairKit = 11002; // Repairs 100% full (or just like, 999999f)
 
@@ -240,6 +238,11 @@ namespace ModelLibrary.Ids
             public static class Consumeables
             {
                 public const short SmallDynamite = 10800;
+
+                public const short SmallCoolantPatch = 10900;
+
+                public const short SmallHullRepairKit = 11000;
+
                 public const short SmallFuelCapsule = 11200;
                 public const short MediumFuelCapsule = 11201;
                 public const short LargeFuelCapsule = 11202;

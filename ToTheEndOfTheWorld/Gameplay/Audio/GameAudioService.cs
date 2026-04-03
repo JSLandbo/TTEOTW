@@ -27,6 +27,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Sfx/EffectUsedFuelCapsule", SoundEffectId.EffectUsedFuelCapsule, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectUsedTrashBin", SoundEffectId.EffectUsedTrashBin, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectYouDied", SoundEffectId.EffectYouDied, soundEffects);
+
+            TryLoad(content, "Audio/Sfx/EffectCoolantPatch", SoundEffectId.EffectCoolantPatch, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectCraftedItem", SoundEffectId.EffectCraftedItem, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectHittingGround", SoundEffectId.EffectHittingGround, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectHullRepairKit", SoundEffectId.EffectHullRepairKit, soundEffects);
         }
 
         public void PlayMusic(MusicTrack track, bool restartIfSame = false)

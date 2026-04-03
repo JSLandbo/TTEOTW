@@ -21,6 +21,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<ConsumeableUsedEvent>(OnConsumeableUsed);
             eventBus.Subscribe<TrashBinUsedEvent>(OnTrashBinUsed);
             eventBus.Subscribe<PlayerSelfDestructedEvent>(OnPlayerSelfDestructed);
+
+            //eventBus.Subscribe<PlayerFallDamageEvent>(OnPlayerFallDamage); // Should send amount of damage, will be used later.. maybe.
+            //eventBus.Subscribe<PlayerCraftedItemEvent>(OnPlayerCraftedItem); // Should send crafted item in event for information
         }
 
         public void SetTime(double totalSeconds)
@@ -90,6 +93,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             {
                 audioService.PlayOneShot(SoundEffectId.EffectUsedFuelCapsule);
             }
+
+            //if (gameEvent.Consumeable is ACoolantPatcb)
+            //{
+            //    audioService.PlayOneShot(SoundEffectId.EffectCoolantPatch);
+            //}
+
+            //if (gameEvent.Consumeable is AHullRepairKit)
+            //{
+            //    audioService.PlayOneShot(SoundEffectId.EffectHullRepairKit);
+            //}
         }
 
         private void OnTrashBinUsed(TrashBinUsedEvent gameEvent)
@@ -101,6 +114,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         {
             audioService.PlayOneShot(SoundEffectId.EffectYouDied);
         }
+
+        //private void OnPlayerFallDamage(PlayerFallDamageEvent gameEvent)
+        //{
+        //    audioService.PlayOneShot(SoundEffectId.EffectHittingGround);
+        //}
+
+        //private void OnPlayerCraftedItem(PlayerCraftItemEvent gameEvent)
+        //{
+        //    audioService.PlayOneShot(SoundEffectId.EffectCraftedItem);
+        //}
 
         private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)
         {
