@@ -18,8 +18,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Music/MainTheme", MusicTrack.MainTheme, musicTracks);
 
             TryLoad(content, "Audio/Sfx/LoopMining", SoundEffectId.LoopMining, soundEffects);
-            TryLoad(content, "Audio/Sfx/LoopEngine", SoundEffectId.LoopEngine, soundEffects);
-            TryLoad(content, "Audio/Sfx/LoopThruster", SoundEffectId.LoopThruster, soundEffects);
+            TryLoad(content, "Audio/Sfx/LoopEngineActive", SoundEffectId.LoopEngineActive, soundEffects);
+            TryLoad(content, "Audio/Sfx/LoopThrusterActive", SoundEffectId.LoopThrusterActive, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectExplosion", SoundEffectId.EffectExplosion, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectMinedBlock", SoundEffectId.EffectMinedBlock, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectBoughtFromStore", SoundEffectId.EffectBoughtFromStore, soundEffects);
@@ -32,6 +32,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Sfx/EffectCraftedItem", SoundEffectId.EffectCraftedItem, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectHittingGround", SoundEffectId.EffectHittingGround, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectHullRepairKit", SoundEffectId.EffectHullRepairKit, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectHullDamage", SoundEffectId.EffectHullDamage, soundEffects);
         }
 
         public void PlayMusic(MusicTrack track, bool restartIfSame = false)

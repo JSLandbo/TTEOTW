@@ -56,22 +56,15 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static float GetHeatRatio(APlayer player)
         {
-            if (player.ThermalPlating.MaxThermals <= 0.0f)
-            {
-                return 0.0f;
-            }
-
             return Math.Clamp(player.CurrentHeat / player.ThermalPlating.MaxThermals, 0.0f, 1.0f);
         }
 
-        private static void ApplyDamage(APlayer player, float damage)
+        private void ApplyDamage(APlayer player, float damage)
         {
-            if (damage <= 0.0f)
-            {
-                return;
-            }
-
-            player.CurrentHull = Math.Max(0.0f, player.CurrentHull - damage);
+            if (damage <= 0.0f) return;
+            float appliedDamage = Math.Min(player.CurrentHull, damage);
+            player.CurrentHull -= appliedDamage;
+            eventBus.Publish(new PlayerHullDamagedEvent(appliedDamage));
         }
 
         private static float Lerp(float start, float end, float amount) => start + ((end - start) * amount);

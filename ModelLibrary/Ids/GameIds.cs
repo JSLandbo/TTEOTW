@@ -209,9 +209,6 @@ namespace ModelLibrary.Ids
             //      public const short LargeThermalCoolantPatch = 10901; // Cools you by 250
             //      public const short FullThermalCoolantPatch = 10902; // Cools you 100% (or just like 999999f)
 
-            //      public const short LargeHullRepairKit = 11001; // Repairs 250 hull
-            //      public const short FullHullRepairKit = 11002; // Repairs 100% full (or just like, 999999f)
-
             //      public const short RandomSurfaceTeleporter = 11101; // Teleports you to a random place on 0 y-axis (can be far away, world is almost infinite)
             //      public const short RandomProximityTeleporter = 11102; // Teleports you randomly within 500 blocks (not inside buildings)
             //      public const short RandomGlobalTeleporter = 11103; // Teleports you randomly (not inside buildings), dangerous! (world is almost infinite)
@@ -242,6 +239,8 @@ namespace ModelLibrary.Ids
                 public const short SmallCoolantPatch = 15200;
 
                 public const short SmallHullRepairKit = 15300;
+                public const short MediumHullRepairKit = 15301;
+                public const short LargeHullRepairKit = 15302;
 
                 public const short SmallFuelCapsule = 15400;
                 public const short MediumFuelCapsule = 15401;

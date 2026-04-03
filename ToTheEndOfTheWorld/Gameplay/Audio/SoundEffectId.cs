@@ -3,8 +3,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
     public enum SoundEffectId
     {
         LoopMining,
-        LoopEngine,
-        LoopThruster,
+        LoopEngineActive,
+        LoopThrusterActive,
         EffectExplosion,
         EffectMinedBlock,
         EffectBoughtFromStore,
@@ -15,6 +15,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectCoolantPatch,
         EffectCraftedItem,
         EffectHittingGround,
-        EffectHullRepairKit
+        EffectHullRepairKit,
+        EffectHullDamage
     }
 }

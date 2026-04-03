@@ -219,7 +219,23 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallHullRepairKit,
                 "Small Hull Repair Kit",
                 LoadSingleTexture(manager, "Consumeables/SmallHullRepairKit"),
-                new SmallHullRepairKit(ID: GameIds.Items.Consumeables.SmallHullRepairKit, Name: "Small Hull Repair Kit", RepairAmount: 100.0f, Worth: 400.0f, Weight: 0.1f),
+                new SmallHullRepairKit(ID: GameIds.Items.Consumeables.SmallHullRepairKit, Name: "Small Hull Repair Kit", RepairAmount: 50.0f, Worth: 350.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.MediumHullRepairKit,
+                "Medium Hull Repair Kit",
+                LoadSingleTexture(manager, "Consumeables/MediumHullRepairKit"),
+                new MediumHullRepairKit(ID: GameIds.Items.Consumeables.MediumHullRepairKit, Name: "Medium Hull Repair Kit", RepairAmount: 250.0f, Worth: 2500.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.LargeHullRepairKit,
+                "Large Hull Repair Kit",
+                LoadSingleTexture(manager, "Consumeables/LargeHullRepairKit"),
+                new LargeHullRepairKit(ID: GameIds.Items.Consumeables.LargeHullRepairKit, Name: "Large Hull Repair Kit", RepairAmount: 1250.0f, Worth: 20000.0f, Weight: 0.1f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -407,6 +423,8 @@ namespace ToTheEndOfTheWorld.Context.Items
                 LargeFuelCapsule largeFuelCapsule => new LargeFuelCapsule(largeFuelCapsule),
                 SmallCoolantPatch smallCoolantPatch => new SmallCoolantPatch(smallCoolantPatch),
                 SmallHullRepairKit smallHullRepairKit => new SmallHullRepairKit(smallHullRepairKit),
+                MediumHullRepairKit mediumHullRepairKit => new MediumHullRepairKit(mediumHullRepairKit),
+                LargeHullRepairKit largeHullRepairKit => new LargeHullRepairKit(largeHullRepairKit),
                 ThermalPlating plating => new ThermalPlating(plating),
                 Hull hull => new Hull(hull),
                 Drill drill => new Drill(drill),
