@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract;
@@ -9,6 +10,7 @@ using ModelLibrary.Concrete;
 using ModelLibrary.Concrete.Blocks;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Ids;
+using ToTheEndOfTheWorld.Gameplay.Audio;
 using ToTheEndOfTheWorld.Gameplay.Events;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
 using ToTheEndOfTheWorld.UI;
@@ -28,6 +30,7 @@ namespace ToTheEndOfTheWorld
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private RenderTarget2D sceneRenderTarget;
+        private readonly ContentManager audioContent;
         private MiningInteractionsRepository miningInteractions;
         private WorldEffectsRepository worldEffects;
         private WorldEffectDefinitionsRepository worldEffectDefinitions;
@@ -47,10 +50,12 @@ namespace ToTheEndOfTheWorld
         private readonly GameEventBus eventBus = new();
         private readonly InventoryService inventoryService = new();
         private readonly ShopService shopService = new();
+        private readonly GameAudioService audioService = new();
         private readonly UiWorld.DebugHudRenderer debugHudRenderer = new();
         private readonly UiWorld.GameplayHudRenderer gameplayHudRenderer = new();
         private UiWorld.GadgetBarRenderer gadgetBarRenderer;
         private readonly UiWorld.WorldInteractionRenderer worldInteractionRenderer = new();
+        private GameplayAudioSystem gameplayAudioSystem;
         private WorldBlockDefinitionResolver worldBlockDefinitionResolver;
         private WorldBlockFactory worldBlockFactory;
         private PlayerWorldMovementResolver playerWorldMovementResolver;
@@ -74,6 +79,7 @@ namespace ToTheEndOfTheWorld
             playerVerticalImpactService = new PlayerVerticalImpactService(playerHullSystem);
             worldInteractionService = new WorldInteractionService();
             Content.RootDirectory = "Content/Graphics";
+            audioContent = new ContentManager(Services, "Content");
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += HandleClientSizeChanged;
@@ -106,6 +112,7 @@ namespace ToTheEndOfTheWorld
             playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
             gadgetBarRenderer = new UiWorld.GadgetBarRenderer(blocks, items);
+            gameplayAudioSystem = new GameplayAudioSystem(audioService, eventBus);
 
             int _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
             int _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
@@ -125,7 +132,7 @@ namespace ToTheEndOfTheWorld
             WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
             playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
-            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService, worldEffects);
+            playerConsumeableSystem = new PlayerConsumeableSystem(worldBlockDamageService, worldEffects, eventBus);
 
             world = ContextHandler.LoadWorld();
 
@@ -186,14 +193,19 @@ namespace ToTheEndOfTheWorld
             worldInteractionRenderer.LoadContent(GraphicsDevice, Content);
             worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
+            audioService.LoadContent(audioContent);
+            audioService.PlayMusic(MusicTrack.MainTheme);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
+            gameplayAudioSystem.SetTime(totalSeconds);
+            TextureAnimationHelper.TotalSeconds = totalSeconds;
+
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
-            TextureAnimationHelper.TotalSeconds = gameTime.TotalGameTime.TotalSeconds;
 
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
             {
@@ -251,6 +263,7 @@ namespace ToTheEndOfTheWorld
 
             if (playerDeathSystem.TryHandleDeath(world))
             {
+                gameplayAudioSystem.StopAllLoops();
                 playerVerticalImpactService.Clear();
                 playerDeathSystem.TryRespawnOnInput(world, keyboardState, previousKeyboardState);
                 previousKeyboardState = keyboardState;
@@ -262,6 +275,7 @@ namespace ToTheEndOfTheWorld
 
             if (uiManager.BlocksGameplay)
             {
+                gameplayAudioSystem.StopAllLoops();
                 previousKeyboardState = keyboardState;
                 previousMouseState = mouseState;
                 base.Update(gameTime);
@@ -288,7 +302,7 @@ namespace ToTheEndOfTheWorld
             {
                 player.MovementInput = Vector2.Zero;
             }
-            if (UsesThrustersForMovement(player, isGrounded) && !playerHeatSystem.CanUseThrusters(player))
+            if (PlayerThrusterUsageService.UsesThrustersForMovement(player, isGrounded) && !playerHeatSystem.CanUseThrusters(player))
             {
                 player.MovementInput = Vector2.Zero;
             }
@@ -308,7 +322,7 @@ namespace ToTheEndOfTheWorld
             }
             player.Mining = minedThisFrame;
 
-            if (UsesThrustersForMovement(player, isGrounded))
+            if (PlayerThrusterUsageService.UsesThrustersForMovement(player, isGrounded))
             {
                 playerHeatSystem.AddThrusterHeat(player, deltaTime);
             }
@@ -317,6 +331,7 @@ namespace ToTheEndOfTheWorld
             playerFuelSystem.Update(player, deltaTime, isGrounded);
             playerHullSystem.Update(player, deltaTime);
             playerDeathSystem.TryHandleDeath(world);
+            gameplayAudioSystem.Update(world, isGrounded);
 
             previousKeyboardState = keyboardState;
             previousMouseState = mouseState;
@@ -458,11 +473,6 @@ namespace ToTheEndOfTheWorld
                 return;
             }
             worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportHeight);
-        }
-
-        private static bool UsesThrustersForMovement(APlayer player, bool isGrounded)
-        {
-            return player.MovementInput.Y < 0 || (!isGrounded && player.MovementInput.X != 0);
         }
 
         private void UpdateUiCursor(Point mousePosition)

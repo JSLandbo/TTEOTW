@@ -20,7 +20,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 EPlayerEquipmentSlotType.Inventory => world.Player.Inventory,
                 EPlayerEquipmentSlotType.FuelTank => world.Player.FuelTank,
                 EPlayerEquipmentSlotType.Thruster => world.Player.Thruster,
-                _ => throw new System.ArgumentOutOfRangeException(nameof(slotType), slotType, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(slotType), slotType, null)
             };
         }
 

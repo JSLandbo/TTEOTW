@@ -2,11 +2,12 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Items;
+using ToTheEndOfTheWorld.Gameplay.Audio;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerConsumeableSystem(WorldBlockDamageService worldBlockDamageService, WorldEffectsRepository worldEffects)
+    public sealed class PlayerConsumeableSystem(WorldBlockDamageService worldBlockDamageService, WorldEffectsRepository worldEffects, GameEventBus eventBus)
     {
         public void TryUse(ModelWorld world, int slotIndex)
         {
@@ -43,6 +44,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             Vector2 center = PlayerWorldPositionService.GetPlayerWorldPosition(world);
             int halfExtent = dynamite.ExplosionAreaSize / 2;
+            eventBus.Publish(new ExplosionTriggeredEvent(new WorldTile((long)center.X, (long)center.Y)));
 
             for (int y = -halfExtent; y <= halfExtent; y++)
             {

@@ -305,7 +305,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.CratingMaterials.AdamantiumIngot,
                 "Adamantium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/AdamantiumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 1000.0f, Weight: 0.5f), 
+                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 1000.0f, Weight: 0.5f),
                 frames: 4
             );
         }

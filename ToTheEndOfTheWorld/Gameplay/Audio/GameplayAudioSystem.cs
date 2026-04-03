@@ -1,0 +1,86 @@
+using System;
+using ToTheEndOfTheWorld.Gameplay.Events;
+
+namespace ToTheEndOfTheWorld.Gameplay.Audio
+{
+    public sealed class GameplayAudioSystem
+    {
+        private readonly GameAudioService audioService;
+
+        private double currentTotalSeconds;
+        private double lastExplosionPlayedAt = double.MinValue;
+        private double lastMinedBlockPlayedAt = double.MinValue;
+
+        public GameplayAudioSystem(GameAudioService audioService, GameEventBus eventBus)
+        {
+            this.audioService = audioService;
+            eventBus.Subscribe<ExplosionTriggeredEvent>(OnExplosionTriggered);
+            eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
+        }
+
+        public void SetTime(double totalSeconds)
+        {
+            this.currentTotalSeconds = totalSeconds;
+        }
+
+        public void Update(ModelWorld world, bool isGrounded)
+        {
+            if (world.Player.Mining)
+            {
+                audioService.EnsureLoop(AudioLoopChannel.Mining, SoundEffectId.LoopMining);
+            }
+            else
+            {
+                audioService.StopLoop(AudioLoopChannel.Mining);
+            }
+
+            if (isGrounded && Math.Abs(world.Player.XVelocity) > PlayerWorldTuning.VelocityStopThreshold)
+            {
+                audioService.EnsureLoop(AudioLoopChannel.Engine, SoundEffectId.LoopEngine);
+            }
+            else
+            {
+                audioService.StopLoop(AudioLoopChannel.Engine);
+            }
+
+            if (PlayerThrusterUsageService.UsesThrustersForMovement(world.Player, isGrounded))
+            {
+                audioService.EnsureLoop(AudioLoopChannel.Thruster, SoundEffectId.LoopThruster);
+            }
+            else
+            {
+                audioService.StopLoop(AudioLoopChannel.Thruster);
+            }
+        }
+
+        public void StopAllLoops()
+        {
+            audioService.StopAllLoops();
+        }
+
+        private void OnExplosionTriggered(ExplosionTriggeredEvent gameEvent)
+        {
+            TryPlayOneShot(SoundEffectId.EffectExplosion, ref lastExplosionPlayedAt, 0.05);
+        }
+
+        private void OnWorldBlockDestroyed(WorldBlockDestroyedEvent gameEvent)
+        {
+            if (gameEvent.Method == WorldBlockDestroyMethod.Mined)
+            {
+                TryPlayOneShot(SoundEffectId.EffectMinedBlock, ref lastMinedBlockPlayedAt, 0.08);
+            }
+        }
+
+        private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)
+        {
+            if (currentTotalSeconds - lastPlayedAt < minimumReplayIntervalSeconds)
+            {
+                return;
+            }
+
+            audioService.PlayOneShot(id, volume);
+
+            lastPlayedAt = currentTotalSeconds;
+        }
+    }
+}
