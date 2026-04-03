@@ -200,7 +200,6 @@ namespace ModelLibrary.Ids
 
             // public static class Consumeables TODO: Implement this.
             // {
-            //      public const short SmallDynamite = 10800; // 3x3 (around you, you DO get items) 100 damage, 1 million hardness
             //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items) 500 damage, 1 million hardness
             //      public const short LargeDynamite = 10802; // 7x7 (around you, you DO get items) 2500 damage, 1 million hardness
             //      public const short MassiveDynamite = 10803; // 9x9 (around you, you DO get items) 10000 damage, 1 million hardness
@@ -220,9 +219,6 @@ namespace ModelLibrary.Ids
             //      public const short RandomGlobalTeleporter = 11103; // Teleports you randomly (not inside buildings), dangerous! (world is almost infinite)
             //      public const short WorldSpawnTeleporter = 11104; // Teleports you to spawn
 
-            //      public const short SmallFuelCapsule = 11200; // Contains 20 fuel (goes directly to your fueltank)
-            //      public const short MediumFuelCapsule = 11201; // Contains 50 fuel (goes directly to your fueltank)
-            //      public const short LargeFuelCapsule = 11202; // Contains 250 fuel (goes directly to your fueltank)
             //      public const short FullFuelCapsule = 11203; // Contains 100% fuel (or just like, 999999f)
 
             //      public const short SmallOneTimeLaser = 11300; // Drills down 1 wide and 10 deep (you get no drops)
@@ -245,6 +241,8 @@ namespace ModelLibrary.Ids
             {
                 public const short SmallDynamite = 10800;
                 public const short SmallFuelCapsule = 11200;
+                public const short MediumFuelCapsule = 11201;
+                public const short LargeFuelCapsule = 11202;
             }
 
             public static class CratingMaterials

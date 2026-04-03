@@ -1,4 +1,4 @@
 namespace ToTheEndOfTheWorld.Gameplay.Events
 {
-    public sealed record PlayerSelfDestructedEvent;
+    public readonly record struct PlayerSelfDestructedEvent;
 }

@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         public bool TryUse(ModelWorld world, AFuelCapsule fuelCapsule)
         {
             world.Player.CurrentFuel = Math.Min(world.Player.FuelTank.Capacity, world.Player.CurrentFuel + fuelCapsule.FuelAmount);
-            eventBus.Publish(new ConsumeableUsedEvent(fuelCapsule.ID));
+            eventBus.Publish(new ConsumeableUsedEvent(fuelCapsule));
             return true;
         }
     }

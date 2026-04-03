@@ -1,5 +1,5 @@
 using System;
-using ModelLibrary.Ids;
+using ModelLibrary.Abstract.Types;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Audio
@@ -86,7 +86,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
 
         private void OnConsumeableUsed(ConsumeableUsedEvent gameEvent)
         {
-            if (gameEvent.ItemId == GameIds.Items.Consumeables.SmallFuelCapsule)
+            if (gameEvent.Consumeable is AFuelCapsule)
             {
                 audioService.PlayOneShot(SoundEffectId.EffectUsedFuelCapsule);
             }

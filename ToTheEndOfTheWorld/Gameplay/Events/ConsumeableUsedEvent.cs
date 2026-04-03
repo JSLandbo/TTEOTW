@@ -1,4 +1,6 @@
+using ModelLibrary.Abstract.Types;
+
 namespace ToTheEndOfTheWorld.Gameplay.Events
 {
-    public sealed record ConsumeableUsedEvent(short ItemId);
+    public readonly record struct ConsumeableUsedEvent(AConsumeable Consumeable);
 }

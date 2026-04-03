@@ -1,4 +1,4 @@
 namespace ToTheEndOfTheWorld.Gameplay.Events
 {
-    public sealed record TrashBinUsedEvent;
+    public readonly record struct TrashBinUsedEvent;
 }

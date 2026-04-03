@@ -187,7 +187,23 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallFuelCapsule,
                 "Small Fuel Capsule",
                 LoadSingleTexture(manager, "Consumeables/SmallFuelCapsule"),
-                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 100.0f, Worth: 150.0f, Weight: 0.1f),
+                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 25.0f, Worth: 100.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.MediumFuelCapsule,
+                "Medium Fuel Capsule",
+                LoadSingleTexture(manager, "Consumeables/MediumFuelCapsule"),
+                new MediumFuelCapsule(ID: GameIds.Items.Consumeables.MediumFuelCapsule, Name: "Medium Fuel Capsule", FuelAmount: 100.0f, Worth: 400.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.LargeFuelCapsule,
+                "Large Fuel Capsule",
+                LoadSingleTexture(manager, "Consumeables/LargeFuelCapsule"),
+                new LargeFuelCapsule(ID: GameIds.Items.Consumeables.LargeFuelCapsule, Name: "Large Fuel Capsule", FuelAmount: 500.0f, Worth: 2500.0f, Weight: 0.1f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -370,7 +386,9 @@ namespace ToTheEndOfTheWorld.Context.Items
             {
                 Item item => new Item(item),
                 SmallDynamite dynamite => new SmallDynamite(dynamite),
-                SmallFuelCapsule fuelCapsule => new SmallFuelCapsule(fuelCapsule),
+                SmallFuelCapsule smallFuelCapsule => new SmallFuelCapsule(smallFuelCapsule),
+                MediumFuelCapsule mediumFuelCapsule => new MediumFuelCapsule(mediumFuelCapsule),
+                LargeFuelCapsule largeFuelCapsule => new LargeFuelCapsule(largeFuelCapsule),
                 ThermalPlating plating => new ThermalPlating(plating),
                 Hull hull => new Hull(hull),
                 Drill drill => new Drill(drill),
