@@ -41,11 +41,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             grid.InternalGrid[0, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallFuelCapsule), 1);
             grid.InternalGrid[1, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumFuelCapsule), 1);
             grid.InternalGrid[2, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeFuelCapsule), 1);
-            grid.InternalGrid[3, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallCoolantPatch), 1);
 
-            grid.InternalGrid[0, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallHullRepairKit), 1);
-            grid.InternalGrid[1, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumHullRepairKit), 1);
-            grid.InternalGrid[2, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeHullRepairKit), 1);
+            grid.InternalGrid[0, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallCoolantPatch), 1);
+            grid.InternalGrid[1, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumCoolantPatch), 1);
+            grid.InternalGrid[2, 2] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeCoolantPatch), 1);
+
+            grid.InternalGrid[0, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallHullRepairKit), 1);
+            grid.InternalGrid[1, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumHullRepairKit), 1);
+            grid.InternalGrid[2, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeHullRepairKit), 1);
 
             return grid;
         }

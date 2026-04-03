@@ -206,9 +206,6 @@ namespace ModelLibrary.Ids
             //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items) 100000 damage, 1 million hardness
             //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items) 1000000 damage, 1 million hardness
 
-            //      public const short LargeThermalCoolantPatch = 10901; // Cools you by 250
-            //      public const short FullThermalCoolantPatch = 10902; // Cools you 100% (or just like 999999f)
-
             //      public const short RandomSurfaceTeleporter = 11101; // Teleports you to a random place on 0 y-axis (can be far away, world is almost infinite)
             //      public const short RandomProximityTeleporter = 11102; // Teleports you randomly within 500 blocks (not inside buildings)
             //      public const short RandomGlobalTeleporter = 11103; // Teleports you randomly (not inside buildings), dangerous! (world is almost infinite)
@@ -237,6 +234,8 @@ namespace ModelLibrary.Ids
                 public const short SmallDynamite = 15100;
 
                 public const short SmallCoolantPatch = 15200;
+                public const short MediumCoolantPatch = 15201;
+                public const short LargeCoolantPatch = 15202;
 
                 public const short SmallHullRepairKit = 15300;
                 public const short MediumHullRepairKit = 15301;
