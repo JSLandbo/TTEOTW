@@ -14,12 +14,12 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             Block block = new(definition.Value.block);
 
             // TODO: Consider hardening other ores as well!
-            if (definition.Key == GameIds.Blocks.Dirt && y > 0)
-            {
-                block.CurrentHealth += 0.001f * y;
-                block.MaximumHealth += 0.001f * y;
-                block.Hardness += 0.001f * y;
-            }
+            //if (definition.Key == GameIds.Blocks.Dirt && y > 0)
+            //{
+                block.CurrentHealth += 0.025f * y;
+                block.MaximumHealth += 0.025f * y;
+                block.Hardness += 0.05f * y;
+            //}
 
             return block;
         }

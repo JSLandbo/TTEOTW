@@ -84,25 +84,25 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Copper, "Copper Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/CopperFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Copper, Capacity: 25, Fuel: 25, Name: "Copper Fuel Tank", Worth: CopperTierWorth, Weight: 6), EEquipmentType.FuelTank, 1);
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Iron, "Iron Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/IronFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Iron, Capacity: 100, Fuel: 100, Name: "Iron Fuel Tank", Worth: IronTierWorth, Weight: 7), EEquipmentType.FuelTank, 2);
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Gold, "Gold Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/GoldFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Gold, Capacity: 250, Fuel: 250, Name: "Gold Fuel Tank", Worth: GoldTierWorth, Weight: 8), EEquipmentType.FuelTank, 3);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Crystal, "Crystal Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/CrystalFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Crystal, Capacity: 1000, Fuel: 1000, Name: "Crystal Fuel Tank", Worth: CrystalTierWorth, Weight: 8), EEquipmentType.FuelTank, 4);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Diamond, "Diamond Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/DiamondFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Diamond, Capacity: 2000, Fuel: 2000, Name: "Diamond Fuel Tank", Worth: DiamondTierWorth, Weight: 7), EEquipmentType.FuelTank, 5);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Radioactive, "Radioactive Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/RadioactiveFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Radioactive, Capacity: 2800, Fuel: 2800, Name: "Radioactive Fuel Tank", Worth: RadioactiveTierWorth, Weight: 6), EEquipmentType.FuelTank, 6);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Rainbow, "Rainbow Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/RainbowFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Rainbow, Capacity: 4000, Fuel: 4000, Name: "Rainbow Fuel Tank", Worth: RainbowTierWorth, Weight: 5), EEquipmentType.FuelTank, 7);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Mythril, "Mythril Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/MythrilFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Mythril, Capacity: 6000, Fuel: 6000, Name: "Mythril Fuel Tank", Worth: MythrilTierWorth, Weight: 4), EEquipmentType.FuelTank, 8);
-            AddEquipmentDefinition(GameIds.Items.FuelTanks.Adamant, "Adamant Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/AdamantFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Adamant, Capacity: 10000, Fuel: 10000, Name: "Adamant Fuel Tank", Worth: AdamantTierWorth, Weight: 4), EEquipmentType.FuelTank, 9);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Crystal, "Crystal Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/CrystalFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Crystal, Capacity: 750, Fuel: 750, Name: "Crystal Fuel Tank", Worth: CrystalTierWorth, Weight: 8), EEquipmentType.FuelTank, 4);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Diamond, "Diamond Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/DiamondFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Diamond, Capacity: 1250, Fuel: 1250, Name: "Diamond Fuel Tank", Worth: DiamondTierWorth, Weight: 7), EEquipmentType.FuelTank, 5);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Radioactive, "Radioactive Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/RadioactiveFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Radioactive, Capacity: 1500, Fuel: 1500, Name: "Radioactive Fuel Tank", Worth: RadioactiveTierWorth, Weight: 6), EEquipmentType.FuelTank, 6);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Rainbow, "Rainbow Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/RainbowFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Rainbow, Capacity: 2000, Fuel: 2000, Name: "Rainbow Fuel Tank", Worth: RainbowTierWorth, Weight: 5), EEquipmentType.FuelTank, 7);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Mythril, "Mythril Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/MythrilFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Mythril, Capacity: 3500, Fuel: 3500, Name: "Mythril Fuel Tank", Worth: MythrilTierWorth, Weight: 4), EEquipmentType.FuelTank, 8);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Adamant, "Adamant Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/AdamantFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Adamant, Capacity: 5000, Fuel: 5000, Name: "Adamant Fuel Tank", Worth: AdamantTierWorth, Weight: 4), EEquipmentType.FuelTank, 9);
         }
 
         private void RegisterContainers(ContentManager manager)
         {
-            AddEquipmentDefinition(GameIds.Items.Containers.Scrap, "Scrap Container", LoadSingleTexture(manager, "Player/Containers/ScrapContainer"), new Inventory(ID: GameIds.Items.Containers.Scrap, Items: CreateInventoryGrid(2, 1), SizeLimit: 16, Name: "Scrap Container", Worth: ScrapTierWorth, Weight: 5, MaxStackSize: 8), EEquipmentType.Inventory, 0);
-            AddEquipmentDefinition(GameIds.Items.Containers.Copper, "Copper Container", LoadSingleTexture(manager, "Player/Containers/CopperContainer"), new Inventory(ID: GameIds.Items.Containers.Copper, Items: CreateInventoryGrid(1, 3), SizeLimit: 64, Name: "Copper Container", Worth: CopperTierWorth, Weight: 6, MaxStackSize: 32), EEquipmentType.Inventory, 1);
-            AddEquipmentDefinition(GameIds.Items.Containers.Iron, "Iron Container", LoadSingleTexture(manager, "Player/Containers/IronContainer"), new Inventory(ID: GameIds.Items.Containers.Iron, Items: CreateInventoryGrid(2, 3), SizeLimit: 384, Name: "Iron Container", Worth: IronTierWorth, Weight: 7, MaxStackSize: 64), EEquipmentType.Inventory, 2);
-            AddEquipmentDefinition(GameIds.Items.Containers.Gold, "Gold Container", LoadSingleTexture(manager, "Player/Containers/GoldContainer"), new Inventory(ID: GameIds.Items.Containers.Gold, Items: CreateInventoryGrid(3, 3), SizeLimit: 576, Name: "Gold Container", Worth: GoldTierWorth, Weight: 8, MaxStackSize: 64), EEquipmentType.Inventory, 3);
-            AddEquipmentDefinition(GameIds.Items.Containers.Crystal, "Crystal Container", LoadSingleTexture(manager, "Player/Containers/CrystalContainer"), new Inventory(ID: GameIds.Items.Containers.Crystal, Items: CreateInventoryGrid(3, 4), SizeLimit: 768, Name: "Crystal Container", Worth: CrystalTierWorth, Weight: 8, MaxStackSize: 64), EEquipmentType.Inventory, 4);
+            AddEquipmentDefinition(GameIds.Items.Containers.Scrap, "Scrap Container", LoadSingleTexture(manager, "Player/Containers/ScrapContainer"), new Inventory(ID: GameIds.Items.Containers.Scrap, Items: CreateInventoryGrid(3, 1), SizeLimit: 16, Name: "Scrap Container", Worth: ScrapTierWorth, Weight: 5, MaxStackSize: 8), EEquipmentType.Inventory, 0);
+            AddEquipmentDefinition(GameIds.Items.Containers.Copper, "Copper Container", LoadSingleTexture(manager, "Player/Containers/CopperContainer"), new Inventory(ID: GameIds.Items.Containers.Copper, Items: CreateInventoryGrid(2, 2), SizeLimit: 64, Name: "Copper Container", Worth: CopperTierWorth, Weight: 6, MaxStackSize: 16), EEquipmentType.Inventory, 1);
+            AddEquipmentDefinition(GameIds.Items.Containers.Iron, "Iron Container", LoadSingleTexture(manager, "Player/Containers/IronContainer"), new Inventory(ID: GameIds.Items.Containers.Iron, Items: CreateInventoryGrid(2, 3), SizeLimit: 128, Name: "Iron Container", Worth: IronTierWorth, Weight: 7, MaxStackSize: 32), EEquipmentType.Inventory, 2);
+            AddEquipmentDefinition(GameIds.Items.Containers.Gold, "Gold Container", LoadSingleTexture(manager, "Player/Containers/GoldContainer"), new Inventory(ID: GameIds.Items.Containers.Gold, Items: CreateInventoryGrid(3, 3), SizeLimit: 256, Name: "Gold Container", Worth: GoldTierWorth, Weight: 8, MaxStackSize: 64), EEquipmentType.Inventory, 3);
+            AddEquipmentDefinition(GameIds.Items.Containers.Crystal, "Crystal Container", LoadSingleTexture(manager, "Player/Containers/CrystalContainer"), new Inventory(ID: GameIds.Items.Containers.Crystal, Items: CreateInventoryGrid(3, 4), SizeLimit: 512, Name: "Crystal Container", Worth: CrystalTierWorth, Weight: 8, MaxStackSize: 64), EEquipmentType.Inventory, 4);
             AddEquipmentDefinition(GameIds.Items.Containers.Diamond, "Diamond Container", LoadSingleTexture(manager, "Player/Containers/DiamondContainer"), new Inventory(ID: GameIds.Items.Containers.Diamond, Items: CreateInventoryGrid(4, 4), SizeLimit: 1024, Name: "Diamond Container", Worth: DiamondTierWorth, Weight: 7, MaxStackSize: 64), EEquipmentType.Inventory, 5);
-            AddEquipmentDefinition(GameIds.Items.Containers.Radioactive, "Radioactive Container", LoadSingleTexture(manager, "Player/Containers/RadioactiveContainer"), new Inventory(ID: GameIds.Items.Containers.Radioactive, Items: CreateInventoryGrid(4, 5), SizeLimit: 1280, Name: "Radioactive Container", Worth: RadioactiveTierWorth, Weight: 6, MaxStackSize: 64), EEquipmentType.Inventory, 6);
-            AddEquipmentDefinition(GameIds.Items.Containers.Rainbow, "Rainbow Container", LoadSingleTexture(manager, "Player/Containers/RainbowContainer"), new Inventory(ID: GameIds.Items.Containers.Rainbow, Items: CreateInventoryGrid(5, 5), SizeLimit: 1600, Name: "Rainbow Container", Worth: RainbowTierWorth, Weight: 5, MaxStackSize: 64), EEquipmentType.Inventory, 7);
-            AddEquipmentDefinition(GameIds.Items.Containers.Mythril, "Mythril Container", LoadSingleTexture(manager, "Player/Containers/MythrilContainer"), new Inventory(ID: GameIds.Items.Containers.Mythril, Items: CreateInventoryGrid(8, 6), SizeLimit: 6144, Name: "Mythril Container", Worth: MythrilTierWorth, Weight: 4, MaxStackSize: 128), EEquipmentType.Inventory, 8);
+            AddEquipmentDefinition(GameIds.Items.Containers.Radioactive, "Radioactive Container", LoadSingleTexture(manager, "Player/Containers/RadioactiveContainer"), new Inventory(ID: GameIds.Items.Containers.Radioactive, Items: CreateInventoryGrid(4, 5), SizeLimit: 2048, Name: "Radioactive Container", Worth: RadioactiveTierWorth, Weight: 6, MaxStackSize: 64), EEquipmentType.Inventory, 6);
+            AddEquipmentDefinition(GameIds.Items.Containers.Rainbow, "Rainbow Container", LoadSingleTexture(manager, "Player/Containers/RainbowContainer"), new Inventory(ID: GameIds.Items.Containers.Rainbow, Items: CreateInventoryGrid(5, 5), SizeLimit: 4096, Name: "Rainbow Container", Worth: RainbowTierWorth, Weight: 5, MaxStackSize: 64), EEquipmentType.Inventory, 7);
+            AddEquipmentDefinition(GameIds.Items.Containers.Mythril, "Mythril Container", LoadSingleTexture(manager, "Player/Containers/MythrilContainer"), new Inventory(ID: GameIds.Items.Containers.Mythril, Items: CreateInventoryGrid(8, 6), SizeLimit: 16384, Name: "Mythril Container", Worth: MythrilTierWorth, Weight: 4, MaxStackSize: 128), EEquipmentType.Inventory, 8);
             AddEquipmentDefinition(GameIds.Items.Containers.Adamant, "Adamant Container", LoadSingleTexture(manager, "Player/Containers/AdamantContainer"), new Inventory(ID: GameIds.Items.Containers.Adamant, Items: CreateInventoryGrid(18, 8), SizeLimit: 73728, Name: "Adamant Container", Worth: AdamantTierWorth, Weight: 4, MaxStackSize: 512), EEquipmentType.Inventory, 9);
         }
 
@@ -110,14 +110,14 @@ namespace ToTheEndOfTheWorld.Context.Items
         {
             AddEquipmentDefinition(GameIds.Items.Thrusters.Scrap, "Scrap Thruster", LoadSingleTexture(manager, "Player/Thrusters/ScrapThruster"), new Thruster(ID: GameIds.Items.Thrusters.Scrap, Speed: 500f, Acceleration: 250f, Power: 50, Name: "Scrap Thruster", ActiveFuelConsumption: 0.05f, ActiveHeatGeneration: 0.10f, Weight: 5, Worth: ScrapTierWorth), EEquipmentType.Thruster, 0);
             AddEquipmentDefinition(GameIds.Items.Thrusters.Copper, "Copper Thruster", LoadSingleTexture(manager, "Player/Thrusters/CopperThruster"), new Thruster(ID: GameIds.Items.Thrusters.Copper, Speed: 1100f, Acceleration: 350f, Power: 75, Name: "Copper Thruster", ActiveFuelConsumption: 0.1f, ActiveHeatGeneration: 0.18f, Weight: 6, Worth: CopperTierWorth), EEquipmentType.Thruster, 1);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Iron, "Iron Thruster", LoadSingleTexture(manager, "Player/Thrusters/IronThruster"), new Thruster(ID: GameIds.Items.Thrusters.Iron, Speed: 2000f, Acceleration: 500f, Power: 100, Name: "Iron Thruster", ActiveFuelConsumption: 0.4f, ActiveHeatGeneration: 0.28f, Weight: 7, Worth: IronTierWorth), EEquipmentType.Thruster, 2);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Gold, "Gold Thruster", LoadSingleTexture(manager, "Player/Thrusters/GoldThruster"), new Thruster(ID: GameIds.Items.Thrusters.Gold, Speed: 4000f, Acceleration: 650f, Power: 200, Name: "Gold Thruster", ActiveFuelConsumption: 1.2f, ActiveHeatGeneration: 0.40f, Weight: 8, Worth: GoldTierWorth), EEquipmentType.Thruster, 3);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Crystal, "Crystal Thruster", LoadSingleTexture(manager, "Player/Thrusters/CrystalThruster"), new Thruster(ID: GameIds.Items.Thrusters.Crystal, Speed: 8000f, Acceleration: 800f, Power: 400, Name: "Crystal Thruster", ActiveFuelConsumption: 2.4f, ActiveHeatGeneration: 0.55f, Weight: 8, Worth: CrystalTierWorth), EEquipmentType.Thruster, 4);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Diamond, "Diamond Thruster", LoadSingleTexture(manager, "Player/Thrusters/DiamondThruster"), new Thruster(ID: GameIds.Items.Thrusters.Diamond, Speed: 24000f, Acceleration: 1000f, Power: 600, Name: "Diamond Thruster", ActiveFuelConsumption: 3.6f, ActiveHeatGeneration: 1f, Weight: 7, Worth: DiamondTierWorth), EEquipmentType.Thruster, 5);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Radioactive, "Radioactive Thruster", LoadSingleTexture(manager, "Player/Thrusters/RadioactiveThruster"), new Thruster(ID: GameIds.Items.Thrusters.Radioactive, Speed: 15360f, Acceleration: 1200f, Power: 1250, Name: "Radioactive Thruster", ActiveFuelConsumption: 4.7f, ActiveHeatGeneration: 2.00f, Weight: 6, Worth: RadioactiveTierWorth), EEquipmentType.Thruster, 6);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Rainbow, "Rainbow Thruster", LoadSingleTexture(manager, "Player/Thrusters/RainbowThruster"), new Thruster(ID: GameIds.Items.Thrusters.Rainbow, Speed: 48000f, Acceleration: 1750f, Power: 2500, Name: "Rainbow Thruster", ActiveFuelConsumption: 5.5f, ActiveHeatGeneration: 3f, Weight: 5, Worth: RainbowTierWorth), EEquipmentType.Thruster, 7);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Mythril, "Mythril Thruster", LoadSingleTexture(manager, "Player/Thrusters/MythrilThruster"), new Thruster(ID: GameIds.Items.Thrusters.Mythril, Speed: 96000f, Acceleration: 2500f, Power: 7500, Name: "Mythril Thruster", ActiveFuelConsumption: 6.2f, ActiveHeatGeneration: 4f, Weight: 4, Worth: MythrilTierWorth), EEquipmentType.Thruster, 8);
-            AddEquipmentDefinition(GameIds.Items.Thrusters.Adamant, "Adamant Thruster", LoadSingleTexture(manager, "Player/Thrusters/AdamantThruster"), new Thruster(ID: GameIds.Items.Thrusters.Adamant, Speed: 192000f, Acceleration: 4000f, Power: 15000, Name: "Adamant Thruster", ActiveFuelConsumption: 7.0f, ActiveHeatGeneration: 5f, Weight: 4, Worth: AdamantTierWorth), EEquipmentType.Thruster, 9);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Iron, "Iron Thruster", LoadSingleTexture(manager, "Player/Thrusters/IronThruster"), new Thruster(ID: GameIds.Items.Thrusters.Iron, Speed: 2000f, Acceleration: 500f, Power: 100, Name: "Iron Thruster", ActiveFuelConsumption: 0.2f, ActiveHeatGeneration: 0.28f, Weight: 7, Worth: IronTierWorth), EEquipmentType.Thruster, 2);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Gold, "Gold Thruster", LoadSingleTexture(manager, "Player/Thrusters/GoldThruster"), new Thruster(ID: GameIds.Items.Thrusters.Gold, Speed: 4000f, Acceleration: 650f, Power: 200, Name: "Gold Thruster", ActiveFuelConsumption: 0.6f, ActiveHeatGeneration: 0.40f, Weight: 8, Worth: GoldTierWorth), EEquipmentType.Thruster, 3);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Crystal, "Crystal Thruster", LoadSingleTexture(manager, "Player/Thrusters/CrystalThruster"), new Thruster(ID: GameIds.Items.Thrusters.Crystal, Speed: 8000f, Acceleration: 800f, Power: 400, Name: "Crystal Thruster", ActiveFuelConsumption: 1.4f, ActiveHeatGeneration: 0.55f, Weight: 8, Worth: CrystalTierWorth), EEquipmentType.Thruster, 4);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Diamond, "Diamond Thruster", LoadSingleTexture(manager, "Player/Thrusters/DiamondThruster"), new Thruster(ID: GameIds.Items.Thrusters.Diamond, Speed: 24000f, Acceleration: 1000f, Power: 600, Name: "Diamond Thruster", ActiveFuelConsumption: 2.8f, ActiveHeatGeneration: 1f, Weight: 7, Worth: DiamondTierWorth), EEquipmentType.Thruster, 5);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Radioactive, "Radioactive Thruster", LoadSingleTexture(manager, "Player/Thrusters/RadioactiveThruster"), new Thruster(ID: GameIds.Items.Thrusters.Radioactive, Speed: 15360f, Acceleration: 1200f, Power: 1250, Name: "Radioactive Thruster", ActiveFuelConsumption: 4.7f, ActiveHeatGeneration: 2f, Weight: 6, Worth: RadioactiveTierWorth), EEquipmentType.Thruster, 6);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Rainbow, "Rainbow Thruster", LoadSingleTexture(manager, "Player/Thrusters/RainbowThruster"), new Thruster(ID: GameIds.Items.Thrusters.Rainbow, Speed: 48000f, Acceleration: 1750f, Power: 2500, Name: "Rainbow Thruster", ActiveFuelConsumption: 4.0f, ActiveHeatGeneration: 3f, Weight: 5, Worth: RainbowTierWorth), EEquipmentType.Thruster, 7);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Mythril, "Mythril Thruster", LoadSingleTexture(manager, "Player/Thrusters/MythrilThruster"), new Thruster(ID: GameIds.Items.Thrusters.Mythril, Speed: 96000f, Acceleration: 2500f, Power: 7500, Name: "Mythril Thruster", ActiveFuelConsumption: 12.0f, ActiveHeatGeneration: 4f, Weight: 4, Worth: MythrilTierWorth), EEquipmentType.Thruster, 8);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Adamant, "Adamant Thruster", LoadSingleTexture(manager, "Player/Thrusters/AdamantThruster"), new Thruster(ID: GameIds.Items.Thrusters.Adamant, Speed: 192000f, Acceleration: 4000f, Power: 15000, Name: "Adamant Thruster", ActiveFuelConsumption: 16.0f, ActiveHeatGeneration: 6f, Weight: 4, Worth: AdamantTierWorth), EEquipmentType.Thruster, 9);
         }
 
         private void RegisterHulls(ContentManager manager)
@@ -191,121 +191,121 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.CratingMaterials.IronIngot,
                 "Iron Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/IronIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 10.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.IronIngot, Name: "Iron Ingot", Worth: 8.0f, Weight: 0.9f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.CopperIngot,
                 "Copper Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/CopperIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.CopperIngot, Name: "Copper Ingot", Worth: 20.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.CopperIngot, Name: "Copper Ingot", Worth: 14.0f, Weight: 0.8f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.TinIngot,
                 "Tin Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/TinIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.TinIngot, Name: "Tin Ingot", Worth: 8.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.TinIngot, Name: "Tin Ingot", Worth: 6.0f, Weight: 0.6f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.SilverIngot,
                 "Silver Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/SilverIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.SilverIngot, Name: "Silver Ingot", Worth: 35.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.SilverIngot, Name: "Silver Ingot", Worth: 26.0f, Weight: 0.8f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.GoldIngot,
                 "Gold Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/GoldIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.GoldIngot, Name: "Gold Ingot", Worth: 100.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.GoldIngot, Name: "Gold Ingot", Worth: 70.0f, Weight: 1.0f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.LeadIngot,
                 "Lead Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/LeadIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.LeadIngot, Name: "Lead Ingot", Worth: 12.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.LeadIngot, Name: "Lead Ingot", Worth: 9.0f, Weight: 1.15f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.AluminiumIngot,
                 "Aluminium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/AluminiumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.AluminiumIngot, Name: "Aluminium Ingot", Worth: 15.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.AluminiumIngot, Name: "Aluminium Ingot", Worth: 12.0f, Weight: 0.5f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.ZincIngot,
                 "Zinc Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/ZincIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.ZincIngot, Name: "Zinc Ingot", Worth: 18.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.ZincIngot, Name: "Zinc Ingot", Worth: 13.0f, Weight: 0.7f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.NickelIngot,
                 "Nickel Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/NickelIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.NickelIngot, Name: "Nickel Ingot", Worth: 25.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.NickelIngot, Name: "Nickel Ingot", Worth: 17.0f, Weight: 0.9f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.BismuthIngot,
                 "Bismuth Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/BismuthIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.BismuthIngot, Name: "Bismuth Ingot", Worth: 30.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.BismuthIngot, Name: "Bismuth Ingot", Worth: 21.0f, Weight: 0.85f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.TitaniumIngot,
                 "Titanium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/TitaniumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.TitaniumIngot, Name: "Titanium Ingot", Worth: 220.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.TitaniumIngot, Name: "Titanium Ingot", Worth: 150.0f, Weight: 1.3f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.TungstenIngot,
                 "Tungsten Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/TungstenIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.TungstenIngot, Name: "Tungsten Ingot", Worth: 160.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.TungstenIngot, Name: "Tungsten Ingot", Worth: 110.0f, Weight: 1.5f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.UraniumIngot,
                 "Uranium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/UraniumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.UraniumIngot, Name: "Uranium Ingot", Worth: 350.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.UraniumIngot, Name: "Uranium Ingot", Worth: 235.0f, Weight: 1.1f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.OsmiumIngot,
                 "Osmium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/OsmiumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.OsmiumIngot, Name: "Osmium Ingot", Worth: 140.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.OsmiumIngot, Name: "Osmium Ingot", Worth: 95.0f, Weight: 1.4f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.CobaltIngot,
                 "Cobalt Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/CobaltIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.CobaltIngot, Name: "Cobalt Ingot", Worth: 85.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.CobaltIngot, Name: "Cobalt Ingot", Worth: 58.0f, Weight: 0.9f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.ChromiumIngot,
                 "Chromium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/ChromiumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.ChromiumIngot, Name: "Chromium Ingot", Worth: 70.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.ChromiumIngot, Name: "Chromium Ingot", Worth: 50.0f, Weight: 1.0f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.PlatinumIngot,
                 "Platinum Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/PlatinumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.PlatinumIngot, Name: "Platinum Ingot", Worth: 180.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.PlatinumIngot, Name: "Platinum Ingot", Worth: 125.0f, Weight: 1.2f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.RainbowIngot,
                 "Rainbow Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/RainbowIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.RainbowIngot, Name: "Rainbow Ingot", Worth: 250.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.RainbowIngot, Name: "Rainbow Ingot", Worth: 170.0f, Weight: 0.35f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.MythrilIngot,
                 "Mythril Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/MythrilIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.MythrilIngot, Name: "Mythril Ingot", Worth: 500.0f, Weight: 0.5f)
+                new Item(ID: GameIds.Items.CratingMaterials.MythrilIngot, Name: "Mythril Ingot", Worth: 340.0f, Weight: 0.5f)
             );
             AddDefinition(
                 GameIds.Items.CratingMaterials.AdamantiumIngot,
                 "Adamantium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/AdamantiumIngot"),
-                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 1000.0f, Weight: 0.5f),
+                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 680.0f, Weight: 0.65f),
                 frames: 4
             );
         }

@@ -5,8 +5,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerHullSystem
     {
-        private const float FallDamageVelocityThreshold = 1800.0f;
-        private const float FallDamagePerExcessVelocity = 0.025f;
+        private const float FallDamageVelocityThreshold = 600.0f;
+        private const float FallDamagePerExcessVelocity = 0.25f;
         private const float ExplosionChancePerSecondAtMaxHeat = 0.35f;
         private const float MinimumExplosionDamage = 15.0f;
         private const float MaximumExplosionDamage = 60.0f;
@@ -19,6 +19,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             {
                 float explosionChance = ExplosionChancePerSecondAtMaxHeat * deltaTime;
 
+                // TODO: Make this, add sound and explosion animation on top of ship
                 if (Random.Shared.NextSingle() < explosionChance)
                 {
                     ApplyExplosionDamage(player, Lerp(MinimumExplosionDamage, MaximumExplosionDamage, Random.Shared.NextSingle()));

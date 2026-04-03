@@ -69,10 +69,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return water;
             }
 
-            float rockNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.12f) + 91.0f, (y * 0.12f) + 37.0f) * 100.0f;
             float lavaNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.08f) + 241.0f, (y * 0.08f) + 503.0f) * 100.0f;
-
-            float rockChance = MathHelper.Clamp(6.0f + ((y - 12.0f) * 0.012f), 6.0f, 78.0f);
             float lavaChance = y < 2000.0f ? 0.0f : MathHelper.Clamp((y - 2000.0f) * 0.004f, 0.0f, 18.0f);
 
             BlockDefinition lava = GetDefinition(GameIds.Blocks.Lava);
@@ -81,7 +78,11 @@ namespace ToTheEndOfTheWorld.Gameplay.World
                 return lava;
             }
 
-            if (rockNoise <= rockChance)
+            float rockNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.12f) + 91.0f, (y * 0.12f) + 37.0f) * 100.0f;
+            float rockChance = MathHelper.Clamp(6.0f + ((y - 12.0f) * 0.012f), 6.0f, 78.0f);
+
+            BlockDefinition rock = GetDefinition(GameIds.Blocks.Rock);
+            if (IsWithinDepth(y, rock) && rockNoise <= rockChance)
             {
                 return GetDefinition(GameIds.Blocks.Rock);
             }
