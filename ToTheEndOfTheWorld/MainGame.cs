@@ -205,7 +205,9 @@ namespace ToTheEndOfTheWorld
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             gameplayAudioSystem.SetTime(totalSeconds);
             TextureAnimationHelper.TotalSeconds = totalSeconds;
-            KeyboardState keyboardState = Keyboard.GetState();
+            KeyboardState keyboardState = IsActive
+                ? Keyboard.GetState()
+                : default;
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
 
