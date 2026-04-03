@@ -178,8 +178,32 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddDefinition(
                 GameIds.Items.Consumeables.SmallDynamite,
                 "Small Dynamite",
-                LoadSingleTexture(manager, "Dynamite/DynamiteTierOne"),
-                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 0.05f),
+                LoadSingleTexture(manager, "Dynamite/SmallDynamite"),
+                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 10000.0f, Worth: 250.0f, Weight: 0.05f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.MediumDynamite,
+                "Medium Dynamite",
+                LoadSingleTexture(manager, "Dynamite/MediumDynamite"),
+                new MediumDynamite(ID: GameIds.Items.Consumeables.MediumDynamite, Name: "Medium Dynamite", ExplosionAreaSize: 5, ExplosionPlaybackFrames: 40, Damage: 1000.0f, MaxHardness: 100000.0f, Worth: 2500.0f, Weight: 0.50f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.LargeDynamite,
+                "Large Dynamite",
+                LoadSingleTexture(manager, "Dynamite/LargeDynamite"),
+                new LargeDynamite(ID: GameIds.Items.Consumeables.LargeDynamite, Name: "Large Dynamite", ExplosionAreaSize: 9, ExplosionPlaybackFrames: 40, Damage: 10000.0f, MaxHardness: 1000000.0f, Worth: 25000.0f, Weight: 5.0f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.NukeDynamite,
+                "Nuke Dynamite",
+                LoadSingleTexture(manager, "Dynamite/NukeDynamite"),
+                new NukeDynamite(ID: GameIds.Items.Consumeables.NukeDynamite, Name: "Nuke Dynamite", ExplosionAreaSize: 63, ExplosionPlaybackFrames: 40, Damage: 100000.0f, MaxHardness: 10000000.0f, Worth: 2500000.0f, Weight: 1000f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -434,6 +458,9 @@ namespace ToTheEndOfTheWorld.Context.Items
             {
                 Item item => new Item(item),
                 SmallDynamite dynamite => new SmallDynamite(dynamite),
+                MediumDynamite mediumDynamite => new MediumDynamite(mediumDynamite),
+                LargeDynamite largeDynamite => new LargeDynamite(largeDynamite),
+                NukeDynamite nukeDynamite => new NukeDynamite(nukeDynamite),
                 SmallFuelCapsule smallFuelCapsule => new SmallFuelCapsule(smallFuelCapsule),
                 MediumFuelCapsule mediumFuelCapsule => new MediumFuelCapsule(mediumFuelCapsule),
                 LargeFuelCapsule largeFuelCapsule => new LargeFuelCapsule(largeFuelCapsule),

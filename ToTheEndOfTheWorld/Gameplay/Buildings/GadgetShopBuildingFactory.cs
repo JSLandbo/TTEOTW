@@ -37,6 +37,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             grid.InternalGrid[1, 5] = new GridBox(items.Create(GameIds.Items.Gadgets.RockFilter), 1);
 
             grid.InternalGrid[0, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallDynamite), 1);
+            grid.InternalGrid[1, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumDynamite), 1);
+            grid.InternalGrid[2, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeDynamite), 1);
+            grid.InternalGrid[3, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.NukeDynamite), 1);
 
             grid.InternalGrid[0, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallFuelCapsule), 1);
             grid.InternalGrid[1, 1] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumFuelCapsule), 1);

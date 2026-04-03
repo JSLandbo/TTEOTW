@@ -232,6 +232,9 @@ namespace ModelLibrary.Ids
             public static class Consumeables
             {
                 public const short SmallDynamite = 15100;
+                public const short MediumDynamite = 15101;
+                public const short LargeDynamite = 15102;
+                public const short NukeDynamite = 15110;
 
                 public const short SmallCoolantPatch = 15200;
                 public const short MediumCoolantPatch = 15201;

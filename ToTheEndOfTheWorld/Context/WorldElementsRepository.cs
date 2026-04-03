@@ -16,7 +16,7 @@ namespace ToTheEndOfTheWorld.Context
 
         private void InitializeCollection(ContentManager manager)
         {
-            AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Breaking, "Breaking", "General/Breaking/Breaking", ethereal: true, weight: 0.0f);
+            AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Breaking, "Breaking", "General/Breaking", ethereal: true, weight: 0.0f);
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Background, "Background", "Blocks/DirtBlockBackground", ethereal: true, weight: 0.0f);
             AddRuntimeBlock(manager, GameIds.RuntimeBlocks.Air, "Air", "Blocks/AirBlock", ethereal: true, minimumDepth: long.MinValue, maximumDepth: 10, occurrenceSpan: new Vector2(0f, 100f), weight: 0.0f);
 

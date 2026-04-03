@@ -91,18 +91,6 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectYouDied.wav;Audio/Sfx/EffectYouDied
 
-#begin Audio/Sfx/Freeware/EffectMinedBlock.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/Freeware/EffectMinedBlock.wav;Audio/Sfx/Freeware/EffectMinedBlock
-
-#begin Audio/Sfx/Freeware/LoopMining.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/Freeware/LoopMining.wav;Audio/Sfx/Freeware/LoopMining
-
 #begin Audio/Sfx/LoopEngineActive.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1091,7 +1079,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/LargeCoolantPatch.png
+/build:Graphics/Consumeables/LargeCoolantPatch.png;Graphics/Consumeables/LargeCoolantPatch
+
+#begin Graphics/Consumeables/LargeDynamite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/LargeDynamite.png;Graphics/Consumeables/LargeDynamite
 
 #begin Graphics/Consumeables/LargeFuelCapsule.png
 /importer:TextureImporter
@@ -1117,7 +1117,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/LargeHullRepairKit.png;Graphics/Consumeables/LargeHullRepairKit
 
-
 #begin Graphics/Consumeables/MediumCoolantPatch.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1128,7 +1127,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/Consumeables/MediumCoolantPatch.png
+/build:Graphics/Consumeables/MediumCoolantPatch.png;Graphics/Consumeables/MediumCoolantPatch
+
+#begin Graphics/Consumeables/MediumDynamite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/MediumDynamite.png;Graphics/Consumeables/MediumDynamite
 
 #begin Graphics/Consumeables/MediumFuelCapsule.png
 /importer:TextureImporter
@@ -1154,6 +1165,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/MediumHullRepairKit.png;Graphics/Consumeables/MediumHullRepairKit
 
+#begin Graphics/Consumeables/NukeDynamite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/NukeDynamite.png;Graphics/Consumeables/NukeDynamite
+
 #begin Graphics/Consumeables/SmallCoolantPatch.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1165,6 +1188,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallCoolantPatch.png;Graphics/Consumeables/SmallCoolantPatch
+
+#begin Graphics/Consumeables/SmallDynamite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/SmallDynamite.png;Graphics/Consumeables/SmallDynamite
 
 #begin Graphics/Consumeables/SmallFuelCapsule.png
 /importer:TextureImporter
@@ -1430,54 +1465,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/ZincIngot.png;Graphics/CraftingMaterials/ZincIngot
 
-#begin Graphics/Dynamite/DynamiteTierFour.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Dynamite/DynamiteTierFour.png;Graphics/Dynamite/DynamiteTierFour
-
-#begin Graphics/Dynamite/DynamiteTierOne.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Dynamite/DynamiteTierOne.png;Graphics/Dynamite/DynamiteTierOne
-
-#begin Graphics/Dynamite/DynamiteTierThree.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Dynamite/DynamiteTierThree.png;Graphics/Dynamite/DynamiteTierThree
-
-#begin Graphics/Dynamite/DynamiteTierTwo.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Dynamite/DynamiteTierTwo.png;Graphics/Dynamite/DynamiteTierTwo
-
 #begin Graphics/File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -1485,7 +1472,7 @@
 /processorParam:TextureFormat=Compressed
 /build:Graphics/File.spritefont
 
-#begin Graphics/General/Breaking/Breaking.png
+#begin Graphics/General/Breaking.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1495,7 +1482,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/General/Breaking/Breaking.png;Graphics/General/Breaking/Breaking
+/build:Graphics/General/Breaking.png;Graphics/General/Breaking
 
 #begin Graphics/General/ExplosionAnimation.png
 /importer:TextureImporter
