@@ -49,6 +49,18 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedFuelCapsule.wav;Audio/Sfx/EffectUsedFuelCapsule
 
+#begin Audio/Sfx/EffectUsedTrashBin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectUsedTrashBin.wav;Audio/Sfx/EffectUsedTrashBin
+
+#begin Audio/Sfx/EffectYouDied.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectYouDied.wav;Audio/Sfx/EffectYouDied
+
 #begin Audio/Sfx/LoopMining.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

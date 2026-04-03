@@ -112,7 +112,7 @@ namespace ToTheEndOfTheWorld
             EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items, eventBus);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, fuelStationService, gadgetShopService, blocks, items);
             inventoryOverlay = uiManager.GetOverlay<InventoryOverlay>();
-            playerDeathSystem = new PlayerDeathSystem(items, worldViewportService);
+            playerDeathSystem = new PlayerDeathSystem(items, worldViewportService, eventBus);
             playerShipRenderer = new UiWorld.PlayerShipRenderer(items, _pixels);
             gadgetBarRenderer = new UiWorld.GadgetBarRenderer(blocks, items);
             gameplayAudioSystem = new GameplayAudioSystem(audioService, eventBus);
@@ -199,7 +199,7 @@ namespace ToTheEndOfTheWorld
             worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
-            audioService.PlayMusic(MusicTrack.MainTheme);
+            //audioService.PlayMusic(MusicTrack.MainTheme);
         }
 
         protected override void Update(GameTime gameTime)
@@ -207,9 +207,7 @@ namespace ToTheEndOfTheWorld
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             gameplayAudioSystem.SetTime(totalSeconds);
             TextureAnimationHelper.TotalSeconds = totalSeconds;
-            KeyboardState keyboardState = IsActive
-                ? Keyboard.GetState()
-                : default;
+            KeyboardState keyboardState = IsActive ? Keyboard.GetState() : default;
             MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
             uiMousePosition = mouseState.Position;
 
@@ -260,6 +258,11 @@ namespace ToTheEndOfTheWorld
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             UpdateUiCursor(mouseState.Position);
+
+            if (inventoryOverlay?.ConsumeTrashSoundRequest() == true)
+            {
+                eventBus.Publish(new TrashBinUsedEvent());
+            }
 
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
             {

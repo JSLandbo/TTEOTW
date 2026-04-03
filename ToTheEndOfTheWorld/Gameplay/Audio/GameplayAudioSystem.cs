@@ -19,6 +19,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
             eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
             eventBus.Subscribe<ConsumeableUsedEvent>(OnConsumeableUsed);
+            eventBus.Subscribe<TrashBinUsedEvent>(OnTrashBinUsed);
+            eventBus.Subscribe<PlayerSelfDestructedEvent>(OnPlayerSelfDestructed);
         }
 
         public void SetTime(double totalSeconds)
@@ -88,6 +90,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             {
                 audioService.PlayOneShot(SoundEffectId.EffectUsedFuelCapsule);
             }
+        }
+
+        private void OnTrashBinUsed(TrashBinUsedEvent gameEvent)
+        {
+            audioService.PlayOneShot(SoundEffectId.EffectUsedTrashBin);
+        }
+
+        private void OnPlayerSelfDestructed(PlayerSelfDestructedEvent gameEvent)
+        {
+            audioService.PlayOneShot(SoundEffectId.EffectYouDied);
         }
 
         private void TryPlayOneShot(SoundEffectId id, ref double lastPlayedAt, double minimumReplayIntervalSeconds, float volume = 1.0f)

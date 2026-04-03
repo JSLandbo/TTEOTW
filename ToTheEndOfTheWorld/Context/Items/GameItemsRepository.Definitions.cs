@@ -179,7 +179,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallDynamite,
                 "Small Dynamite",
                 LoadSingleTexture(manager, "Dynamite/DynamiteTierOne"),
-                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 1.0f),
+                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 1000000.0f, Worth: 250.0f, Weight: 0.05f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -187,7 +187,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallFuelCapsule,
                 "Small Fuel Capsule",
                 LoadSingleTexture(manager, "Consumeables/SmallFuelCapsule"),
-                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 100.0f, Worth: 150.0f, Weight: 1.0f),
+                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 100.0f, Worth: 150.0f, Weight: 0.1f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );

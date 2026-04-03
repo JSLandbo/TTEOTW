@@ -16,11 +16,19 @@ namespace ToTheEndOfTheWorld.UI.Inventory
     {
         private AGridBox heldSourceSlot;
         private int currentMaxStackSize = InventoryService.DefaultMaxStackSize;
+        private bool trashRequested;
 
         public AType HeldItem { get; private set; }
         public int HeldCount { get; private set; }
         public Point MousePosition { get; private set; }
         public bool HasHeldItem => HeldItem != null && HeldCount > 0;
+
+        public bool ConsumeTrashRequest()
+        {
+            bool requested = trashRequested;
+            trashRequested = false;
+            return requested;
+        }
 
         public void Update(
             MouseState currentMouseState,
@@ -50,6 +58,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
                 if (HeldItem != null && layout.TrashBinRectangle.Contains(MousePosition))
                 {
+                    trashRequested = true;
                     ClearHeldItem();
 
                     return;

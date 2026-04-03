@@ -9,6 +9,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectMinedBlock,
         EffectBoughtFromStore,
         EffectSoldToStore,
-        EffectUsedFuelCapsule
+        EffectUsedFuelCapsule,
+        EffectUsedTrashBin,
+        EffectYouDied
     }
 }

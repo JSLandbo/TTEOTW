@@ -2,10 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerDeathSystem(GameItemsRepository items, WorldViewportService worldViewportService)
+    public sealed class PlayerDeathSystem(GameItemsRepository items, WorldViewportService worldViewportService, GameEventBus eventBus)
     {
         private bool awaitingRespawn;
 
@@ -31,6 +32,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         public void SelfDestruct(ModelWorld world)
         {
             world.Player.CurrentHull = 0.0f;
+            eventBus.Publish(new PlayerSelfDestructedEvent());
             EnterDeathState(world);
         }
 

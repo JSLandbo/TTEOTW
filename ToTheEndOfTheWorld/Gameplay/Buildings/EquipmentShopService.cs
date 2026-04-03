@@ -1,6 +1,7 @@
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Buildings
@@ -53,13 +54,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
         {
             switch (purchasedItem)
             {
-                case ModelLibrary.Concrete.PlayerShipComponents.ThermalPlating:
+                case ThermalPlating:
                     world.Player.CurrentHeat = 0.0f;
                     break;
-                case ModelLibrary.Concrete.PlayerShipComponents.Hull:
+                case Hull:
                     world.Player.CurrentHull = world.Player.Hull.Health;
                     break;
-                case ModelLibrary.Concrete.PlayerShipComponents.FuelTank:
+                case FuelTank:
                     world.Player.CurrentFuel = world.Player.FuelTank.Capacity;
                     break;
             }
