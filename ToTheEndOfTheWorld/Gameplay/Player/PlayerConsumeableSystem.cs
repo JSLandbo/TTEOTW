@@ -1,9 +1,13 @@
-using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.Types;
+    using ModelLibrary.Abstract.Grids;
+    using ModelLibrary.Abstract.Types;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerConsumeableSystem(DynamiteConsumeableService dynamiteConsumeableService, FuelCapsuleConsumeableService fuelCapsuleConsumeableService)
+    public sealed class PlayerConsumeableSystem(
+        DynamiteConsumeableService dynamiteConsumeableService,
+        FuelCapsuleConsumeableService fuelCapsuleConsumeableService,
+        CoolantPatchConsumeableService coolantPatchConsumeableService,
+        HullRepairKitConsumeableService hullRepairKitConsumeableService)
     {
         public void TryUse(ModelWorld world, int slotIndex)
         {
@@ -35,6 +39,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (consumeable is AFuelCapsule fuelCapsule)
             {
                 return fuelCapsuleConsumeableService.TryUse(world, fuelCapsule);
+            }
+
+            if (consumeable is ACoolantPatch coolantPatch)
+            {
+                return coolantPatchConsumeableService.TryUse(world, coolantPatch);
+            }
+
+            if (consumeable is AHullRepairKit hullRepairKit)
+            {
+                return hullRepairKitConsumeableService.TryUse(world, hullRepairKit);
             }
 
             return false;

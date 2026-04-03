@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.Types;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Crafting
 {
-    public sealed class CraftingService(IReadOnlyList<CraftingRecipe> recipes)
+    public sealed class CraftingService(GameEventBus eventBus, IReadOnlyList<CraftingRecipe> recipes)
     {
         public bool TryCraft(AGridBox[,] craftingGrid, AGridBox outputSlot, int maxStackSize)
         {
@@ -30,6 +31,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
             }
 
             ConsumeRecipeIngredients(craftingGrid, recipe, craftCount);
+            eventBus.Publish(new PlayerCraftedItemEvent(craftedItem, craftedCount));
 
             return true;
         }

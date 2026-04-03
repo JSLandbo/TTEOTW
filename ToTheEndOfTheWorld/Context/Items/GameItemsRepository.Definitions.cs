@@ -207,6 +207,22 @@ namespace ToTheEndOfTheWorld.Context.Items
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
+            AddDefinition(
+                GameIds.Items.Consumeables.SmallCoolantPatch,
+                "Small Coolant Patch",
+                LoadSingleTexture(manager, "Consumeables/SmallCoolantPatch"),
+                new SmallCoolantPatch(ID: GameIds.Items.Consumeables.SmallCoolantPatch, Name: "Small Coolant Patch", CoolingAmount: 100.0f, Worth: 300.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
+                GameIds.Items.Consumeables.SmallHullRepairKit,
+                "Small Hull Repair Kit",
+                LoadSingleTexture(manager, "Consumeables/SmallHullRepairKit"),
+                new SmallHullRepairKit(ID: GameIds.Items.Consumeables.SmallHullRepairKit, Name: "Small Hull Repair Kit", RepairAmount: 100.0f, Worth: 400.0f, Weight: 0.1f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
         }
 
         private void RegisterMaterials(ContentManager manager)
@@ -389,6 +405,8 @@ namespace ToTheEndOfTheWorld.Context.Items
                 SmallFuelCapsule smallFuelCapsule => new SmallFuelCapsule(smallFuelCapsule),
                 MediumFuelCapsule mediumFuelCapsule => new MediumFuelCapsule(mediumFuelCapsule),
                 LargeFuelCapsule largeFuelCapsule => new LargeFuelCapsule(largeFuelCapsule),
+                SmallCoolantPatch smallCoolantPatch => new SmallCoolantPatch(smallCoolantPatch),
+                SmallHullRepairKit smallHullRepairKit => new SmallHullRepairKit(smallHullRepairKit),
                 ThermalPlating plating => new ThermalPlating(plating),
                 Hull hull => new Hull(hull),
                 Drill drill => new Drill(drill),

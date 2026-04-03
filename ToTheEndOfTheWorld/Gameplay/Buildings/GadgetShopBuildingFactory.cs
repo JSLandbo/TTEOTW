@@ -41,6 +41,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             grid.InternalGrid[0, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallFuelCapsule), 1);
             grid.InternalGrid[1, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumFuelCapsule), 1);
             grid.InternalGrid[2, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeFuelCapsule), 1);
+            grid.InternalGrid[3, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallCoolantPatch), 1);
+            grid.InternalGrid[4, 0] = new GridBox(items.Create(GameIds.Items.Consumeables.SmallHullRepairKit), 1);
 
             return grid;
         }

@@ -1,9 +1,10 @@
 using System;
 using ModelLibrary.Abstract;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
-    public sealed class PlayerHullSystem
+    public sealed class PlayerHullSystem(GameEventBus eventBus)
     {
         private const float FallDamageVelocityThreshold = 600.0f;
         private const float FallDamagePerExcessVelocity = 0.25f;
@@ -36,7 +37,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
-            ApplyDamage(player, excessVelocity * FallDamagePerExcessVelocity);
+            float damage = excessVelocity * FallDamagePerExcessVelocity;
+            ApplyDamage(player, damage);
+            eventBus.Publish(new PlayerFallDamageEvent(damage));
         }
 
         public bool WouldTakeFallDamage(float impactVelocity) => impactVelocity > FallDamageVelocityThreshold;

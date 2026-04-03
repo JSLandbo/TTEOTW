@@ -42,7 +42,7 @@ namespace ToTheEndOfTheWorld
         private readonly PlayerMovementSystem playerMovementSystem = new();
         private readonly PlayerFuelSystem playerFuelSystem = new();
         private readonly PlayerHeatSystem playerHeatSystem = new();
-        private readonly PlayerHullSystem playerHullSystem = new();
+        private readonly PlayerHullSystem playerHullSystem;
         private readonly PlayerVerticalImpactService playerVerticalImpactService;
         private PlayerDeathSystem playerDeathSystem;
         private readonly WorldInteractionService worldInteractionService;
@@ -76,6 +76,7 @@ namespace ToTheEndOfTheWorld
         public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            playerHullSystem = new PlayerHullSystem(eventBus);
             playerVerticalImpactService = new PlayerVerticalImpactService(playerHullSystem);
             worldInteractionService = new WorldInteractionService();
             shopService = new ShopService(eventBus);
@@ -107,7 +108,7 @@ namespace ToTheEndOfTheWorld
             WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
-            CraftingService craftingService = new(new CraftingRecipeLibrary(items).CreateRecipes());
+            CraftingService craftingService = new(eventBus, new CraftingRecipeLibrary(items).CreateRecipes());
             _ = new WorldBlockLootSystem(eventBus, new BlockLootResolver(blocks), inventoryService);
             EquipmentShopService equipmentShopService = new(inventoryItemUseService, inventoryService, items, eventBus);
             uiManager = UiComposition.Create(inventoryService, craftingService, inventoryItemUseService, shopService, equipmentShopService, fuelStationService, gadgetShopService, blocks, items);
@@ -135,9 +136,11 @@ namespace ToTheEndOfTheWorld
             WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
             DynamiteConsumeableService dynamiteConsumeableService = new(worldBlockDamageService, worldEffects, eventBus);
             FuelCapsuleConsumeableService fuelCapsuleConsumeableService = new(eventBus);
+            CoolantPatchConsumeableService coolantPatchConsumeableService = new(eventBus);
+            HullRepairKitConsumeableService hullRepairKitConsumeableService = new(eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
             playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
-            playerConsumeableSystem = new PlayerConsumeableSystem(dynamiteConsumeableService, fuelCapsuleConsumeableService);
+            playerConsumeableSystem = new PlayerConsumeableSystem(dynamiteConsumeableService, fuelCapsuleConsumeableService, coolantPatchConsumeableService, hullRepairKitConsumeableService);
 
             world = ContextHandler.LoadWorld();
 

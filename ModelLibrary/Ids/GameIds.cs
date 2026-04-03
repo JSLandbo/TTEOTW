@@ -237,15 +237,15 @@ namespace ModelLibrary.Ids
             // }
             public static class Consumeables
             {
-                public const short SmallDynamite = 10800;
+                public const short SmallDynamite = 15100;
 
-                public const short SmallCoolantPatch = 10900;
+                public const short SmallCoolantPatch = 15200;
 
-                public const short SmallHullRepairKit = 11000;
+                public const short SmallHullRepairKit = 15300;
 
-                public const short SmallFuelCapsule = 11200;
-                public const short MediumFuelCapsule = 11201;
-                public const short LargeFuelCapsule = 11202;
+                public const short SmallFuelCapsule = 15400;
+                public const short MediumFuelCapsule = 15401;
+                public const short LargeFuelCapsule = 15402;
             }
 
             public static class CratingMaterials
