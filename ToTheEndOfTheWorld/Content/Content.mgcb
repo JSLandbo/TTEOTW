@@ -43,6 +43,12 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectSoldToStore.wav;Audio/Sfx/EffectSoldToStore
 
+#begin Audio/Sfx/EffectUsedFuelCapsule.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectUsedFuelCapsule.wav;Audio/Sfx/EffectUsedFuelCapsule
+
 #begin Audio/Sfx/LoopMining.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1008,6 +1014,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Buildings/HouseSellYourOres.png;Graphics/Buildings/HouseSellYourOres
+
+#begin Graphics/Consumeables/SmallFuelCapsule.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/SmallFuelCapsule.png
 
 #begin Graphics/CraftingMaterials/AdamantiumIngot.png
 /importer:TextureImporter
