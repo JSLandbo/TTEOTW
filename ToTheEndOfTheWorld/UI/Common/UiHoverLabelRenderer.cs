@@ -18,22 +18,45 @@ namespace ToTheEndOfTheWorld.UI.Common
             textFont = content.Load<SpriteFont>("File");
         }
 
-        public void Draw(SpriteBatch spriteBatch, string hoverLabel, int viewportWidth)
+        public void Draw(SpriteBatch spriteBatch, string hoverLabel, Point mousePosition, int viewportWidth, int viewportHeight)
         {
             if (string.IsNullOrWhiteSpace(hoverLabel))
             {
                 return;
             }
 
-            const int horizontalPadding = 18;
-            const int verticalPadding = 10;
-            const int topMargin = 12;
+            const int horizontalPadding = 14;
+            const int verticalPadding = 8;
+            const int cursorOffsetX = 18;
+            const int cursorOffsetY = 22;
+            const int screenPadding = 12;
             Vector2 textSize = textFont.MeasureString(hoverLabel) * TextScale;
-            Rectangle labelRectangle = new(
-                (viewportWidth / 2) - ((int)textSize.X / 2) - horizontalPadding,
-                topMargin,
-                (int)textSize.X + (horizontalPadding * 2),
-                (int)textSize.Y + (verticalPadding * 2));
+            int width = (int)textSize.X + (horizontalPadding * 2);
+            int height = (int)textSize.Y + (verticalPadding * 2);
+            int x = mousePosition.X + cursorOffsetX;
+            int y = mousePosition.Y + cursorOffsetY;
+
+            if (x + width > viewportWidth - screenPadding)
+            {
+                x = viewportWidth - screenPadding - width;
+            }
+
+            if (y + height > viewportHeight - screenPadding)
+            {
+                y = mousePosition.Y - cursorOffsetY - height;
+            }
+
+            if (x < screenPadding)
+            {
+                x = screenPadding;
+            }
+
+            if (y < screenPadding)
+            {
+                y = screenPadding;
+            }
+
+            Rectangle labelRectangle = new(x, y, width, height);
 
             spriteBatch.Draw(pixelTexture, labelRectangle, new Color(24, 24, 24, 228));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, labelRectangle, 1, new Color(102, 102, 102, 228));

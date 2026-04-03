@@ -15,8 +15,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public const int MoneyPaddingTop = 68;
         public const int SlotSize = 68;
         public const int SlotSpacing = 12;
-        public const int PriceHeight = 24;
-        public const int PriceBottomSpacing = 6;
         public const int RowSpacing = 18;
         public const int PanelHorizontalPadding = 20;
 
@@ -27,7 +25,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid)
         {
             int gridWidth = grid.GetLength(0) * SlotSize + ((grid.GetLength(0) - 1) * SlotSpacing);
-            int rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
+            int rowHeight = SlotSize;
             int gridHeight = grid.GetLength(1) * rowHeight + ((grid.GetLength(1) - 1) * RowSpacing);
             int panelWidth = System.Math.Max(MinimumPanelWidth, gridWidth + (PanelHorizontalPadding * 2));
             int panelHeight = System.Math.Max(MinimumPanelHeight, GridTop + gridHeight + GridBottomPadding);
@@ -41,21 +39,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public Rectangle GetSlotRectangle(int x, int y)
         {
-            int rowHeight = PriceHeight + PriceBottomSpacing + SlotSize;
+            int rowHeight = SlotSize;
             return new Rectangle(
                 GridStart.X + x * (SlotSize + SlotSpacing),
-                GridStart.Y + y * (rowHeight + RowSpacing) + PriceHeight + PriceBottomSpacing,
+                GridStart.Y + y * (rowHeight + RowSpacing),
                 SlotSize,
                 SlotSize);
-        }
-
-        public Rectangle GetPriceRectangle(int x, int y)
-        {
-            return new Rectangle(
-                GridStart.X + x * (SlotSize + SlotSpacing),
-                GridStart.Y + y * (PriceHeight + PriceBottomSpacing + SlotSize + RowSpacing),
-                SlotSize,
-                PriceHeight);
         }
     }
 }

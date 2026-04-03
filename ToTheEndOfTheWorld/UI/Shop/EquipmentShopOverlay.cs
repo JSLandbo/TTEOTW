@@ -76,7 +76,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem) ? hoveredItem.Name : null;
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
+                ? $"{hoveredItem.Name} {hoveredItem.Worth:0}"
+                : null;
         }
 
         private bool TryGetHoveredItem(Point mousePosition, int viewportWidth, int viewportHeight, out AType item)

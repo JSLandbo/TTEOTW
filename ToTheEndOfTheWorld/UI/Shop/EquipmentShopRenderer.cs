@@ -1,10 +1,8 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.Types;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
@@ -13,7 +11,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
     public sealed class EquipmentShopRenderer(WorldElementsRepository blocks, GameItemsRepository items)
     {
         private const float TitleTextScale = 1.15f;
-        private const float PriceTextScale = 1.0f;
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
         private Texture2D pixelTexture = null!;
@@ -42,15 +39,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    Rectangle priceRectangle = layout.GetPriceRectangle(x, y);
                     Rectangle slotRectangle = layout.GetSlotRectangle(x, y);
                     bool isHovered = grid[x, y].Item != null && world.Player.Cash >= grid[x, y].Item.Worth && slotRectangle.Contains(mousePosition);
-                    DrawSlot(spriteBatch, world, grid[x, y], priceRectangle, slotRectangle, isHovered);
+                    DrawSlot(spriteBatch, world, grid[x, y], slotRectangle, isHovered);
                 }
             }
         }
 
-        private void DrawSlot(SpriteBatch spriteBatch, ModelWorld world, AGridBox slot, Rectangle priceRectangle, Rectangle slotRectangle, bool isHovered)
+        private void DrawSlot(SpriteBatch spriteBatch, ModelWorld world, AGridBox slot, Rectangle slotRectangle, bool isHovered)
         {
             if (slot.Item == null)
             {
@@ -67,20 +63,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
             {
                 spriteBatch.Draw(pixelTexture, slotRectangle, Color.Black * 0.9f);
             }
-
-            DrawPrice(spriteBatch, slot.Item, priceRectangle, canAfford, isHovered);
-        }
-
-        private void DrawPrice(SpriteBatch spriteBatch, AType item, Rectangle priceRectangle, bool canAfford, bool isHovered)
-        {
-            string priceText = Math.Floor(item.Worth).ToString();
-            Vector2 priceSize = textFont.MeasureString(priceText) * PriceTextScale;
-            spriteBatch.Draw(pixelTexture, priceRectangle, canAfford ? new Color(66, 57, 34) : new Color(8, 8, 8));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, priceRectangle, 1, canAfford ? (isHovered ? new Color(250, 226, 136) : new Color(198, 176, 108)) : new Color(18, 18, 18));
-            Vector2 pricePosition = new(
-                priceRectangle.Center.X - (priceSize.X / 2f),
-                priceRectangle.Y + ((priceRectangle.Height - priceSize.Y) / 2f) - 1);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, priceText, pricePosition, canAfford ? new Color(244, 230, 190) : new Color(42, 42, 42), PriceTextScale);
         }
 
     }

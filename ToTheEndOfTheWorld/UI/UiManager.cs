@@ -63,7 +63,7 @@ namespace ToTheEndOfTheWorld.UI
             string hoverLabel = GetHoverLabel(world, viewportWidth, viewportHeight);
             if (!string.IsNullOrWhiteSpace(hoverLabel))
             {
-                hoverLabelRenderer.Draw(spriteBatch, hoverLabel, viewportWidth);
+                hoverLabelRenderer.Draw(spriteBatch, hoverLabel, lastMousePosition, viewportWidth, viewportHeight);
             }
         }
 

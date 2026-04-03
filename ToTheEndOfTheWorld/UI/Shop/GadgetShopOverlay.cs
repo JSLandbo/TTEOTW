@@ -196,13 +196,18 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
+            if (!world.Player.HasGadgetBelt && GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                return $"Gadget Belt {gadgetShopService.GadgetBeltPriceValue:0}";
+            }
+
             if (!world.Player.HasGadgetBelt || currentBuilding?.StorageGrid?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
                 return null;
             }
 
             AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
-            return slot.Item?.Name;
+            return slot.Item != null ? $"{slot.Item.Name} {slot.Item.Worth:0}" : null;
         }
 
         public void Close(ModelWorld world)
