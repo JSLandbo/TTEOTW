@@ -200,18 +200,10 @@ namespace ModelLibrary.Ids
 
             // public static class Consumeables TODO: Implement this.
             // {
-            //      public const short MediumDynamite = 10801; // 5x5 (around you, you DO get items) 500 damage, 1 million hardness
-            //      public const short LargeDynamite = 10802; // 7x7 (around you, you DO get items) 2500 damage, 1 million hardness
-            //      public const short MassiveDynamite = 10803; // 9x9 (around you, you DO get items) 10000 damage, 1 million hardness
-            //      public const short GiantDynamite = 10804; // 13x13 (around you, you DO get items) 100000 damage, 1 million hardness
-            //      public const short NukeDynamite = 10805; // 27x27 (around you, you DO get items) 1000000 damage, 1 million hardness
-
             //      public const short RandomSurfaceTeleporter = 11101; // Teleports you to a random place on 0 y-axis (can be far away, world is almost infinite)
             //      public const short RandomProximityTeleporter = 11102; // Teleports you randomly within 500 blocks (not inside buildings)
             //      public const short RandomGlobalTeleporter = 11103; // Teleports you randomly (not inside buildings), dangerous! (world is almost infinite)
             //      public const short WorldSpawnTeleporter = 11104; // Teleports you to spawn
-
-            //      public const short FullFuelCapsule = 11203; // Contains 100% fuel (or just like, 999999f)
 
             //      public const short SmallOneTimeLaser = 11300; // Drills down 1 wide and 10 deep (you get no drops)
             //      public const short MediumOneTimeLaser = 11301; // Drills down 2 wide and 25 deep (you get no drops)
@@ -251,26 +243,26 @@ namespace ModelLibrary.Ids
 
             public static class CratingMaterials
             {
-                public const short IronIngot = 10900;
-                public const short CopperIngot = 10901;
-                public const short TinIngot = 10902;
-                public const short SilverIngot = 10903;
+                //public const short IronIngot = 10900;
+                //public const short CopperIngot = 10901;
+                //public const short TinIngot = 10902;
+                //public const short SilverIngot = 10903;
                 public const short GoldIngot = 10904;
                 public const short LeadIngot = 10905;
-                public const short AluminiumIngot = 10906;
-                public const short ZincIngot = 10907;
-                public const short NickelIngot = 10908;
+                //public const short AluminiumIngot = 10906;
+                //public const short ZincIngot = 10907;
+                //public const short NickelIngot = 10908;
                 public const short BismuthIngot = 10909;
 
-                public const short TitaniumIngot = 10950;
-                public const short TungstenIngot = 10951;
+                //public const short TitaniumIngot = 10950;
+                //public const short TungstenIngot = 10951;
                 public const short UraniumIngot = 10952;
                 public const short OsmiumIngot = 10953;
-                public const short CobaltIngot = 10954;
-                public const short ChromiumIngot = 10955;
-                public const short PlatinumIngot = 10956;
+                //public const short CobaltIngot = 10954;
+                //public const short ChromiumIngot = 10955;
+                //public const short PlatinumIngot = 10956;
                 public const short RainbowIngot = 10957;
-                public const short MythrilIngot = 10958;
+                //public const short MythrilIngot = 10958;
                 public const short AdamantiumIngot = 10959;
             }
         }
