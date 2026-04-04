@@ -37,15 +37,16 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return true;
             }
 
-            if (!CanAccept(inventory, count))
-            {
-                return false;
-            }
-
             AGridBox[,] grid = inventory.Items.InternalGrid;
+            AGrid ownerGrid = inventory.Items;
             int maxStackSize = GetMaxStackSize(inventory);
-            int remainingCount = TryAddToMatchingStacks(grid, item, count, maxStackSize);
 
+            // First try to add to existing stacks
+            int remainingCount = TryAddToMatchingStacks(grid, ownerGrid, item, count, maxStackSize);
+
+            if (remainingCount == 0) return true;
+
+            // Then try empty slots
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
@@ -53,6 +54,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                     AGridBox slot = grid[x, y];
 
                     if (slot.Item != null) continue;
+                    if (ownerGrid.CanPlaceInSlot(slot, item) == false) continue;
 
                     int amountToAdd = remainingCount > maxStackSize ? maxStackSize : remainingCount;
                     slot.Item = item;
@@ -76,22 +78,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return true;
             }
 
-            if (!CanAccept(inventory, count))
-            {
-                return false;
-            }
-
-            return TryAddToMatchingStacks(inventory.Items.InternalGrid, item, count, GetMaxStackSize(inventory)) == 0;
-        }
-
-        public bool CanAccept(AInventory inventory, int count)
-        {
-            if (count <= 0)
-            {
-                return true;
-            }
-
-            return GetRemainingCapacity(inventory) >= count;
+            return TryAddToMatchingStacks(inventory.Items.InternalGrid, inventory.Items, item, count, GetMaxStackSize(inventory)) == 0;
         }
 
         public int GetMaxStackSize(AInventory inventory)
@@ -104,33 +91,35 @@ namespace ToTheEndOfTheWorld.Gameplay
             return inventory.MaxStackSize;
         }
 
-        public int GetUsedCapacity(AInventory inventory)
+        public int GetUsedSlots(AInventory inventory)
         {
-            int usedCapacity = 0;
+            int usedSlots = 0;
             AGridBox[,] grid = inventory.Items.InternalGrid;
 
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    usedCapacity += grid[x, y].Count;
+                    if (grid[x, y].Item != null) usedSlots++;
                 }
             }
 
-            return usedCapacity;
+            return usedSlots;
         }
 
-        public int GetUsedCapacityPercent(AInventory inventory)
+        public int GetTotalSlots(AInventory inventory)
         {
-            if (inventory.SizeLimit <= 0)
-            {
-                return 0;
-            }
+            AGridBox[,] grid = inventory.Items.InternalGrid;
+            return grid.GetLength(0) * grid.GetLength(1);
+        }
 
-            int usedCapacity = GetUsedCapacity(inventory);
-            float percent = (usedCapacity / inventory.SizeLimit) * 100.0f;
+        public int GetUsedSlotsPercent(AInventory inventory)
+        {
+            int totalSlots = GetTotalSlots(inventory);
+            if (totalSlots <= 0) return 0;
 
-            return (int)percent;
+            int usedSlots = GetUsedSlots(inventory);
+            return (int)((usedSlots / (float)totalSlots) * 100.0f);
         }
 
         public void SortByName(AInventory inventory)
@@ -208,16 +197,62 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
         }
 
-        private int GetRemainingCapacity(AInventory inventory)
+        public int GetStackableSpace(AInventory inventory, AType item)
         {
-            int usedCapacity = GetUsedCapacity(inventory);
-            int totalCapacity = (int)inventory.SizeLimit;
-            int remainingCapacity = totalCapacity - usedCapacity;
+            if (item == null || !item.Stackable) return 0;
 
-            return remainingCapacity > 0 ? remainingCapacity : 0;
+            int maxStackSize = GetMaxStackSize(inventory);
+            int space = 0;
+            AGrid ownerGrid = inventory.Items;
+
+            foreach (AGridBox slot in EnumerateSlots(inventory.Items.InternalGrid))
+            {
+                if (CanStackTogether(slot.Item, item) && slot.Count < maxStackSize)
+                {
+                    if (ownerGrid.CanPlaceInSlot(slot, item) != false)
+                    {
+                        space += maxStackSize - slot.Count;
+                    }
+                }
+            }
+
+            return space;
         }
 
-        private static int TryAddToMatchingStacks(AGridBox[,] grid, AType item, int remainingCount, int maxStackSize)
+        public bool HasEmptySlot(AInventory inventory)
+        {
+            foreach (AGridBox slot in EnumerateSlots(inventory.Items.InternalGrid))
+            {
+                if (slot.Item == null) return true;
+            }
+            return false;
+        }
+
+        public bool HasEmptySlotFor(AInventory inventory, AType item)
+        {
+            AGrid ownerGrid = inventory.Items;
+            foreach (AGridBox slot in EnumerateSlots(inventory.Items.InternalGrid))
+            {
+                if (slot.Item == null && ownerGrid.CanPlaceInSlot(slot, item) != false)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static IEnumerable<AGridBox> EnumerateSlots(AGridBox[,] grid)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    yield return grid[x, y];
+                }
+            }
+        }
+
+        private static int TryAddToMatchingStacks(AGridBox[,] grid, AGrid ownerGrid, AType item, int remainingCount, int maxStackSize)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -226,6 +261,11 @@ namespace ToTheEndOfTheWorld.Gameplay
                     AGridBox slot = grid[x, y];
 
                     if (slot.Item == null || !CanStackTogether(slot.Item, item) || slot.Count >= maxStackSize)
+                    {
+                        continue;
+                    }
+
+                    if (ownerGrid?.CanPlaceInSlot(slot, item) == false)
                     {
                         continue;
                     }

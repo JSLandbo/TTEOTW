@@ -13,7 +13,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items) : IGameOverlay
+    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen) : IGameOverlay
     {
         private const float HeaderTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
@@ -78,6 +78,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid, panelXOffset);
+            bool blockCrafting = isShopOpen();
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) && currentLayout.SelfDestructButtonRectangle.Contains(currentMouseState.Position))
             {
@@ -98,7 +99,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight);
+            interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight, blockCrafting);
         }
 
         public void Close(ModelWorld world)
@@ -110,8 +111,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             isOpen = false;
             panelXOffset = 0;
-            interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid);
-            interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory);
+            interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid, world.Player.GadgetSlots);
+            interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory, world.Player.GadgetSlots);
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
@@ -263,7 +264,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 world.Player,
                 itemUseService,
                 viewportWidth,
-                viewportHeight);
+                viewportHeight,
+                isShopOpen());
         }
 
         private static void ClearGrid(AGridBox[,] grid)

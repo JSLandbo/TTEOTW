@@ -15,11 +15,11 @@ namespace ModelLibrary.Concrete
             return new GadgetInventory(
                 ID: 0,
                 Items: new Grid(Vector2.Zero, new GridBox[6, 1]),
-                SizeLimit: 6,
                 Name: "Gadget Slots",
                 Worth: 0,
                 Weight: 0,
-                MaxStackSize: maxStackSize);
+                MaxStackSize: maxStackSize
+            );
         }
     }
 }

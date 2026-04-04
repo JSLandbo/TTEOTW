@@ -97,7 +97,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             {
                 EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} | Heat Capacity {((ThermalPlating)equippedItem).MaxThermals:0} | Dissipation {((ThermalPlating)equippedItem).ThermalDissipation:0.#}/s",
                 EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Engine)equippedItem).Speed:0.#} | Acceleration {((Engine)equippedItem).Acceleration:0.#} | Active Fuel {((Engine)equippedItem).ActiveFuelConsumption:0.##}/s",
-                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} | Used Capacity {inventoryService.GetUsedCapacity((Inventory)equippedItem):0}/{((Inventory)equippedItem).SizeLimit:0} ({inventoryService.GetUsedCapacityPercent((Inventory)equippedItem)}%) | Max Stack {((Inventory)equippedItem).MaxStackSize}",
+                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} | Slots {inventoryService.GetUsedSlots((Inventory)equippedItem)}/{inventoryService.GetTotalSlots((Inventory)equippedItem)} | Max Stack {((Inventory)equippedItem).MaxStackSize}",
                 EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} | Fuel Capacity {((FuelTank)equippedItem).Capacity:0.##}",
                 EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} | Health {((Hull)equippedItem).Health:0} | Durability {((Hull)equippedItem).Durability:0.#}",
                 EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} | Damage {((Drill)equippedItem).Damage:0.##} | Area {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | Hardness {((Drill)equippedItem).Hardness:0.#} | Fuel Usage {((Drill)equippedItem).ActiveFuelConsumption:0.##}/s",
@@ -233,6 +233,13 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
+            // Check if the new inventory has space for the old container
+            Inventory oldContainerItem = CreateEmptyInventoryItem(currentInventory);
+            if (!inventoryService.HasEmptySlotFor(upgradedInventory, oldContainerItem))
+            {
+                return false;
+            }
+
             if (world.Player.GadgetSlots is not GadgetInventory currentGadgetSlots
                 || !TryCreateAdjustedGadgetSlots(currentGadgetSlots, upgradedInventory, out GadgetInventory adjustedGadgetSlots))
             {
@@ -242,8 +249,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             world.Player.Inventory = upgradedInventory;
             world.Player.GadgetSlots = adjustedGadgetSlots;
 
-            heldItem = CreateEmptyInventoryItem(currentInventory);
-
+            heldItem = oldContainerItem;
             heldCount = 1;
 
             return true;
@@ -281,9 +287,10 @@ namespace ToTheEndOfTheWorld.Gameplay
         private bool TryCreateEquippedInventory(Inventory currentInventory, Inventory inventoryItem, out Inventory upgradedInventory)
         {
             upgradedInventory = null;
-            int usedCapacity = inventoryService.GetUsedCapacity(currentInventory);
+            int usedSlots = inventoryService.GetUsedSlots(currentInventory);
+            int newTotalSlots = inventoryService.GetTotalSlots(inventoryItem);
 
-            if (usedCapacity > inventoryItem.SizeLimit)
+            if (usedSlots > newTotalSlots)
             {
                 return false;
             }

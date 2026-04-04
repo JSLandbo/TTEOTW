@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +11,7 @@ using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class EquipmentShopOverlay(EquipmentShopService equipmentShopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
+    public sealed class EquipmentShopOverlay(EquipmentShopService equipmentShopService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> hasHeldItem) : IInteractionOverlay
     {
         private readonly EquipmentShopInteractionController interactionController = new();
         private readonly EquipmentShopRenderer renderer = new(blocks, items);
@@ -50,6 +51,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             mousePosition = currentMouseState.Position;
             EnsureLayout(viewportWidth, viewportHeight);
+
+            // Block shop interaction when holding item
+            if (hasHeldItem())
+            {
+                return;
+            }
+
             interactionController.TryHandleBuy(currentMouseState, previousMouseState, currentLayout, world, building, equipmentShopService);
         }
 
@@ -72,7 +80,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem) && world.Player.Cash >= hoveredItem.Worth;
+            if (hasHeldItem()) return false;
+            return TryGetHoveredItem(mousePosition, viewportWidth, viewportHeight, out AType hoveredItem)
+                && world.Player.Cash >= hoveredItem.Worth;
         }
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

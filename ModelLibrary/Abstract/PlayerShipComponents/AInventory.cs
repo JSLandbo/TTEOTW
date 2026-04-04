@@ -13,7 +13,6 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
             Stackable = false;
         }
 
-        public float SizeLimit { get; set; }
         public int MaxStackSize { get; set; }
         public AGrid Items
         {

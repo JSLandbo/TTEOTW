@@ -32,7 +32,7 @@ namespace ToTheEndOfTheWorld.UI.World
             string heatText = $"Heat: {player.CurrentHeat:0.00}/{player.ThermalPlating.MaxThermals:0.00}";
             string hullText = $"Hull: {player.CurrentHull:0}";
             string weightText = $"Weight: {player.Weight:0.##}/{player.Thruster.Power:0.##}";
-            string capacityText = $"Inventory: {inventoryService.GetUsedCapacityPercent(player.Inventory)}%";
+            string slotsText = $"Slots: {inventoryService.GetUsedSlotsPercent(player.Inventory)}%";
             const float hudScale = 1.05f;
             const int cardPaddingX = 14;
             const int cardPaddingY = 10;
@@ -45,7 +45,7 @@ namespace ToTheEndOfTheWorld.UI.World
             Vector2 heatSize = textFont.MeasureString(heatText) * hudScale;
             Vector2 hullSize = textFont.MeasureString(hullText) * hudScale;
             Vector2 weightSize = textFont.MeasureString(weightText) * hudScale;
-            Vector2 capacitySize = textFont.MeasureString(capacityText) * hudScale;
+            Vector2 slotsSize = textFont.MeasureString(slotsText) * hudScale;
 
             Rectangle moneyRectangle = new(
                 0,
@@ -59,7 +59,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 (int)fuelSize.X + (cardPaddingX * 2),
                 (int)fuelSize.Y + (cardPaddingY * 2));
 
-            Rectangle inventoryRectangle = new(
+            Rectangle heatRectangle = new(
                 0,
                 0,
                 (int)heatSize.X + (cardPaddingX * 2),
@@ -77,53 +77,53 @@ namespace ToTheEndOfTheWorld.UI.World
                 (int)weightSize.X + (cardPaddingX * 2),
                 (int)weightSize.Y + (cardPaddingY * 2));
 
-            Rectangle capacityRectangle = new(
+            Rectangle slotsRectangle = new(
                 0,
                 0,
-                (int)capacitySize.X + (cardPaddingX * 2),
-                (int)capacitySize.Y + (cardPaddingY * 2));
+                (int)slotsSize.X + (cardPaddingX * 2),
+                (int)slotsSize.Y + (cardPaddingY * 2));
 
             fuelRectangle.Y = moneyRectangle.Bottom + cardSpacing;
-            inventoryRectangle.Y = fuelRectangle.Bottom + cardSpacing;
-            hullRectangle.Y = inventoryRectangle.Bottom + cardSpacing;
+            heatRectangle.Y = fuelRectangle.Bottom + cardSpacing;
+            hullRectangle.Y = heatRectangle.Bottom + cardSpacing;
             weightRectangle.Y = hullRectangle.Bottom + cardSpacing;
-            capacityRectangle.Y = weightRectangle.Bottom + cardSpacing;
+            slotsRectangle.Y = weightRectangle.Bottom + cardSpacing;
 
-            int cardWidth = Math.Max(Math.Max(moneyRectangle.Width, fuelRectangle.Width), Math.Max(inventoryRectangle.Width, Math.Max(hullRectangle.Width, Math.Max(weightRectangle.Width, capacityRectangle.Width))));
+            int cardWidth = Math.Max(Math.Max(moneyRectangle.Width, fuelRectangle.Width), Math.Max(heatRectangle.Width, Math.Max(hullRectangle.Width, Math.Max(weightRectangle.Width, slotsRectangle.Width))));
 
             moneyRectangle.Width = cardWidth;
             fuelRectangle.Width = cardWidth;
-            inventoryRectangle.Width = cardWidth;
+            heatRectangle.Width = cardWidth;
             hullRectangle.Width = cardWidth;
             weightRectangle.Width = cardWidth;
-            capacityRectangle.Width = cardWidth;
+            slotsRectangle.Width = cardWidth;
             moneyRectangle.X = viewportWidth - cardWidth - rightMargin;
             fuelRectangle.X = viewportWidth - cardWidth - rightMargin;
-            inventoryRectangle.X = viewportWidth - cardWidth - rightMargin;
+            heatRectangle.X = viewportWidth - cardWidth - rightMargin;
             hullRectangle.X = viewportWidth - cardWidth - rightMargin;
             weightRectangle.X = viewportWidth - cardWidth - rightMargin;
-            capacityRectangle.X = viewportWidth - cardWidth - rightMargin;
+            slotsRectangle.X = viewportWidth - cardWidth - rightMargin;
 
             DrawHudCard(spriteBatch, moneyRectangle, new Color(24, 24, 24, 205), new Color(118, 118, 118, 220));
             DrawHudCard(spriteBatch, fuelRectangle, new Color(32, 32, 32, 205), new Color(132, 118, 78, 220));
-            DrawHudCard(spriteBatch, inventoryRectangle, new Color(34, 30, 30, 205), new Color(176, 112, 92, 220));
+            DrawHudCard(spriteBatch, heatRectangle, new Color(34, 30, 30, 205), new Color(176, 112, 92, 220));
             DrawHudCard(spriteBatch, hullRectangle, new Color(38, 28, 28, 205), new Color(172, 94, 94, 220));
             DrawHudCard(spriteBatch, weightRectangle, new Color(30, 32, 38, 205), new Color(112, 136, 182, 220));
-            DrawHudCard(spriteBatch, capacityRectangle, new Color(30, 30, 30, 205), new Color(104, 104, 104, 220));
+            DrawHudCard(spriteBatch, slotsRectangle, new Color(30, 30, 30, 205), new Color(104, 104, 104, 220));
 
             Vector2 moneyPosition = new(moneyRectangle.Right - cardPaddingX - moneySize.X, moneyRectangle.Y + cardPaddingY);
             Vector2 fuelPosition = new(fuelRectangle.Right - cardPaddingX - fuelSize.X, fuelRectangle.Y + cardPaddingY);
-            Vector2 heatPosition = new(inventoryRectangle.Right - cardPaddingX - heatSize.X, inventoryRectangle.Y + cardPaddingY);
+            Vector2 heatPosition = new(heatRectangle.Right - cardPaddingX - heatSize.X, heatRectangle.Y + cardPaddingY);
             Vector2 hullPosition = new(hullRectangle.Right - cardPaddingX - hullSize.X, hullRectangle.Y + cardPaddingY);
             Vector2 weightPosition = new(weightRectangle.Right - cardPaddingX - weightSize.X, weightRectangle.Y + cardPaddingY);
-            Vector2 capacityPosition = new(capacityRectangle.Right - cardPaddingX - capacitySize.X, capacityRectangle.Y + cardPaddingY);
+            Vector2 slotsPosition = new(slotsRectangle.Right - cardPaddingX - slotsSize.X, slotsRectangle.Y + cardPaddingY);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, moneyText, moneyPosition, new Color(242, 239, 230), hudScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, fuelText, fuelPosition, new Color(240, 224, 170), hudScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, heatText, heatPosition, new Color(244, 188, 168), hudScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, hullText, hullPosition, new Color(248, 198, 198), hudScale);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, weightText, weightPosition, new Color(214, 224, 244), hudScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, capacityText, capacityPosition, new Color(230, 230, 230), hudScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, slotsText, slotsPosition, new Color(230, 230, 230), hudScale);
         }
 
         private void DrawHudCard(SpriteBatch spriteBatch, Rectangle rectangle, Color backgroundColor, Color borderColor)

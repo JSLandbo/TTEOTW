@@ -17,7 +17,6 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
         {
             ID = original.ID;
             Items = CloneGrid(original.Items);
-            SizeLimit = original.SizeLimit;
             MaxStackSize = original.MaxStackSize;
             Name = original.Name;
             Worth = original.Worth;
@@ -25,11 +24,10 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
         }
 
         [JsonConstructor]
-        public GadgetInventory(short ID, Grid Items, float SizeLimit, string Name, float Worth, float Weight, int MaxStackSize = 64)
+        public GadgetInventory(short ID, Grid Items, string Name, float Worth, float Weight, int MaxStackSize = 64)
         {
             this.ID = ID;
             this.Items = Items;
-            this.SizeLimit = SizeLimit;
             this.MaxStackSize = MaxStackSize;
             this.Name = Name;
             this.Worth = Worth;

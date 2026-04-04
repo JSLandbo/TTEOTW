@@ -20,7 +20,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
             block.CurrentHealth += 0.025f * y;
             block.MaximumHealth += 0.025f * y;
-            
+
             return block;
         }
     }

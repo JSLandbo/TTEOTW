@@ -24,6 +24,21 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             return true;
         }
 
+        public bool CanBuyGadget(ModelWorld world, AType item)
+        {
+            if (item == null) return false;
+
+            // Check stackable space in inventory first, then gadget slots
+            int inventorySpace = inventoryService.GetStackableSpace(world.Player.Inventory, item);
+            int gadgetSpace = world.Player.HasGadgetBelt ? inventoryService.GetStackableSpace(world.Player.GadgetSlots, item) : 0;
+
+            if (inventorySpace > 0 || gadgetSpace > 0) return true;
+
+            // Check for empty slots that can accept this item
+            return inventoryService.HasEmptySlotFor(world.Player.Inventory, item)
+                || (world.Player.HasGadgetBelt && inventoryService.HasEmptySlotFor(world.Player.GadgetSlots, item));
+        }
+
         public bool TryBuyGadget(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
             AGridBox[,] grid = building.StorageGrid.InternalGrid;
@@ -42,8 +57,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
             AType purchasedItem = items.Create(slot.Item.ID);
 
-            if (!inventoryService.TryAddToMatchingStacks(world.Player.GadgetSlots, purchasedItem, 1)
-                && !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
+            // Try inventory first, then gadget slots (if owned)
+            if (!inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1)
+                && (!world.Player.HasGadgetBelt || !inventoryService.TryAdd(world.Player.GadgetSlots, purchasedItem, 1)))
             {
                 return false;
             }

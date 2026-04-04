@@ -48,6 +48,8 @@ namespace ToTheEndOfTheWorld.UI
             }
         }
 
+        public bool InventoryHasHeldItem => GetOverlay<InventoryOverlay>()?.HasHeldItem ?? false;
+
         public void Register(IGameOverlay overlay)
         {
             overlays.Add(overlay);

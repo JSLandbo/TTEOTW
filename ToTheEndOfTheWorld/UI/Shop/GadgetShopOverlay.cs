@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Shop
 {
-    public sealed class GadgetShopOverlay(GadgetShopService gadgetShopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
+    public sealed class GadgetShopOverlay(GadgetShopService gadgetShopService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> hasHeldItem) : IInteractionOverlay
     {
         private const int PanelWidth = 620;
         private const int PanelHeight = 708;
@@ -60,6 +61,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             mousePosition = currentMouseState.Position;
+
+            // Block shop interaction when holding item
+            if (hasHeldItem())
+            {
+                return;
+            }
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) &&
                 GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(currentMouseState.Position))
@@ -154,7 +161,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 {
                     Rectangle slotRectangle = GetShopSlotRectangle(gridRectangle, x, y);
                     AGridBox slot = shopGrid?[x, y] ?? new GridBox(null, 0);
-                    bool isHovered = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && slotRectangle.Contains(mousePosition);
+                    bool canBuy = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && gadgetShopService.CanBuyGadget(world, slot.Item);
+                    bool isHovered = canBuy && slotRectangle.Contains(mousePosition);
                     slotRenderer.DrawGridSlot(
                         spriteBatch,
                         slotRectangle,
@@ -184,6 +192,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
+            if (hasHeldItem()) return false;
+
             bool canBuyBelt = !world.Player.HasGadgetBelt && world.Player.Cash >= gadgetShopService.GadgetBeltPriceValue;
             if (canBuyBelt && GetBuyButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
             {
@@ -196,7 +206,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
-            return slot.Item != null && world.Player.Cash >= slot.Item.Worth;
+            return slot.Item != null && world.Player.Cash >= slot.Item.Worth && gadgetShopService.CanBuyGadget(world, slot.Item);
         }
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

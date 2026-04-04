@@ -50,14 +50,15 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             InventoryItemUseService itemUseService,
             AInventory inventory,
             int viewportWidth,
-            int viewportHeight)
+            int viewportHeight,
+            bool blockCrafting = false)
         {
             MousePosition = currentMouseState.Position;
             currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))
             {
-                if (layout.CraftButtonRectangle.Contains(MousePosition))
+                if (!blockCrafting && layout.CraftButtonRectangle.Contains(MousePosition))
                 {
                     craftingService.TryCraft(craftingGrid.InternalGrid, craftOutputSlot, currentMaxStackSize);
 
@@ -77,7 +78,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     return;
                 }
 
-                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox clickedSlot)
+                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, blockCrafting, out AGridBox clickedSlot)
                     && CanUseClickedSlot(clickedSlot))
                 {
                     MoveStack(clickedSlot);
@@ -88,27 +89,27 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             if (HeldItem != null
                 && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState)
-                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, out AGridBox rightClickedSlot)
+                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, blockCrafting, out AGridBox rightClickedSlot)
                 && CanUseClickedSlot(rightClickedSlot))
             {
                 PlaceSingleHeldItem(rightClickedSlot);
             }
         }
 
-        public void ReleaseHeldItem(InventoryService inventoryService, AInventory inventory)
+        public void ReleaseHeldItem(InventoryService inventoryService, AInventory inventory, AGadgetInventory gadgetSlots)
         {
             if (HeldItem == null || HeldCount <= 0)
             {
                 return;
             }
 
-            if (inventoryService.TryAdd(inventory, HeldItem, HeldCount))
+            if (TryPlaceItem(inventoryService, inventory, gadgetSlots, HeldItem, HeldCount))
             {
                 ClearHeldItem();
-
                 return;
             }
 
+            // Fallback: try to return to source slot
             if (heldSourceSlot == null)
             {
                 return;
@@ -119,7 +120,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 heldSourceSlot.Item = HeldItem;
                 heldSourceSlot.Count = HeldCount;
                 ClearHeldItem();
-
                 return;
             }
 
@@ -130,26 +130,86 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
         }
 
-        public void ReturnCraftingGridToInventory(InventoryService inventoryService, AInventory inventory, Grid craftingGrid)
+        public void ReturnCraftingGridToInventory(InventoryService inventoryService, AInventory inventory, Grid craftingGrid, AGadgetInventory gadgetSlots)
         {
-            AGridBox[,] grid = craftingGrid.InternalGrid;
-
-            for (int y = 0; y < grid.GetLength(1); y++)
+            foreach (AGridBox slot in InventoryService.EnumerateSlots(craftingGrid.InternalGrid))
             {
-                for (int x = 0; x < grid.GetLength(0); x++)
+                if (slot.Item == null || slot.Count <= 0) continue;
+
+                if (TryPlaceItem(inventoryService, inventory, gadgetSlots, slot.Item, slot.Count))
                 {
-                    AGridBox slot = grid[x, y];
+                    slot.Item = null;
+                    slot.Count = 0;
+                }
+            }
+        }
 
-                    if (slot.Item == null || slot.Count <= 0)
-                    {
-                        continue;
-                    }
+        private static bool TryPlaceItem(InventoryService svc, AInventory inv, AGadgetInventory gadget, AType item, int count)
+        {
+            // 1) Try inventory
+            if (svc.TryAdd(inv, item, count)) return true;
 
-                    if (!inventoryService.TryAdd(inventory, slot.Item, slot.Count))
-                    {
-                        continue;
-                    }
+            // 2) Try gadget slots
+            if (gadget != null && svc.TryAdd(gadget, item, count)) return true;
 
+            // 3) Sort inventory, try again
+            svc.SortByName(inv);
+            if (svc.TryAdd(inv, item, count)) return true;
+
+            // 4) Sort gadget slots (only consumeable slots 0-3), try again
+            if (gadget != null)
+            {
+                SortConsumeableSlots(svc, gadget);
+                if (svc.TryAdd(gadget, item, count)) return true;
+            }
+
+            // 5) Move items from inventory to gadget slots to free space
+            if (gadget != null)
+            {
+                MoveInventoryToGadgetSlots(svc, inv, gadget);
+                if (svc.TryAdd(inv, item, count)) return true;
+            }
+
+            // 6) Give up
+            return false;
+        }
+
+        private static void SortConsumeableSlots(InventoryService svc, AGadgetInventory gadget)
+        {
+            // Consolidate consumeable stacks in slots 0-3
+            AGridBox[,] grid = gadget.Items.InternalGrid;
+            int maxStack = svc.GetMaxStackSize(gadget);
+            int consumeableSlots = Math.Min(4, grid.GetLength(0));
+
+            for (int i = 0; i < consumeableSlots; i++)
+            {
+                AGridBox slot = grid[i, 0];
+                if (slot.Item == null || slot.Count >= maxStack) continue;
+
+                // Find matching items in later slots to merge
+                for (int j = i + 1; j < consumeableSlots; j++)
+                {
+                    AGridBox other = grid[j, 0];
+                    if (!InventoryService.CanStackTogether(slot.Item, other.Item)) continue;
+
+                    int space = maxStack - slot.Count;
+                    int toMove = Math.Min(space, other.Count);
+                    slot.Count += toMove;
+                    other.Count -= toMove;
+                    if (other.Count <= 0) other.Item = null;
+                    if (slot.Count >= maxStack) break;
+                }
+            }
+        }
+
+        private static void MoveInventoryToGadgetSlots(InventoryService svc, AInventory inv, AGadgetInventory gadget)
+        {
+            // Try to move consumeables from inventory to gadget slots (only consumeables can go in slots 0-3)
+            foreach (AGridBox slot in InventoryService.EnumerateSlots(inv.Items.InternalGrid))
+            {
+                if (slot.Item is not AConsumeable || slot.Count <= 0) continue;
+                if (svc.TryAdd(gadget, slot.Item, slot.Count))
+                {
                     slot.Item = null;
                     slot.Count = 0;
                 }
@@ -161,9 +221,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             ClearHeldItem();
         }
 
-        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight)
+        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight, bool blockCrafting = false)
         {
-            if (layout.CraftButtonRectangle.Contains(position))
+            if (!blockCrafting && layout.CraftButtonRectangle.Contains(position))
             {
                 return true;
             }
@@ -188,7 +248,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return true;
             }
 
-            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, out AGridBox clickedSlot)
+            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, blockCrafting, out AGridBox clickedSlot)
                 && CanUseClickedSlot(clickedSlot)
                 && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
         }
@@ -347,14 +407,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, out AGridBox slot)
+        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, bool blockCrafting, out AGridBox slot)
         {
-            if (TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
+            if (!blockCrafting && TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
             {
                 return true;
             }
 
-            if (layout.OutputSlotRectangle.Contains(position))
+            if (!blockCrafting && layout.OutputSlotRectangle.Contains(position))
             {
                 slot = craftOutputSlot;
 
