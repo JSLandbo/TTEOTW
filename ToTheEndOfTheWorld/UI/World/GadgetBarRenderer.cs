@@ -11,6 +11,7 @@ namespace ToTheEndOfTheWorld.UI.World
     public sealed class GadgetBarRenderer(WorldElementsRepository blocks, GameItemsRepository items)
     {
         private const float KeyLabelScale = 1.0f;
+        private const float StackTextScale = 0.95f;
 
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private ItemSlotRenderer slotRenderer = null!;
@@ -22,7 +23,7 @@ namespace ToTheEndOfTheWorld.UI.World
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);
             pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
-            slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont);
+            slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont, StackTextScale);
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight, Point mousePosition, InventoryOverlay? inventoryOverlay)
@@ -39,10 +40,8 @@ namespace ToTheEndOfTheWorld.UI.World
                 Rectangle slotRectangle = GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, slotIndex);
                 AGridBox slot = world.Player.GadgetSlots.Items.InternalGrid[slotIndex, 0];
 
-                Color backgroundColor = slotIndex < GadgetBarLayout.HotbarSlotCount
-                    ? new Color(42, 42, 42, 220)
-                    : new Color(34, 34, 34, 220);
-                Color borderColor = new(132, 132, 132);
+                Color backgroundColor = new(62, 62, 62);
+                Color borderColor = new(124, 124, 124);
                 bool hasHeldItem = inventoryOverlay?.HasHeldItem == true;
 
                 bool isHovered = isInteractive

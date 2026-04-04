@@ -6,7 +6,7 @@ namespace ToTheEndOfTheWorld.UI.World
     {
         public const int HotbarSlotCount = 4;
         public const int TotalSlotCount = 6;
-        public const int SlotSize = 64;
+        public const int SlotSize = 68;
         public const int SlotSpacing = 8;
         public const int SpecialSlotGap = 18;
         public const int BottomMargin = 18;
