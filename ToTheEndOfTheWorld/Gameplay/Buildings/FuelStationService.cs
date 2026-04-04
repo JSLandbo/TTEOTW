@@ -7,7 +7,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
     {
         public float TryRefuelAllAffordable(ModelWorld world)
         {
-            float fuelPrice = 0.25f;
+            float fuelPrice = 0.10f;
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
 
             if (missingFuel <= 0.0f || world.Player.Cash <= 0.0)
