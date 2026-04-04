@@ -9,6 +9,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         private const float GroundHorizontalStopThreshold = 35.0f;
         private const float AirHorizontalDragFactor = 0.75f;
         private const float UpwardIdleDragFactor = 2.0f;
+        private const float SoftStartAccelerationThreshold = 600.0f;
+        private const float SoftStartVelocityWindow = 900.0f;
+        private const float SoftStartMinimumMultiplier = 0.2f;
 
         public void Update(APlayer player, float deltaTime, bool isGrounded)
         {
@@ -26,7 +29,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 float horizontalAcceleration = isGrounded ? settings.GroundAcceleration : settings.AirAcceleration;
                 float xTarget = player.MovementInput.X * maximumHorizontalSpeed;
                 bool isReversingDirection = Math.Sign(xVelocity) != Math.Sign(xTarget) && xVelocity != 0.0f;
-                float xChangeRate = horizontalAcceleration;
+                float xChangeRate = ApplySoftStart(horizontalAcceleration, xVelocity, xTarget);
 
                 if (isReversingDirection)
                 {
@@ -45,10 +48,10 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 float yTarget = player.MovementInput.Y * settings.AirMaximumSpeed;
                 float yChangeRate =
                     player.MovementInput.Y < 0
-                        ? GetUpwardAcceleration(player)
+                        ? ApplySoftStart(GetUpwardAcceleration(player), yVelocity, yTarget)
                         : Math.Sign(yVelocity) != Math.Sign(yTarget) && yVelocity != 0.0f
-                            ? settings.AirAcceleration + settings.AirDrag
-                            : settings.AirAcceleration;
+                            ? ApplySoftStart(settings.AirAcceleration, yVelocity, yTarget) + settings.AirDrag
+                            : ApplySoftStart(settings.AirAcceleration, yVelocity, yTarget);
 
                 yVelocity = MoveTowards(yVelocity, yTarget, yChangeRate * deltaTime);
             }
@@ -77,6 +80,24 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             player.XOffset += player.XVelocity * deltaTime;
             player.YOffset += player.YVelocity * deltaTime;
+        }
+
+        private static float ApplySoftStart(float acceleration, float velocity, float targetVelocity)
+        {
+            if (acceleration < SoftStartAccelerationThreshold || targetVelocity == 0.0f)
+            {
+                return acceleration;
+            }
+
+            if (Math.Sign(velocity) != Math.Sign(targetVelocity) && velocity != 0.0f)
+            {
+                return acceleration;
+            }
+
+            float ramp = Math.Clamp(Math.Abs(velocity) / SoftStartVelocityWindow, 0.0f, 1.0f);
+            float multiplier = SoftStartMinimumMultiplier + ((1.0f - SoftStartMinimumMultiplier) * ramp);
+
+            return acceleration * multiplier;
         }
 
         private static float MoveTowards(float current, float target, float maxDelta)
