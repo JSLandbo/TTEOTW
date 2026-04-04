@@ -24,7 +24,7 @@ namespace ToTheEndOfTheWorld.UI.Common
 
             DrawItem(spriteBatch, slot.Item, slotRectangle, isHovered ? HoverItemScale : 1.0f);
 
-            if (showCount)
+            if (showCount && slot.Item.Stackable)
             {
                 DrawStackCount(spriteBatch, slot.Count, slotRectangle);
             }

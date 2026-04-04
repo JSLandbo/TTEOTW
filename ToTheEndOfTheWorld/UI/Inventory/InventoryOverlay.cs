@@ -318,7 +318,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int heldSlotSize = currentLayout.SlotSize;
             Rectangle heldRectangle = new(mousePosition.X - (heldSlotSize / 2), mousePosition.Y - (heldSlotSize / 2), heldSlotSize, heldSlotSize);
             slotRenderer.DrawItem(spriteBatch, item, heldRectangle);
-            slotRenderer.DrawStackCount(spriteBatch, count, heldRectangle);
+
+            if (item.Stackable)
+            {
+                slotRenderer.DrawStackCount(spriteBatch, count, heldRectangle);
+            }
         }
 
         private static void DrawCenteredTexture(SpriteBatch spriteBatch, Texture2D texture, Rectangle bounds, Color color)
