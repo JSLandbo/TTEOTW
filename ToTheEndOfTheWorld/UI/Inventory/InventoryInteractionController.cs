@@ -16,6 +16,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
     {
         private AGridBox heldSourceSlot;
         private int currentMaxStackSize = InventoryService.DefaultMaxStackSize;
+        private bool selectionRequested;
         private bool trashRequested;
 
         public AType HeldItem { get; private set; }
@@ -27,6 +28,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         {
             bool requested = trashRequested;
             trashRequested = false;
+            return requested;
+        }
+
+        public bool ConsumeSelectionRequest()
+        {
+            bool requested = selectionRequested;
+            selectionRequested = false;
             return requested;
         }
 
@@ -205,6 +213,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 heldSourceSlot = slot;
                 slot.Item = null;
                 slot.Count = 0;
+                selectionRequested = true;
 
                 return;
             }
@@ -215,6 +224,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 slot.Count = HeldCount;
 
                 ClearHeldItem();
+                selectionRequested = true;
 
                 return;
             }
@@ -237,6 +247,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     ClearHeldItem();
                 }
 
+                selectionRequested = true;
+
                 return;
             }
 
@@ -247,6 +259,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             HeldItem = swapItem;
             HeldCount = swapCount;
             heldSourceSlot = slot;
+            selectionRequested = true;
         }
 
         private void PlaceSingleHeldItem(AGridBox slot)
@@ -266,6 +279,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 {
                     ClearHeldItem();
                 }
+
+                selectionRequested = true;
 
                 return;
             }
@@ -287,6 +302,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             {
                 ClearHeldItem();
             }
+
+            selectionRequested = true;
         }
 
         private void ClearHeldItem()
@@ -308,6 +325,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             HeldItem = heldItem;
             HeldCount = heldCount;
+            selectionRequested = true;
 
             return true;
         }

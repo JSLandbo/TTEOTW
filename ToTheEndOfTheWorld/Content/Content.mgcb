@@ -127,11 +127,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectNuclearExplosion.wav
 
-#begin Audio/Sfx/EffectPickedUpItem.wav
+#begin Audio/Sfx/EffectSelectedItem.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sfx/EffectPickedUpItem.wav
+/build:Audio/Sfx/EffectSelectedItem.wav
 
 #begin Audio/Sfx/EffectSoldToStore.wav
 /importer:WavImporter

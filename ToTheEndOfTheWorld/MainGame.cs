@@ -222,7 +222,7 @@ namespace ToTheEndOfTheWorld
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             TextureAnimationHelper.TotalSeconds = totalSeconds;
             KeyboardState keyboardState = IsActive ? Keyboard.GetState() : default;
-            MouseState mouseState = CreateScaledMouseState(Mouse.GetState());
+            MouseState mouseState = IsActive ? CreateScaledMouseState(Mouse.GetState()) : CreateInactiveMouseState();
             uiMousePosition = mouseState.Position;
 
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
@@ -278,6 +278,11 @@ namespace ToTheEndOfTheWorld
             if (inventoryOverlay?.ConsumeTrashSoundRequest() == true)
             {
                 eventBus.Publish(new TrashBinUsedEvent());
+            }
+
+            if (inventoryOverlay?.ConsumeSelectionSoundRequest() == true)
+            {
+                audioService.PlayOneShot(SoundEffectId.EffectSelectedItem);
             }
 
             if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
@@ -386,8 +391,8 @@ namespace ToTheEndOfTheWorld
             debugHudRenderer.Draw(spriteBatch, world);
             gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
             DrawInteractionPrompt();
-            uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
             gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
+            uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
             inventoryOverlay?.DrawHeldItemOnTop(spriteBatch);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
@@ -497,6 +502,11 @@ namespace ToTheEndOfTheWorld
             int scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
 
             return new MouseState(scaledX, scaledY, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
+        }
+
+        private static MouseState CreateInactiveMouseState()
+        {
+            return new MouseState(-1, -1, 0, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released);
         }
 
         private void DrawInteractionPrompt()

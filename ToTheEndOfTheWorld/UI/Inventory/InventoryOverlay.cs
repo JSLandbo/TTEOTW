@@ -55,6 +55,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return interactionController.ConsumeTrashRequest();
         }
 
+        public bool ConsumeSelectionSoundRequest()
+        {
+            return interactionController.ConsumeSelectionRequest();
+        }
+
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
             pixelTexture = new Texture2D(graphicsDevice, 1, 1);

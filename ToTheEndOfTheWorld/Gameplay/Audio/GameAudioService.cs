@@ -33,6 +33,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             TryLoad(content, "Audio/Sfx/EffectHittingGround", SoundEffectId.EffectHittingGround, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectHullRepairKit", SoundEffectId.EffectHullRepairKit, soundEffects);
             TryLoad(content, "Audio/Sfx/EffectHullDamage", SoundEffectId.EffectHullDamage, soundEffects);
+            TryLoad(content, "Audio/Sfx/EffectSelectedItem", SoundEffectId.EffectSelectedItem, soundEffects);
         }
 
         public void PlayMusic(MusicTrack track, bool restartIfSame = false)
