@@ -9,18 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
         {
             return
             [
-                // TODO: Cheats remove
-                new CraftingRecipe(
-                    Pattern: CreatePattern(
-                        null, new CraftingIngredient(GameIds.Blocks.Coal, 1), null,
-                        null, null, null,
-                        new CraftingIngredient(GameIds.Blocks.Dirt, 4), null, new CraftingIngredient(GameIds.Blocks.Dirt, 4)
-                    ),
-                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.RainbowIngot),
-                    OutputCount: 1
-                ),
-
-                // Coal
+                // Coal to ingot
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Iron, 1)
@@ -133,7 +122,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.PlatinumIngot),
                     OutputCount: 1
                 ),
-                // Lava
+
+                // Lava to ingot
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Uranium, 1)
@@ -162,6 +152,188 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumIngot),
                     OutputCount: 1
                 ),
+
+                // Ingot to cube
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.IronCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.IronCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CopperCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CopperCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TinCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.TinIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TinCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.SilverCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.SilverIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.SilverCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.GoldCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.GoldIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.GoldCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.LeadCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.LeadIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.LeadCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AluminiumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.AluminiumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AluminiumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ZincCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.ZincIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ZincCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.NickelCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.NickelIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.NickelCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BismuthCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.BismuthIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BismuthCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TitaniumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.TitaniumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TitaniumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TungstenCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.TungstenIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.TungstenCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.UraniumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.UraniumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.UraniumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.OsmiumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.OsmiumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.OsmiumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CobaltCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.CobaltIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CobaltCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ChromiumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.ChromiumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ChromiumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.PlatinumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.PlatinumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.PlatinumCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.RainbowCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.RainbowIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.RainbowCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.MythrilCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.MythrilIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.MythrilCube), OutputCount: 1),
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 1)),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumCube),
+                    OutputCount: 1
+                ),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumCube), OutputCount: 1),
             ];
         }
 
