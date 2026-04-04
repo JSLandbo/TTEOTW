@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,7 @@ namespace ToTheEndOfTheWorld
         private static readonly string GameTitle = "To The End Of The World";
         private static readonly string GameVersion = "V2.10";
         private static readonly int _pixels = 64;
+        private const double AutosaveIntervalSeconds = 120.0;
 
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -79,6 +81,8 @@ namespace ToTheEndOfTheWorld
         private Point uiMousePosition;
         private bool isUsingHandCursor;
         private bool isPlayerGrounded;
+        private double autosaveElapsedSeconds;
+        private Task autoSaveTask = Task.CompletedTask;
 
         public MainGame()
         {
@@ -92,13 +96,7 @@ namespace ToTheEndOfTheWorld
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += HandleClientSizeChanged;
-            Exiting += (_, _) =>
-            {
-                if (world != null)
-                {
-                    ContextHandler.SaveWorld(world);
-                }
-            };
+            Exiting += HandleExiting;
         }
 
         protected override void Initialize()
@@ -225,55 +223,14 @@ namespace ToTheEndOfTheWorld
             MouseState mouseState = IsActive ? CreateScaledMouseState(Mouse.GetState()) : CreateInactiveMouseState();
             uiMousePosition = mouseState.Position;
 
-            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
-            {
-                if (inventoryOverlay?.IsOpen == true)
-                {
-                    inventoryOverlay.Close(world);
-                }
-
-                if (uiManager.BlocksGameplay)
-                {
-                    uiManager.CloseTopmost(world);
-                }
-                else
-                {
-                    worldInteractionService.TryHandleInteraction(uiManager, world);
-                }
-            }
-            else if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.I))
-            {
-                if (inventoryOverlay?.IsOpen == true)
-                {
-                    inventoryOverlay.Close(world);
-                }
-                else
-                {
-                    if (uiManager.BlocksGameplay)
-                    {
-                        uiManager.CloseTopmost(world);
-                    }
-
-                    inventoryOverlay?.Open();
-                }
-            }
-            else if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
-            {
-                if (inventoryOverlay?.IsOpen == true)
-                {
-                    inventoryOverlay.Close(world);
-                }
-                if (uiManager.BlocksGameplay)
-                {
-                    uiManager.CloseTopmost(world);
-                }
-            }
+            HandleUiInput(keyboardState);
 
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             UpdateUiCursor(mouseState.Position);
             worldEffects.Update();
             screenEffects.Update();
+            UpdateAutoSave(gameTime);
 
             if (inventoryOverlay?.ConsumeTrashSoundRequest() == true)
             {
@@ -376,6 +333,59 @@ namespace ToTheEndOfTheWorld
             base.Update(gameTime);
         }
 
+        private void HandleUiInput(KeyboardState keyboardState)
+        {
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
+            {
+                if (uiManager.HasOpenInteractionOverlay)
+                {
+                    uiManager.CloseTopmost(world);
+                    return;
+                }
+
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                }
+
+                worldInteractionService.TryHandleInteraction(uiManager, world);
+                return;
+            }
+
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.I))
+            {
+                if (uiManager.HasOpenInteractionOverlay)
+                {
+                    uiManager.CloseTopmost(world);
+                    inventoryOverlay?.Open();
+                    return;
+                }
+
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                    return;
+                }
+
+                inventoryOverlay?.Open();
+                return;
+            }
+
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
+            {
+                if (uiManager.HasOpenInteractionOverlay)
+                {
+                    uiManager.CloseTopmost(world);
+                    return;
+                }
+
+                if (inventoryOverlay?.IsOpen == true)
+                {
+                    inventoryOverlay.Close(world);
+                }
+            }
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(sceneRenderTarget);
@@ -471,6 +481,22 @@ namespace ToTheEndOfTheWorld
             }
         }
 
+        private void HandleExiting(object sender, EventArgs e)
+        {
+            if (world == null)
+            {
+                return;
+            }
+
+            if (!autoSaveTask.IsCompleted)
+            {
+                autoSaveTask.GetAwaiter().GetResult();
+                return;
+            }
+
+            ContextHandler.SaveWorld(world);
+        }
+
         private static void NormalizeVisibleTileCounts(ref int blocksWide, ref int blocksHigh)
         {
             blocksWide = Math.Max(4, blocksWide - (blocksWide % 2 + 2));
@@ -530,6 +556,30 @@ namespace ToTheEndOfTheWorld
             Mouse.SetCursor(shouldUseHandCursor ? MouseCursor.Hand : MouseCursor.Arrow);
 
             isUsingHandCursor = shouldUseHandCursor;
+        }
+
+        private void UpdateAutoSave(GameTime gameTime)
+        {
+            if (world == null)
+            {
+                return;
+            }
+
+            autosaveElapsedSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (autosaveElapsedSeconds < AutosaveIntervalSeconds)
+            {
+                return;
+            }
+
+            autosaveElapsedSeconds -= AutosaveIntervalSeconds;
+
+            if (!autoSaveTask.IsCompleted)
+            {
+                return;
+            }
+
+            autoSaveTask = ContextHandler.SaveWorldAsync(world);
         }
     }
 }

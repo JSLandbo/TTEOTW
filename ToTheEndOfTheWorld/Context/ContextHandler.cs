@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
@@ -12,12 +13,15 @@ namespace ToTheEndOfTheWorld.Context
         public static void SaveWorld(ModelWorld world)
         {
             string file = GetWorldFilePath();
-            world.SavedPlayerWorldPosition = ResolvePlayerWorldPosition(world);
-            File.WriteAllText(file, UtilityLibrary.Extensions.Compress(JsonConvert.SerializeObject(world, typeof(ModelWorld),
-            new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            })));
+            string content = SerializeWorld(world);
+            File.WriteAllText(file, content);
+        }
+
+        public static async Task SaveWorldAsync(ModelWorld world)
+        {
+            string file = GetWorldFilePath();
+            string content = await Task.Run(() => SerializeWorld(world));
+            await File.WriteAllTextAsync(file, content);
         }
 
         public static ModelWorld? LoadWorld()
@@ -34,6 +38,17 @@ namespace ToTheEndOfTheWorld.Context
                 TypeNameHandling = TypeNameHandling.Auto,
                 NullValueHandling = NullValueHandling.Ignore,
             })!;
+        }
+
+        private static string SerializeWorld(ModelWorld world)
+        {
+            world.SavedPlayerWorldPosition = ResolvePlayerWorldPosition(world);
+
+            return UtilityLibrary.Extensions.Compress(JsonConvert.SerializeObject(world, typeof(ModelWorld),
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            }));
         }
 
         private static string GetWorldFilePath()
@@ -73,6 +88,7 @@ namespace ToTheEndOfTheWorld.Context
             {
                 return;
             }
+
             using FileStream f = File.Create(file);
             f.Close();
         }

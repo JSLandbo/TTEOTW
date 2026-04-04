@@ -14,8 +14,7 @@ namespace ToTheEndOfTheWorld.UI
         private readonly List<IGameOverlay> overlays = [];
         private readonly UiHoverLabelRenderer hoverLabelRenderer = new();
         private Point lastMousePosition;
-        private bool inventoryOpenedForInteraction;
-        private bool inventoryWasOpenBeforeInteraction;
+        private bool interactionOpenedInventory;
 
         public bool BlocksGameplay
         {
@@ -24,6 +23,22 @@ namespace ToTheEndOfTheWorld.UI
                 foreach (IGameOverlay overlay in overlays)
                 {
                     if (overlay.IsOpen && overlay.BlocksGameplay)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public bool HasOpenInteractionOverlay
+        {
+            get
+            {
+                foreach (IGameOverlay overlay in overlays)
+                {
+                    if (overlay is IInteractionOverlay && overlay.IsOpen)
                     {
                         return true;
                     }
@@ -119,7 +134,7 @@ namespace ToTheEndOfTheWorld.UI
                 }
 
                 interactionOverlay.Open(building);
-                UpdateInventoryForInteraction(building);
+                OpenInventoryForInteraction(building);
                 return true;
             }
 
@@ -131,15 +146,14 @@ namespace ToTheEndOfTheWorld.UI
             for (int i = overlays.Count - 1; i >= 0; i--)
             {
                 IGameOverlay overlay = overlays[i];
-                if (!overlay.IsOpen)
-                {
-                    continue;
-                }
+
+                if (!overlay.IsOpen) continue;
 
                 overlay.Close(world);
+
                 if (overlay is IInteractionOverlay)
                 {
-                    RestoreInventoryAfterInteraction(world);
+                    CloseInventoryAfterInteraction(world);
                 }
 
                 return true;
@@ -161,45 +175,32 @@ namespace ToTheEndOfTheWorld.UI
             return null;
         }
 
-        private void UpdateInventoryForInteraction(ABuilding building)
+        private void OpenInventoryForInteraction(ABuilding building)
         {
             InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
 
-            if (inventoryOverlay == null || !building.ShowPlayerInventoryWhenOpen)
+            interactionOpenedInventory = inventoryOverlay != null && building.ShowPlayerInventoryWhenOpen;
+
+            if (!interactionOpenedInventory)
             {
-                inventoryOpenedForInteraction = false;
-                inventoryWasOpenBeforeInteraction = false;
                 return;
             }
 
-            inventoryWasOpenBeforeInteraction = inventoryOverlay.IsOpen;
-            inventoryOpenedForInteraction = true;
             inventoryOverlay.Open(UiOverlayLayout.InventoryWithShopPanelOffsetX);
         }
 
-        private void RestoreInventoryAfterInteraction(ModelWorld world)
+        private void CloseInventoryAfterInteraction(ModelWorld world)
         {
-            if (!inventoryOpenedForInteraction)
+            if (!interactionOpenedInventory)
             {
                 return;
             }
 
             InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
 
-            if (inventoryOverlay != null)
-            {
-                if (inventoryWasOpenBeforeInteraction)
-                {
-                    inventoryOverlay.Open();
-                }
-                else
-                {
-                    inventoryOverlay.Close(world);
-                }
-            }
+            inventoryOverlay?.Close(world);
 
-            inventoryOpenedForInteraction = false;
-            inventoryWasOpenBeforeInteraction = false;
+            interactionOpenedInventory = false;
         }
     }
 }
