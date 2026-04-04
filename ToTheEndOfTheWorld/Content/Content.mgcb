@@ -67,7 +67,6 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectMinedBlock.wav;Audio/Sfx/EffectMinedBlock
 
-
 #begin Audio/Sfx/EffectNuclearExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1502,6 +1501,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/General/ExplosionAnimation.png;Graphics/General/ExplosionAnimation
+
+#begin Graphics/General/Propulsion/PropulsionDown.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/General/Propulsion/PropulsionDown.png
+
+#begin Graphics/General/Propulsion/PropulsionLeft.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/General/Propulsion/PropulsionLeft.png
+
+#begin Graphics/General/Propulsion/PropulsionRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/General/Propulsion/PropulsionRight.png
+
+#begin Graphics/General/Propulsion/PropulsionUp.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/General/Propulsion/PropulsionUp.png
 
 #begin Graphics/General/Suicide.png
 /importer:TextureImporter

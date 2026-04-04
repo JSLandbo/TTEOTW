@@ -1,14 +1,28 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
+using ToTheEndOfTheWorld.Gameplay.Player;
 
 namespace ToTheEndOfTheWorld.UI.World
 {
     public sealed class PlayerShipRenderer(GameItemsRepository items, int tileSize)
     {
-        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
+        private const int PropulsionFrames = 4;
+        private readonly Dictionary<PlayerOrientation, Texture2D> propulsionTextures = [];
+
+        public void LoadContent(ContentManager content)
+        {
+            propulsionTextures[PlayerOrientation.Left] = content.Load<Texture2D>("General/Propulsion/PropulsionLeft");
+            propulsionTextures[PlayerOrientation.Right] = content.Load<Texture2D>("General/Propulsion/PropulsionRight");
+            propulsionTextures[PlayerOrientation.Up] = content.Load<Texture2D>("General/Propulsion/PropulsionUp");
+            propulsionTextures[PlayerOrientation.Down] = content.Load<Texture2D>("General/Propulsion/PropulsionDown");
+        }
+
+        public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight, bool isGrounded)
         {
             Vector2 playerPosition = new(
                 (float)(viewportWidth / 2.0) - (0.5f * tileSize),
@@ -20,6 +34,8 @@ namespace ToTheEndOfTheWorld.UI.World
             bool drillExtended = player.DrillExtended;
             GameItemDefinition drill = items[player.Drill.ID];
             GameItemDefinition hull = items[player.Hull.ID];
+
+            DrawPropulsion(spriteBatch, player, playerPosition, isGrounded);
 
             if (orientation.Equals(PlayerOrientation.Base))
             {
@@ -41,6 +57,34 @@ namespace ToTheEndOfTheWorld.UI.World
             }
 
             DrawAnimatedTexture(spriteBatch, hull.Textures[PlayerOrientation.Base], hull.Frames, playerPosition);
+        }
+
+        private void DrawPropulsion(SpriteBatch spriteBatch, APlayer player, Vector2 playerPosition, bool isGrounded)
+        {
+            if (!PlayerThrusterUsageService.UsesThrustersForMovement(player, isGrounded))
+            {
+                return;
+            }
+
+            if (player.MovementInput.X < 0)
+            {
+                DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Left], PropulsionFrames, new Vector2(playerPosition.X + tileSize, playerPosition.Y));
+            }
+
+            if (player.MovementInput.X > 0)
+            {
+                DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Right], PropulsionFrames, new Vector2(playerPosition.X - tileSize, playerPosition.Y));
+            }
+
+            if (player.MovementInput.Y < 0)
+            {
+                DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Up], PropulsionFrames, new Vector2(playerPosition.X, playerPosition.Y + tileSize));
+            }
+
+            if (player.MovementInput.Y > 0)
+            {
+                DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Down], PropulsionFrames, new Vector2(playerPosition.X, playerPosition.Y - tileSize));
+            }
         }
 
         private void DrawAnimatedTexture(SpriteBatch spriteBatch, Texture2D texture, int frames, Vector2 position)

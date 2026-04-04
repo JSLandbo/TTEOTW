@@ -78,6 +78,7 @@ namespace ToTheEndOfTheWorld
         private bool isApplyingResize;
         private Point uiMousePosition;
         private bool isUsingHandCursor;
+        private bool isPlayerGrounded;
 
         public MainGame()
         {
@@ -209,6 +210,7 @@ namespace ToTheEndOfTheWorld
             worldEffectDefinitions = new WorldEffectDefinitionsRepository(Content);
             screenEffectDefinitions = new ScreenEffectDefinitionsRepository(Content);
             screenEffectService = new ScreenEffectService(screenEffects, screenEffectDefinitions, eventBus);
+            playerShipRenderer.LoadContent(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
             //audioService.PlayMusic(MusicTrack.MainTheme);
@@ -323,6 +325,7 @@ namespace ToTheEndOfTheWorld
             player.ApplyIntent(intent.MovementInput, facingDirection);
 
             bool isGrounded = PlayerGroundingService.IsGrounded(world, player, worldBlockDefinitionResolver);
+            isPlayerGrounded = isGrounded;
 
             if (!playerFuelSystem.CanAffordMovement(player, deltaTime, isGrounded))
             {
@@ -434,7 +437,7 @@ namespace ToTheEndOfTheWorld
 
         private void DrawPlayerShip()
         {
-            playerShipRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
+            playerShipRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, isPlayerGrounded);
         }
 
         private void HandleClientSizeChanged(object sender, EventArgs e)
