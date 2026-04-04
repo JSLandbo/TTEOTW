@@ -36,7 +36,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
 
         public void Update(ModelWorld world, bool isGrounded)
         {
-            if (world.Player.Mining)
+            if (world.Player.DrillExtended)
             {
                 audioService.EnsureLoop(AudioLoopChannel.Mining, SoundEffectId.LoopMining);
             }
