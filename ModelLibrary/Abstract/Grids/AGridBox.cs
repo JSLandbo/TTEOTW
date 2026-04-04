@@ -17,6 +17,7 @@ namespace ModelLibrary.Abstract.Grids
             set
             {
                 item = value;
+                if (item == null) count = 0;
                 OwnerGrid?.NotifyChanged();
             }
         }
@@ -26,7 +27,8 @@ namespace ModelLibrary.Abstract.Grids
             get => count;
             set
             {
-                count = value;
+                count = Math.Max(0, value);
+                if (count == 0) item = null;
                 OwnerGrid?.NotifyChanged();
             }
         }
