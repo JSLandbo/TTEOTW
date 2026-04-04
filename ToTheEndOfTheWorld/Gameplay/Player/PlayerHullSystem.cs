@@ -6,7 +6,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerHullSystem(GameEventBus eventBus)
     {
-        private const float FallDamageVelocityThreshold = 600.0f;
+        private const float FallDamageVelocityThreshold = 1200.0f;
         private const float FallDamagePerExcessVelocity = 0.25f;
         private const float ExplosionChancePerSecondAtMaxHeat = 0.25f;
         private const float MinimumExplosionDamage = 05.0f;
