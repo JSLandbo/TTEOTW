@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.Gameplay.Graphics;
-using ToTheEndOfTheWorld.Gameplay.Player;
 
 namespace ToTheEndOfTheWorld.UI.World
 {
