@@ -243,6 +243,8 @@ namespace ModelLibrary.Ids
 
             public static class CratingMaterials
             {
+                // Ingots
+
                 public const short IronIngot = 10900;
                 public const short CopperIngot = 10901;
                 public const short TinIngot = 10902;
@@ -264,6 +266,8 @@ namespace ModelLibrary.Ids
                 public const short RainbowIngot = 10957;
                 public const short MythrilIngot = 10958;
                 public const short AdamantiumIngot = 10959;
+
+                // Cubes
 
                 public const short IronCube = 13200;
                 public const short CopperCube = 13201;

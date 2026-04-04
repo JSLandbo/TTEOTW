@@ -283,6 +283,8 @@ namespace ToTheEndOfTheWorld.Context.Items
 
         private void RegisterMaterials(ContentManager manager)
         {
+            // Ingots
+
             AddDefinition(
                 GameIds.Items.CratingMaterials.IronIngot,
                 "Iron Ingot",
@@ -402,6 +404,130 @@ namespace ToTheEndOfTheWorld.Context.Items
                 "Adamantium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/AdamantiumIngot"),
                 new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 680.0f, Weight: 0.65f),
+                frames: 4
+            );
+
+            // Cubes
+
+            AddDefinition(
+                GameIds.Items.CratingMaterials.IronCube,
+                "Iron Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/IronCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.IronCube, Name: "Iron Cube", Worth: 72.0f, Weight: 8.1f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.CopperCube,
+                "Copper Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/CopperCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.CopperCube, Name: "Copper Cube", Worth: 108.0f, Weight: 7.2f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TinCube,
+                "Tin Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/TinCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.TinCube, Name: "Tin Cube", Worth: 54.0f, Weight: 5.4f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.SilverCube,
+                "Silver Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/SilverCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.SilverCube, Name: "Silver Cube", Worth: 234.0f, Weight: 7.2f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.GoldCube,
+                "Gold Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/GoldCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.GoldCube, Name: "Gold Cube", Worth: 630.0f, Weight: 9.0f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.LeadCube,
+                "Lead Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/LeadCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.LeadCube, Name: "Lead Cube", Worth: 81.0f, Weight: 10.35f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.AluminiumCube,
+                "Aluminium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/AluminiumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.AluminiumCube, Name: "Aluminium Cube", Worth: 108.0f, Weight: 4.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.ZincCube,
+                "Zinc Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/ZincCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.ZincCube, Name: "Zinc Cube", Worth: 117.0f, Weight: 6.3f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.NickelCube,
+                "Nickel Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/NickelCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.NickelCube, Name: "Nickel Cube", Worth: 153.0f, Weight: 8.1f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.BismuthCube,
+                "Bismuth Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/BismuthCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.BismuthCube, Name: "Bismuth Cube", Worth: 189.0f, Weight: 7.65f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TitaniumCube,
+                "Titanium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/TitaniumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.TitaniumCube, Name: "Titanium Cube", Worth: 1350.0f, Weight: 11.7f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.TungstenCube,
+                "Tungsten Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/TungstenCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.TungstenCube, Name: "Tungsten Cube", Worth: 990.0f, Weight: 13.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.UraniumCube,
+                "Uranium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/UraniumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.UraniumCube, Name: "Uranium Cube", Worth: 2115.0f, Weight: 9.9f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.OsmiumCube,
+                "Osmium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/OsmiumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.OsmiumCube, Name: "Osmium Cube", Worth: 855.0f, Weight: 12.6f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.CobaltCube,
+                "Cobalt Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/CobaltCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.CobaltCube, Name: "Cobalt Cube", Worth: 522.0f, Weight: 8.1f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.ChromiumCube,
+                "Chromium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/ChromiumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.ChromiumCube, Name: "Chromium Cube", Worth: 450.0f, Weight: 9.0f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.PlatinumCube,
+                "Platinum Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/PlatinumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.PlatinumCube, Name: "Platinum Cube", Worth: 1125.0f, Weight: 10.8f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.RainbowCube,
+                "Rainbow Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/RainbowCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.RainbowCube, Name: "Rainbow Cube", Worth: 1530.0f, Weight: 3.15f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.MythrilCube,
+                "Mythril Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/MythrilCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.MythrilCube, Name: "Mythril Cube", Worth: 3060.0f, Weight: 4.5f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.AdamantiumCube,
+                "Adamantium Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/AdamantiumCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.AdamantiumCube, Name: "Adamantium Cube", Worth: 6120.0f, Weight: 5.85f),
                 frames: 4
             );
         }
