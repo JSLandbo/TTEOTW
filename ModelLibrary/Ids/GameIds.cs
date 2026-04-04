@@ -264,6 +264,28 @@ namespace ModelLibrary.Ids
                 public const short RainbowIngot = 10957;
                 //public const short MythrilIngot = 10958;
                 public const short AdamantiumIngot = 10959;
+
+                public const short IronCube = 13200;
+                public const short CopperCube = 13201;
+                public const short TinCube = 13202;
+                public const short SilverCube = 13203;
+                public const short GoldCube = 13204;
+                public const short LeadCube = 13205;
+                public const short AluminiumCube = 13206;
+                public const short ZincCube = 13207;
+                public const short NickelCube = 13208;
+                public const short BismuthCube = 13209;
+
+                public const short TitaniumCube = 13250;
+                public const short TungstenCube = 13251;
+                public const short UraniumCube = 13252;
+                public const short OsmiumCube = 13253;
+                public const short CobaltCube = 13254;
+                public const short ChromiumCube = 13255;
+                public const short PlatinumCube = 13256;
+                public const short RainbowCube = 13257;
+                public const short MythrilCube = 13258;
+                public const short AdamantiumCube = 13259;
             }
         }
     }
