@@ -22,9 +22,9 @@ namespace ToTheEndOfTheWorld.Context
 
             // Base terrain and very common early materials.
             AddTexturedBlock(manager, GameIds.Blocks.Grass, "Grass", "Blocks/GrassBlock", hardness: 0, health: 40, minimumDepth: 11, maximumDepth: 11, occurrenceSpan: new Vector2(0f, 100f), worth: 0.1f, weight: 1.0f);
-            AddTexturedBlock(manager, GameIds.Blocks.Dirt, "Dirt", "Blocks/DirtBlock", hardness: 0, health: 12, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(0f, 100f), worth: 0.01f, weight: 1.0f);
+            AddTexturedBlock(manager, GameIds.Blocks.Dirt, "Dirt", "Blocks/DirtBlock", hardness: 0, health: 12, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(0f, 100f), worth: 0.05f, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Gravel, "Gravel", "Blocks/GravelBlock", hardness: 1, health: 12, minimumDepth: 15, maximumDepth: 220, occurrenceSpan: new Vector2(0f, 2f), worth: 1, weight: 1.8f);
-            AddTexturedBlock(manager, GameIds.Blocks.Rock, "Rock", "Blocks/StoneBlock", hardness: 20, health: 50, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(2f, 4f), worth: 5, weight: 2.3f);
+            AddTexturedBlock(manager, GameIds.Blocks.Rock, "Rock", "Blocks/StoneBlock", hardness: 20, health: 50, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(2f, 4f), worth: 0.1f, weight: 2.3f);
             AddTexturedBlock(manager, GameIds.Blocks.Wood, "Wood", "Blocks/WoodBlock", hardness: 2, health: 18, minimumDepth: 11, maximumDepth: 80, occurrenceSpan: new Vector2(12.03f, 12.12f), worth: 2, weight: 0.8f);
             AddTexturedBlock(manager, GameIds.Blocks.Coal, "Coal", "Blocks/CoalBlock", hardness: 2, health: 10, minimumDepth: 6, maximumDepth: 120000, occurrenceSpan: new Vector2(30.00f, 30.40f), worth: 2, weight: 0.7f);
             AddTexturedBlock(manager, GameIds.Blocks.Water, "Water", "Blocks/WaterBlock", hardness: 1, health: 20, minimumDepth: 8, maximumDepth: 120, occurrenceSpan: new Vector2(16.35f, 16.45f), worth: 0.5f, weight: 0.0f);
