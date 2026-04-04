@@ -66,7 +66,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void EnsureLayout(int viewportWidth, int viewportHeight)
         {
-            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid);
+            int panelOffsetX = building?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
+            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)

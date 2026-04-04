@@ -16,6 +16,7 @@ namespace ModelLibrary.Concrete.Buildings
         AGrid StorageGrid,
         bool IsBackground = true,
         bool IsDestructible = false,
-        EBuildingInteraction Interaction = EBuildingInteraction.None
-    ) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction);
+        EBuildingInteraction Interaction = EBuildingInteraction.None,
+        bool ShowPlayerInventoryWhenOpen = false
+    ) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, IsDestructible, Interaction, ShowPlayerInventoryWhenOpen);
 }

@@ -28,7 +28,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
         {
             AGridBox[,] grid = building.StorageGrid.InternalGrid;
 
-            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            if (!building.ShowPlayerInventoryWhenOpen)
+            {
+                UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            }
+
             spriteBatch.Draw(pixelTexture, new Rectangle(layout.PanelRectangle.X + 3, layout.PanelRectangle.Y + 4, layout.PanelRectangle.Width, layout.PanelRectangle.Height), new Color(0, 0, 0, 70));
             spriteBatch.Draw(pixelTexture, layout.PanelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, layout.HeaderRectangle, new Color(44, 44, 44));

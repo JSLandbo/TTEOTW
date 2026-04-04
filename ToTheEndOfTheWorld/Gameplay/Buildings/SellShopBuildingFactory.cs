@@ -21,7 +21,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 StorageGrid: null,
                 IsBackground: true,
                 IsDestructible: false,
-                Interaction: EBuildingInteraction.Shop);
+                Interaction: EBuildingInteraction.Shop,
+                ShowPlayerInventoryWhenOpen: true);
         }
     }
 }

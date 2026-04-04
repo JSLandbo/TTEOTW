@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ToTheEndOfTheWorld.UI.Common;
+using ToTheEndOfTheWorld.UI.Inventory;
 
 namespace ToTheEndOfTheWorld.UI
 {
@@ -13,6 +14,8 @@ namespace ToTheEndOfTheWorld.UI
         private readonly List<IGameOverlay> overlays = [];
         private readonly UiHoverLabelRenderer hoverLabelRenderer = new();
         private Point lastMousePosition;
+        private bool inventoryOpenedForInteraction;
+        private bool inventoryWasOpenBeforeInteraction;
 
         public bool BlocksGameplay
         {
@@ -116,6 +119,7 @@ namespace ToTheEndOfTheWorld.UI
                 }
 
                 interactionOverlay.Open(building);
+                UpdateInventoryForInteraction(building);
                 return true;
             }
 
@@ -133,6 +137,11 @@ namespace ToTheEndOfTheWorld.UI
                 }
 
                 overlay.Close(world);
+                if (overlay is IInteractionOverlay)
+                {
+                    RestoreInventoryAfterInteraction(world);
+                }
+
                 return true;
             }
 
@@ -150,6 +159,47 @@ namespace ToTheEndOfTheWorld.UI
             }
 
             return null;
+        }
+
+        private void UpdateInventoryForInteraction(ABuilding building)
+        {
+            InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
+
+            if (inventoryOverlay == null || !building.ShowPlayerInventoryWhenOpen)
+            {
+                inventoryOpenedForInteraction = false;
+                inventoryWasOpenBeforeInteraction = false;
+                return;
+            }
+
+            inventoryWasOpenBeforeInteraction = inventoryOverlay.IsOpen;
+            inventoryOpenedForInteraction = true;
+            inventoryOverlay.Open(UiOverlayLayout.InventoryWithShopPanelOffsetX);
+        }
+
+        private void RestoreInventoryAfterInteraction(ModelWorld world)
+        {
+            if (!inventoryOpenedForInteraction)
+            {
+                return;
+            }
+
+            InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
+
+            if (inventoryOverlay != null)
+            {
+                if (inventoryWasOpenBeforeInteraction)
+                {
+                    inventoryOverlay.Open();
+                }
+                else
+                {
+                    inventoryOverlay.Close(world);
+                }
+            }
+
+            inventoryOpenedForInteraction = false;
+            inventoryWasOpenBeforeInteraction = false;
         }
     }
 }

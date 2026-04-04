@@ -84,7 +84,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle buttonRectangle = GetBuyButtonRectangle(viewportWidth, viewportHeight);
             Rectangle gridRectangle = GetGridRectangle(panelRectangle);
@@ -92,7 +92,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             bool canBuy = !alreadyOwned && world.Player.Cash >= gadgetShopService.GadgetBeltPriceValue;
             AGridBox[,] shopGrid = currentBuilding?.StorageGrid?.InternalGrid;
 
-            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            if (currentBuilding?.ShowPlayerInventoryWhenOpen != true)
+            {
+                UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            }
+
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
@@ -121,7 +125,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetBuyButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            return new Rectangle((viewportWidth - ButtonWidth) / 2, (viewportHeight - PanelHeight) / 2 + 74, ButtonWidth, ButtonHeight);
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(panelRectangle.X + ((panelRectangle.Width - ButtonWidth) / 2), panelRectangle.Y + 74, ButtonWidth, ButtonHeight);
         }
 
         private static Rectangle GetGridRectangle(Rectangle panelRectangle)
@@ -164,7 +169,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetShopSlotRectangle(int viewportWidth, int viewportHeight, int slotX, int slotY)
         {
-            Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             return GetShopSlotRectangle(GetGridRectangle(panelRectangle), slotX, slotY);
         }
 
@@ -213,6 +218,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public void Close(ModelWorld world)
         {
             isOpen = false;
+        }
+
+        private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
+        {
+            int panelOffsetX = currentBuilding?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
+            return new Rectangle(((viewportWidth - PanelWidth) / 2) + panelOffsetX, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
         }
     }
 }

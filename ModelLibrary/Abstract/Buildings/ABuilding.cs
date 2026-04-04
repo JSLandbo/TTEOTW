@@ -15,7 +15,8 @@ namespace ModelLibrary.Abstract.Buildings
         AGrid StorageGrid,
         bool IsBackground,
         bool IsDestructible,
-        EBuildingInteraction Interaction) : IBuilding
+        EBuildingInteraction Interaction,
+        bool ShowPlayerInventoryWhenOpen = false) : IBuilding
     {
         public short ID { get; set; } = ID;
         public string Name { get; set; } = Name;
@@ -29,6 +30,7 @@ namespace ModelLibrary.Abstract.Buildings
         public bool IsBackground { get; set; } = IsBackground;
         public bool IsDestructible { get; set; } = IsDestructible;
         public EBuildingInteraction Interaction { get; set; } = Interaction;
+        public bool ShowPlayerInventoryWhenOpen { get; set; } = ShowPlayerInventoryWhenOpen;
 
         public bool ContainsTile(long worldX, long worldY)
         {

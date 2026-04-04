@@ -36,6 +36,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private SpriteFont textFont;
+        private ABuilding currentBuilding;
         private bool isOpen;
         private int scrollOffset;
         private Point mousePosition;
@@ -46,6 +47,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Open(ABuilding building)
         {
+            currentBuilding = building;
             isOpen = true;
             scrollOffset = 0;
         }
@@ -104,7 +106,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            Rectangle panelRectangle = new((viewportWidth - PanelWidth) / 2, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle valueCardRectangle = new(panelRectangle.X + SectionPadding, panelRectangle.Y + 76, panelRectangle.Width - (SectionPadding * 2), CardHeight);
             Rectangle valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
@@ -115,7 +117,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             double saleValue = Math.Floor(sellSummary.TotalValue);
             double oreSaleValue = Math.Floor(oreSellSummary.TotalValue);
 
-            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            if (currentBuilding?.ShowPlayerInventoryWhenOpen != true)
+            {
+                UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            }
+
             spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
             spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
@@ -206,8 +212,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetSellAllButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            int panelLeft = (viewportWidth - PanelWidth) / 2;
-            int panelTop = (viewportHeight - PanelHeight) / 2;
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
+            int panelLeft = panelRectangle.X;
+            int panelTop = panelRectangle.Y;
             int buttonsTop = panelTop + PanelHeight - ButtonHeight - 20;
             int buttonsLeft = panelLeft + ((PanelWidth - ((ButtonWidth * 2) + ButtonGap)) / 2);
 
@@ -222,7 +229,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetValueListRectangle(int viewportWidth, int viewportHeight)
         {
-            return new Rectangle((viewportWidth - PanelWidth) / 2 + SectionPadding, (viewportHeight - PanelHeight) / 2 + ValueListTop, PanelWidth - (SectionPadding * 2), ValueListHeight);
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(panelRectangle.X + SectionPadding, panelRectangle.Y + ValueListTop, PanelWidth - (SectionPadding * 2), ValueListHeight);
         }
 
         private int GetVisibleRowCount(Rectangle rectangle)
@@ -257,6 +265,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public void Close(ModelWorld world)
         {
             isOpen = false;
+        }
+
+        private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
+        {
+            int panelOffsetX = currentBuilding?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
+            return new Rectangle(((viewportWidth - PanelWidth) / 2) + panelOffsetX, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
         }
 
     }

@@ -22,14 +22,14 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public Rectangle HeaderRectangle { get; } = new Rectangle(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
         public Point GridStart { get; } = gridStart;
 
-        public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid)
+        public static EquipmentShopLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] grid, int panelOffsetX = 0)
         {
             int gridWidth = grid.GetLength(0) * SlotSize + ((grid.GetLength(0) - 1) * SlotSpacing);
             int rowHeight = SlotSize;
             int gridHeight = grid.GetLength(1) * rowHeight + ((grid.GetLength(1) - 1) * RowSpacing);
             int panelWidth = System.Math.Max(MinimumPanelWidth, gridWidth + (PanelHorizontalPadding * 2));
             int panelHeight = System.Math.Max(MinimumPanelHeight, GridTop + gridHeight + GridBottomPadding);
-            Rectangle panelRectangle = new((viewportWidth - panelWidth) / 2, (viewportHeight - panelHeight) / 2, panelWidth, panelHeight);
+            Rectangle panelRectangle = new(((viewportWidth - panelWidth) / 2) + panelOffsetX, (viewportHeight - panelHeight) / 2, panelWidth, panelHeight);
             Point gridStart = new(
                 panelRectangle.X + ((panelRectangle.Width - gridWidth) / 2),
                 panelRectangle.Y + GridTop + ((panelRectangle.Height - GridTop - GridBottomPadding - gridHeight) / 2));

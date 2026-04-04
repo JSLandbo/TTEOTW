@@ -6,7 +6,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 {
     public static class InventoryLayoutCalculator
     {
-        public static InventoryLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] inventoryGrid)
+        public static InventoryLayout Create(int viewportWidth, int viewportHeight, AGridBox[,] inventoryGrid, int panelXOffset = 0)
         {
             const int panelPadding = 18;
             const int slotSpacing = 8;
@@ -15,8 +15,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             const int sectionGap = 18;
             const int outputGap = 18;
             const int equipmentGap = 24;
-            const int equipmentInfoGap = 24;
-            const int equipmentInfoWidth = 840;
             const int sectionPadding = 16;
             const int dividerHeight = 1;
             int craftingColumns = 3;
@@ -34,7 +32,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int craftButtonWidth = slotSize + 20;
             int outputColumnWidth = slotSize + 12;
             int equipmentSectionWidth = (slotSize * 3) + (slotSpacing * 2);
-            int topSectionWidth = craftingSectionWidth + outputGap + outputColumnWidth + equipmentGap + equipmentSectionWidth + equipmentInfoGap + equipmentInfoWidth;
+            int topSectionWidth = craftingSectionWidth + outputGap + outputColumnWidth + equipmentGap + equipmentSectionWidth;
             int contentWidth = topSectionWidth > inventorySectionWidth ? topSectionWidth : inventorySectionWidth;
             int craftingHeight = (craftingRows * slotSize) + ((craftingRows - 1) * slotSpacing);
             int inventoryHeight = (inventoryRows * slotSize) + ((inventoryRows - 1) * slotSpacing);
@@ -53,7 +51,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                               + dividerHeight
                               + sectionGap
                               + inventorySectionHeight;
-            int panelX = (viewportWidth - panelWidth) / 2;
+            int panelX = ((viewportWidth - panelWidth) / 2) + panelXOffset;
             int panelY = (viewportHeight - panelHeight) / 2;
             Rectangle headerRectangle = new(panelX, panelY, panelWidth, titleHeight);
             Rectangle craftingSectionRectangle = new(
@@ -72,8 +70,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int outputSlotX = craftButtonRectangle.Center.X - (slotSize / 2);
             int equipmentStartX = outputSlotX + outputColumnWidth + equipmentGap;
             int equipmentStartY = craftingSectionRectangle.Y + sectionPadding + ((topContentHeight - equipmentSectionHeight) / 2);
-            Rectangle equipmentInfoRectangle = new(equipmentStartX + equipmentSectionWidth + equipmentInfoGap, craftingSectionRectangle.Y + sectionPadding, equipmentInfoWidth, topContentHeight);
-            Rectangle equipmentSectionRectangle = new(equipmentStartX, craftingSectionRectangle.Y + sectionPadding, equipmentInfoRectangle.Right - equipmentStartX, topContentHeight);
+            Rectangle equipmentInfoRectangle = Rectangle.Empty;
+            Rectangle equipmentSectionRectangle = new(equipmentStartX, craftingSectionRectangle.Y + sectionPadding, equipmentSectionWidth, equipmentSectionHeight);
             int dividerY = craftingSectionRectangle.Bottom + sectionGap;
             Rectangle dividerRectangle = new(panelX + panelPadding + 8, dividerY, panelWidth - (panelPadding * 2) - 16, dividerHeight);
             Rectangle inventorySectionRectangle = new(

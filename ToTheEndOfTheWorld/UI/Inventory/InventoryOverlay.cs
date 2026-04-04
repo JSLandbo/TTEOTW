@@ -16,7 +16,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
     public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items) : IGameOverlay
     {
         private const float HeaderTextScale = 1.15f;
-        private const float SummaryTextScale = 1.0f;
         private const float ButtonTextScale = 1.0f;
         private const float StackTextScale = 0.95f;
         private readonly Grid craftingGrid = new(new Vector2(0, 0), new GridBox[3, 3]);
@@ -32,14 +31,16 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private InventoryLayout currentLayout;
         private bool isOpen;
         private bool selfDestructRequested;
+        private int panelXOffset;
 
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
         public bool HasHeldItem => interactionController.HasHeldItem;
 
-        public void Open()
+        public void Open(int panelXOffset = 0)
         {
             isOpen = true;
+            this.panelXOffset = panelXOffset;
         }
 
         public bool ConsumeSelfDestructRequest()
@@ -71,7 +72,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid);
+            currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid, panelXOffset);
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) && currentLayout.SelfDestructButtonRectangle.Contains(currentMouseState.Position))
             {
@@ -103,6 +104,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             isOpen = false;
+            panelXOffset = 0;
             interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid);
             interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory);
         }
@@ -139,8 +141,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, 2, UiInteractionStyle.GetBorderColor(new Color(146, 146, 146), isCraftButtonHovered));
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Craft", currentLayout.CraftButtonRectangle, Color.White, ButtonTextScale);
             DrawEquipmentSlots(spriteBatch, world);
-            DrawEquipmentSummary(spriteBatch, world);
-
             DrawGrid(spriteBatch, inventory.Items.InternalGrid, currentLayout.InventoryStart.X, currentLayout.InventoryStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
             DrawSortButton(spriteBatch);
             DrawTrashBin(spriteBatch);
@@ -200,46 +200,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             if (slotItem != null)
             {
                 slotRenderer.DrawItem(spriteBatch, slotItem, slotRectangle, isHovered ? 0.95f : 1.0f);
-            }
-        }
-
-        private void DrawEquipmentSummary(SpriteBatch spriteBatch, ModelWorld world)
-        {
-            const int panelPaddingX = 14;
-            const int panelPaddingY = 10;
-            int lineHeight = (int)System.Math.Ceiling(textFont.MeasureString("Hg").Y * SummaryTextScale) + 6;
-            Rectangle summaryRectangle = new(
-                currentLayout.EquipmentInfoRectangle.X,
-                currentLayout.EquipmentInfoRectangle.Y,
-                currentLayout.EquipmentInfoRectangle.Width - 16,
-                currentLayout.EquipmentInfoRectangle.Height);
-
-            spriteBatch.Draw(pixelTexture, summaryRectangle, new Color(40, 40, 40));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, summaryRectangle, 1, new Color(96, 96, 96));
-
-            int textY = summaryRectangle.Y + panelPaddingY;
-            int separatorLeft = summaryRectangle.X + panelPaddingX;
-            int separatorWidth = summaryRectangle.Width - (panelPaddingX * 2);
-
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.ThermalPlating, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Engine, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Inventory, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.FuelTank, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Hull, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Drill, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: true);
-            DrawEquipmentSummaryTextLine(spriteBatch, world, EPlayerEquipmentSlotType.Thruster, ref textY, summaryRectangle.X + panelPaddingX, lineHeight, separatorLeft, separatorWidth, drawSeparator: false);
-        }
-
-        private void DrawEquipmentSummaryTextLine(SpriteBatch spriteBatch, ModelWorld world, EPlayerEquipmentSlotType slotType, ref int textY, int textX, int lineHeight, int separatorLeft, int separatorWidth, bool drawSeparator)
-        {
-            AType equippedItem = itemUseService.GetEquippedItem(world, slotType);
-            string line = itemUseService.GetSummaryText(slotType, equippedItem);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line, new Vector2(textX, textY), new Color(244, 244, 244), SummaryTextScale);
-
-            textY += lineHeight;
-            if (drawSeparator)
-            {
-                spriteBatch.Draw(pixelTexture, new Rectangle(separatorLeft, textY - 3, separatorWidth, 1), new Color(76, 76, 76));
             }
         }
 
