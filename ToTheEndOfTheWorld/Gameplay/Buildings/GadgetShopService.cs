@@ -42,7 +42,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
             AType purchasedItem = items.Create(slot.Item.ID);
 
-            if (!inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
+            if (!inventoryService.TryAddToMatchingStacks(world.Player.GadgetSlots, purchasedItem, 1)
+                && !inventoryService.TryAdd(world.Player.Inventory, purchasedItem, 1))
             {
                 return false;
             }

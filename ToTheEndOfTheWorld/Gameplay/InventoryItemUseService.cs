@@ -149,6 +149,23 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
         }
 
+        public bool TryAlignGadgetSlotsWithInventory(ModelWorld world)
+        {
+            if (world.Player.Inventory is not Inventory currentInventory
+                || world.Player.GadgetSlots is not GadgetInventory currentGadgetSlots)
+            {
+                return false;
+            }
+
+            if (!TryCreateAdjustedGadgetSlots(currentGadgetSlots, currentInventory, out GadgetInventory adjustedGadgetSlots))
+            {
+                return false;
+            }
+
+            world.Player.GadgetSlots = adjustedGadgetSlots;
+            return true;
+        }
+
         private bool MatchesSlot(AType item, EPlayerEquipmentSlotType slotType)
         {
             return TryGetEquipmentSlotType(item, out EPlayerEquipmentSlotType itemSlotType) && itemSlotType == slotType;
@@ -216,7 +233,14 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
+            if (world.Player.GadgetSlots is not GadgetInventory currentGadgetSlots
+                || !TryCreateAdjustedGadgetSlots(currentGadgetSlots, upgradedInventory, out GadgetInventory adjustedGadgetSlots))
+            {
+                return false;
+            }
+
             world.Player.Inventory = upgradedInventory;
+            world.Player.GadgetSlots = adjustedGadgetSlots;
 
             heldItem = CreateEmptyInventoryItem(currentInventory);
 
@@ -242,7 +266,14 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return false;
             }
 
+            if (world.Player.GadgetSlots is not GadgetInventory currentGadgetSlots
+                || !TryCreateAdjustedGadgetSlots(currentGadgetSlots, upgradedInventory, out GadgetInventory adjustedGadgetSlots))
+            {
+                return false;
+            }
+
             world.Player.Inventory = upgradedInventory;
+            world.Player.GadgetSlots = adjustedGadgetSlots;
 
             return true;
         }
@@ -298,6 +329,38 @@ namespace ToTheEndOfTheWorld.Gameplay
                     {
                         return false;
                     }
+                }
+            }
+
+            return true;
+        }
+
+        private bool TryCreateAdjustedGadgetSlots(GadgetInventory sourceGadgetSlots, Inventory targetInventory, out GadgetInventory adjustedGadgetSlots)
+        {
+            int targetMaxStackSize = inventoryService.GetMaxStackSize(targetInventory);
+            adjustedGadgetSlots = new GadgetInventory(sourceGadgetSlots)
+            {
+                MaxStackSize = targetMaxStackSize
+            };
+
+            AGridBox[,] gadgetGrid = adjustedGadgetSlots.Items.InternalGrid;
+
+            for (int x = 0; x < gadgetGrid.GetLength(0); x++)
+            {
+                AGridBox slot = gadgetGrid[x, 0];
+
+                if (slot.Item == null || slot.Count <= targetMaxStackSize)
+                {
+                    continue;
+                }
+
+                int overflowCount = slot.Count - targetMaxStackSize;
+                slot.Count = targetMaxStackSize;
+
+                if (!inventoryService.TryAdd(targetInventory, slot.Item, overflowCount))
+                {
+                    adjustedGadgetSlots = null!;
+                    return false;
                 }
             }
 

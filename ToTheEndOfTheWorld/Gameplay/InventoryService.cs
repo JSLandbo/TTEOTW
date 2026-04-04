@@ -44,30 +44,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             AGridBox[,] grid = inventory.Items.InternalGrid;
             int maxStackSize = GetMaxStackSize(inventory);
-            int remainingCount = count;
-
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.GetLength(0); x++)
-                {
-                    AGridBox slot = grid[x, y];
-
-                    if (slot.Item == null || !CanStackTogether(slot.Item, item) || slot.Count >= maxStackSize)
-                    {
-                        continue;
-                    }
-
-                    int spaceLeft = maxStackSize - slot.Count;
-                    int amountToAdd = remainingCount > spaceLeft ? spaceLeft : remainingCount;
-                    slot.Count += amountToAdd;
-                    remainingCount -= amountToAdd;
-
-                    if (remainingCount == 0)
-                    {
-                        return true;
-                    }
-                }
-            }
+            int remainingCount = TryAddToMatchingStacks(grid, item, count, maxStackSize);
 
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -90,6 +67,21 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return false;
+        }
+
+        public bool TryAddToMatchingStacks(AInventory inventory, AType item, int count)
+        {
+            if (count <= 0)
+            {
+                return true;
+            }
+
+            if (!CanAccept(inventory, count))
+            {
+                return false;
+            }
+
+            return TryAddToMatchingStacks(inventory.Items.InternalGrid, item, count, GetMaxStackSize(inventory)) == 0;
         }
 
         public bool CanAccept(AInventory inventory, int count)
@@ -223,6 +215,34 @@ namespace ToTheEndOfTheWorld.Gameplay
             int remainingCapacity = totalCapacity - usedCapacity;
 
             return remainingCapacity > 0 ? remainingCapacity : 0;
+        }
+
+        private static int TryAddToMatchingStacks(AGridBox[,] grid, AType item, int remainingCount, int maxStackSize)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    AGridBox slot = grid[x, y];
+
+                    if (slot.Item == null || !CanStackTogether(slot.Item, item) || slot.Count >= maxStackSize)
+                    {
+                        continue;
+                    }
+
+                    int spaceLeft = maxStackSize - slot.Count;
+                    int amountToAdd = remainingCount > spaceLeft ? spaceLeft : remainingCount;
+                    slot.Count += amountToAdd;
+                    remainingCount -= amountToAdd;
+
+                    if (remainingCount == 0)
+                    {
+                        return 0;
+                    }
+                }
+            }
+
+            return remainingCount;
         }
     }
 }

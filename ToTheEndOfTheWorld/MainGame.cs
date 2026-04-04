@@ -165,6 +165,7 @@ namespace ToTheEndOfTheWorld
                 world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);
             }
             worldBootstrapper.EnsureInitialized(world);
+            inventoryItemUseService.TryAlignGadgetSlotsWithInventory(world);
             previousKeyboardState = Keyboard.GetState();
             previousMouseState = Mouse.GetState();
 
