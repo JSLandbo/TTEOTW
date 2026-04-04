@@ -5,7 +5,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 {
     public sealed class PlayerVerticalImpactService(PlayerHullSystem playerHullSystem)
     {
-        private const int MinimumProtectionFramesAfterDownwardMining = 8;
+        private const int MinimumProtectionFramesAfterDownwardMining = 16;
         private int framesRemaining;
         private bool isProtectedThisFrame;
         private float downwardImpactVelocityThisStep;

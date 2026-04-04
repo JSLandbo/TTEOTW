@@ -154,21 +154,21 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Gadgets.GadgetBelt,
                 "Gadget Belt",
                 [],
-                new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 10000.0f, Weight: 1.0f),
+                new Item(ID: GameIds.Items.Gadgets.GadgetBelt, Name: "Gadget Belt", Worth: 500.0f, Weight: 1.0f),
                 buyable: true
             );
             AddDefinition(
                 GameIds.Items.Gadgets.DirtFilter,
                 "Dirt Filter",
                 LoadSingleTexture(manager, "Blocks/DirtBlock"),
-                new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 25000.0f, Weight: 1.0f, Stackable: false),
+                new Item(ID: GameIds.Items.Gadgets.DirtFilter, Name: "Dirt Filter", Worth: 1000.0f, Weight: 1.0f, Stackable: false),
                 buyable: true
             );
             AddDefinition(
                 GameIds.Items.Gadgets.RockFilter,
                 "Rock Filter",
                 LoadSingleTexture(manager, "Blocks/StoneBlock"),
-                new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 50000.0f, Weight: 1.0f, Stackable: false),
+                new Item(ID: GameIds.Items.Gadgets.RockFilter, Name: "Rock Filter", Worth: 2500.0f, Weight: 1.0f, Stackable: false),
                 buyable: true
             );
         }
@@ -179,7 +179,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallDynamite,
                 "Small Dynamite",
                 LoadSingleTexture(manager, "Consumeables/SmallDynamite"),
-                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 10000.0f, Worth: 250.0f, Weight: 0.05f),
+                new SmallDynamite(ID: GameIds.Items.Consumeables.SmallDynamite, Name: "Small Dynamite", ExplosionAreaSize: 3, ExplosionPlaybackFrames: 40, Damage: 100.0f, MaxHardness: 10000.0f, Worth: 25.0f, Weight: 0.05f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -187,7 +187,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.MediumDynamite,
                 "Medium Dynamite",
                 LoadSingleTexture(manager, "Consumeables/MediumDynamite"),
-                new MediumDynamite(ID: GameIds.Items.Consumeables.MediumDynamite, Name: "Medium Dynamite", ExplosionAreaSize: 5, ExplosionPlaybackFrames: 40, Damage: 1000.0f, MaxHardness: 100000.0f, Worth: 2500.0f, Weight: 0.50f),
+                new MediumDynamite(ID: GameIds.Items.Consumeables.MediumDynamite, Name: "Medium Dynamite", ExplosionAreaSize: 5, ExplosionPlaybackFrames: 40, Damage: 1000.0f, MaxHardness: 100000.0f, Worth: 250.0f, Weight: 0.50f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -195,7 +195,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.LargeDynamite,
                 "Large Dynamite",
                 LoadSingleTexture(manager, "Consumeables/LargeDynamite"),
-                new LargeDynamite(ID: GameIds.Items.Consumeables.LargeDynamite, Name: "Large Dynamite", ExplosionAreaSize: 9, ExplosionPlaybackFrames: 40, Damage: 10000.0f, MaxHardness: 1000000.0f, Worth: 25000.0f, Weight: 5.0f),
+                new LargeDynamite(ID: GameIds.Items.Consumeables.LargeDynamite, Name: "Large Dynamite", ExplosionAreaSize: 9, ExplosionPlaybackFrames: 40, Damage: 10000.0f, MaxHardness: 1000000.0f, Worth: 2500.0f, Weight: 5.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -211,7 +211,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallFuelCapsule,
                 "Small Fuel Capsule",
                 LoadSingleTexture(manager, "Consumeables/SmallFuelCapsule"),
-                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 25.0f, Worth: 100.0f, Weight: 0.2f),
+                new SmallFuelCapsule(ID: GameIds.Items.Consumeables.SmallFuelCapsule, Name: "Small Fuel Capsule", FuelAmount: 25.0f, Worth: 20.0f, Weight: 0.2f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -219,7 +219,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.MediumFuelCapsule,
                 "Medium Fuel Capsule",
                 LoadSingleTexture(manager, "Consumeables/MediumFuelCapsule"),
-                new MediumFuelCapsule(ID: GameIds.Items.Consumeables.MediumFuelCapsule, Name: "Medium Fuel Capsule", FuelAmount: 100.0f, Worth: 400.0f, Weight: 1.0f),
+                new MediumFuelCapsule(ID: GameIds.Items.Consumeables.MediumFuelCapsule, Name: "Medium Fuel Capsule", FuelAmount: 100.0f, Worth: 80.0f, Weight: 1.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -227,7 +227,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.LargeFuelCapsule,
                 "Large Fuel Capsule",
                 LoadSingleTexture(manager, "Consumeables/LargeFuelCapsule"),
-                new LargeFuelCapsule(ID: GameIds.Items.Consumeables.LargeFuelCapsule, Name: "Large Fuel Capsule", FuelAmount: 500.0f, Worth: 2500.0f, Weight: 5.0f),
+                new LargeFuelCapsule(ID: GameIds.Items.Consumeables.LargeFuelCapsule, Name: "Large Fuel Capsule", FuelAmount: 500.0f, Worth: 500.0f, Weight: 5.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -235,7 +235,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallCoolantPatch,
                 "Small Coolant Patch",
                 LoadSingleTexture(manager, "Consumeables/SmallCoolantPatch"),
-                new SmallCoolantPatch(ID: GameIds.Items.Consumeables.SmallCoolantPatch, Name: "Small Coolant Patch", CoolingAmount: 50.0f, Worth: 300.0f, Weight: 0.1f),
+                new SmallCoolantPatch(ID: GameIds.Items.Consumeables.SmallCoolantPatch, Name: "Small Coolant Patch", CoolingAmount: 50.0f, Worth: 60.0f, Weight: 0.1f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -243,7 +243,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.MediumCoolantPatch,
                 "Medium Coolant Patch",
                 LoadSingleTexture(manager, "Consumeables/MediumCoolantPatch"),
-                new MediumCoolantPatch(ID: GameIds.Items.Consumeables.MediumCoolantPatch, Name: "Medium Coolant Patch", CoolingAmount: 250.0f, Worth: 2000.0f, Weight: 5.0f),
+                new MediumCoolantPatch(ID: GameIds.Items.Consumeables.MediumCoolantPatch, Name: "Medium Coolant Patch", CoolingAmount: 250.0f, Worth: 409.0f, Weight: 5.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -251,7 +251,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.LargeCoolantPatch,
                 "Large Coolant Patch",
                 LoadSingleTexture(manager, "Consumeables/LargeCoolantPatch"),
-                new LargeCoolantPatch(ID: GameIds.Items.Consumeables.LargeCoolantPatch, Name: "Large Coolant Patch", CoolingAmount: 1000.0f, Worth: 10000.0f, Weight: 25.0f),
+                new LargeCoolantPatch(ID: GameIds.Items.Consumeables.LargeCoolantPatch, Name: "Large Coolant Patch", CoolingAmount: 1000.0f, Worth: 2000.0f, Weight: 25.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -259,7 +259,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.SmallHullRepairKit,
                 "Small Hull Repair Kit",
                 LoadSingleTexture(manager, "Consumeables/SmallHullRepairKit"),
-                new SmallHullRepairKit(ID: GameIds.Items.Consumeables.SmallHullRepairKit, Name: "Small Hull Repair Kit", RepairAmount: 50.0f, Worth: 350.0f, Weight: 0.1f),
+                new SmallHullRepairKit(ID: GameIds.Items.Consumeables.SmallHullRepairKit, Name: "Small Hull Repair Kit", RepairAmount: 50.0f, Worth: 70.0f, Weight: 0.1f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -267,7 +267,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.MediumHullRepairKit,
                 "Medium Hull Repair Kit",
                 LoadSingleTexture(manager, "Consumeables/MediumHullRepairKit"),
-                new MediumHullRepairKit(ID: GameIds.Items.Consumeables.MediumHullRepairKit, Name: "Medium Hull Repair Kit", RepairAmount: 250.0f, Worth: 2500.0f, Weight: 0.4f),
+                new MediumHullRepairKit(ID: GameIds.Items.Consumeables.MediumHullRepairKit, Name: "Medium Hull Repair Kit", RepairAmount: 250.0f, Worth: 500.0f, Weight: 0.4f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
@@ -275,7 +275,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 GameIds.Items.Consumeables.LargeHullRepairKit,
                 "Large Hull Repair Kit",
                 LoadSingleTexture(manager, "Consumeables/LargeHullRepairKit"),
-                new LargeHullRepairKit(ID: GameIds.Items.Consumeables.LargeHullRepairKit, Name: "Large Hull Repair Kit", RepairAmount: 1250.0f, Worth: 20000.0f, Weight: 1.0f),
+                new LargeHullRepairKit(ID: GameIds.Items.Consumeables.LargeHullRepairKit, Name: "Large Hull Repair Kit", RepairAmount: 1250.0f, Worth: 4000.0f, Weight: 1.0f),
                 buyable: true,
                 type: EGameItemType.Consumeable
             );
