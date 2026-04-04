@@ -103,13 +103,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 ),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
-                        new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Cobalt, 1)
-                    ),
-                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CobaltIngot),
-                    OutputCount: 1
-                ),
-                new CraftingRecipe(
-                    Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Coal, 1), new CraftingIngredient(GameIds.Blocks.Chromium, 1)
                     ),
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.ChromiumIngot),
@@ -124,6 +117,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 ),
 
                 // Lava to ingot
+                new CraftingRecipe(
+                    Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Cobalt, 1)
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.CobaltIngot),
+                    OutputCount: 1
+                ),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Blocks.Lava, 1), new CraftingIngredient(GameIds.Blocks.Uranium, 1)
