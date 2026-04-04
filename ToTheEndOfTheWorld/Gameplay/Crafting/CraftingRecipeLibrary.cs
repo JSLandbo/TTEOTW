@@ -163,7 +163,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     OutputCount: 1
                 ),
                 new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.IronIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.IronCube), OutputCount: 1),
-                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.IronCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.IronCube), OutputCount: 9),
+                new CraftingRecipe(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.IronCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.IronIngot), OutputCount: 9),
                 new CraftingRecipe(
                     Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.CopperIngot, 1),
