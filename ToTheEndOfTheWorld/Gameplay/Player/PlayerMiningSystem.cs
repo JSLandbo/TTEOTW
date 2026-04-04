@@ -213,7 +213,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (player.FacingDirection.X != 0)
             {
-                player.XOffset = player.FacingDirection.X * PlayerWorldTuning.CollisionPlacementOffset;
+                player.XOffset = 0.0f;
                 player.YOffset = 0.0f;
 
                 return;
@@ -222,7 +222,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (player.FacingDirection.Y != 0)
             {
                 player.XOffset = 0.0f;
-                player.YOffset = player.FacingDirection.Y * PlayerWorldTuning.CollisionPlacementOffset;
+                player.YOffset = 0.0f;
             }
         }
 

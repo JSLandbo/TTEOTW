@@ -49,7 +49,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             {
                 if (horizontal)
                 {
-                    player.XOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
+                    player.XOffset = 0.0f;
                     player.XVelocity = 0.0f;
                 }
                 else
@@ -59,7 +59,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                         playerVerticalImpactService.ApplyFallDamageIfNeeded(player);
                     }
 
-                    player.YOffset = direction * PlayerWorldTuning.CollisionPlacementOffset;
+                    player.YOffset = 0.0f;
                     player.YVelocity = 0.0f;
                 }
 

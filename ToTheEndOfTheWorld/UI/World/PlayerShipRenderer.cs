@@ -80,10 +80,6 @@ namespace ToTheEndOfTheWorld.UI.World
                 DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Up], PropulsionFrames, new Vector2(playerPosition.X, playerPosition.Y + tileSize));
             }
 
-            if (player.MovementInput.Y > 0)
-            {
-                DrawAnimatedTexture(spriteBatch, propulsionTextures[PlayerOrientation.Down], PropulsionFrames, new Vector2(playerPosition.X, playerPosition.Y - tileSize));
-            }
         }
 
         private void DrawAnimatedTexture(SpriteBatch spriteBatch, Texture2D texture, int frames, Vector2 position)
