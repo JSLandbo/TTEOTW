@@ -14,7 +14,6 @@ namespace ModelLibrary.Abstract.Buildings
         int TilesHigh,
         AGrid StorageGrid,
         bool IsBackground,
-        bool IsDestructible,
         EBuildingInteraction Interaction,
         bool ShowPlayerInventoryWhenOpen = false) : IBuilding
     {
@@ -28,7 +27,6 @@ namespace ModelLibrary.Abstract.Buildings
         public int TilesHigh { get; set; } = TilesHigh;
         public AGrid StorageGrid { get; set; } = StorageGrid;
         public bool IsBackground { get; set; } = IsBackground;
-        public bool IsDestructible { get; set; } = IsDestructible;
         public EBuildingInteraction Interaction { get; set; } = Interaction;
         public bool ShowPlayerInventoryWhenOpen { get; set; } = ShowPlayerInventoryWhenOpen;
 

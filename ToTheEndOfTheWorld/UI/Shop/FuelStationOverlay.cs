@@ -70,7 +70,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle refuelButtonRectangle = GetRefuelButtonRectangle(viewportWidth, viewportHeight);
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
-            float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
+            float affordableFuel = MathF.Min(missingFuel, (float)(world.Player.Cash / fuelStationService.FuelPricePerUnit));
             bool canRefuel = affordableFuel > 0.0f;
 
             UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
@@ -98,7 +98,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
             float missingFuel = world.Player.FuelTank.Capacity - world.Player.CurrentFuel;
-            float affordableFuel = MathF.Min(missingFuel, (float)world.Player.Cash);
+            float affordableFuel = MathF.Min(missingFuel, (float)(world.Player.Cash / fuelStationService.FuelPricePerUnit));
             return affordableFuel > 0.0f && GetRefuelButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
         }
 
