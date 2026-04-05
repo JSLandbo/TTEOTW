@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
@@ -32,15 +33,32 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private bool isOpen;
         private bool selfDestructRequested;
         private int panelXOffset;
+        private int cachedViewportWidth;
+        private int cachedViewportHeight;
 
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
         public bool HasHeldItem => interactionController.HasHeldItem;
 
-        public void Open(int panelXOffset = 0)
+        public int PanelWidth => currentLayout.PanelRectangle.Width;
+
+        public void Open(int viewportWidth, int viewportHeight, APlayer player)
         {
             isOpen = true;
-            this.panelXOffset = panelXOffset;
+            panelXOffset = 0;
+            cachedViewportWidth = viewportWidth;
+            cachedViewportHeight = viewportHeight;
+            currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, player.Inventory.Items.InternalGrid, panelXOffset);
+        }
+
+        public void SetPanelOffset(int offsetX)
+        {
+            panelXOffset = offsetX;
+        }
+
+        public void RefreshLayout(APlayer player)
+        {
+            currentLayout = InventoryLayoutCalculator.Create(cachedViewportWidth, cachedViewportHeight, player.Inventory.Items.InternalGrid, panelXOffset);
         }
 
         public bool ConsumeSelfDestructRequest()
@@ -77,7 +95,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid, panelXOffset);
             bool blockCrafting = isShopOpen();
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) && currentLayout.SelfDestructButtonRectangle.Contains(currentMouseState.Position))
@@ -111,8 +128,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 viewportWidth,
                 viewportHeight,
                 blockCrafting,
-                slot => trySellSlot(world, slot),
-                tryGetChestSlot != null ? pos => tryGetChestSlot(pos, viewportWidth, viewportHeight) : null);
+                trySellSlot,
+                tryGetChestSlot);
 
             interactionController.Update(currentMouseState, previousMouseState, ctx);
         }
@@ -323,6 +340,5 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             Rectangle textureBounds = new(bounds.X + padding, bounds.Y + padding, bounds.Width - (padding * 2), bounds.Height - (padding * 2));
             spriteBatch.Draw(texture, textureBounds, color);
         }
-
     }
 }

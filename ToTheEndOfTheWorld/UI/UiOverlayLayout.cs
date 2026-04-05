@@ -1,16 +1,23 @@
 using Microsoft.Xna.Framework;
-using ModelLibrary.Abstract.Buildings;
 
 namespace ToTheEndOfTheWorld.UI
 {
-    public static class UiOverlayLayout // TODO: Make this dynamic by setting GetWidth()-methods on buildings and inventory and calculate even margins left, middle and center of screen.
+    public static class UiOverlayLayout
     {
-        public const int ShopWithInventoryPanelOffsetX = -460;
-        public const int InventoryWithShopPanelOffsetX = 460;
+        public const int PanelGap = 40;
 
-        public static Rectangle GetCenteredPanelRectangle(int panelWidth, int panelHeight, int viewportWidth, int viewportHeight, ABuilding building)
+        public static int CalculateShopOffset(int shopPanelWidth, int inventoryPanelWidth)
         {
-            int panelOffsetX = building?.ShowPlayerInventoryWhenOpen == true ? ShopWithInventoryPanelOffsetX : 0;
+            return -((shopPanelWidth + inventoryPanelWidth) / 2 + PanelGap) / 2;
+        }
+
+        public static int CalculateInventoryOffset(int shopPanelWidth, int inventoryPanelWidth)
+        {
+            return ((shopPanelWidth + inventoryPanelWidth) / 2 + PanelGap) / 2;
+        }
+
+        public static Rectangle GetCenteredPanelRectangle(int panelWidth, int panelHeight, int viewportWidth, int viewportHeight, int panelOffsetX = 0)
+        {
             return new Rectangle(
                 ((viewportWidth - panelWidth) / 2) + panelOffsetX,
                 (viewportHeight - panelHeight) / 2,

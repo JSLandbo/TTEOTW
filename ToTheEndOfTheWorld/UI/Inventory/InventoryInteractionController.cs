@@ -66,7 +66,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 }
 
                 // Check chest slots first (for drag-and-drop)
-                if (ctx.TryGetChestSlot != null)
+                if (ctx.TryGetChestSlotFunc != null)
                 {
                     var chestResult = ctx.TryGetChestSlot(MousePosition);
                     if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
@@ -80,7 +80,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     && CanUseClickedSlot(clickedSlot))
                 {
                     // CTRL+click to sell when shop is open
-                    if (ctx.TrySellSlot != null && clickedSlot.Item != null && ctx.TrySellSlot(clickedSlot))
+                    if (ctx.TrySellSlotFunc != null && clickedSlot.Item != null && ctx.TrySellSlot(clickedSlot))
                     {
                         selectionRequested = true;
                         return;
@@ -95,7 +95,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             if (HeldItem != null && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState))
             {
                 // Check chest slots for right-click
-                if (ctx.TryGetChestSlot != null)
+                if (ctx.TryGetChestSlotFunc != null)
                 {
                     var chestResult = ctx.TryGetChestSlot(MousePosition);
                     if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))

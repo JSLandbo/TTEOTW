@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Inventory;
 
@@ -17,16 +18,15 @@ namespace ToTheEndOfTheWorld.UI
         private readonly UiHoverLabelRenderer hoverLabelRenderer = new();
         private Point lastMousePosition;
         private bool interactionOpenedInventory;
+        private short cachedInventoryId;
 
         public bool BlocksGameplay => overlays.Any(o => o.IsOpen && o.BlocksGameplay);
 
         public bool HasOpenInteractionOverlay => overlays.Any(o => o is IInteractionOverlay && o.IsOpen);
 
-        public bool HasOpenShopOverlay => GetOverlay<Shop.ShopOverlay>()?.IsOpen ?? false;
+        public bool HasOpenShopOverlay => overlays.Any(o => o is IInteractionOverlay { IsOpen: true } and not Shop.StorageChestOverlay);
 
         public bool InventoryHasHeldItem => GetOverlay<InventoryOverlay>()?.HasHeldItem ?? false;
-
-        public bool IsShopSellModeActive => GetOverlay<Shop.ShopOverlay>()?.IsSellModeActive ?? false;
 
         public bool TryShopSellSlot(ModelWorld world, AGridBox slot)
         {
@@ -50,9 +50,16 @@ namespace ToTheEndOfTheWorld.UI
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             lastMousePosition = currentMouseState.Position;
+
             foreach (IGameOverlay overlay in overlays)
             {
                 overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
+            }
+
+            // Check if inventory changed AFTER overlays updated (e.g. bought new inventory in shop)
+            if (interactionOpenedInventory && world.Player.Inventory.ID != cachedInventoryId)
+            {
+                RefreshShopAndInventoryLayout(world.Player, viewportWidth, viewportHeight);
             }
         }
 
@@ -109,7 +116,7 @@ namespace ToTheEndOfTheWorld.UI
             return null;
         }
 
-        public bool Open(ABuilding building)
+        public bool Open(ABuilding building, ModelWorld world, int viewportWidth, int viewportHeight)
         {
             foreach (IGameOverlay overlay in overlays)
             {
@@ -118,8 +125,28 @@ namespace ToTheEndOfTheWorld.UI
                     continue;
                 }
 
-                interactionOverlay.Open(building);
-                OpenInventoryForInteraction(building);
+                interactionOverlay.Open(building, viewportWidth, viewportHeight);
+
+                if (building.ShowPlayerInventoryWhenOpen)
+                {
+                    InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
+                    if (inventoryOverlay != null)
+                    {
+                        inventoryOverlay.Open(viewportWidth, viewportHeight, world.Player);
+                        cachedInventoryId = world.Player.Inventory.ID;
+
+                        int shopWidth = interactionOverlay.PanelWidth;
+                        int inventoryWidth = inventoryOverlay.PanelWidth;
+                        int shopOffset = UiOverlayLayout.CalculateShopOffset(shopWidth, inventoryWidth);
+                        int inventoryOffset = UiOverlayLayout.CalculateInventoryOffset(shopWidth, inventoryWidth);
+
+                        interactionOverlay.SetPanelOffset(shopOffset);
+                        inventoryOverlay.SetPanelOffset(inventoryOffset);
+                        inventoryOverlay.RefreshLayout(world.Player);
+                        interactionOpenedInventory = true;
+                    }
+                }
+
                 return true;
             }
 
@@ -160,20 +187,6 @@ namespace ToTheEndOfTheWorld.UI
             return null;
         }
 
-        private void OpenInventoryForInteraction(ABuilding building)
-        {
-            InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
-
-            interactionOpenedInventory = inventoryOverlay != null && building.ShowPlayerInventoryWhenOpen;
-
-            if (!interactionOpenedInventory)
-            {
-                return;
-            }
-
-            inventoryOverlay.Open(UiOverlayLayout.InventoryWithShopPanelOffsetX);
-        }
-
         private void CloseInventoryAfterInteraction(ModelWorld world)
         {
             if (!interactionOpenedInventory)
@@ -186,6 +199,40 @@ namespace ToTheEndOfTheWorld.UI
             inventoryOverlay?.Close(world);
 
             interactionOpenedInventory = false;
+        }
+
+        private void RefreshShopAndInventoryLayout(APlayer player, int viewportWidth, int viewportHeight)
+        {
+            cachedInventoryId = player.Inventory.ID;
+
+            InventoryOverlay inventoryOverlay = GetOverlay<InventoryOverlay>();
+
+            IInteractionOverlay openShop = null;
+            foreach (IGameOverlay overlay in overlays)
+            {
+                if (overlay is IInteractionOverlay shop && shop.IsOpen)
+                {
+                    openShop = shop;
+                    break;
+                }
+            }
+
+            if (openShop == null || inventoryOverlay == null)
+            {
+                return;
+            }
+
+            // Refresh inventory layout first to get correct width
+            inventoryOverlay.RefreshLayout(player);
+
+            int shopWidth = openShop.PanelWidth;
+            int inventoryWidth = inventoryOverlay.PanelWidth;
+            int shopOffset = UiOverlayLayout.CalculateShopOffset(shopWidth, inventoryWidth);
+            int inventoryOffset = UiOverlayLayout.CalculateInventoryOffset(shopWidth, inventoryWidth);
+
+            openShop.SetPanelOffset(shopOffset);
+            inventoryOverlay.SetPanelOffset(inventoryOffset);
+            inventoryOverlay.RefreshLayout(player);
         }
     }
 }

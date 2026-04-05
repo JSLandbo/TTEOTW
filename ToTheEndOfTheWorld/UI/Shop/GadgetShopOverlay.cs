@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
@@ -14,8 +13,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class GadgetShopOverlay(GadgetShopService gadgetShopService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> hasHeldItem) : IInteractionOverlay
     {
-        private const int PanelWidth = 620;
-        private const int PanelHeight = 708;
         private const int HeaderHeight = 58;
         private const int ButtonWidth = 320;
         private const int ButtonHeight = 72;
@@ -23,9 +20,18 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int GridRows = 6;
         private const int GridSlotSize = 64;
         private const int GridSpacing = 8;
+        private const int GridPadding = 20;
+        private const int ButtonTopMargin = 16;
+        private const int ButtonBottomMargin = 20;
+        private const int GridBottomPadding = 20;
         private const float TitleTextScale = 1.15f;
         private const float BodyTextScale = 1.0f;
         private const float ButtonTextScale = 1.0f;
+
+        private static int GridWidth => (GridColumns * GridSlotSize) + ((GridColumns - 1) * GridSpacing);
+        private static int GridHeight => (GridRows * GridSlotSize) + ((GridRows - 1) * GridSpacing);
+        private static int PanelWidthValue => Math.Max(GridWidth, ButtonWidth) + (GridPadding * 2);
+        private static int PanelHeight => HeaderHeight + ButtonTopMargin + ButtonHeight + ButtonBottomMargin + GridHeight + GridBottomPadding;
 
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private Texture2D pixelTexture = null!;
@@ -34,16 +40,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private bool isOpen;
         private ABuilding currentBuilding = null!;
         private Point mousePosition;
+        private int panelOffsetX;
 
         public EBuildingInteraction Action => EBuildingInteraction.GadgetShop;
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
+        public int PanelWidth => PanelWidthValue;
 
-        public void Open(ABuilding building)
+        public void Open(ABuilding building, int viewportWidth, int viewportHeight)
         {
             currentBuilding = building;
+            panelOffsetX = 0;
             isOpen = true;
         }
+
+        public void SetPanelOffset(int offsetX) => panelOffsetX = offsetX;
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -133,19 +144,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Rectangle GetBuyButtonRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(panelRectangle.X + ((panelRectangle.Width - ButtonWidth) / 2), panelRectangle.Y + 74, ButtonWidth, ButtonHeight);
+            return new Rectangle(panelRectangle.X + ((panelRectangle.Width - ButtonWidth) / 2), panelRectangle.Y + HeaderHeight + ButtonTopMargin, ButtonWidth, ButtonHeight);
         }
 
         private static Rectangle GetGridRectangle(Rectangle panelRectangle)
         {
-            int gridWidth = (GridColumns * GridSlotSize) + ((GridColumns - 1) * GridSpacing);
-            int gridHeight = (GridRows * GridSlotSize) + ((GridRows - 1) * GridSpacing);
-
             return new Rectangle(
-                panelRectangle.X + ((panelRectangle.Width - gridWidth) / 2),
-                panelRectangle.Y + 206,
-                gridWidth,
-                gridHeight);
+                panelRectangle.X + ((panelRectangle.Width - GridWidth) / 2),
+                panelRectangle.Y + HeaderHeight + ButtonTopMargin + ButtonHeight + ButtonBottomMargin,
+                GridWidth,
+                GridHeight);
         }
 
         private bool TryGetClickedShopSlot(Point mousePosition, int viewportWidth, int viewportHeight, out int slotX, out int slotY)
@@ -160,8 +168,9 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 for (int x = 0; x < GridColumns; x++)
                 {
                     Rectangle slotRectangle = GetShopSlotRectangle(gridRectangle, x, y);
-                    AGridBox slot = shopGrid?[x, y] ?? new GridBox(null, 0);
-                    bool canBuy = isEnabled && slot.Item != null && world.Player.Cash >= slot.Item.Worth && gadgetShopService.CanBuyGadget(world, slot.Item);
+                    AGridBox slot = shopGrid?[x, y];
+                    bool hasItem = slot?.Item != null;
+                    bool canBuy = isEnabled && hasItem && world.Player.Cash >= slot.Item.Worth && gadgetShopService.CanBuyGadget(world, slot.Item);
                     bool isHovered = canBuy && slotRectangle.Contains(mousePosition);
                     slotRenderer.DrawGridSlot(
                         spriteBatch,
@@ -232,7 +241,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
         {
-            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidth, PanelHeight, viewportWidth, viewportHeight, currentBuilding);
+            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidthValue, PanelHeight, viewportWidth, viewportHeight, panelOffsetX);
         }
     }
 }

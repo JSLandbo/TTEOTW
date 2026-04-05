@@ -41,11 +41,20 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return TryEquipInventoryFromHeld(world, ref heldItem, ref heldCount);
             }
 
-            if (!TryEquipStandardItem(world, slotType, heldItem))
+            AType oldEquipment = GetEquippedItem(world, slotType);
+
+            // Try to add old equipment to inventory first
+            if (oldEquipment != null && !inventoryService.TryAdd(world.Player.Inventory, oldEquipment, 1))
             {
-                return false;
+                // Inventory full - swap old equipment back to held item instead
+                ApplyEquippedItem(world, slotType, heldItem);
+                heldItem = oldEquipment;
+                heldCount = 1;
+                return true;
             }
 
+            // Old equipment went to inventory (or was null), equip new item
+            ApplyEquippedItem(world, slotType, heldItem);
             heldCount--;
 
             if (heldCount <= 0)
@@ -67,55 +76,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             return slotType == EPlayerEquipmentSlotType.Inventory
                 ? TryEquipInventory(world, (Inventory)item)
                 : TryEquipStandardItem(world, slotType, item);
-        }
-
-        public string GetSlotLabel(EPlayerEquipmentSlotType slotType)
-        {
-            return slotType switch
-            {
-                EPlayerEquipmentSlotType.ThermalPlating => "Plating",
-                EPlayerEquipmentSlotType.Hull => "Hull",
-                EPlayerEquipmentSlotType.Drill => "Drill",
-                EPlayerEquipmentSlotType.Engine => "Engine",
-                EPlayerEquipmentSlotType.Inventory => "Inventory",
-                EPlayerEquipmentSlotType.FuelTank => "Fuel Tank",
-                EPlayerEquipmentSlotType.Thruster => "Thruster",
-                _ => throw new System.ArgumentOutOfRangeException(nameof(slotType), slotType, null)
-            };
-        }
-
-        public string GetSummaryText(EPlayerEquipmentSlotType slotType, AType equippedItem)
-        {
-            if (equippedItem == null)
-            {
-                return $"{GetSlotLabel(slotType)} | Empty";
-            }
-
-            string tier = GetTierLabel(equippedItem);
-
-            return slotType switch
-            {
-                EPlayerEquipmentSlotType.ThermalPlating => $"{GetSlotLabel(slotType)} | {tier} | Heat Capacity {((ThermalPlating)equippedItem).MaxThermals:0} | Dissipation {((ThermalPlating)equippedItem).ThermalDissipation:0.#}/s",
-                EPlayerEquipmentSlotType.Engine => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Engine)equippedItem).Speed:0.#} | Acceleration {((Engine)equippedItem).Acceleration:0.#} | Active Fuel {((Engine)equippedItem).ActiveFuelConsumption:0.##}/s",
-                EPlayerEquipmentSlotType.Inventory => $"{GetSlotLabel(slotType)} | {tier} | Slots {inventoryService.GetUsedSlots((Inventory)equippedItem)}/{inventoryService.GetTotalSlots((Inventory)equippedItem)} | Max Stack {((Inventory)equippedItem).MaxStackSize}",
-                EPlayerEquipmentSlotType.FuelTank => $"{GetSlotLabel(slotType)} | {tier} | Fuel Capacity {((FuelTank)equippedItem).Capacity:0.##}",
-                EPlayerEquipmentSlotType.Hull => $"{GetSlotLabel(slotType)} | {tier} | Health {((Hull)equippedItem).Health:0} | Durability {((Hull)equippedItem).Durability:0.#}",
-                EPlayerEquipmentSlotType.Drill => $"{GetSlotLabel(slotType)} | {tier} | Damage {((Drill)equippedItem).Damage:0.##} | Area {((Drill)equippedItem).MiningAreaSize}x{((Drill)equippedItem).MiningAreaSize} | Hardness {((Drill)equippedItem).Hardness:0.#} | Fuel Usage {((Drill)equippedItem).ActiveFuelConsumption:0.##}/s",
-                EPlayerEquipmentSlotType.Thruster => $"{GetSlotLabel(slotType)} | {tier} | Speed {((Thruster)equippedItem).Speed:0.#} | Acceleration {((Thruster)equippedItem).Acceleration:0.#} | Power {((Thruster)equippedItem).Power:0.#} | Heat {((Thruster)equippedItem).ActiveHeatGeneration:0.#}/s",
-                _ => $"{GetSlotLabel(slotType)} | {tier}"
-            };
-        }
-
-        public string GetTierLabel(AType item)
-        {
-            if (item == null || string.IsNullOrWhiteSpace(item.Name))
-            {
-                return "Unknown";
-            }
-
-            string[] nameParts = item.Name.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
-
-            return nameParts.Length == 0 ? "Unknown" : nameParts[0];
         }
 
         public bool TryGetEquipmentSlotType(AType item, out EPlayerEquipmentSlotType slotType)
@@ -305,6 +265,7 @@ namespace ToTheEndOfTheWorld.Gameplay
 
             return true;
         }
+
         private Inventory CreateEmptyInventoryItem(Inventory source)
         {
             Inventory createdInventory = items.Create<Inventory>(source.ID);

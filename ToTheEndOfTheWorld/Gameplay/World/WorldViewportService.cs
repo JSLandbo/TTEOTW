@@ -5,17 +5,6 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldViewportService
     {
-        public void EnsurePadding(ModelWorld world)
-        {
-            if (world.WorldRender == null || world.WorldRender.Count == 0)
-            {
-                EnsurePadding(world, world.Player.Coordinates);
-                return;
-            }
-
-            EnsurePadding(world, GetCenterWorldPosition(world));
-        }
-
         public void EnsurePadding(ModelWorld world, Vector2 centerWorldPosition)
         {
             Vector2 playerKey = GetCenterRenderKey(world.BlocksWide, world.BlocksHigh);

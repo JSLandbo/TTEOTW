@@ -13,6 +13,6 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
         public float ActiveHeatGeneration { get; set; }
         public float Speed { get; set; }
         public float Acceleration { get; set; }
-        public float Power { get; set; } // Lifting capacity
+        public float Power { get; set; }
     }
 }

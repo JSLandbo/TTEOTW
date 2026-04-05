@@ -187,7 +187,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 10000000000f // Starting allowance
+                Cash = 100f // Starting allowance
             };
 
             return new ModelWorld(
@@ -352,7 +352,7 @@ namespace ToTheEndOfTheWorld
                     inventoryOverlay.Close(world);
                 }
 
-                worldInteractionService.TryHandleInteraction(uiManager, world);
+                worldInteractionService.TryHandleInteraction(uiManager, world, logicalViewportWidth, logicalViewportHeight);
                 return;
             }
 
@@ -361,7 +361,7 @@ namespace ToTheEndOfTheWorld
                 if (uiManager.HasOpenInteractionOverlay)
                 {
                     uiManager.CloseTopmost(world);
-                    inventoryOverlay?.Open();
+                    inventoryOverlay?.Open(logicalViewportWidth, logicalViewportHeight, world.Player);
                     return;
                 }
 
@@ -371,7 +371,7 @@ namespace ToTheEndOfTheWorld
                     return;
                 }
 
-                inventoryOverlay?.Open();
+                inventoryOverlay?.Open(logicalViewportWidth, logicalViewportHeight, world.Player);
                 return;
             }
 

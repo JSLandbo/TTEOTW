@@ -13,8 +13,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class ShopOverlay(ShopService shopService, WorldElementsRepository blocks, GameItemsRepository items) : IInteractionOverlay
     {
-        private const int PanelWidth = 860;
-        private const int PanelHeight = 620;
         private const int HeaderHeight = 58;
         private const int CardHeight = 52;
         private const int SmallButtonWidth = 180;
@@ -23,17 +21,24 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int SellSpecificWidth = 420;
         private const int SellSpecificHeight = 72;
         private const int SectionPadding = 20;
-        private const int ValueListTop = 138;
+        private const int CardTopMargin = 18;
+        private const int ListTopMargin = 10;
         private const int ValueListHeight = 324;
         private const int ValueRowHeight = 76;
         private const int ValueColumnGap = 12;
         private const int ValueEntryPadding = 10;
         private const int ValueIconSize = 64;
+        private const int ButtonsBottomMargin = 20;
+        private const int ButtonsTopMargin = 16;
         private const float TitleTextScale = 1.15f;
         private const float BodyTextScale = 1.05f;
         private const float ListTitleTextScale = 1.0f;
         private const float ListBodyTextScale = 0.95f;
         private const float SmallButtonTextScale = 0.95f;
+
+        private static int PanelWidthValue => (SectionPadding * 2) + (SmallButtonWidth * 2) + SmallButtonGap + SellSpecificWidth + SmallButtonGap;
+        private static int PanelHeight => HeaderHeight + CardTopMargin + CardHeight + ListTopMargin + ValueListHeight + ButtonsTopMargin + SmallButtonHeight + ButtonsBottomMargin;
+
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
 
         private ItemSlotRenderer slotRenderer;
@@ -44,11 +49,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private int scrollOffset;
         private Point mousePosition;
         private bool isSellModeActive;
+        private int panelOffsetX;
 
         public EBuildingInteraction Action => EBuildingInteraction.Shop;
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
-        public bool IsSellModeActive => isOpen && isSellModeActive;
+        public int PanelWidth => PanelWidthValue;
 
         public bool TrySellSlot(ModelWorld world, AGridBox slot)
         {
@@ -60,12 +66,15 @@ namespace ToTheEndOfTheWorld.UI.Shop
             return shopService.SellSlot(world, slot) > 0;
         }
 
-        public void Open(ABuilding building)
+        public void Open(ABuilding building, int viewportWidth, int viewportHeight)
         {
             currentBuilding = building;
+            panelOffsetX = 0;
             isOpen = true;
             scrollOffset = 0;
         }
+
+        public void SetPanelOffset(int offsetX) => panelOffsetX = offsetX;
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -124,7 +133,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
-            Rectangle valueCardRectangle = new(panelRectangle.X + SectionPadding, panelRectangle.Y + 76, panelRectangle.Width - (SectionPadding * 2), CardHeight);
+            Rectangle valueCardRectangle = new(panelRectangle.X + SectionPadding, panelRectangle.Y + HeaderHeight + CardTopMargin, panelRectangle.Width - (SectionPadding * 2), CardHeight);
             Rectangle valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
             Rectangle sellAllButtonRectangle = GetSellAllButtonRectangle(viewportWidth, viewportHeight);
             Rectangle sellOresButtonRectangle = GetSellOresButtonRectangle(viewportWidth, viewportHeight);
@@ -279,7 +288,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Rectangle GetSellAllButtonRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            int buttonsTop = panelRectangle.Y + PanelHeight - SmallButtonHeight - 20;
+            int buttonsTop = panelRectangle.Bottom - ButtonsBottomMargin - SmallButtonHeight;
             int buttonsLeft = panelRectangle.X + SectionPadding;
 
             return new Rectangle(buttonsLeft, buttonsTop, SmallButtonWidth, SmallButtonHeight);
@@ -294,8 +303,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Rectangle GetSellSpecificRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            int buttonsTop = panelRectangle.Y + PanelHeight - SmallButtonHeight - 20;
-            int rightEdge = panelRectangle.X + panelRectangle.Width - SectionPadding;
+            int buttonsTop = panelRectangle.Bottom - ButtonsBottomMargin - SmallButtonHeight;
+            int rightEdge = panelRectangle.Right - SectionPadding;
 
             return new Rectangle(rightEdge - SellSpecificWidth, buttonsTop, SellSpecificWidth, SellSpecificHeight);
         }
@@ -303,7 +312,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Rectangle GetValueListRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(panelRectangle.X + SectionPadding, panelRectangle.Y + ValueListTop, PanelWidth - (SectionPadding * 2), ValueListHeight);
+            int listTop = panelRectangle.Y + HeaderHeight + CardTopMargin + CardHeight + ListTopMargin;
+            return new Rectangle(panelRectangle.X + SectionPadding, listTop, panelRectangle.Width - (SectionPadding * 2), ValueListHeight);
         }
 
         private int GetVisibleRowCount(Rectangle rectangle)
@@ -351,8 +361,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
         {
-            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidth, PanelHeight, viewportWidth, viewportHeight, currentBuilding);
+            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidthValue, PanelHeight, viewportWidth, viewportHeight, panelOffsetX);
         }
-
     }
 }

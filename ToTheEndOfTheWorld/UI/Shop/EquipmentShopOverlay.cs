@@ -20,16 +20,29 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private EquipmentShopLayout currentLayout;
         private bool isOpen;
         private Point mousePosition;
+        private int panelOffsetX;
+        private int cachedViewportWidth;
+        private int cachedViewportHeight;
 
         public EBuildingInteraction Action => EBuildingInteraction.EquipmentShop;
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
+        public int PanelWidth => currentLayout.PanelRectangle.Width;
 
-        public void Open(ABuilding building)
+        public void Open(ABuilding building, int viewportWidth, int viewportHeight)
         {
             this.building = building;
+            panelOffsetX = 0;
             isOpen = true;
-            currentLayout = default;
+            cachedViewportWidth = viewportWidth;
+            cachedViewportHeight = viewportHeight;
+            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
+        }
+
+        public void SetPanelOffset(int offsetX)
+        {
+            panelOffsetX = offsetX;
+            currentLayout = EquipmentShopLayout.Create(cachedViewportWidth, cachedViewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
         }
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -50,7 +63,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
             }
 
             mousePosition = currentMouseState.Position;
-            EnsureLayout(viewportWidth, viewportHeight);
 
             // Block shop interaction when holding item
             if (hasHeldItem())
@@ -68,14 +80,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            EnsureLayout(viewportWidth, viewportHeight);
             renderer.Draw(spriteBatch, world, building, currentLayout, viewportWidth, viewportHeight, mousePosition);
-        }
-
-        private void EnsureLayout(int viewportWidth, int viewportHeight)
-        {
-            int panelOffsetX = building?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
-            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
@@ -100,7 +105,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return false;
             }
 
-            EnsureLayout(viewportWidth, viewportHeight);
             AGridBox[,] grid = building.StorageGrid.InternalGrid;
             bool found = UiGridHitTestHelper.TryGetCoordinates(grid.GetLength(0), grid.GetLength(1), mousePosition, currentLayout.GetSlotRectangle, out int slotX, out int slotY);
             item = found ? grid[slotX, slotY].Item : null;

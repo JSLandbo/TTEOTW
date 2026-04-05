@@ -81,16 +81,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             return count - remainingCount;
         }
 
-        public bool TryAddToMatchingStacks(AInventory inventory, AType item, int count)
-        {
-            if (count <= 0)
-            {
-                return true;
-            }
-
-            return TryAddToMatchingStacks(inventory.Items.InternalGrid, inventory.Items, item, count, GetMaxStackSize(inventory)) == 0;
-        }
-
         public int GetMaxStackSize(AInventory inventory)
         {
             if (inventory == null || inventory.MaxStackSize <= 0)
@@ -228,15 +218,6 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return space;
-        }
-
-        public bool HasEmptySlot(AInventory inventory)
-        {
-            foreach (AGridBox slot in EnumerateSlots(inventory.Items.InternalGrid))
-            {
-                if (slot.Item == null) return true;
-            }
-            return false;
         }
 
         public bool HasEmptySlotFor(AInventory inventory, AType item)

@@ -46,11 +46,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             return totalEarned;
         }
 
-        public bool CanSellSlot(AGridBox slot)
-        {
-            return slot?.Item != null && slot.Count > 0 && TryGetUnitSellValue(slot.Item, out _);
-        }
-
         private SellSummary GetSellSummary(ModelWorld world, SellFilter filter)
         {
             AInventory inventory = world.Player.Inventory;

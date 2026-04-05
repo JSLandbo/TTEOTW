@@ -17,7 +17,7 @@ namespace ToTheEndOfTheWorld.UI.Common
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, slotRectangle, isHovered);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, slotRectangle, 2, UiInteractionStyle.GetBorderColor(borderColor, isHovered));
 
-            if (slot.Item == null || slot.Count <= 0)
+            if (slot?.Item == null || slot.Count <= 0)
             {
                 return;
             }

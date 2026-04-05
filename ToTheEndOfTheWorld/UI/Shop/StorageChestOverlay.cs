@@ -14,16 +14,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
 {
     public sealed class StorageChestOverlay(InventoryService inventoryService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> hasHeldItem) : IInteractionOverlay
     {
-        private const int PanelWidth = 620;
-        private const int PanelHeight = 708;
         private const int HeaderHeight = 58;
         private const int GridSlotSize = 64;
         private const int GridSpacing = 8;
         private const int VisibleRows = 8;
+        private const int GridPadding = 20;
+        private const int ScrollbarWidth = 10;
         private const float TitleTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
         private const int SortButtonWidth = 72;
         private const int SortButtonHeight = 36;
+
+        private static int GridWidth => (StorageChestBuildingFactory.GridColumns * GridSlotSize) + ((StorageChestBuildingFactory.GridColumns - 1) * GridSpacing);
+        private static int GridHeight => (VisibleRows * GridSlotSize) + ((VisibleRows - 1) * GridSpacing);
+        private static int PanelWidthValue => GridWidth + (GridPadding * 2) + ScrollbarWidth;
+        private static int PanelHeight => HeaderHeight + GridPadding + GridHeight + GridPadding;
 
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
         private Texture2D pixelTexture = null!;
@@ -34,18 +39,23 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Point mousePosition;
         private int scrollOffset;
         private bool isTransferModeActive;
+        private int panelOffsetX;
 
         public EBuildingInteraction Action => EBuildingInteraction.StorageChest;
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
         public bool IsTransferModeActive => isOpen && isTransferModeActive;
+        public int PanelWidth => PanelWidthValue;
 
-        public void Open(ABuilding building)
+        public void Open(ABuilding building, int viewportWidth, int viewportHeight)
         {
             currentBuilding = building;
+            panelOffsetX = 0;
             isOpen = true;
             scrollOffset = 0;
         }
+
+        public void SetPanelOffset(int offsetX) => panelOffsetX = offsetX;
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -108,6 +118,10 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (added > 0)
             {
                 sourceSlot.Count -= added;
+                if (sourceSlot.Count <= 0)
+                {
+                    sourceSlot.Item = null;
+                }
                 return true;
             }
 
@@ -136,24 +150,27 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return false;
             }
 
+            int totalAdded = 0;
+
             // Try inventory first
             int addedToInventory = inventoryService.AddToInventory(world.Player.Inventory, sourceSlot.Item, sourceSlot.Count);
-            if (addedToInventory > 0)
-            {
-                sourceSlot.Count -= addedToInventory;
-            }
+            totalAdded += addedToInventory;
+            sourceSlot.Count -= addedToInventory;
 
             // If still have items and player has gadget belt, try gadget slots
             if (sourceSlot.Count > 0 && world.Player.HasGadgetBelt)
             {
                 int addedToGadgets = inventoryService.AddToInventory(world.Player.GadgetSlots, sourceSlot.Item, sourceSlot.Count);
-                if (addedToGadgets > 0)
-                {
-                    sourceSlot.Count -= addedToGadgets;
-                }
+                totalAdded += addedToGadgets;
+                sourceSlot.Count -= addedToGadgets;
             }
 
-            return addedToInventory > 0;
+            if (sourceSlot.Count <= 0)
+            {
+                sourceSlot.Item = null;
+            }
+
+            return totalAdded > 0;
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
@@ -296,20 +313,18 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
         {
-            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidth, PanelHeight, viewportWidth, viewportHeight, currentBuilding);
+            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidthValue, PanelHeight, viewportWidth, viewportHeight, panelOffsetX);
         }
 
         private Rectangle GetGridRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            int gridWidth = (StorageChestBuildingFactory.GridColumns * GridSlotSize) + ((StorageChestBuildingFactory.GridColumns - 1) * GridSpacing);
-            int gridHeight = (VisibleRows * GridSlotSize) + ((VisibleRows - 1) * GridSpacing);
 
             return new Rectangle(
-                panelRectangle.X + ((panelRectangle.Width - gridWidth - 10) / 2),
-                panelRectangle.Y + HeaderHeight + 20,
-                gridWidth,
-                gridHeight);
+                panelRectangle.X + GridPadding,
+                panelRectangle.Y + HeaderHeight + GridPadding,
+                GridWidth,
+                GridHeight);
         }
 
         private Rectangle GetSortButtonRectangle(int viewportWidth, int viewportHeight)
@@ -327,5 +342,6 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (currentBuilding?.StorageGrid == null) return;
             inventoryService.SortGridByName(currentBuilding.StorageGrid, StorageChestBuildingFactory.MaxStackSize);
         }
+
     }
 }

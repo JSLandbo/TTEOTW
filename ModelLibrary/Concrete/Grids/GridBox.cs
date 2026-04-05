@@ -9,8 +9,7 @@ namespace ModelLibrary.Concrete.Grids
         [JsonConstructor]
         public GridBox(AType? Item, int Count)
         {
-            this.Item = Item;
-            this.Count = Count;
+            InitializeWithoutNotify(Item, Count);
         }
     }
 }

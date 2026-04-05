@@ -32,5 +32,11 @@ namespace ModelLibrary.Abstract.Grids
                 OwnerGrid?.NotifyChanged();
             }
         }
+
+        protected void InitializeWithoutNotify(AType? item, int count)
+        {
+            this.item = item;
+            this.count = item == null ? 0 : Math.Max(0, count);
+        }
     }
 }

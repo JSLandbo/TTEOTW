@@ -6,7 +6,7 @@ using ModelLibrary.Concrete.Grids;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed record InventoryInteractionContext(
+    public readonly record struct InventoryInteractionContext(
         InventoryLayout Layout,
         AGridBox[,] InventoryGrid,
         Grid CraftingGrid,
@@ -17,7 +17,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         AInventory Inventory,
         int ViewportWidth,
         int ViewportHeight,
-        bool BlockCrafting = false,
-        Func<AGridBox, bool> TrySellSlot = null,
-        Func<Point, (AGridBox slot, int maxStackSize)?> TryGetChestSlot = null);
+        bool BlockCrafting,
+        Func<ModelWorld, AGridBox, bool> TrySellSlotFunc,
+        Func<Point, int, int, (AGridBox slot, int maxStackSize)?> TryGetChestSlotFunc)
+    {
+        public bool TrySellSlot(AGridBox slot) => TrySellSlotFunc?.Invoke(World, slot) ?? false;
+        public (AGridBox slot, int maxStackSize)? TryGetChestSlot(Point pos) => TryGetChestSlotFunc?.Invoke(pos, ViewportWidth, ViewportHeight);
+    }
 }
