@@ -14,7 +14,7 @@ namespace ToTheEndOfTheWorld.UI
             GameItemsRepository items)
         {
             UiManager uiManager = new();
-            uiManager.Register(new Inventory.InventoryOverlay(inventoryService, craftingService, itemUseService, blocks, items, () => uiManager.HasOpenInteractionOverlay));
+            uiManager.Register(new Inventory.InventoryOverlay(inventoryService, craftingService, itemUseService, blocks, items, () => uiManager.HasOpenInteractionOverlay, (world, slot) => uiManager.TryShopSellSlot(world, slot)));
             uiManager.Register(new Shop.ShopOverlay(shopService, blocks, items));
             uiManager.Register(new Shop.EquipmentShopOverlay(equipmentShopService, blocks, items, () => uiManager.InventoryHasHeldItem));
             uiManager.Register(new Shop.FuelStationOverlay(fuelStationService));

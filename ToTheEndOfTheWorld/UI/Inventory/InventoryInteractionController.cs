@@ -51,7 +51,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             AInventory inventory,
             int viewportWidth,
             int viewportHeight,
-            bool blockCrafting = false)
+            bool blockCrafting = false,
+            Func<AGridBox, bool> trySellSlot = null)
         {
             MousePosition = currentMouseState.Position;
             currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
@@ -81,6 +82,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, blockCrafting, out AGridBox clickedSlot)
                     && CanUseClickedSlot(clickedSlot))
                 {
+                    // CTRL+click to sell when shop is open
+                    if (trySellSlot != null && clickedSlot.Item != null && trySellSlot(clickedSlot))
+                    {
+                        selectionRequested = true;
+                        return;
+                    }
+
                     MoveStack(clickedSlot);
                 }
 

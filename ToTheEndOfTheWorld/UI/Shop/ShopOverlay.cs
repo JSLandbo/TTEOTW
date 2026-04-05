@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
@@ -16,9 +17,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const int PanelHeight = 620;
         private const int HeaderHeight = 58;
         private const int CardHeight = 52;
-        private const int ButtonWidth = 300;
-        private const int ButtonHeight = 56;
-        private const int ButtonGap = 20;
+        private const int SmallButtonWidth = 180;
+        private const int SmallButtonHeight = 72;
+        private const int SmallButtonGap = 16;
+        private const int SellSpecificWidth = 420;
+        private const int SellSpecificHeight = 72;
         private const int SectionPadding = 20;
         private const int ValueListTop = 138;
         private const int ValueListHeight = 324;
@@ -30,7 +33,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private const float BodyTextScale = 1.05f;
         private const float ListTitleTextScale = 1.0f;
         private const float ListBodyTextScale = 0.95f;
-        private const float ButtonTextScale = 1.0f;
+        private const float SmallButtonTextScale = 0.95f;
         private readonly ItemTextureResolver textureResolver = new(blocks, items);
 
         private ItemSlotRenderer slotRenderer;
@@ -40,10 +43,22 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private bool isOpen;
         private int scrollOffset;
         private Point mousePosition;
+        private bool isSellModeActive;
 
         public EBuildingInteraction Action => EBuildingInteraction.Shop;
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
+        public bool IsSellModeActive => isOpen && isSellModeActive;
+
+        public bool TrySellSlot(ModelWorld world, AGridBox slot)
+        {
+            if (!isOpen || !isSellModeActive || slot == null)
+            {
+                return false;
+            }
+
+            return shopService.SellSlot(world, slot) > 0;
+        }
 
         public void Open(ABuilding building)
         {
@@ -74,6 +89,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             int maxScrollOffset = Math.Max(0, totalRows - visibleRows);
             int scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
             mousePosition = currentMouseState.Position;
+            isSellModeActive = currentKeyboardState.IsKeyDown(Keys.LeftControl) || currentKeyboardState.IsKeyDown(Keys.RightControl);
 
             if (scrollDelta != 0 && listRectangle.Contains(currentMouseState.Position))
             {
@@ -112,10 +128,11 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle valueListRectangle = GetValueListRectangle(viewportWidth, viewportHeight);
             Rectangle sellAllButtonRectangle = GetSellAllButtonRectangle(viewportWidth, viewportHeight);
             Rectangle sellOresButtonRectangle = GetSellOresButtonRectangle(viewportWidth, viewportHeight);
+            Rectangle sellSpecificRectangle = GetSellSpecificRectangle(viewportWidth, viewportHeight);
             ShopService.SellSummary sellSummary = shopService.GetSellSummary(world);
             ShopService.SellSummary oreSellSummary = shopService.GetOreSellSummary(world);
-            double saleValue = Math.Floor(sellSummary.TotalValue);
-            double oreSaleValue = Math.Floor(oreSellSummary.TotalValue);
+            double saleValue = sellSummary.TotalValue;
+            double oreSaleValue = oreSellSummary.TotalValue;
 
             if (currentBuilding?.ShowPlayerInventoryWhenOpen != true)
             {
@@ -127,25 +144,74 @@ namespace ToTheEndOfTheWorld.UI.Shop
             spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
             spriteBatch.Draw(pixelTexture, valueCardRectangle, new Color(30, 30, 30));
             spriteBatch.Draw(pixelTexture, valueListRectangle, new Color(27, 27, 27));
+
+            // Sell All button
             spriteBatch.Draw(pixelTexture, sellAllButtonRectangle, saleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
-            spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
             bool isSellAllHovered = saleValue > 0 && sellAllButtonRectangle.Contains(mousePosition);
-            bool isSellOresHovered = oreSaleValue > 0 && sellOresButtonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellAllButtonRectangle, isSellAllHovered);
+
+            // Sell Ores button
+            spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            bool isSellOresHovered = oreSaleValue > 0 && sellOresButtonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellOresButtonRectangle, isSellOresHovered);
+
+            // Sell Specific hint area
+            spriteBatch.Draw(pixelTexture, sellSpecificRectangle, isSellModeActive ? new Color(92, 116, 82) : new Color(48, 48, 48));
 
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueCardRectangle, 1, new Color(78, 78, 78));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueListRectangle, 1, new Color(68, 68, 68));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellAllButtonRectangle, 2, UiInteractionStyle.GetBorderColor(saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellAllHovered));
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellOresButtonRectangle, 2, UiInteractionStyle.GetBorderColor(oreSaleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellOresHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellSpecificRectangle, 2, isSellModeActive ? new Color(162, 196, 146) : new Color(88, 88, 88));
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue:0.##}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
 
             DrawSellableValueList(spriteBatch, sellSummary.Entries, valueListRectangle);
-            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, saleValue > 0 ? $"Sell All ({saleValue})" : "Sell All", sellAllButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
-            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, oreSaleValue > 0 ? $"Sell Ores ({oreSaleValue})" : "Sell Ores", sellOresButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+
+            // Button text - two lines
+            DrawTwoLineButton(spriteBatch, sellAllButtonRectangle, "Sell all", saleValue > 0 ? $"{saleValue:0.##}" : "");
+            DrawTwoLineButton(spriteBatch, sellOresButtonRectangle, "Sell ores", oreSaleValue > 0 ? $"{oreSaleValue:0.##}" : "");
+
+            // Sell specific hint - three lines centered
+            DrawSellSpecificHint(spriteBatch, sellSpecificRectangle);
+        }
+
+        private void DrawTwoLineButton(SpriteBatch spriteBatch, Rectangle buttonRect, string topText, string bottomText)
+        {
+            float topY = buttonRect.Y + 14;
+            float bottomY = buttonRect.Y + 42;
+            Vector2 topSize = textFont.MeasureString(topText) * SmallButtonTextScale;
+            Vector2 bottomSize = textFont.MeasureString(bottomText) * SmallButtonTextScale;
+            float topX = buttonRect.X + ((buttonRect.Width - topSize.X) / 2);
+            float bottomX = buttonRect.X + ((buttonRect.Width - bottomSize.X) / 2);
+
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, topText, new Vector2(topX, topY), new Color(248, 243, 233), SmallButtonTextScale);
+            if (!string.IsNullOrEmpty(bottomText))
+            {
+                GameTextRenderer.DrawBoldString(spriteBatch, textFont, bottomText, new Vector2(bottomX, bottomY), new Color(230, 214, 166), SmallButtonTextScale);
+            }
+        }
+
+        private void DrawSellSpecificHint(SpriteBatch spriteBatch, Rectangle rect)
+        {
+            Color textColor = isSellModeActive ? new Color(248, 243, 233) : new Color(160, 160, 160);
+            string line1 = "Or..";
+            string line2 = "CTRL + click items in your inventory";
+            string line3 = "to sell them!";
+
+            Vector2 size1 = textFont.MeasureString(line1) * SmallButtonTextScale;
+            Vector2 size2 = textFont.MeasureString(line2) * SmallButtonTextScale;
+            Vector2 size3 = textFont.MeasureString(line3) * SmallButtonTextScale;
+
+            float y1 = rect.Y + 6;
+            float y2 = rect.Y + 24;
+            float y3 = rect.Y + 42;
+
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line1, new Vector2(rect.X + ((rect.Width - size1.X) / 2), y1), textColor, SmallButtonTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line2, new Vector2(rect.X + ((rect.Width - size2.X) / 2), y2), textColor, SmallButtonTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, line3, new Vector2(rect.X + ((rect.Width - size3.X) / 2), y3), textColor, SmallButtonTextScale);
         }
 
         private void DrawSellableValueList(SpriteBatch spriteBatch, System.Collections.Generic.IReadOnlyList<ShopService.SellableInventoryEntry> sellableEntries, Rectangle rectangle)
@@ -197,7 +263,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             slotRenderer.DrawItem(spriteBatch, entry.Item, iconRectangle);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, entry.Item.Name, titlePosition, new Color(236, 236, 236), ListTitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {Math.Floor(entry.TotalValue)}", detailPosition, new Color(214, 214, 214), ListBodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {entry.TotalValue:0.##}", detailPosition, new Color(214, 214, 214), ListBodyTextScale);
         }
 
         private Rectangle GetValueEntryRectangle(Rectangle listRectangle, int visibleRowIndex, int columnIndex)
@@ -213,18 +279,25 @@ namespace ToTheEndOfTheWorld.UI.Shop
         private Rectangle GetSellAllButtonRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            int panelLeft = panelRectangle.X;
-            int panelTop = panelRectangle.Y;
-            int buttonsTop = panelTop + PanelHeight - ButtonHeight - 20;
-            int buttonsLeft = panelLeft + ((PanelWidth - ((ButtonWidth * 2) + ButtonGap)) / 2);
+            int buttonsTop = panelRectangle.Y + PanelHeight - SmallButtonHeight - 20;
+            int buttonsLeft = panelRectangle.X + SectionPadding;
 
-            return new Rectangle(buttonsLeft, buttonsTop, ButtonWidth, ButtonHeight);
+            return new Rectangle(buttonsLeft, buttonsTop, SmallButtonWidth, SmallButtonHeight);
         }
 
         private Rectangle GetSellOresButtonRectangle(int viewportWidth, int viewportHeight)
         {
             Rectangle sellAllButtonRectangle = GetSellAllButtonRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(sellAllButtonRectangle.Right + ButtonGap, sellAllButtonRectangle.Y, ButtonWidth, ButtonHeight);
+            return new Rectangle(sellAllButtonRectangle.Right + SmallButtonGap, sellAllButtonRectangle.Y, SmallButtonWidth, SmallButtonHeight);
+        }
+
+        private Rectangle GetSellSpecificRectangle(int viewportWidth, int viewportHeight)
+        {
+            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
+            int buttonsTop = panelRectangle.Y + PanelHeight - SmallButtonHeight - 20;
+            int rightEdge = panelRectangle.X + panelRectangle.Width - SectionPadding;
+
+            return new Rectangle(rightEdge - SellSpecificWidth, buttonsTop, SellSpecificWidth, SellSpecificHeight);
         }
 
         private Rectangle GetValueListRectangle(int viewportWidth, int viewportHeight)
@@ -258,8 +331,17 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return (shopService.GetSellSummary(world).TotalValue > 0 && GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
-                || (shopService.GetOreSellSummary(world).TotalValue > 0 && GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition));
+            if (shopService.GetSellSummary(world).TotalValue > 0 && GetSellAllButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                return true;
+            }
+
+            if (shopService.GetOreSellSummary(world).TotalValue > 0 && GetSellOresButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void Close(ModelWorld world)

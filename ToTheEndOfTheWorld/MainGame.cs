@@ -83,6 +83,7 @@ namespace ToTheEndOfTheWorld
         private bool isPlayerGrounded;
         private double autosaveElapsedSeconds;
         private Task autoSaveTask = Task.CompletedTask;
+        private bool isWindowFocused = true;
 
         public MainGame()
         {
@@ -96,6 +97,8 @@ namespace ToTheEndOfTheWorld
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += HandleClientSizeChanged;
+            Activated += (_, _) => isWindowFocused = true;
+            Deactivated += (_, _) => isWindowFocused = false;
             Exiting += HandleExiting;
         }
 
@@ -183,7 +186,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 100f // Starting allowance
+                Cash = 109867145230f // Starting allowance
             };
 
             return new ModelWorld(
@@ -219,8 +222,8 @@ namespace ToTheEndOfTheWorld
         {
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             TextureAnimationHelper.TotalSeconds = totalSeconds;
-            KeyboardState keyboardState = IsActive ? Keyboard.GetState() : default;
-            MouseState mouseState = IsActive ? CreateScaledMouseState(Mouse.GetState()) : CreateInactiveMouseState();
+            KeyboardState keyboardState = isWindowFocused ? Keyboard.GetState() : default;
+            MouseState mouseState = isWindowFocused ? CreateScaledMouseState(Mouse.GetState()) : default;
             uiMousePosition = mouseState.Position;
 
             HandleUiInput(keyboardState);
@@ -528,11 +531,6 @@ namespace ToTheEndOfTheWorld
             int scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
 
             return new MouseState(scaledX, scaledY, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
-        }
-
-        private static MouseState CreateInactiveMouseState()
-        {
-            return new MouseState(-1, -1, 0, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released);
         }
 
         private void DrawInteractionPrompt()

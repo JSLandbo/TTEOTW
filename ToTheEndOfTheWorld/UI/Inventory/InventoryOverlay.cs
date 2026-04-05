@@ -13,7 +13,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen) : IGameOverlay
+    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen, Func<ModelWorld, AGridBox, bool> trySellSlot) : IGameOverlay
     {
         private const float HeaderTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
@@ -99,7 +99,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight, blockCrafting);
+            interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight, blockCrafting, slot => trySellSlot(world, slot));
         }
 
         public void Close(ModelWorld world)

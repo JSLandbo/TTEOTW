@@ -30,6 +30,27 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             return Sell(world, SellFilter.BlocksOnly);
         }
 
+        public double SellSlot(ModelWorld world, AGridBox slot)
+        {
+            if (slot?.Item == null || slot.Count <= 0 || !TryGetUnitSellValue(slot.Item, out double unitSellValue))
+            {
+                return 0.0;
+            }
+
+            double totalEarned = unitSellValue * slot.Count;
+            slot.Item = null;
+            slot.Count = 0;
+            world.Player.Cash += totalEarned;
+            eventBus.Publish(new ShopTransactionEvent(ShopTransactionType.Sold));
+
+            return totalEarned;
+        }
+
+        public bool CanSellSlot(AGridBox slot)
+        {
+            return slot?.Item != null && slot.Count > 0 && TryGetUnitSellValue(slot.Item, out _);
+        }
+
         private SellSummary GetSellSummary(ModelWorld world, SellFilter filter)
         {
             AInventory inventory = world.Player.Inventory;

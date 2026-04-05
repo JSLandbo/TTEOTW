@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
+using ModelLibrary.Abstract.Grids;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Inventory;
 
@@ -49,6 +50,13 @@ namespace ToTheEndOfTheWorld.UI
         }
 
         public bool InventoryHasHeldItem => GetOverlay<InventoryOverlay>()?.HasHeldItem ?? false;
+
+        public bool IsShopSellModeActive => GetOverlay<Shop.ShopOverlay>()?.IsSellModeActive ?? false;
+
+        public bool TryShopSellSlot(ModelWorld world, AGridBox slot)
+        {
+            return GetOverlay<Shop.ShopOverlay>()?.TrySellSlot(world, slot) ?? false;
+        }
 
         public void Register(IGameOverlay overlay)
         {
