@@ -27,7 +27,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 }
             }
 
-            eventBus.Publish(new ConsumeableUsedEvent(dynamite));
             return true;
         }
     }

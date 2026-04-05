@@ -32,7 +32,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         public void SelfDestruct(ModelWorld world)
         {
             world.Player.CurrentHull = 0.0f;
-            eventBus.Publish(new PlayerSelfDestructedEvent());
             EnterDeathState(world);
         }
 
@@ -50,6 +49,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         {
             awaitingRespawn = true;
             world.Player.Cash *= 0.75;
+            eventBus.Publish(new PlayerDiedEvent());
             world.Player.XVelocity = 0.0f;
             world.Player.YVelocity = 0.0f;
             world.Player.XOffset = 0.0f;

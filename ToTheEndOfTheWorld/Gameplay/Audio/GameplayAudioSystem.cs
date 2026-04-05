@@ -27,7 +27,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<ShopTransactionEvent>(OnShopTransaction);
             eventBus.Subscribe<ConsumeableUsedEvent>(OnConsumeableUsed);
             eventBus.Subscribe<TrashBinUsedEvent>(OnTrashBinUsed);
-            eventBus.Subscribe<PlayerSelfDestructedEvent>(OnPlayerSelfDestructed);
+            eventBus.Subscribe<PlayerDiedEvent>(OnPlayerDied);
             eventBus.Subscribe<PlayerFallDamageEvent>(OnPlayerFallDamage);
             eventBus.Subscribe<PlayerCraftedItemEvent>(OnPlayerCraftedItem);
             eventBus.Subscribe<PlayerHullDamagedEvent>(OnPlayerHullDamaged);
@@ -103,6 +103,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             if (gameEvent.Consumeable is AHullRepairKit)
             {
                 oneShotSoundPlayer.Play(SoundEffectId.EffectHullRepairKit);
+                return;
             }
 
             if (gameEvent.Consumeable is ADynamite dynamite)
@@ -121,7 +122,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             oneShotSoundPlayer.Play(SoundEffectId.EffectUsedTrashBin);
         }
 
-        private void OnPlayerSelfDestructed(PlayerSelfDestructedEvent gameEvent)
+        private void OnPlayerDied(PlayerDiedEvent gameEvent)
         {
             oneShotSoundPlayer.Play(SoundEffectId.EffectYouDied);
         }

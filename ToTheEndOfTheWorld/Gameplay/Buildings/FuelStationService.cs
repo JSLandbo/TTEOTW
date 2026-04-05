@@ -16,8 +16,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             }
 
             float fuelPurchased = MathF.Min(missingFuel, (float)(world.Player.Cash / fuelPrice));
-            world.Player.CurrentFuel += fuelPurchased;
-            world.Player.Cash -= fuelPurchased * fuelPrice;
+            world.Player.CurrentFuel = Math.Min(world.Player.CurrentFuel + fuelPurchased, world.Player.FuelTank.Capacity);
+            world.Player.Cash = Math.Max(0.0, world.Player.Cash - (fuelPurchased * fuelPrice));
             eventBus.Publish(new ShopTransactionEvent(ShopTransactionType.Bought));
             return fuelPurchased;
         }

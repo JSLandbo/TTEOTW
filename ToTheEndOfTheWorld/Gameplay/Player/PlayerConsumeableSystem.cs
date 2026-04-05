@@ -16,6 +16,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
                 return;
             }
 
+            if (slotIndex < 0 || slotIndex >= world.Player.GadgetSlots.Items.InternalGrid.GetLength(0))
+            {
+                return;
+            }
+
             AGridBox slot = world.Player.GadgetSlots.Items.InternalGrid[slotIndex, 0];
 
             if (slot.Item is not AConsumeable consumeable || slot.Count <= 0)
