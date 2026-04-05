@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,37 +18,11 @@ namespace ToTheEndOfTheWorld.UI
         private Point lastMousePosition;
         private bool interactionOpenedInventory;
 
-        public bool BlocksGameplay
-        {
-            get
-            {
-                foreach (IGameOverlay overlay in overlays)
-                {
-                    if (overlay.IsOpen && overlay.BlocksGameplay)
-                    {
-                        return true;
-                    }
-                }
+        public bool BlocksGameplay => overlays.Any(o => o.IsOpen && o.BlocksGameplay);
 
-                return false;
-            }
-        }
+        public bool HasOpenInteractionOverlay => overlays.Any(o => o is IInteractionOverlay && o.IsOpen);
 
-        public bool HasOpenInteractionOverlay
-        {
-            get
-            {
-                foreach (IGameOverlay overlay in overlays)
-                {
-                    if (overlay is IInteractionOverlay && overlay.IsOpen)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
+        public bool HasOpenShopOverlay => GetOverlay<Shop.ShopOverlay>()?.IsOpen ?? false;
 
         public bool InventoryHasHeldItem => GetOverlay<InventoryOverlay>()?.HasHeldItem ?? false;
 

@@ -104,21 +104,21 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             }
 
-            spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
-            spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
+            spriteBatch.Draw(pixelTexture, panelRectangle, UiColors.PanelBackground);
+            spriteBatch.Draw(pixelTexture, headerRectangle, UiColors.HeaderBackground);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, UiColors.PanelBorder);
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), new Color(244, 240, 229), TitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Gadget Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 14), UiColors.TextTitle, TitleTextScale);
 
-            spriteBatch.Draw(pixelTexture, buttonRectangle, canBuy ? new Color(92, 116, 82) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, buttonRectangle, canBuy ? UiColors.ActionButtonBackgroundGreenAlt : UiColors.ButtonBackgroundDisabled);
             bool isButtonHovered = canBuy && buttonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, buttonRectangle, isButtonHovered);
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, buttonRectangle, 2, UiInteractionStyle.GetBorderColor(canBuy ? new Color(162, 196, 146) : new Color(110, 110, 110), isButtonHovered));
-            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, new Color(246, 241, 232), ButtonTextScale);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, buttonRectangle, 2, UiInteractionStyle.GetBorderColor(canBuy ? UiColors.ActionButtonBorderGreenAlt : UiColors.ButtonBorderDisabled, isButtonHovered));
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, alreadyOwned ? "Owned" : "Buy Gadget Belt", buttonRectangle, UiColors.TextButton, ButtonTextScale);
 
             if (!alreadyOwned)
             {
-                GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {gadgetShopService.GadgetBeltPriceValue:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), new Color(230, 214, 166), BodyTextScale);
+                GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Price: {gadgetShopService.GadgetBeltPriceValue:0}", new Vector2(buttonRectangle.X + 20, buttonRectangle.Bottom + 18), UiColors.TextButtonAlt, BodyTextScale);
             }
 
             DrawShopGrid(spriteBatch, gridRectangle, shopGrid, alreadyOwned, world);
@@ -126,7 +126,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (!alreadyOwned)
             {
                 spriteBatch.Draw(pixelTexture, gridRectangle, Color.Black * 0.9f);
-                UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Buy Gadget Belt to unlock shop", gridRectangle, new Color(126, 126, 126), BodyTextScale);
+                UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Buy Gadget Belt to unlock shop", gridRectangle, UiColors.TextMuted, BodyTextScale);
             }
         }
 
@@ -167,8 +167,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
                         spriteBatch,
                         slotRectangle,
                         slot,
-                        isEnabled ? new Color(44, 44, 44) : new Color(10, 10, 10),
-                        isEnabled ? new Color(108, 108, 108) : new Color(20, 20, 20),
+                        isEnabled ? UiColors.SlotBackground : UiColors.SlotBackgroundDisabled,
+                        isEnabled ? UiColors.SlotBorder : UiColors.SlotBorderDisabled,
                         showCount: false,
                         isHovered: isHovered);
                 }
@@ -232,8 +232,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
         {
-            int panelOffsetX = currentBuilding?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
-            return new Rectangle(((viewportWidth - PanelWidth) / 2) + panelOffsetX, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidth, PanelHeight, viewportWidth, viewportHeight, currentBuilding);
         }
     }
 }

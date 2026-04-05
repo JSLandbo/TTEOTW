@@ -32,29 +32,39 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         public bool TryAdd(AInventory inventory, AType item, int count)
         {
+            return TryAddToGrid(inventory.Items, item, count, GetMaxStackSize(inventory));
+        }
+
+        public int AddToInventory(AInventory inventory, AType item, int count)
+        {
+            return AddToGrid(inventory.Items, item, count, GetMaxStackSize(inventory));
+        }
+
+        public bool TryAddToGrid(AGrid grid, AType item, int count, int maxStackSize)
+        {
+            return AddToGrid(grid, item, count, maxStackSize) == count;
+        }
+
+        public int AddToGrid(AGrid grid, AType item, int count, int maxStackSize)
+        {
             if (count <= 0)
             {
-                return true;
+                return 0;
             }
 
-            AGridBox[,] grid = inventory.Items.InternalGrid;
-            AGrid ownerGrid = inventory.Items;
-            int maxStackSize = GetMaxStackSize(inventory);
+            AGridBox[,] slots = grid.InternalGrid;
+            int remainingCount = TryAddToMatchingStacks(slots, grid, item, count, maxStackSize);
 
-            // First try to add to existing stacks
-            int remainingCount = TryAddToMatchingStacks(grid, ownerGrid, item, count, maxStackSize);
+            if (remainingCount == 0) return count;
 
-            if (remainingCount == 0) return true;
-
-            // Then try empty slots
-            for (int y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < slots.GetLength(1); y++)
             {
-                for (int x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < slots.GetLength(0); x++)
                 {
-                    AGridBox slot = grid[x, y];
+                    AGridBox slot = slots[x, y];
 
                     if (slot.Item != null) continue;
-                    if (ownerGrid.CanPlaceInSlot(slot, item) == false) continue;
+                    if (grid.CanPlaceInSlot(slot, item) == false) continue;
 
                     int amountToAdd = remainingCount > maxStackSize ? maxStackSize : remainingCount;
                     slot.Item = item;
@@ -63,12 +73,12 @@ namespace ToTheEndOfTheWorld.Gameplay
 
                     if (remainingCount == 0)
                     {
-                        return true;
+                        return count;
                     }
                 }
             }
 
-            return false;
+            return count - remainingCount;
         }
 
         public bool TryAddToMatchingStacks(AInventory inventory, AType item, int count)
@@ -124,15 +134,19 @@ namespace ToTheEndOfTheWorld.Gameplay
 
         public void SortByName(AInventory inventory)
         {
-            AGridBox[,] grid = inventory.Items.InternalGrid;
-            int maxStackSize = GetMaxStackSize(inventory);
+            SortGridByName(inventory.Items, GetMaxStackSize(inventory));
+        }
+
+        public void SortGridByName(AGrid grid, int maxStackSize)
+        {
+            AGridBox[,] slots = grid.InternalGrid;
             List<(AType Item, int Count)> entries = [];
 
-            for (int y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < slots.GetLength(1); y++)
             {
-                for (int x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < slots.GetLength(0); x++)
                 {
-                    AGridBox slot = grid[x, y];
+                    AGridBox slot = slots[x, y];
 
                     if (slot.Item == null || slot.Count <= 0)
                     {
@@ -143,10 +157,7 @@ namespace ToTheEndOfTheWorld.Gameplay
                 }
             }
 
-            entries.Sort((left, right) =>
-            {
-                return string.Compare(left.Item.Name, right.Item.Name, StringComparison.OrdinalIgnoreCase);
-            });
+            entries.Sort((left, right) => string.Compare(left.Item.Name, right.Item.Name, StringComparison.OrdinalIgnoreCase));
 
             List<(AType Item, int Count)> groupedEntries = [];
 
@@ -165,15 +176,15 @@ namespace ToTheEndOfTheWorld.Gameplay
             int entryIndex = 0;
             int remainingCount = groupedEntries.Count > 0 ? groupedEntries[0].Count : 0;
 
-            for (int y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < slots.GetLength(1); y++)
             {
-                for (int x = 0; x < grid.GetLength(0); x++)
+                for (int x = 0; x < slots.GetLength(0); x++)
                 {
-                    AGridBox slot = grid[x, y];
+                    AGridBox slot = slots[x, y];
 
                     if (entryIndex < groupedEntries.Count)
                     {
-                        (AType item, int count) = groupedEntries[entryIndex];
+                        (AType item, int _) = groupedEntries[entryIndex];
                         int slotCount = item.Stackable ? Math.Min(remainingCount, maxStackSize) : 1;
                         slot.Item = item;
                         slot.Count = slotCount;

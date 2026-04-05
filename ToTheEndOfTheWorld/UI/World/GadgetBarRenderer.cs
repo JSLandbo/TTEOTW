@@ -40,8 +40,8 @@ namespace ToTheEndOfTheWorld.UI.World
                 Rectangle slotRectangle = GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, slotIndex);
                 AGridBox slot = world.Player.GadgetSlots.Items.InternalGrid[slotIndex, 0];
 
-                Color backgroundColor = new(62, 62, 62);
-                Color borderColor = new(124, 124, 124);
+                Color backgroundColor = UiColors.SlotBackgroundInventory;
+                Color borderColor = UiColors.SlotBorderInventory;
                 bool hasHeldItem = inventoryOverlay?.HasHeldItem == true;
 
                 bool isHovered = isInteractive
@@ -59,7 +59,7 @@ namespace ToTheEndOfTheWorld.UI.World
         private void DrawKeyLabel(SpriteBatch spriteBatch, string text, Rectangle slotRectangle)
         {
             Vector2 position = new(slotRectangle.X + 5, slotRectangle.Y + 3);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, new Color(232, 232, 232), KeyLabelScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, text, position, UiColors.TextBody, KeyLabelScale);
         }
     }
 }

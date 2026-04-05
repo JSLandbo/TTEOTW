@@ -4,12 +4,17 @@ namespace ToTheEndOfTheWorld.Gameplay.World
         SellShopBuildingFactory sellShopBuildingFactory,
         EquipmentShopBuildingFactory equipmentShopBuildingFactory,
         FuelStationBuildingFactory fuelStationBuildingFactory,
-        GadgetShopBuildingFactory gadgetShopBuildingFactory)
+        GadgetShopBuildingFactory gadgetShopBuildingFactory,
+        StorageChestBuildingFactory storageChestBuildingFactory)
     {
         public void EnsureInitialized(ModelWorld world)
         {
+            if (world.Buildings is { Count: > 0 })
+            {
+                return;
+            }
+
             world.Buildings ??= [];
-            world.Buildings.Clear();
 
             long spawnX = (long)world.SpawnWorldPosition.X;
             long spawnY = (long)world.SpawnWorldPosition.Y;
@@ -21,11 +26,14 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             long fuelStationY = spawnY - 1;
             long gadgetShopX = spawnX + 16;
             long gadgetShopY = spawnY - 2;
+            long storageChestX = spawnX - 4;
+            long storageChestY = spawnY - 1;
 
             world.Buildings.Add(sellShopBuildingFactory.Create(shopX, shopY));
             world.Buildings.Add(equipmentShopBuildingFactory.Create(equipmentShopX, equipmentShopY));
             world.Buildings.Add(fuelStationBuildingFactory.Create(fuelStationX, fuelStationY));
             world.Buildings.Add(gadgetShopBuildingFactory.Create(gadgetShopX, gadgetShopY));
+            world.Buildings.Add(storageChestBuildingFactory.Create(storageChestX, storageChestY));
         }
     }
 }

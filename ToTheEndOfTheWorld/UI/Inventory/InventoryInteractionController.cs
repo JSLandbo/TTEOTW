@@ -38,35 +38,21 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return requested;
         }
 
-        public void Update(
-            MouseState currentMouseState,
-            MouseState previousMouseState,
-            InventoryLayout layout,
-            AGridBox[,] inventoryGrid,
-            Grid craftingGrid,
-            GridBox craftOutputSlot,
-            CraftingService craftingService,
-            ModelWorld world,
-            InventoryItemUseService itemUseService,
-            AInventory inventory,
-            int viewportWidth,
-            int viewportHeight,
-            bool blockCrafting = false,
-            Func<AGridBox, bool> trySellSlot = null)
+        public void Update(MouseState currentMouseState, MouseState previousMouseState, InventoryInteractionContext ctx)
         {
             MousePosition = currentMouseState.Position;
-            currentMaxStackSize = inventory.MaxStackSize > 0 ? inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
+            currentMaxStackSize = ctx.Inventory.MaxStackSize > 0 ? ctx.Inventory.MaxStackSize : InventoryService.DefaultMaxStackSize;
 
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))
             {
-                if (!blockCrafting && layout.CraftButtonRectangle.Contains(MousePosition))
+                if (!ctx.BlockCrafting && ctx.Layout.CraftButtonRectangle.Contains(MousePosition))
                 {
-                    craftingService.TryCraft(craftingGrid.InternalGrid, craftOutputSlot, currentMaxStackSize);
+                    ctx.CraftingService.TryCraft(ctx.CraftingGrid.InternalGrid, ctx.CraftOutputSlot, currentMaxStackSize);
 
                     return;
                 }
 
-                if (HeldItem != null && layout.TrashBinRectangle.Contains(MousePosition))
+                if (HeldItem != null && ctx.Layout.TrashBinRectangle.Contains(MousePosition))
                 {
                     trashRequested = true;
                     ClearHeldItem();
@@ -74,16 +60,27 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     return;
                 }
 
-                if (HeldItem != null && TryGetClickedEquipmentSlot(MousePosition, layout, out EPlayerEquipmentSlotType equipmentSlot) && TryEquipHeldItem(world, itemUseService, equipmentSlot))
+                if (HeldItem != null && TryGetClickedEquipmentSlot(MousePosition, ctx.Layout, out EPlayerEquipmentSlotType equipmentSlot) && TryEquipHeldItem(ctx.World, ctx.ItemUseService, equipmentSlot))
                 {
                     return;
                 }
 
-                if (TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, blockCrafting, out AGridBox clickedSlot)
+                // Check chest slots first (for drag-and-drop)
+                if (ctx.TryGetChestSlot != null)
+                {
+                    var chestResult = ctx.TryGetChestSlot(MousePosition);
+                    if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
+                    {
+                        MoveStackWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
+                        return;
+                    }
+                }
+
+                if (TryGetClickedSlot(MousePosition, ctx.InventoryGrid, ctx.Layout, ctx.CraftingGrid, ctx.CraftOutputSlot, ctx.World.Player, ctx.ViewportWidth, ctx.ViewportHeight, ctx.BlockCrafting, out AGridBox clickedSlot)
                     && CanUseClickedSlot(clickedSlot))
                 {
                     // CTRL+click to sell when shop is open
-                    if (trySellSlot != null && clickedSlot.Item != null && trySellSlot(clickedSlot))
+                    if (ctx.TrySellSlot != null && clickedSlot.Item != null && ctx.TrySellSlot(clickedSlot))
                     {
                         selectionRequested = true;
                         return;
@@ -95,12 +92,24 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (HeldItem != null
-                && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState)
-                && TryGetClickedSlot(MousePosition, inventoryGrid, layout, craftingGrid, craftOutputSlot, world.Player, viewportWidth, viewportHeight, blockCrafting, out AGridBox rightClickedSlot)
-                && CanUseClickedSlot(rightClickedSlot))
+            if (HeldItem != null && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState))
             {
-                PlaceSingleHeldItem(rightClickedSlot);
+                // Check chest slots for right-click
+                if (ctx.TryGetChestSlot != null)
+                {
+                    var chestResult = ctx.TryGetChestSlot(MousePosition);
+                    if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
+                    {
+                        PlaceSingleHeldItemWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
+                        return;
+                    }
+                }
+
+                if (TryGetClickedSlot(MousePosition, ctx.InventoryGrid, ctx.Layout, ctx.CraftingGrid, ctx.CraftOutputSlot, ctx.World.Player, ctx.ViewportWidth, ctx.ViewportHeight, ctx.BlockCrafting, out AGridBox rightClickedSlot)
+                    && CanUseClickedSlot(rightClickedSlot))
+                {
+                    PlaceSingleHeldItem(rightClickedSlot);
+                }
             }
         }
 
@@ -111,31 +120,40 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
+            // 1) Try inventory + gadget slots
             if (TryPlaceItem(inventoryService, inventory, gadgetSlots, HeldItem, HeldCount))
             {
                 ClearHeldItem();
                 return;
             }
 
-            // Fallback: try to return to source slot
-            if (heldSourceSlot == null)
+            // 2) Try to return to source slot
+            if (heldSourceSlot != null)
             {
-                return;
+                if (heldSourceSlot.Item == null || heldSourceSlot.Count <= 0)
+                {
+                    heldSourceSlot.Item = HeldItem;
+                    heldSourceSlot.Count = HeldCount;
+                    ClearHeldItem();
+                    return;
+                }
+
+                if (InventoryService.CanStackTogether(heldSourceSlot.Item, HeldItem) && heldSourceSlot.Count + HeldCount <= currentMaxStackSize)
+                {
+                    heldSourceSlot.Count += HeldCount;
+                    ClearHeldItem();
+                    return;
+                }
             }
 
-            if (heldSourceSlot.Item == null || heldSourceSlot.Count <= 0)
-            {
-                heldSourceSlot.Item = HeldItem;
-                heldSourceSlot.Count = HeldCount;
-                ClearHeldItem();
-                return;
-            }
+            // 3) Give up - caller handles remaining item
+        }
 
-            if (InventoryService.CanStackTogether(heldSourceSlot.Item, HeldItem) && heldSourceSlot.Count + HeldCount <= currentMaxStackSize)
-            {
-                heldSourceSlot.Count += HeldCount;
-                ClearHeldItem();
-            }
+        public (AType Item, int Count) GetAndClearHeldItem()
+        {
+            var result = (HeldItem, HeldCount);
+            ClearHeldItem();
+            return result;
         }
 
         public void ReturnCraftingGridToInventory(InventoryService inventoryService, AInventory inventory, Grid craftingGrid, AGadgetInventory gadgetSlots)
@@ -149,6 +167,19 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     slot.Item = null;
                     slot.Count = 0;
                 }
+                // Items that couldn't be placed stay in crafting grid for caller to handle
+            }
+        }
+
+        public static void ClearCraftingGrid(Grid craftingGrid, Func<AType, int, int> addToChest)
+        {
+            foreach (AGridBox slot in InventoryService.EnumerateSlots(craftingGrid.InternalGrid))
+            {
+                if (slot.Item == null || slot.Count <= 0) continue;
+
+                addToChest?.Invoke(slot.Item, slot.Count);
+                slot.Item = null;
+                slot.Count = 0;
             }
         }
 
@@ -269,6 +300,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         private void MoveStack(AGridBox slot)
         {
+            MoveStackWithMaxSize(slot, currentMaxStackSize);
+        }
+
+        private void MoveStackWithMaxSize(AGridBox slot, int maxStackSize)
+        {
             if (HeldItem == null || HeldCount == 0)
             {
                 if (slot.Item == null || slot.Count <= 0)
@@ -288,10 +324,20 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             if (slot.Item == null || slot.Count <= 0)
             {
+                int toPlace = Math.Min(HeldCount, maxStackSize);
                 slot.Item = HeldItem;
-                slot.Count = HeldCount;
+                slot.Count = toPlace;
+                HeldCount -= toPlace;
 
-                ClearHeldItem();
+                if (HeldCount == 0)
+                {
+                    ClearHeldItem();
+                }
+                else
+                {
+                    // Keep holding the remainder
+                }
+
                 selectionRequested = true;
 
                 return;
@@ -299,7 +345,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             if (InventoryService.CanStackTogether(slot.Item, HeldItem))
             {
-                int availableSpace = currentMaxStackSize - slot.Count;
+                int availableSpace = maxStackSize - slot.Count;
 
                 if (availableSpace <= 0)
                 {
@@ -320,6 +366,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
+            // Can't swap if held count exceeds max stack size for this slot
+            if (HeldCount > maxStackSize)
+            {
+                return;
+            }
+
             AType swapItem = slot.Item;
             int swapCount = slot.Count;
             slot.Item = HeldItem;
@@ -331,6 +383,11 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         }
 
         private void PlaceSingleHeldItem(AGridBox slot)
+        {
+            PlaceSingleHeldItemWithMaxSize(slot, currentMaxStackSize);
+        }
+
+        private void PlaceSingleHeldItemWithMaxSize(AGridBox slot, int maxStackSize)
         {
             if (HeldItem == null || HeldCount <= 0)
             {
@@ -358,7 +415,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (slot.Count >= currentMaxStackSize)
+            if (slot.Count >= maxStackSize)
             {
                 return;
             }

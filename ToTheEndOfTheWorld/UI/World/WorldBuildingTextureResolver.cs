@@ -12,6 +12,7 @@ namespace ToTheEndOfTheWorld.UI.World
         private Texture2D equipmentShopTexture;
         private Texture2D fuelStationTexture;
         private Texture2D gadgetShopTexture;
+        private Texture2D storageChestTexture;
 
         public void LoadContent(ContentManager content)
         {
@@ -19,6 +20,7 @@ namespace ToTheEndOfTheWorld.UI.World
             equipmentShopTexture = content.Load<Texture2D>("Buildings/HouseBuyUpgrades");
             fuelStationTexture = content.Load<Texture2D>("Buildings/HouseFuelStation");
             gadgetShopTexture = content.Load<Texture2D>("Buildings/HouseGadgets");
+            storageChestTexture = content.Load<Texture2D>("Buildings/HouseStorageChest");
         }
 
         public Texture2D Resolve(ABuilding building)
@@ -29,6 +31,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 EBuildingInteraction.EquipmentShop => equipmentShopTexture,
                 EBuildingInteraction.FuelStation => fuelStationTexture,
                 EBuildingInteraction.GadgetShop => gadgetShopTexture,
+                EBuildingInteraction.StorageChest => storageChestTexture,
                 _ => throw new InvalidOperationException($"No building texture registered for interaction '{building.Interaction}'.")
             };
         }

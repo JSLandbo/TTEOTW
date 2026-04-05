@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using ModelLibrary.Abstract.Buildings;
+using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.World
@@ -55,7 +56,7 @@ namespace ToTheEndOfTheWorld.UI.World
                 (int)promptSize.Y + 18
             );
 
-            spriteBatch.Draw(pixelTexture, promptRectangle, new Color(0, 0, 0, 180));
+            spriteBatch.Draw(pixelTexture, promptRectangle, UiColors.PromptBackground);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, PromptText, new Vector2(promptRectangle.X + 16, promptRectangle.Y + 8), Color.White, PromptTextScale);
         }
     }

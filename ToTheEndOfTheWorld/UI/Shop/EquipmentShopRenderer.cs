@@ -33,12 +33,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             }
 
-            spriteBatch.Draw(pixelTexture, new Rectangle(layout.PanelRectangle.X + 3, layout.PanelRectangle.Y + 4, layout.PanelRectangle.Width, layout.PanelRectangle.Height), new Color(0, 0, 0, 70));
-            spriteBatch.Draw(pixelTexture, layout.PanelRectangle, new Color(22, 22, 22));
-            spriteBatch.Draw(pixelTexture, layout.HeaderRectangle, new Color(44, 44, 44));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, layout.PanelRectangle, 2, new Color(108, 108, 108));
+            spriteBatch.Draw(pixelTexture, new Rectangle(layout.PanelRectangle.X + 3, layout.PanelRectangle.Y + 4, layout.PanelRectangle.Width, layout.PanelRectangle.Height), UiColors.PanelShadow);
+            spriteBatch.Draw(pixelTexture, layout.PanelRectangle, UiColors.PanelBackground);
+            spriteBatch.Draw(pixelTexture, layout.HeaderRectangle, UiColors.HeaderBackground);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, layout.PanelRectangle, 2, UiColors.PanelBorder);
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, building.Name, new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Y + EquipmentShopLayout.TitlePaddingTop - 2), new Color(244, 240, 229), TitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, building.Name, new Vector2(layout.PanelRectangle.X + EquipmentShopLayout.TitlePaddingLeft, layout.PanelRectangle.Y + EquipmentShopLayout.TitlePaddingTop - 2), UiColors.TextTitle, TitleTextScale);
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
@@ -54,13 +54,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
         {
             if (slot.Item == null)
             {
-                slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(34, 34, 34), new Color(76, 76, 76), showCount: false, isHovered: isHovered);
+                slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, UiColors.SlotBackgroundEmpty, UiColors.SlotBorderEmpty, showCount: false, isHovered: isHovered);
                 return;
             }
 
             bool canAfford = slot.Item != null && world.Player.Cash >= slot.Item.Worth;
-            Color backgroundColor = canAfford ? new Color(74, 62, 38) : new Color(10, 10, 10);
-            Color borderColor = canAfford ? new Color(208, 180, 96) : new Color(20, 20, 20);
+            Color backgroundColor = canAfford ? UiColors.SlotBackgroundBuyable : UiColors.SlotBackgroundDisabled;
+            Color borderColor = canAfford ? UiColors.SlotBorderBuyable : UiColors.SlotBorderDisabled;
             slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, backgroundColor, borderColor, showCount: false, isHovered: isHovered);
 
             if (!canAfford)

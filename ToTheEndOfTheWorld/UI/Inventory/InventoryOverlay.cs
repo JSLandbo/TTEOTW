@@ -13,7 +13,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen, Func<ModelWorld, AGridBox, bool> trySellSlot) : IGameOverlay
+    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen, Func<ModelWorld, AGridBox, bool> trySellSlot, Func<Point, int, int, (AGridBox slot, int maxStackSize)?> tryGetChestSlot = null, Func<AType, int, int> addToChest = null) : IGameOverlay
     {
         private const float HeaderTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
@@ -99,7 +99,22 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            interactionController.Update(currentMouseState, previousMouseState, currentLayout, world.Player.Inventory.Items.InternalGrid, craftingGrid, craftOutputSlot, craftingService, world, itemUseService, world.Player.Inventory, viewportWidth, viewportHeight, blockCrafting, slot => trySellSlot(world, slot));
+            var ctx = new InventoryInteractionContext(
+                currentLayout,
+                world.Player.Inventory.Items.InternalGrid,
+                craftingGrid,
+                craftOutputSlot,
+                craftingService,
+                world,
+                itemUseService,
+                world.Player.Inventory,
+                viewportWidth,
+                viewportHeight,
+                blockCrafting,
+                slot => trySellSlot(world, slot),
+                tryGetChestSlot != null ? pos => tryGetChestSlot(pos, viewportWidth, viewportHeight) : null);
+
+            interactionController.Update(currentMouseState, previousMouseState, ctx);
         }
 
         public void Close(ModelWorld world)
@@ -111,8 +126,18 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             isOpen = false;
             panelXOffset = 0;
+
+            // Return crafting grid items to inventory, then chest, then delete
             interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid, world.Player.GadgetSlots);
+            InventoryInteractionController.ClearCraftingGrid(craftingGrid, addToChest);
+
+            // Release held item to inventory, then chest, then delete
             interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory, world.Player.GadgetSlots);
+            if (interactionController.HasHeldItem)
+            {
+                (AType item, int count) = interactionController.GetAndClearHeldItem();
+                addToChest?.Invoke(item, count);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
@@ -124,13 +149,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             AInventory inventory = world.Player.Inventory;
             UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
-            spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, new Color(24, 24, 24));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.PanelRectangle, 2, new Color(92, 92, 92));
-            spriteBatch.Draw(pixelTexture, currentLayout.HeaderRectangle, new Color(42, 42, 42));
-            spriteBatch.Draw(pixelTexture, currentLayout.CraftingSectionRectangle, new Color(31, 31, 31));
-            spriteBatch.Draw(pixelTexture, currentLayout.EquipmentSectionRectangle, new Color(34, 34, 34));
-            spriteBatch.Draw(pixelTexture, currentLayout.InventorySectionRectangle, new Color(28, 28, 28));
-            spriteBatch.Draw(pixelTexture, currentLayout.DividerRectangle, new Color(78, 78, 78));
+            spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, UiColors.PanelBackgroundLight);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.PanelRectangle, 2, UiColors.PanelBorderLight);
+            spriteBatch.Draw(pixelTexture, currentLayout.HeaderRectangle, UiColors.HeaderBackgroundAlt);
+            spriteBatch.Draw(pixelTexture, currentLayout.CraftingSectionRectangle, UiColors.SectionBackgroundAlt);
+            spriteBatch.Draw(pixelTexture, currentLayout.EquipmentSectionRectangle, UiColors.SectionBackgroundAlt2);
+            spriteBatch.Draw(pixelTexture, currentLayout.InventorySectionRectangle, UiColors.SectionBackground);
+            spriteBatch.Draw(pixelTexture, currentLayout.DividerRectangle, UiColors.Divider);
 
             Vector2 headerTextPosition = new(currentLayout.PanelRectangle.X + 24, currentLayout.PanelRectangle.Y + 11);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, inventory.Name, headerTextPosition, Color.White, HeaderTextScale);
@@ -141,10 +166,10 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             DrawSlot(spriteBatch, craftOutputSlot, currentLayout.OutputSlotRectangle);
 
-            spriteBatch.Draw(pixelTexture, currentLayout.CraftButtonRectangle, new Color(86, 86, 86));
+            spriteBatch.Draw(pixelTexture, currentLayout.CraftButtonRectangle, UiColors.ButtonBackground);
             bool isCraftButtonHovered = currentLayout.CraftButtonRectangle.Contains(interactionController.MousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, isCraftButtonHovered);
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, 2, UiInteractionStyle.GetBorderColor(new Color(146, 146, 146), isCraftButtonHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, 2, UiInteractionStyle.GetBorderColor(UiColors.ButtonBorder, isCraftButtonHovered));
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Craft", currentLayout.CraftButtonRectangle, Color.White, ButtonTextScale);
             DrawEquipmentSlots(spriteBatch, world);
             DrawGrid(spriteBatch, inventory.Items.InternalGrid, currentLayout.InventoryStart.X, currentLayout.InventoryStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
@@ -179,7 +204,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private void DrawSlot(SpriteBatch spriteBatch, AGridBox slot, Rectangle slotRectangle)
         {
             bool isHovered = UiSlotInteractionHelper.CanInteractWithSlot(slot, interactionController.HasHeldItem) && slotRectangle.Contains(interactionController.MousePosition);
-            slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, new Color(62, 62, 62), new Color(124, 124, 124), isHovered: isHovered);
+            slotRenderer.DrawGridSlot(spriteBatch, slotRectangle, slot, UiColors.SlotBackgroundInventory, UiColors.SlotBorderInventory, isHovered: isHovered);
         }
 
         private void DrawEquipmentSlots(SpriteBatch spriteBatch, ModelWorld world)
@@ -196,8 +221,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             AType slotItem = itemUseService.GetEquippedItem(world, slotType);
             bool canEquipHeldItem = interactionController.HeldItem != null && itemUseService.CanEquip(interactionController.HeldItem, slotType);
             bool isHovered = slotRectangle.Contains(interactionController.MousePosition);
-            Color slotBackgroundColor = canEquipHeldItem ? new Color(78, 88, 78) : new Color(58, 58, 58);
-            Color slotBorderColor = canEquipHeldItem ? new Color(162, 194, 162) : new Color(132, 132, 132);
+            Color slotBackgroundColor = canEquipHeldItem ? UiColors.SlotBackgroundEquipmentHighlight : UiColors.SlotBackgroundEquipment;
+            Color slotBorderColor = canEquipHeldItem ? UiColors.SlotBorderEquipmentHighlight : UiColors.SlotBorderEquipment;
 
             spriteBatch.Draw(pixelTexture, slotRectangle, slotBackgroundColor);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, slotRectangle, isHovered);
@@ -212,8 +237,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private void DrawTrashBin(SpriteBatch spriteBatch)
         {
             bool canTrashHeldItem = interactionController.HeldItem != null;
-            Color backgroundColor = canTrashHeldItem ? new Color(110, 58, 58) : new Color(58, 40, 40);
-            Color borderColor = canTrashHeldItem ? new Color(210, 110, 110) : new Color(132, 92, 92);
+            Color backgroundColor = canTrashHeldItem ? UiColors.TrashButtonBackground : UiColors.TrashButtonBackgroundDisabled;
+            Color borderColor = canTrashHeldItem ? UiColors.TrashButtonBorder : UiColors.TrashButtonBorderDisabled;
             bool isHovered = currentLayout.TrashBinRectangle.Contains(interactionController.MousePosition);
 
             spriteBatch.Draw(pixelTexture, currentLayout.TrashBinRectangle, backgroundColor);
@@ -226,8 +251,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         {
             bool canSort = !interactionController.HasHeldItem;
             bool isHovered = canSort && currentLayout.SortButtonRectangle.Contains(interactionController.MousePosition);
-            Color backgroundColor = canSort ? new Color(56, 68, 92) : new Color(40, 44, 52);
-            Color borderColor = canSort ? new Color(124, 156, 214) : new Color(88, 96, 112);
+            Color backgroundColor = canSort ? UiColors.SortButtonBackground : UiColors.SortButtonBackgroundDisabled;
+            Color borderColor = canSort ? UiColors.SortButtonBorder : UiColors.SortButtonBorderDisabled;
             Color textColor = canSort ? Color.White : Color.White * 0.55f;
 
             spriteBatch.Draw(pixelTexture, currentLayout.SortButtonRectangle, backgroundColor);
@@ -239,8 +264,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private void DrawSelfDestructButton(SpriteBatch spriteBatch)
         {
             bool isHovered = currentLayout.SelfDestructButtonRectangle.Contains(interactionController.MousePosition);
-            Color backgroundColor = isHovered ? new Color(120, 48, 48) : new Color(92, 36, 36);
-            Color borderColor = isHovered ? new Color(226, 118, 118) : new Color(190, 92, 92);
+            Color backgroundColor = isHovered ? UiColors.SelfDestructBackgroundHover : UiColors.SelfDestructBackground;
+            Color borderColor = isHovered ? UiColors.SelfDestructBorderHover : UiColors.SelfDestructBorder;
 
             spriteBatch.Draw(pixelTexture, currentLayout.SelfDestructButtonRectangle, backgroundColor);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.SelfDestructButtonRectangle, isHovered);

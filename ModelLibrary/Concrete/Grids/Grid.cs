@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Grids;
+using Newtonsoft.Json;
 
 namespace ModelLibrary.Concrete.Grids
 {
     public class Grid : AGrid
     {
+        [JsonConstructor]
         public Grid(Vector2 InternalCoordinate, GridBox[,] InternalGrid)
         {
             this.InternalCoordinate = InternalCoordinate;

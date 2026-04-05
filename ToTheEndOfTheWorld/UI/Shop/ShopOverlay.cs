@@ -139,34 +139,34 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             }
 
-            spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), new Color(0, 0, 0, 70));
-            spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
-            spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
-            spriteBatch.Draw(pixelTexture, valueCardRectangle, new Color(30, 30, 30));
-            spriteBatch.Draw(pixelTexture, valueListRectangle, new Color(27, 27, 27));
+            spriteBatch.Draw(pixelTexture, new Rectangle(panelRectangle.X + 3, panelRectangle.Y + 4, panelRectangle.Width, panelRectangle.Height), UiColors.PanelShadow);
+            spriteBatch.Draw(pixelTexture, panelRectangle, UiColors.PanelBackground);
+            spriteBatch.Draw(pixelTexture, headerRectangle, UiColors.HeaderBackground);
+            spriteBatch.Draw(pixelTexture, valueCardRectangle, UiColors.CardBackground);
+            spriteBatch.Draw(pixelTexture, valueListRectangle, UiColors.ListBackground);
 
             // Sell All button
-            spriteBatch.Draw(pixelTexture, sellAllButtonRectangle, saleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, sellAllButtonRectangle, saleValue > 0 ? UiColors.ActionButtonBackground : UiColors.ButtonBackgroundDisabled);
             bool isSellAllHovered = saleValue > 0 && sellAllButtonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellAllButtonRectangle, isSellAllHovered);
 
             // Sell Ores button
-            spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? new Color(121, 106, 77) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, sellOresButtonRectangle, oreSaleValue > 0 ? UiColors.ActionButtonBackground : UiColors.ButtonBackgroundDisabled);
             bool isSellOresHovered = oreSaleValue > 0 && sellOresButtonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, sellOresButtonRectangle, isSellOresHovered);
 
             // Sell Specific hint area
-            spriteBatch.Draw(pixelTexture, sellSpecificRectangle, isSellModeActive ? new Color(92, 116, 82) : new Color(48, 48, 48));
+            spriteBatch.Draw(pixelTexture, sellSpecificRectangle, isSellModeActive ? UiColors.ActionButtonBackgroundGreenAlt : UiColors.SectionBackgroundDark);
 
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueCardRectangle, 1, new Color(78, 78, 78));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueListRectangle, 1, new Color(68, 68, 68));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellAllButtonRectangle, 2, UiInteractionStyle.GetBorderColor(saleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellAllHovered));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellOresButtonRectangle, 2, UiInteractionStyle.GetBorderColor(oreSaleValue > 0 ? new Color(181, 163, 126) : new Color(110, 110, 110), isSellOresHovered));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellSpecificRectangle, 2, isSellModeActive ? new Color(162, 196, 146) : new Color(88, 88, 88));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, UiColors.PanelBorder);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueCardRectangle, 1, UiColors.CardBorder);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, valueListRectangle, 1, UiColors.ListBorder);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellAllButtonRectangle, 2, UiInteractionStyle.GetBorderColor(saleValue > 0 ? UiColors.ActionButtonBorder : UiColors.ButtonBorderDisabled, isSellAllHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellOresButtonRectangle, 2, UiInteractionStyle.GetBorderColor(oreSaleValue > 0 ? UiColors.ActionButtonBorder : UiColors.ButtonBorderDisabled, isSellOresHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, sellSpecificRectangle, 2, isSellModeActive ? UiColors.ActionButtonBorderGreenAlt : UiColors.PanelBorderDark);
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue:0.##}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), new Color(224, 224, 224), BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Shop", new Vector2(panelRectangle.X + 20, panelRectangle.Y + 12), UiColors.TextTitle, TitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Sell Value: {saleValue:0.##}", new Vector2(valueCardRectangle.X + 14, valueCardRectangle.Y + 10), UiColors.TextBodyAlt2, BodyTextScale);
 
             DrawSellableValueList(spriteBatch, sellSummary.Entries, valueListRectangle);
 
@@ -187,16 +187,16 @@ namespace ToTheEndOfTheWorld.UI.Shop
             float topX = buttonRect.X + ((buttonRect.Width - topSize.X) / 2);
             float bottomX = buttonRect.X + ((buttonRect.Width - bottomSize.X) / 2);
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, topText, new Vector2(topX, topY), new Color(248, 243, 233), SmallButtonTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, topText, new Vector2(topX, topY), UiColors.TextButton, SmallButtonTextScale);
             if (!string.IsNullOrEmpty(bottomText))
             {
-                GameTextRenderer.DrawBoldString(spriteBatch, textFont, bottomText, new Vector2(bottomX, bottomY), new Color(230, 214, 166), SmallButtonTextScale);
+                GameTextRenderer.DrawBoldString(spriteBatch, textFont, bottomText, new Vector2(bottomX, bottomY), UiColors.TextButtonAlt, SmallButtonTextScale);
             }
         }
 
         private void DrawSellSpecificHint(SpriteBatch spriteBatch, Rectangle rect)
         {
-            Color textColor = isSellModeActive ? new Color(248, 243, 233) : new Color(160, 160, 160);
+            Color textColor = isSellModeActive ? UiColors.TextButton : UiColors.TextMuted;
             string line1 = "Or..";
             string line2 = "CTRL + click items in your inventory";
             string line3 = "to sell them!";
@@ -257,13 +257,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 ValueIconSize);
             Vector2 titlePosition = new(iconRectangle.Right + 14, entryRectangle.Y + 8);
             Vector2 detailPosition = new(iconRectangle.Right + 14, entryRectangle.Y + 38);
-            spriteBatch.Draw(pixelTexture, entryRectangle, new Color(35, 35, 35));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, entryRectangle, 1, new Color(52, 52, 52));
+            spriteBatch.Draw(pixelTexture, entryRectangle, UiColors.ListEntryBackground);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, entryRectangle, 1, UiColors.ListEntryBorder);
 
             slotRenderer.DrawItem(spriteBatch, entry.Item, iconRectangle);
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, entry.Item.Name, titlePosition, new Color(236, 236, 236), ListTitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {entry.TotalValue:0.##}", detailPosition, new Color(214, 214, 214), ListBodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, entry.Item.Name, titlePosition, UiColors.TextListTitle, ListTitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"x{entry.Count}  |  {entry.TotalValue:0.##}", detailPosition, UiColors.TextListBody, ListBodyTextScale);
         }
 
         private Rectangle GetValueEntryRectangle(Rectangle listRectangle, int visibleRowIndex, int columnIndex)
@@ -325,8 +325,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
             int thumbY = trackRectangle.Y + (int)(thumbTravel * (scrollOffset / (float)maxScrollOffset));
             Rectangle thumbRectangle = new(trackRectangle.X, thumbY, trackRectangle.Width, thumbHeight);
 
-            spriteBatch.Draw(pixelTexture, trackRectangle, new Color(55, 55, 55));
-            spriteBatch.Draw(pixelTexture, thumbRectangle, new Color(170, 170, 170));
+            spriteBatch.Draw(pixelTexture, trackRectangle, UiColors.ScrollbarTrack);
+            spriteBatch.Draw(pixelTexture, thumbRectangle, UiColors.ScrollbarThumb);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
@@ -351,8 +351,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
         {
-            int panelOffsetX = currentBuilding?.ShowPlayerInventoryWhenOpen == true ? UiOverlayLayout.ShopWithInventoryPanelOffsetX : 0;
-            return new Rectangle(((viewportWidth - PanelWidth) / 2) + panelOffsetX, (viewportHeight - PanelHeight) / 2, PanelWidth, PanelHeight);
+            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidth, PanelHeight, viewportWidth, viewportHeight, currentBuilding);
         }
 
     }

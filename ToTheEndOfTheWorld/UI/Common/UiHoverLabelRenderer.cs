@@ -58,14 +58,14 @@ namespace ToTheEndOfTheWorld.UI.Common
 
             Rectangle labelRectangle = new(x, y, width, height);
 
-            spriteBatch.Draw(pixelTexture, labelRectangle, new Color(24, 24, 24, 228));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, labelRectangle, 1, new Color(102, 102, 102, 228));
+            spriteBatch.Draw(pixelTexture, labelRectangle, UiColors.HoverLabelBackground);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, labelRectangle, 1, UiColors.HoverLabelBorder);
             GameTextRenderer.DrawBoldString(
                 spriteBatch,
                 textFont,
                 hoverLabel,
                 new Vector2(labelRectangle.X + horizontalPadding, labelRectangle.Y + verticalPadding),
-                new Color(244, 244, 244),
+                UiColors.HoverLabelText,
                 TextScale);
         }
     }

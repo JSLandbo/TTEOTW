@@ -74,19 +74,19 @@ namespace ToTheEndOfTheWorld.UI.Shop
             bool canRefuel = affordableFuel > 0.0f;
 
             UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
-            spriteBatch.Draw(pixelTexture, panelRectangle, new Color(22, 22, 22));
-            spriteBatch.Draw(pixelTexture, headerRectangle, new Color(44, 44, 44));
-            spriteBatch.Draw(pixelTexture, refuelButtonRectangle, canRefuel ? new Color(86, 110, 78) : new Color(64, 64, 64));
+            spriteBatch.Draw(pixelTexture, panelRectangle, UiColors.PanelBackground);
+            spriteBatch.Draw(pixelTexture, headerRectangle, UiColors.HeaderBackground);
+            spriteBatch.Draw(pixelTexture, refuelButtonRectangle, canRefuel ? UiColors.ActionButtonBackgroundGreen : UiColors.ButtonBackgroundDisabled);
             bool isHovered = canRefuel && refuelButtonRectangle.Contains(mousePosition);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, refuelButtonRectangle, isHovered);
 
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, new Color(108, 108, 108));
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, refuelButtonRectangle, 2, UiInteractionStyle.GetBorderColor(canRefuel ? new Color(152, 182, 140) : new Color(110, 110, 110), isHovered));
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, UiColors.PanelBorder);
+            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, refuelButtonRectangle, 2, UiInteractionStyle.GetBorderColor(canRefuel ? UiColors.ActionButtonBorderGreen : UiColors.ButtonBorderDisabled, isHovered));
 
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), new Color(244, 240, 229), TitleTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.CurrentFuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), new Color(230, 230, 230), BodyTextScale);
-            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), new Color(214, 214, 214), BodyTextScale);
-            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Refuel!", refuelButtonRectangle, new Color(248, 243, 233), ButtonTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Fuel Station", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 12), UiColors.TextTitle, TitleTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Fuel: {world.Player.CurrentFuel:0.00} / {world.Player.FuelTank.Capacity:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 72), UiColors.TextBody, BodyTextScale);
+            GameTextRenderer.DrawBoldString(spriteBatch, textFont, $"Can Buy: {affordableFuel:0.00}", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 96), UiColors.TextBodyAlt, BodyTextScale);
+            UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Refuel!", refuelButtonRectangle, UiColors.TextButton, ButtonTextScale);
         }
 
         private Rectangle GetRefuelButtonRectangle(int viewportWidth, int viewportHeight)

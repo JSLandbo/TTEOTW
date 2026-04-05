@@ -113,7 +113,8 @@ namespace ToTheEndOfTheWorld
             EquipmentShopBuildingFactory equipmentShopBuildingFactory = new(items);
             FuelStationBuildingFactory fuelStationBuildingFactory = new();
             GadgetShopBuildingFactory gadgetShopBuildingFactory = new(items);
-            WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory);
+            StorageChestBuildingFactory storageChestBuildingFactory = new();
+            WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory, storageChestBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             CraftingService craftingService = new(eventBus, new CraftingRecipeLibrary(items).CreateRecipes());
@@ -186,7 +187,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 109867145230f // Starting allowance
+                Cash = 10000000000f // Starting allowance
             };
 
             return new ModelWorld(
