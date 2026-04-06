@@ -27,7 +27,7 @@ namespace ToTheEndOfTheWorld
         // dotnet publish -c Release -r win-x64 --self-contained true
 
         private static readonly string GameTitle = "To The End Of The World";
-        private static readonly string GameVersion = "V2.10";
+        private static readonly string GameVersion = "V2.20";
         private static readonly int _pixels = 64;
         private const double AutosaveIntervalSeconds = 120.0;
 
