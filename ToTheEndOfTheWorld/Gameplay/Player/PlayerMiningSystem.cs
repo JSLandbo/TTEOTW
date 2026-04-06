@@ -54,9 +54,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
             if (!worldBlockDamageService.TryGetBlockInteraction(world, blockVector, out MiningInteraction interaction, out bool isBlockedByBuilding))
             {
-                player.DrillExtended = isBlockedByBuilding
-                    ? false
-                    : ShouldKeepDrillExtendedWhileAdvancing(player);
+                player.DrillExtended = !isBlockedByBuilding && ShouldKeepDrillExtendedWhileAdvancing(player);
 
                 return false;
             }
