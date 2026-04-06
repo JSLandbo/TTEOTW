@@ -73,6 +73,8 @@ namespace ToTheEndOfTheWorld
         private UiManager uiManager;
         private InventoryOverlay inventoryOverlay;
         private UiWorld.DeathOverlay deathOverlay;
+        private MainMenuOverlay mainMenuOverlay;
+        private WorldBootstrapper worldBootstrapper;
         private int logicalViewportWidth;
         private int logicalViewportHeight;
         private KeyboardState previousKeyboardState;
@@ -114,7 +116,7 @@ namespace ToTheEndOfTheWorld
             FuelStationBuildingFactory fuelStationBuildingFactory = new();
             GadgetShopBuildingFactory gadgetShopBuildingFactory = new(items);
             StorageChestBuildingFactory storageChestBuildingFactory = new();
-            WorldBootstrapper worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory, storageChestBuildingFactory);
+            worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory, storageChestBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             CraftingService craftingService = new(eventBus, new CraftingRecipeLibrary(items).CreateRecipes());
@@ -206,6 +208,8 @@ namespace ToTheEndOfTheWorld
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
             Texture2D youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
+            mainMenuOverlay = new MainMenuOverlay(SaveWorld, ResetWorld);
+            mainMenuOverlay.LoadContent(GraphicsDevice, Content);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
             gadgetBarRenderer.LoadContent(GraphicsDevice, Content);
@@ -230,6 +234,7 @@ namespace ToTheEndOfTheWorld
             HandleUiInput(keyboardState);
 
             uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
+            mainMenuOverlay.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
 
             UpdateUiCursor(mouseState.Position);
             worldEffects.Update();
@@ -264,7 +269,7 @@ namespace ToTheEndOfTheWorld
                 return;
             }
 
-            if (uiManager.BlocksGameplay)
+            if (uiManager.BlocksGameplay || mainMenuOverlay.BlocksGameplay)
             {
                 gameplayAudioSystem.StopAllLoops();
                 previousKeyboardState = keyboardState;
@@ -377,17 +382,34 @@ namespace ToTheEndOfTheWorld
 
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
             {
-                if (uiManager.HasOpenInteractionOverlay)
+                if (!TryCloseTopmostOverlay())
                 {
-                    uiManager.CloseTopmost(world);
-                    return;
-                }
-
-                if (inventoryOverlay?.IsOpen == true)
-                {
-                    inventoryOverlay.Close(world);
+                    mainMenuOverlay.Open();
                 }
             }
+        }
+
+        private bool TryCloseTopmostOverlay()
+        {
+            if (mainMenuOverlay.IsOpen)
+            {
+                mainMenuOverlay.Close(world);
+                return true;
+            }
+
+            if (uiManager.HasOpenInteractionOverlay)
+            {
+                uiManager.CloseTopmost(world);
+                return true;
+            }
+
+            if (inventoryOverlay?.IsOpen == true)
+            {
+                inventoryOverlay.Close(world);
+                return true;
+            }
+
+            return false;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -408,6 +430,7 @@ namespace ToTheEndOfTheWorld
             gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
             uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
             inventoryOverlay?.DrawHeldItemOnTop(spriteBatch);
+            mainMenuOverlay.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
             deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
 
             spriteBatch.End();
@@ -499,6 +522,26 @@ namespace ToTheEndOfTheWorld
             }
 
             ContextHandler.SaveWorld(world);
+        }
+
+        private void SaveWorld()
+        {
+            if (world == null) return;
+
+            ContextHandler.SaveWorld(world);
+        }
+
+        private void ResetWorld()
+        {
+            miningInteractions.Clear();
+            worldEffects.Clear();
+            screenEffects.Clear();
+            world = CreateNewWorld(world.BlocksWide, world.BlocksHigh);
+            worldViewportService.EnsurePadding(world, world.Player.Coordinates);
+            world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+            world.SavedPlayerWorldPosition = world.SpawnWorldPosition;
+            worldBootstrapper.EnsureInitialized(world);
+            playerVerticalImpactService.Clear();
         }
 
         private static void NormalizeVisibleTileCounts(ref int blocksWide, ref int blocksHigh)

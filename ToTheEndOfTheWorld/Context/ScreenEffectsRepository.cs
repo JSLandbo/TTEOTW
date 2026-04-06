@@ -25,5 +25,10 @@ namespace ToTheEndOfTheWorld.Context
                 effects.RemoveAt(i);
             }
         }
+
+        public void Clear()
+        {
+            effects.Clear();
+        }
     }
 }

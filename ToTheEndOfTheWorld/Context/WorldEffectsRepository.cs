@@ -52,5 +52,11 @@ namespace ToTheEndOfTheWorld.Context
                 }
             }
         }
+
+        public void Clear()
+        {
+            effects.Clear();
+            effectsByTile.Clear();
+        }
     }
 }

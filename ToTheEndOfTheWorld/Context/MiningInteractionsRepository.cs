@@ -37,5 +37,10 @@ namespace ToTheEndOfTheWorld.Context
                 }
             }
         }
+
+        public void Clear()
+        {
+            interactionsByTile.Clear();
+        }
     }
 }
