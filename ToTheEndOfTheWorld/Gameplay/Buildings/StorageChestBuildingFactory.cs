@@ -9,7 +9,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 {
     public sealed class StorageChestBuildingFactory
     {
-        public const int GridColumns = 8;
+        public const int GridColumns = 10;
         public const int GridRows = 36;
         public const int MaxStackSize = 512;
 

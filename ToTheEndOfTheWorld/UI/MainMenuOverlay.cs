@@ -19,9 +19,10 @@ namespace ToTheEndOfTheWorld.UI
         private const float ButtonTextScale = 1.0f;
 
         private static int PanelWidthValue => ButtonWidth + (ContentPadding * 2);
-        private static int PanelHeight => HeaderHeight + ContentPadding + (ButtonHeight * 4) + (ButtonSpacing * 3) + ContentPadding;
+        private static int PanelHeight => HeaderHeight + ContentPadding + (ButtonHeight * 5) + (ButtonSpacing * 4) + ContentPadding;
 
         private readonly Action onSave;
+        private readonly Action onSelfDestruct;
         private readonly Action onResetWorld;
         private readonly Action onToggleFullscreen;
         private readonly Action onExit;
@@ -34,18 +35,16 @@ namespace ToTheEndOfTheWorld.UI
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
 
-        public MainMenuOverlay(Action onSave, Action onResetWorld, Action onToggleFullscreen, Action onExit)
+        public MainMenuOverlay(Action onSave, Action onSelfDestruct, Action onResetWorld, Action onToggleFullscreen, Action onExit)
         {
             this.onSave = onSave;
+            this.onSelfDestruct = onSelfDestruct;
             this.onResetWorld = onResetWorld;
             this.onToggleFullscreen = onToggleFullscreen;
             this.onExit = onExit;
         }
 
-        public void Open()
-        {
-            isOpen = true;
-        }
+        public void Open() => isOpen = true;
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
         {
@@ -56,75 +55,69 @@ namespace ToTheEndOfTheWorld.UI
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return;
-            }
+            if (!isOpen) return;
 
             mousePosition = currentMouseState.Position;
 
-            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState))
+            if (!UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState)) return;
+
+            if (GetSaveButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
             {
-                if (GetSaveButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
-                {
-                    onSave?.Invoke();
-                    isOpen = false;
-                    return;
-                }
+                onSave?.Invoke();
+                isOpen = false;
+                return;
+            }
 
-                if (GetResetButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
-                {
-                    onResetWorld?.Invoke();
-                    isOpen = false;
-                    return;
-                }
+            if (GetFullscreenButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                onToggleFullscreen?.Invoke();
+                return;
+            }
 
-                if (GetFullscreenButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
-                {
-                    onToggleFullscreen?.Invoke();
-                    return;
-                }
+            if (GetSelfDestructButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                onSelfDestruct?.Invoke();
+                isOpen = false;
+                return;
+            }
 
-                if (GetExitButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
-                {
-                    onExit?.Invoke();
-                    return;
-                }
+            if (GetResetButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                onResetWorld?.Invoke();
+                isOpen = false;
+                return;
+            }
+
+            if (GetExitButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition))
+            {
+                onExit?.Invoke();
             }
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return;
-            }
+            if (!isOpen) return;
 
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
-            Rectangle saveButtonRectangle = GetSaveButtonRectangle(viewportWidth, viewportHeight);
-            Rectangle resetButtonRectangle = GetResetButtonRectangle(viewportWidth, viewportHeight);
 
-            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
+            // Note: Screen dim drawn separately in MainGame
             spriteBatch.Draw(pixelTexture, panelRectangle, UiColors.PanelBackground);
             spriteBatch.Draw(pixelTexture, headerRectangle, UiColors.HeaderBackground);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, panelRectangle, 2, UiColors.PanelBorder);
 
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, "Menu", new Vector2(panelRectangle.X + ContentPadding, panelRectangle.Y + 14), UiColors.TextTitle, TitleTextScale);
 
-            Rectangle fullscreenButtonRectangle = GetFullscreenButtonRectangle(viewportWidth, viewportHeight);
-            Rectangle exitButtonRectangle = GetExitButtonRectangle(viewportWidth, viewportHeight);
-
-            DrawButton(spriteBatch, saveButtonRectangle, "Save", UiColors.ActionButtonBackgroundGreen, UiColors.ActionButtonBorderGreen);
-            DrawButton(spriteBatch, fullscreenButtonRectangle, "Toggle Fullscreen", UiColors.ActionButtonBackground, UiColors.ActionButtonBorder);
-            DrawButton(spriteBatch, resetButtonRectangle, "Reset World", UiColors.TrashButtonBackground, UiColors.TrashButtonBorder);
-            DrawButton(spriteBatch, exitButtonRectangle, "Exit", UiColors.ActionButtonBackground, UiColors.ActionButtonBorder);
+            DrawButton(spriteBatch, GetSaveButtonRectangle(viewportWidth, viewportHeight), "Save", UiColors.ActionButtonBackgroundGreen, UiColors.ActionButtonBorderGreen);
+            DrawButton(spriteBatch, GetFullscreenButtonRectangle(viewportWidth, viewportHeight), "Toggle Fullscreen", UiColors.ActionButtonBackground, UiColors.ActionButtonBorder);
+            DrawButton(spriteBatch, GetSelfDestructButtonRectangle(viewportWidth, viewportHeight), "Self Destruct", UiColors.SelfDestructBackground, UiColors.SelfDestructBorder);
+            DrawButton(spriteBatch, GetResetButtonRectangle(viewportWidth, viewportHeight), "Reset World", UiColors.TrashButtonBackground, UiColors.TrashButtonBorder);
+            DrawButton(spriteBatch, GetExitButtonRectangle(viewportWidth, viewportHeight), "Exit", UiColors.ActionButtonBackground, UiColors.ActionButtonBorder);
         }
 
         private void DrawButton(SpriteBatch spriteBatch, Rectangle buttonRectangle, string text, Color backgroundColor, Color borderColor)
         {
             bool isHovered = buttonRectangle.Contains(mousePosition);
-
             spriteBatch.Draw(pixelTexture, buttonRectangle, backgroundColor);
             UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, buttonRectangle, isHovered);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, buttonRectangle, 2, UiInteractionStyle.GetBorderColor(borderColor, isHovered));
@@ -135,44 +128,44 @@ namespace ToTheEndOfTheWorld.UI
         {
             return GetSaveButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition)
                 || GetFullscreenButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition)
+                || GetSelfDestructButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition)
                 || GetResetButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition)
                 || GetExitButtonRectangle(viewportWidth, viewportHeight).Contains(mousePosition);
         }
 
-        public void Close(ModelWorld world)
-        {
-            isOpen = false;
-        }
+        public void Close(ModelWorld world) => isOpen = false;
 
-        private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight)
-        {
-            return UiOverlayLayout.GetCenteredPanelRectangle(PanelWidthValue, PanelHeight, viewportWidth, viewportHeight);
-        }
+        private Rectangle GetPanelRectangle(int viewportWidth, int viewportHeight) =>
+            UiOverlayLayout.GetCenteredPanelRectangle(PanelWidthValue, PanelHeight, viewportWidth, viewportHeight);
 
         private Rectangle GetSaveButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
-            int buttonX = panelRectangle.X + ((panelRectangle.Width - ButtonWidth) / 2);
-            int buttonY = panelRectangle.Y + HeaderHeight + ContentPadding;
-            return new Rectangle(buttonX, buttonY, ButtonWidth, ButtonHeight);
+            Rectangle panel = GetPanelRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(panel.X + ((panel.Width - ButtonWidth) / 2), panel.Y + HeaderHeight + ContentPadding, ButtonWidth, ButtonHeight);
         }
 
         private Rectangle GetFullscreenButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            Rectangle saveButton = GetSaveButtonRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(saveButton.X, saveButton.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
+            Rectangle prev = GetSaveButtonRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(prev.X, prev.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
+        }
+
+        private Rectangle GetSelfDestructButtonRectangle(int viewportWidth, int viewportHeight)
+        {
+            Rectangle prev = GetFullscreenButtonRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(prev.X, prev.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
         }
 
         private Rectangle GetResetButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            Rectangle fullscreenButton = GetFullscreenButtonRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(fullscreenButton.X, fullscreenButton.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
+            Rectangle prev = GetSelfDestructButtonRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(prev.X, prev.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
         }
 
         private Rectangle GetExitButtonRectangle(int viewportWidth, int viewportHeight)
         {
-            Rectangle resetButton = GetResetButtonRectangle(viewportWidth, viewportHeight);
-            return new Rectangle(resetButton.X, resetButton.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
+            Rectangle prev = GetResetButtonRectangle(viewportWidth, viewportHeight);
+            return new Rectangle(prev.X, prev.Bottom + ButtonSpacing, ButtonWidth, ButtonHeight);
         }
     }
 }

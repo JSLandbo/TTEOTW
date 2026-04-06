@@ -52,23 +52,18 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
-            {
-                return;
-            }
+            if (!isOpen || building?.StorageGrid == null) return;
 
-            if (building?.StorageGrid == null)
+            if (viewportWidth != cachedViewportWidth || viewportHeight != cachedViewportHeight)
             {
-                return;
+                cachedViewportWidth = viewportWidth;
+                cachedViewportHeight = viewportHeight;
+                currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
             }
 
             mousePosition = currentMouseState.Position;
 
-            // Block shop interaction when holding item
-            if (hasHeldItem())
-            {
-                return;
-            }
+            if (hasHeldItem()) return;
 
             interactionController.TryHandleBuy(currentMouseState, previousMouseState, currentLayout, world, building, equipmentShopService);
         }

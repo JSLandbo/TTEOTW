@@ -23,9 +23,10 @@ namespace ToTheEndOfTheWorld.UI.World
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight, bool isGrounded)
         {
+            // Player is always at pixel center of window
             Vector2 playerPosition = new(
-                (float)(viewportWidth / 2.0) - (0.5f * tileSize),
-                (float)(viewportHeight / 2.0) - (0.5f * tileSize)
+                (viewportWidth / 2) - (tileSize / 2),
+                (viewportHeight / 2) - (tileSize / 2)
             );
 
             APlayer player = world.Player;

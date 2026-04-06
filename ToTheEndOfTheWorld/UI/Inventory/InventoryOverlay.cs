@@ -19,6 +19,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private const float HeaderTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
         private const float StackTextScale = 0.95f;
+        private const int ScrollbarWidth = 10;
         private readonly Grid craftingGrid = new(new Vector2(0, 0), new GridBox[3, 3]);
         private readonly GridBox craftOutputSlot = new(null, 0);
         private readonly InventoryInteractionController interactionController = new();
@@ -27,7 +28,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private ItemSlotRenderer slotRenderer;
         private Texture2D pixelTexture;
         private Texture2D trashbinTexture;
-        private Texture2D suicideTexture;
         private SpriteFont textFont;
         private InventoryLayout currentLayout;
         private bool isOpen;
@@ -35,6 +35,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private int panelXOffset;
         private int cachedViewportWidth;
         private int cachedViewportHeight;
+        private int inventoryScrollOffset;
 
         public bool IsOpen => isOpen;
         public bool BlocksGameplay => isOpen;
@@ -46,6 +47,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         {
             isOpen = true;
             panelXOffset = 0;
+            inventoryScrollOffset = 0;
             cachedViewportWidth = viewportWidth;
             cachedViewportHeight = viewportHeight;
             currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, player.Inventory.Items.InternalGrid, panelXOffset);
@@ -84,15 +86,30 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             pixelTexture.SetData([Color.White]);
             textFont = content.Load<SpriteFont>("File");
             trashbinTexture = content.Load<Texture2D>("General/Trashbin");
-            suicideTexture = content.Load<Texture2D>("General/Suicide");
             slotRenderer = new ItemSlotRenderer(textureResolver, pixelTexture, textFont, StackTextScale);
         }
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen)
+            if (!isOpen) return;
+
+            // Recalculate layout if viewport changed
+            if (viewportWidth != cachedViewportWidth || viewportHeight != cachedViewportHeight)
             {
-                return;
+                cachedViewportWidth = viewportWidth;
+                cachedViewportHeight = viewportHeight;
+                currentLayout = InventoryLayoutCalculator.Create(viewportWidth, viewportHeight, world.Player.Inventory.Items.InternalGrid, panelXOffset);
+            }
+
+            // Handle inventory scroll
+            int totalRows = world.Player.Inventory.Items.InternalGrid.GetLength(1);
+            if (totalRows > InventoryLayoutCalculator.VisibleInventoryRows)
+            {
+                int scrollDelta = currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue;
+                if (scrollDelta != 0 && currentLayout.InventorySectionRectangle.Contains(currentMouseState.Position))
+                {
+                    inventoryScrollOffset = Math.Clamp(inventoryScrollOffset - Math.Sign(scrollDelta), 0, totalRows - InventoryLayoutCalculator.VisibleInventoryRows);
+                }
             }
 
             bool blockCrafting = isShopOpen();
@@ -128,6 +145,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 viewportWidth,
                 viewportHeight,
                 blockCrafting,
+                inventoryScrollOffset,
                 trySellSlot,
                 tryGetChestSlot);
 
@@ -165,7 +183,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             }
 
             AInventory inventory = world.Player.Inventory;
-            UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, viewportWidth, viewportHeight);
             spriteBatch.Draw(pixelTexture, currentLayout.PanelRectangle, UiColors.PanelBackgroundLight);
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.PanelRectangle, 2, UiColors.PanelBorderLight);
             spriteBatch.Draw(pixelTexture, currentLayout.HeaderRectangle, UiColors.HeaderBackgroundAlt);
@@ -177,8 +194,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             Vector2 headerTextPosition = new(currentLayout.PanelRectangle.X + 24, currentLayout.PanelRectangle.Y + 11);
             GameTextRenderer.DrawBoldString(spriteBatch, textFont, inventory.Name, headerTextPosition, Color.White, HeaderTextScale);
 
-            DrawSelfDestructButton(spriteBatch);
-
             DrawGrid(spriteBatch, craftingGrid.InternalGrid, currentLayout.CraftingStart.X, currentLayout.CraftingStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
 
             DrawSlot(spriteBatch, craftOutputSlot, currentLayout.OutputSlotRectangle);
@@ -189,10 +204,9 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.CraftButtonRectangle, 2, UiInteractionStyle.GetBorderColor(UiColors.ButtonBorder, isCraftButtonHovered));
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Craft", currentLayout.CraftButtonRectangle, Color.White, ButtonTextScale);
             DrawEquipmentSlots(spriteBatch, world);
-            DrawGrid(spriteBatch, inventory.Items.InternalGrid, currentLayout.InventoryStart.X, currentLayout.InventoryStart.Y, currentLayout.SlotSize, currentLayout.SlotSpacing);
+            DrawInventoryGrid(spriteBatch, inventory.Items.InternalGrid);
             DrawSortButton(spriteBatch);
             DrawTrashBin(spriteBatch);
-
         }
 
         public void DrawHeldItemOnTop(SpriteBatch spriteBatch)
@@ -216,6 +230,41 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     DrawSlot(spriteBatch, grid[x, y], new Rectangle(slotX, slotY, slotSize, slotSize));
                 }
             }
+        }
+
+        private void DrawInventoryGrid(SpriteBatch spriteBatch, AGridBox[,] grid)
+        {
+            int totalRows = grid.GetLength(1);
+            int visibleRows = Math.Min(InventoryLayoutCalculator.VisibleInventoryRows, totalRows);
+
+            for (int visibleY = 0; visibleY < visibleRows; visibleY++)
+            {
+                int actualY = inventoryScrollOffset + visibleY;
+                if (actualY >= totalRows) break;
+
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    int slotX = currentLayout.InventoryStart.X + (x * (currentLayout.SlotSize + currentLayout.SlotSpacing));
+                    int slotY = currentLayout.InventoryStart.Y + (visibleY * (currentLayout.SlotSize + currentLayout.SlotSpacing));
+                    DrawSlot(spriteBatch, grid[x, actualY], new Rectangle(slotX, slotY, currentLayout.SlotSize, currentLayout.SlotSize));
+                }
+            }
+
+            if (totalRows > InventoryLayoutCalculator.VisibleInventoryRows) DrawInventoryScrollbar(spriteBatch, totalRows);
+        }
+
+        private void DrawInventoryScrollbar(SpriteBatch spriteBatch, int totalRows)
+        {
+            int visibleRows = Math.Min(InventoryLayoutCalculator.VisibleInventoryRows, totalRows);
+            int gridHeight = (visibleRows * currentLayout.SlotSize) + ((visibleRows - 1) * currentLayout.SlotSpacing);
+            int maxScrollOffset = Math.Max(1, totalRows - InventoryLayoutCalculator.VisibleInventoryRows);
+
+            Rectangle trackRectangle = new(currentLayout.InventorySectionRectangle.Right - ScrollbarWidth - 4, currentLayout.InventoryStart.Y, 6, gridHeight);
+            int thumbHeight = Math.Max(24, (int)(trackRectangle.Height * ((float)visibleRows / totalRows)));
+            int thumbY = trackRectangle.Y + (int)((trackRectangle.Height - thumbHeight) * ((float)inventoryScrollOffset / maxScrollOffset));
+
+            spriteBatch.Draw(pixelTexture, trackRectangle, UiColors.ScrollbarTrack);
+            spriteBatch.Draw(pixelTexture, new Rectangle(trackRectangle.X, thumbY, trackRectangle.Width, thumbHeight), UiColors.ScrollbarThumb);
         }
 
         private void DrawSlot(SpriteBatch spriteBatch, AGridBox slot, Rectangle slotRectangle)
@@ -278,18 +327,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             UiDrawHelper.DrawCenteredText(spriteBatch, textFont, "Sort", currentLayout.SortButtonRectangle, textColor, ButtonTextScale);
         }
 
-        private void DrawSelfDestructButton(SpriteBatch spriteBatch)
-        {
-            bool isHovered = currentLayout.SelfDestructButtonRectangle.Contains(interactionController.MousePosition);
-            Color backgroundColor = isHovered ? UiColors.SelfDestructBackgroundHover : UiColors.SelfDestructBackground;
-            Color borderColor = isHovered ? UiColors.SelfDestructBorderHover : UiColors.SelfDestructBorder;
-
-            spriteBatch.Draw(pixelTexture, currentLayout.SelfDestructButtonRectangle, backgroundColor);
-            UiInteractionStyle.DrawHoverOverlay(spriteBatch, pixelTexture, currentLayout.SelfDestructButtonRectangle, isHovered);
-            UiDrawHelper.DrawRectangleOutline(spriteBatch, pixelTexture, currentLayout.SelfDestructButtonRectangle, 2, borderColor);
-            DrawCenteredTexture(spriteBatch, suicideTexture, currentLayout.SelfDestructButtonRectangle, Color.White);
-        }
-
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
             return hoverLabelResolver.Resolve(world, mousePosition, currentLayout, craftingGrid, craftOutputSlot, itemUseService, viewportWidth, viewportHeight);
@@ -307,7 +344,8 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 itemUseService,
                 viewportWidth,
                 viewportHeight,
-                isShopOpen());
+                isShopOpen(),
+                inventoryScrollOffset);
         }
 
         private static void ClearGrid(AGridBox[,] grid)

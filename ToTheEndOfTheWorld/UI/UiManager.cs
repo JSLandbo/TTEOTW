@@ -56,7 +56,6 @@ namespace ToTheEndOfTheWorld.UI
                 overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
             }
 
-            // Check if inventory changed AFTER overlays updated (e.g. bought new inventory in shop)
             if (interactionOpenedInventory && world.Player.Inventory.ID != cachedInventoryId)
             {
                 RefreshShopAndInventoryLayout(world.Player, viewportWidth, viewportHeight);
@@ -81,10 +80,7 @@ namespace ToTheEndOfTheWorld.UI
         {
             foreach (IGameOverlay overlay in overlays)
             {
-                if (!overlay.IsOpen)
-                {
-                    continue;
-                }
+                if (!overlay.IsOpen) continue;
 
                 if (overlay.IsPointerOverInteractiveElement(world, mousePosition, viewportWidth, viewportHeight))
                 {
@@ -101,10 +97,7 @@ namespace ToTheEndOfTheWorld.UI
             {
                 IGameOverlay overlay = overlays[i];
 
-                if (!overlay.IsOpen)
-                {
-                    continue;
-                }
+                if (!overlay.IsOpen) continue;
 
                 string hoverLabel = overlay.GetHoverLabel(world, lastMousePosition, viewportWidth, viewportHeight);
                 if (!string.IsNullOrWhiteSpace(hoverLabel))
@@ -222,9 +215,7 @@ namespace ToTheEndOfTheWorld.UI
                 return;
             }
 
-            // Refresh inventory layout first to get correct width
             inventoryOverlay.RefreshLayout(player);
-
             int shopWidth = openShop.PanelWidth;
             int inventoryWidth = inventoryOverlay.PanelWidth;
             int shopOffset = UiOverlayLayout.CalculateShopOffset(shopWidth, inventoryWidth);

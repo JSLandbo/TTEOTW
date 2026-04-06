@@ -18,6 +18,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         int ViewportWidth,
         int ViewportHeight,
         bool BlockCrafting,
+        int InventoryScrollOffset,
         Func<ModelWorld, AGridBox, bool> TrySellSlotFunc,
         Func<Point, int, int, (AGridBox slot, int maxStackSize)?> TryGetChestSlotFunc)
     {

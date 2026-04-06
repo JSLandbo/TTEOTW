@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 
 namespace ToTheEndOfTheWorld.UI
 {
+    // Calculates where the inventory and shops should be placed on the screen when we open them
     public static class UiOverlayLayout
     {
         public const int PanelGap = 40;

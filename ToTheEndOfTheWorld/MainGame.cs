@@ -33,7 +33,7 @@ namespace ToTheEndOfTheWorld
 
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private RenderTarget2D sceneRenderTarget;
+        private Texture2D pixelTexture;
         private readonly ContentManager audioContent;
         private MiningInteractionsRepository miningInteractions;
         private WorldEffectsRepository worldEffects;
@@ -75,12 +75,9 @@ namespace ToTheEndOfTheWorld
         private UiWorld.DeathOverlay deathOverlay;
         private MainMenuOverlay mainMenuOverlay;
         private WorldBootstrapper worldBootstrapper;
-        private int logicalViewportWidth;
-        private int logicalViewportHeight;
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
         private bool isApplyingResize;
-        private Point uiMousePosition;
         private bool isUsingHandCursor;
         private bool isPlayerGrounded;
         private double autosaveElapsedSeconds;
@@ -129,18 +126,13 @@ namespace ToTheEndOfTheWorld
             gadgetBarRenderer = new UiWorld.GadgetBarRenderer(blocks, items);
             gameplayAudioSystem = new GameplayAudioSystem(audioService, eventBus);
 
-            int _blocksWide = (GraphicsDevice.DisplayMode.Width - (GraphicsDevice.DisplayMode.Width % _pixels)) / _pixels;
-            int _blocksHigh = (GraphicsDevice.DisplayMode.Height - (GraphicsDevice.DisplayMode.Height % _pixels)) / _pixels;
-
-            NormalizeVisibleTileCounts(ref _blocksWide, ref _blocksHigh);
+            (int windowW, int windowH, int _blocksWide, int _blocksHigh) = CalculateInitialWindowSize();
 
             Window.Title = $"{GameTitle} {GameVersion}";
-            graphics.PreferredBackBufferWidth = _blocksWide * _pixels;
-            graphics.PreferredBackBufferHeight = _blocksHigh * _pixels;
+            graphics.PreferredBackBufferWidth = windowW;
+            graphics.PreferredBackBufferHeight = windowH;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            logicalViewportWidth = graphics.PreferredBackBufferWidth;
-            logicalViewportHeight = graphics.PreferredBackBufferHeight;
 
             miningInteractions = new MiningInteractionsRepository();
             worldEffects = new WorldEffectsRepository();
@@ -161,13 +153,9 @@ namespace ToTheEndOfTheWorld
             world.BlocksHigh = _blocksHigh;
             Vector2 initialWorldPosition = world.SavedPlayerWorldPosition != Vector2.Zero
                 ? world.SavedPlayerWorldPosition
-                : world.Player.Coordinates;
+                : world.SpawnWorldPosition;
             worldViewportService.EnsurePadding(world, initialWorldPosition);
             world.SavedPlayerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
-            if (world.SpawnWorldPosition == Vector2.Zero)
-            {
-                world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);
-            }
             worldBootstrapper.EnsureInitialized(world);
             inventoryItemUseService.TryAlignGadgetSlotsWithInventory(world);
             previousKeyboardState = Keyboard.GetState();
@@ -178,6 +166,10 @@ namespace ToTheEndOfTheWorld
 
         private ModelWorld CreateNewWorld(int _blocksWide, int _blocksHigh)
         {
+            // Fixed spawn position - Y=10 is just above ground level
+            const float spawnWorldX = 0f;
+            const float spawnWorldY = 10f;
+            
             Player player = new(
                 ThermalPlating: items.Create<ThermalPlating>(GameIds.Items.ThermalPlatings.Scrap),
                 Engine: items.Create<Engine>(GameIds.Items.Engines.Scrap),
@@ -188,27 +180,30 @@ namespace ToTheEndOfTheWorld
                 FuelTank: items.Create<FuelTank>(GameIds.Items.FuelTanks.Scrap)
             )
             {
-                Coordinates = new Vector2((float)Math.Floor(_blocksWide / 2.0d), (float)Math.Floor(_blocksHigh / 2.0d)),
-                Cash = 100f // Starting allowance
+                Coordinates = new Vector2(spawnWorldX, spawnWorldY),
+                Cash = 10000000000f // Starting allowance
             };
 
-            return new ModelWorld(
+            ModelWorld world = new(
                 Player: player,
                 Buildings: [],
                 BlocksWide: _blocksWide,
                 BlocksHigh: _blocksHigh,
                 WorldRender: [],
                 WorldTrails: []
-            );
+            ) { SpawnWorldPosition = new Vector2(spawnWorldX, spawnWorldY) };
+
+            return world;
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
+            pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
+            pixelTexture.SetData([Color.White]);
             Texture2D youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
-            mainMenuOverlay = new MainMenuOverlay(SaveWorld, ResetWorld, ToggleFullscreen, Exit);
+            mainMenuOverlay = new MainMenuOverlay(SaveWorld, SelfDestruct, ResetWorld, ToggleFullscreen, Exit);
             mainMenuOverlay.LoadContent(GraphicsDevice, Content);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
@@ -220,23 +215,23 @@ namespace ToTheEndOfTheWorld
             playerShipRenderer.LoadContent(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
-            //audioService.PlayMusic(MusicTrack.MainTheme);
         }
 
         protected override void Update(GameTime gameTime)
         {
             double totalSeconds = gameTime.TotalGameTime.TotalSeconds;
             TextureAnimationHelper.TotalSeconds = totalSeconds;
+            int windowWidth = GraphicsDevice.Viewport.Width;
+            int windowHeight = GraphicsDevice.Viewport.Height;
             KeyboardState keyboardState = isWindowFocused ? Keyboard.GetState() : default;
-            MouseState mouseState = isWindowFocused ? CreateScaledMouseState(Mouse.GetState()) : default;
-            uiMousePosition = mouseState.Position;
+            MouseState mouseState = isWindowFocused ? Mouse.GetState() : default;
 
-            HandleUiInput(keyboardState);
+            HandleUiInput(keyboardState, windowWidth, windowHeight);
 
-            uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
-            mainMenuOverlay.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, logicalViewportWidth, logicalViewportHeight);
+            uiManager.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, windowWidth, windowHeight);
+            mainMenuOverlay.Update(gameTime, keyboardState, previousKeyboardState, mouseState, previousMouseState, world, windowWidth, windowHeight);
 
-            UpdateUiCursor(mouseState.Position);
+            UpdateUiCursor(mouseState.Position, windowWidth, windowHeight);
             worldEffects.Update();
             screenEffects.Update();
             UpdateAutoSave(gameTime);
@@ -249,12 +244,6 @@ namespace ToTheEndOfTheWorld
             if (inventoryOverlay?.ConsumeSelectionSoundRequest() == true)
             {
                 audioService.PlayOneShot(SoundEffectId.EffectSelectedItem);
-            }
-
-            if (inventoryOverlay?.ConsumeSelfDestructRequest() == true)
-            {
-                playerVerticalImpactService.Clear();
-                playerDeathSystem.SelfDestruct(world);
             }
 
             if (playerDeathSystem.TryHandleDeath(world))
@@ -342,7 +331,7 @@ namespace ToTheEndOfTheWorld
             base.Update(gameTime);
         }
 
-        private void HandleUiInput(KeyboardState keyboardState)
+        private void HandleUiInput(KeyboardState keyboardState, int windowWidth, int windowHeight)
         {
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
             {
@@ -357,7 +346,7 @@ namespace ToTheEndOfTheWorld
                     inventoryOverlay.Close(world);
                 }
 
-                worldInteractionService.TryHandleInteraction(uiManager, world, logicalViewportWidth, logicalViewportHeight);
+                worldInteractionService.TryHandleInteraction(uiManager, world, windowWidth, windowHeight);
                 return;
             }
 
@@ -366,7 +355,7 @@ namespace ToTheEndOfTheWorld
                 if (uiManager.HasOpenInteractionOverlay)
                 {
                     uiManager.CloseTopmost(world);
-                    inventoryOverlay?.Open(logicalViewportWidth, logicalViewportHeight, world.Player);
+                    inventoryOverlay?.Open(windowWidth, windowHeight, world.Player);
                     return;
                 }
 
@@ -376,7 +365,7 @@ namespace ToTheEndOfTheWorld
                     return;
                 }
 
-                inventoryOverlay?.Open(logicalViewportWidth, logicalViewportHeight, world.Player);
+                inventoryOverlay?.Open(windowWidth, windowHeight, world.Player);
                 return;
             }
 
@@ -414,42 +403,52 @@ namespace ToTheEndOfTheWorld
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(sceneRenderTarget);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            int windowWidth = GraphicsDevice.Viewport.Width;
+            int windowHeight = GraphicsDevice.Viewport.Height;
+            bool showOverlayBackground = inventoryOverlay?.IsOpen == true || uiManager.BlocksGameplay || mainMenuOverlay.IsOpen;
 
-            spriteBatch.Begin();
-
-            UiWorld.WorldScreenTransform worldScreenTransform = new(_pixels, (int)world.Player.XOffset, (int)world.Player.YOffset);
-            DrawRenderedWorld(worldScreenTransform);
-            worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, worldScreenTransform);
-            DrawPlayerShip();
-            screenEffectRenderer.Draw(spriteBatch, screenEffects, screenEffectDefinitions, logicalViewportWidth, logicalViewportHeight);
-            debugHudRenderer.Draw(spriteBatch, world);
-            gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, logicalViewportWidth);
-            DrawInteractionPrompt();
-            gadgetBarRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, uiMousePosition, inventoryOverlay);
-            uiManager.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
-            inventoryOverlay?.DrawHeldItemOnTop(spriteBatch);
-            mainMenuOverlay.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight);
-            deathOverlay.Draw(spriteBatch, logicalViewportWidth, playerDeathSystem.ShouldShowDeathMessage);
-
-            spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.Black);
-
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            spriteBatch.Draw(sceneRenderTarget, GetPresentationRectangle(), Color.White);
+
+            // World (1:1)
+            UiWorld.WorldScreenTransform worldScreenTransform = new(_pixels, (int)world.Player.XOffset, (int)world.Player.YOffset, windowWidth, windowHeight, world.BlocksWide, world.BlocksHigh);
+            DrawRenderedWorld(worldScreenTransform, windowWidth, windowHeight);
+            worldInteractionRenderer.DrawBuildings(spriteBatch, world, worldViewportService, worldScreenTransform);
+            DrawPlayerShip(windowWidth, windowHeight);
+
+            // Screen dim
+            if (showOverlayBackground)
+                UiDrawHelper.DrawScreenDim(spriteBatch, pixelTexture, windowWidth, windowHeight);
+
+            // UI (1:1)
+            gadgetBarRenderer.Draw(spriteBatch, world, windowWidth, windowHeight, Mouse.GetState().Position, inventoryOverlay);
+            uiManager.Draw(spriteBatch, world, windowWidth, windowHeight);
+            inventoryOverlay?.DrawHeldItemOnTop(spriteBatch);
+            mainMenuOverlay.Draw(spriteBatch, world, windowWidth, windowHeight);
+
+            // HUD
+            screenEffectRenderer.Draw(spriteBatch, screenEffects, screenEffectDefinitions, windowWidth, windowHeight);
+            debugHudRenderer.Draw(spriteBatch, world);
+            gameplayHudRenderer.Draw(spriteBatch, world, inventoryService, windowWidth);
+            DrawInteractionPrompt(windowHeight);
+            deathOverlay.Draw(spriteBatch, windowWidth, playerDeathSystem.ShouldShowDeathMessage);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void DrawRenderedWorld(UiWorld.WorldScreenTransform worldScreenTransform)
+        private void DrawRenderedWorld(UiWorld.WorldScreenTransform worldScreenTransform, int windowWidth, int windowHeight)
         {
             foreach (KeyValuePair<Vector2, Vector2> pair in world.WorldRender)
             {
                 Rectangle destinationRectangle = worldScreenTransform.GetTileRectangle(pair.Key);
+
+                // Skip tiles completely outside the window
+                if (destinationRectangle.Right < 0 || destinationRectangle.Left > windowWidth ||
+                    destinationRectangle.Bottom < 0 || destinationRectangle.Top > windowHeight)
+                    continue;
+
                 WorldTile worldTile = new((long)pair.Value.X, (long)pair.Value.Y);
 
                 if (world.WorldTrails.ContainsKey(pair.Value))
@@ -478,34 +477,35 @@ namespace ToTheEndOfTheWorld
             }
         }
 
-        private void DrawPlayerShip()
+        private void DrawPlayerShip(int windowWidth, int windowHeight)
         {
-            playerShipRenderer.Draw(spriteBatch, world, logicalViewportWidth, logicalViewportHeight, isPlayerGrounded);
+            playerShipRenderer.Draw(spriteBatch, world, windowWidth, windowHeight, isPlayerGrounded);
         }
 
         private void HandleClientSizeChanged(object sender, EventArgs e)
         {
-            if (isApplyingResize || world == null)
-            {
-                return;
-            }
+            if (isApplyingResize || world == null) return;
 
             int width = Window.ClientBounds.Width;
             int height = Window.ClientBounds.Height;
+            if (width <= 0 || height <= 0) return;
 
-            if (width <= 0 || height <= 0)
+            isApplyingResize = true;
+
+            int blocksWide = ((width + _pixels - 1) / _pixels) | 1;
+            int blocksHigh = ((height + _pixels - 1) / _pixels) | 1;
+            blocksWide += 2;
+            blocksHigh += 2;
+
+            if (blocksWide != world.BlocksWide || blocksHigh != world.BlocksHigh)
             {
-                return;
+                Vector2 centerWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+                world.BlocksWide = blocksWide;
+                world.BlocksHigh = blocksHigh;
+                worldViewportService.EnsurePadding(world, centerWorldPosition);
             }
 
-            if (graphics.PreferredBackBufferWidth != width || graphics.PreferredBackBufferHeight != height)
-            {
-                isApplyingResize = true;
-                graphics.PreferredBackBufferWidth = width;
-                graphics.PreferredBackBufferHeight = height;
-                graphics.ApplyChanges();
-                isApplyingResize = false;
-            }
+            isApplyingResize = false;
         }
 
         private void HandleExiting(object sender, EventArgs e)
@@ -531,14 +531,19 @@ namespace ToTheEndOfTheWorld
             ContextHandler.SaveWorld(world);
         }
 
+        private void SelfDestruct()
+        {
+            playerVerticalImpactService.Clear();
+            playerDeathSystem.SelfDestruct(world);
+        }
+
         private void ResetWorld()
         {
             miningInteractions.Clear();
             worldEffects.Clear();
             screenEffects.Clear();
             world = CreateNewWorld(world.BlocksWide, world.BlocksHigh);
-            worldViewportService.EnsurePadding(world, world.Player.Coordinates);
-            world.SpawnWorldPosition = worldViewportService.GetCenterWorldPosition(world);
+            worldViewportService.EnsurePadding(world, world.SpawnWorldPosition);
             world.SavedPlayerWorldPosition = world.SpawnWorldPosition;
             worldBootstrapper.EnsureInitialized(world);
             playerVerticalImpactService.Clear();
@@ -550,59 +555,27 @@ namespace ToTheEndOfTheWorld
             graphics.ToggleFullScreen();
         }
 
-        private static void NormalizeVisibleTileCounts(ref int blocksWide, ref int blocksHigh)
+        private (int windowWidth, int windowHeight, int blocksWide, int blocksHigh) CalculateInitialWindowSize()
         {
-            blocksWide = Math.Max(4, blocksWide - (blocksWide % 2 + 2));
-            blocksHigh = Math.Max(4, blocksHigh - (blocksHigh % 2 + 2));
+            int w = (GraphicsDevice.DisplayMode.Width - 128) / _pixels | 1;
+            int h = (GraphicsDevice.DisplayMode.Height - 128) / _pixels | 1;
+            return (w * _pixels, h * _pixels, w + 2, h + 2);
         }
 
-        private Rectangle GetPresentationRectangle()
-        {
-            int viewportWidth = GraphicsDevice.Viewport.Width;
-            int viewportHeight = GraphicsDevice.Viewport.Height;
-            float scale = Math.Min((float)viewportWidth / logicalViewportWidth, (float)viewportHeight / logicalViewportHeight);
-            int width = (int)(logicalViewportWidth * scale);
-            int height = (int)(logicalViewportHeight * scale);
-            int x = (viewportWidth - width) / 2;
-            int y = (viewportHeight - height) / 2;
-            return new Rectangle(x, y, width, height);
-        }
-
-        private MouseState CreateScaledMouseState(MouseState mouseState)
-        {
-            Rectangle presentationRectangle = GetPresentationRectangle();
-
-            if (!presentationRectangle.Contains(mouseState.Position))
-            {
-                return new MouseState(-1, -1, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
-            }
-
-            int scaledX = (int)((mouseState.X - presentationRectangle.X) * ((float)logicalViewportWidth / presentationRectangle.Width));
-            int scaledY = (int)((mouseState.Y - presentationRectangle.Y) * ((float)logicalViewportHeight / presentationRectangle.Height));
-
-            return new MouseState(scaledX, scaledY, mouseState.ScrollWheelValue, mouseState.LeftButton, mouseState.MiddleButton, mouseState.RightButton, mouseState.XButton1, mouseState.XButton2);
-        }
-
-        private void DrawInteractionPrompt()
+        private void DrawInteractionPrompt(int viewportHeight)
         {
             if (uiManager.BlocksGameplay || !worldInteractionService.TryGetCurrentBuilding(world, out ABuilding building))
-            {
                 return;
-            }
-            worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, logicalViewportHeight);
+
+            worldInteractionRenderer.DrawInteractionPrompt(spriteBatch, building, viewportHeight);
         }
 
-        private void UpdateUiCursor(Point mousePosition)
+        private void UpdateUiCursor(Point mousePosition, int windowWidth, int windowHeight)
         {
-            bool shouldUseHandCursor = uiManager.IsPointerOverInteractiveElement(world, mousePosition, logicalViewportWidth, logicalViewportHeight);
-
-            if (shouldUseHandCursor == isUsingHandCursor)
-            {
-                return;
-            }
+            bool shouldUseHandCursor = uiManager.IsPointerOverInteractiveElement(world, mousePosition, windowWidth, windowHeight);
+            if (shouldUseHandCursor == isUsingHandCursor) return;
 
             Mouse.SetCursor(shouldUseHandCursor ? MouseCursor.Hand : MouseCursor.Arrow);
-
             isUsingHandCursor = shouldUseHandCursor;
         }
 

@@ -1904,18 +1904,6 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/General/Propulsion/PropulsionUp.png;Graphics/General/Propulsion/PropulsionUp
 
-#begin Graphics/General/Suicide.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/General/Suicide.png;Graphics/General/Suicide
-
 #begin Graphics/General/Trashbin.png
 /importer:TextureImporter
 /processor:TextureProcessor
