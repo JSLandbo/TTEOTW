@@ -18,52 +18,30 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             GridBox craftOutputSlot,
             InventoryItemUseService itemUseService,
             int viewportWidth,
-            int viewportHeight)
+            int viewportHeight,
+            int inventoryScrollOffset)
         {
-            if (layout.SelfDestructButtonRectangle.Contains(mousePosition))
-            {
-                return "Self Destruct";
-            }
-
-            if (layout.TrashBinRectangle.Contains(mousePosition))
-            {
-                return "Trash";
-            }
-
-            if (layout.SortButtonRectangle.Contains(mousePosition))
-            {
-                return "Sort";
-            }
+            if (layout.SelfDestructButtonRectangle.Contains(mousePosition)) return "Self Destruct";
+            if (layout.TrashBinRectangle.Contains(mousePosition)) return "Trash";
+            if (layout.SortButtonRectangle.Contains(mousePosition)) return "Sort";
 
             if (TryGetEquipmentHoverLabel(world, itemUseService, layout, mousePosition, out string equipmentHoverLabel))
-            {
                 return equipmentHoverLabel;
-            }
 
             if (TryGetGridHoverLabel(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, mousePosition, out string craftingHoverLabel))
-            {
                 return craftingHoverLabel;
-            }
 
             if (layout.OutputSlotRectangle.Contains(mousePosition))
-            {
                 return craftOutputSlot.Item?.Name;
-            }
 
-            if (TryGetGridHoverLabel(world.Player.Inventory.Items.InternalGrid, layout.InventoryStart.X, layout.InventoryStart.Y, layout.SlotSize, layout.SlotSpacing, mousePosition, out string inventoryHoverLabel))
-            {
-                return inventoryHoverLabel;
-            }
+            if (UiGridHitTestHelper.TryGetSlot(world.Player.Inventory.Items.InternalGrid, layout.InventoryStart.X, layout.InventoryStart.Y, layout.SlotSize, layout.SlotSpacing, mousePosition, out AGridBox inventorySlot, inventoryScrollOffset, InventoryLayoutCalculator.VisibleInventoryRows))
+                return inventorySlot.Item?.Name;
 
             if (world.Player.HasGadgetBelt)
             {
                 for (int x = 0; x < GadgetBarLayout.TotalSlotCount; x++)
                 {
-                    if (!GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, x).Contains(mousePosition))
-                    {
-                        continue;
-                    }
-
+                    if (!GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, x).Contains(mousePosition)) continue;
                     AGridBox slot = world.Player.GadgetSlots.Items.InternalGrid[x, 0];
                     return slot.Item?.Name ?? $"Gadget Slot {x + 1}";
                 }
@@ -76,11 +54,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         {
             foreach (EPlayerEquipmentSlotType slotType in Enum.GetValues<EPlayerEquipmentSlotType>())
             {
-                if (!layout.GetEquipmentSlotRectangle(slotType).Contains(mousePosition))
-                {
-                    continue;
-                }
-
+                if (!layout.GetEquipmentSlotRectangle(slotType).Contains(mousePosition)) continue;
                 hoverLabel = itemUseService.GetEquippedItem(world, slotType)?.Name;
                 return true;
             }

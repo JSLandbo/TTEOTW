@@ -264,17 +264,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             if (currentBuilding?.StorageGrid?.InternalGrid == null) return false;
 
             Rectangle gridRectangle = GetGridRectangle(viewportWidth, viewportHeight);
-
-            if (!UiGridHitTestHelper.TryGetCoordinates(StorageChestBuildingFactory.GridColumns, VisibleRows, position, (x, y) => GetSlotRectangle(gridRectangle, x, y), out int slotX, out int visibleY))
-            {
-                return false;
-            }
-
-            int actualY = scrollOffset + visibleY;
-            if (actualY >= StorageChestBuildingFactory.GridRows) return false;
-
-            slot = currentBuilding.StorageGrid.InternalGrid[slotX, actualY];
-            return true;
+            return UiGridHitTestHelper.TryGetSlot(currentBuilding.StorageGrid.InternalGrid, gridRectangle.X, gridRectangle.Y, GridSlotSize, GridSpacing, position, out slot, scrollOffset, VisibleRows);
         }
 
         public int GetMaxStackSize() => StorageChestBuildingFactory.MaxStackSize;

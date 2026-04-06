@@ -244,7 +244,7 @@ namespace ModelLibrary.Ids
 
             public static class CratingMaterials
             {
-                // Ingots
+                // Ingots and polished crystals
 
                 public const short IronIngot = 10900;
                 public const short CopperIngot = 10901;
@@ -256,6 +256,9 @@ namespace ModelLibrary.Ids
                 public const short ZincIngot = 10907;
                 public const short NickelIngot = 10908;
                 public const short BismuthIngot = 10909;
+
+                public const short AmethystPolished = 10910;
+                public const short DiamondPolished = 10911;
 
                 public const short TitaniumIngot = 10950;
                 public const short TungstenIngot = 10951;

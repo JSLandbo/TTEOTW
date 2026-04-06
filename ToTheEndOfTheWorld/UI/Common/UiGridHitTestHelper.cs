@@ -25,11 +25,15 @@ namespace ToTheEndOfTheWorld.UI.Common
             return false;
         }
 
-        public static bool TryGetSlot(AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing, Point position, out AGridBox slot)
+        public static bool TryGetSlot(AGridBox[,] grid, int startX, int startY, int slotSize, int slotSpacing, Point position, out AGridBox slot, int scrollOffset = 0, int visibleRows = -1)
         {
+            int columns = grid.GetLength(0);
+            int totalRows = grid.GetLength(1);
+            int rowsToCheck = visibleRows > 0 ? Math.Min(visibleRows, totalRows - scrollOffset) : totalRows;
+
             bool found = TryGetCoordinates(
-                grid.GetLength(0),
-                grid.GetLength(1),
+                columns,
+                rowsToCheck,
                 position,
                 (x, y) => new Rectangle(
                     startX + (x * (slotSize + slotSpacing)),
@@ -37,10 +41,20 @@ namespace ToTheEndOfTheWorld.UI.Common
                     slotSize,
                     slotSize),
                 out int slotX,
-                out int slotY);
+                out int visibleY);
 
-            slot = found ? grid[slotX, slotY] : null;
-            return found;
+            if (found)
+            {
+                int actualY = scrollOffset + visibleY;
+                if (actualY < totalRows)
+                {
+                    slot = grid[slotX, actualY];
+                    return true;
+                }
+            }
+
+            slot = null;
+            return false;
         }
     }
 }

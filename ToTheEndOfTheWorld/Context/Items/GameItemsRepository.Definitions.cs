@@ -346,6 +346,18 @@ namespace ToTheEndOfTheWorld.Context.Items
                 new Item(ID: GameIds.Items.CratingMaterials.BismuthIngot, Name: "Bismuth Ingot", Worth: 21.0f, Weight: 0.85f)
             );
             AddDefinition(
+                GameIds.Items.CratingMaterials.AmethystPolished,
+                "Polished Amethyst",
+                LoadSingleTexture(manager, "CraftingMaterials/AmethystPolished"),
+                new Item(ID: GameIds.Items.CratingMaterials.AmethystPolished, Name: "Polished Amethyst", Worth: 38.0f, Weight: 0.4f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.DiamondPolished,
+                "Polished Diamond",
+                LoadSingleTexture(manager, "CraftingMaterials/DiamondPolished"),
+                new Item(ID: GameIds.Items.CratingMaterials.DiamondPolished, Name: "Polished Diamond", Worth: 100.0f, Weight: 0.3f)
+            );
+            AddDefinition(
                 GameIds.Items.CratingMaterials.TitaniumIngot,
                 "Titanium Ingot",
                 LoadSingleTexture(manager, "CraftingMaterials/TitaniumIngot"),
@@ -529,6 +541,21 @@ namespace ToTheEndOfTheWorld.Context.Items
                 LoadSingleTexture(manager, "CraftingMaterials/AdamantiumCube"),
                 new Item(ID: GameIds.Items.CratingMaterials.AdamantiumCube, Name: "Adamantium Cube", Worth: 6120.0f, Weight: 5.85f),
                 frames: 4
+            );
+
+            // Crystal cubes
+
+            AddDefinition(
+                GameIds.Items.CratingMaterials.AmethystCube,
+                "Amethyst Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/AmethystCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.AmethystCube, Name: "Amethyst Cube", Worth: 342.0f, Weight: 6.3f)
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.DiamondCube,
+                "Diamond Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/DiamondCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.DiamondCube, Name: "Diamond Cube", Worth: 900.0f, Weight: 5.4f)
             );
         }
 

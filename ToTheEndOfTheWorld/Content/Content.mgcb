@@ -1261,6 +1261,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/AdamantiumCube.png;Graphics/CraftingMaterials/AdamantiumCube
 
+#begin Graphics/CraftingMaterials/AdamantiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AdamantiumCube.png
+
+#begin Graphics/CraftingMaterials/AdamantiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AdamantiumCube.png
+
 #begin Graphics/CraftingMaterials/AdamantiumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1272,6 +1296,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/AdamantiumIngot.png;Graphics/CraftingMaterials/AdamantiumIngot
+
+#begin Graphics/CraftingMaterials/AdamantiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AdamantiumIngot.png
+
+#begin Graphics/CraftingMaterials/AdamantiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AdamantiumIngot.png
 
 #begin Graphics/CraftingMaterials/AluminiumCube.png
 /importer:TextureImporter
@@ -1285,6 +1333,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/AluminiumCube.png;Graphics/CraftingMaterials/AluminiumCube
 
+#begin Graphics/CraftingMaterials/AluminiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AluminiumCube.png
+
+#begin Graphics/CraftingMaterials/AluminiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AluminiumCube.png
+
 #begin Graphics/CraftingMaterials/AluminiumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1296,6 +1368,66 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/AluminiumIngot.png;Graphics/CraftingMaterials/AluminiumIngot
+
+#begin Graphics/CraftingMaterials/AluminiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AluminiumIngot.png
+
+#begin Graphics/CraftingMaterials/AluminiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AluminiumIngot.png
+
+#begin Graphics/CraftingMaterials/AmethystCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AmethystCube.png
+
+#begin Graphics/CraftingMaterials/AmethystCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AmethystCube.png
+
+#begin Graphics/CraftingMaterials/AmethystPolished.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/AmethystPolished.png
 
 #begin Graphics/CraftingMaterials/BismuthCube.png
 /importer:TextureImporter
@@ -1309,6 +1441,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/BismuthCube.png;Graphics/CraftingMaterials/BismuthCube
 
+#begin Graphics/CraftingMaterials/BismuthCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/BismuthCube.png
+
+#begin Graphics/CraftingMaterials/BismuthCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/BismuthCube.png
+
 #begin Graphics/CraftingMaterials/BismuthIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1320,6 +1476,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/BismuthIngot.png;Graphics/CraftingMaterials/BismuthIngot
+
+#begin Graphics/CraftingMaterials/BismuthIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/BismuthIngot.png
+
+#begin Graphics/CraftingMaterials/BismuthIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/BismuthIngot.png
 
 #begin Graphics/CraftingMaterials/ChromiumCube.png
 /importer:TextureImporter
@@ -1333,6 +1513,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/ChromiumCube.png;Graphics/CraftingMaterials/ChromiumCube
 
+#begin Graphics/CraftingMaterials/ChromiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ChromiumCube.png
+
+#begin Graphics/CraftingMaterials/ChromiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ChromiumCube.png
+
 #begin Graphics/CraftingMaterials/ChromiumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1344,6 +1548,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/ChromiumIngot.png;Graphics/CraftingMaterials/ChromiumIngot
+
+#begin Graphics/CraftingMaterials/ChromiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ChromiumIngot.png
+
+#begin Graphics/CraftingMaterials/ChromiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ChromiumIngot.png
 
 #begin Graphics/CraftingMaterials/CobaltCube.png
 /importer:TextureImporter
@@ -1357,6 +1585,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/CobaltCube.png;Graphics/CraftingMaterials/CobaltCube
 
+#begin Graphics/CraftingMaterials/CobaltCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CobaltCube.png
+
+#begin Graphics/CraftingMaterials/CobaltCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CobaltCube.png
+
 #begin Graphics/CraftingMaterials/CobaltIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1368,6 +1620,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/CobaltIngot.png;Graphics/CraftingMaterials/CobaltIngot
+
+#begin Graphics/CraftingMaterials/CobaltIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CobaltIngot.png
+
+#begin Graphics/CraftingMaterials/CobaltIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CobaltIngot.png
 
 #begin Graphics/CraftingMaterials/CopperCube.png
 /importer:TextureImporter
@@ -1381,6 +1657,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/CopperCube.png;Graphics/CraftingMaterials/CopperCube
 
+#begin Graphics/CraftingMaterials/CopperCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CopperCube.png
+
+#begin Graphics/CraftingMaterials/CopperCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CopperCube.png
+
 #begin Graphics/CraftingMaterials/CopperIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1392,6 +1692,66 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/CopperIngot.png;Graphics/CraftingMaterials/CopperIngot
+
+#begin Graphics/CraftingMaterials/CopperIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CopperIngot.png
+
+#begin Graphics/CraftingMaterials/CopperIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/CopperIngot.png
+
+#begin Graphics/CraftingMaterials/DiamondCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/DiamondCube.png
+
+#begin Graphics/CraftingMaterials/DiamondCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/DiamondCube.png
+
+#begin Graphics/CraftingMaterials/DiamondPolished.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/DiamondPolished.png
 
 #begin Graphics/CraftingMaterials/GoldCube.png
 /importer:TextureImporter
@@ -1405,6 +1765,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/GoldCube.png;Graphics/CraftingMaterials/GoldCube
 
+#begin Graphics/CraftingMaterials/GoldCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/GoldCube.png
+
+#begin Graphics/CraftingMaterials/GoldCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/GoldCube.png
+
 #begin Graphics/CraftingMaterials/GoldIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1416,6 +1800,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/GoldIngot.png;Graphics/CraftingMaterials/GoldIngot
+
+#begin Graphics/CraftingMaterials/GoldIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/GoldIngot.png
+
+#begin Graphics/CraftingMaterials/GoldIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/GoldIngot.png
 
 #begin Graphics/CraftingMaterials/IronCube.png
 /importer:TextureImporter
@@ -1429,6 +1837,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/IronCube.png;Graphics/CraftingMaterials/IronCube
 
+#begin Graphics/CraftingMaterials/IronCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/IronCube.png
+
+#begin Graphics/CraftingMaterials/IronCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/IronCube.png
+
 #begin Graphics/CraftingMaterials/IronIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1440,6 +1872,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/IronIngot.png;Graphics/CraftingMaterials/IronIngot
+
+#begin Graphics/CraftingMaterials/IronIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/IronIngot.png
+
+#begin Graphics/CraftingMaterials/IronIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/IronIngot.png
 
 #begin Graphics/CraftingMaterials/LeadCube.png
 /importer:TextureImporter
@@ -1453,6 +1909,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/LeadCube.png;Graphics/CraftingMaterials/LeadCube
 
+#begin Graphics/CraftingMaterials/LeadCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/LeadCube.png
+
+#begin Graphics/CraftingMaterials/LeadCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/LeadCube.png
+
 #begin Graphics/CraftingMaterials/LeadIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1464,6 +1944,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/LeadIngot.png;Graphics/CraftingMaterials/LeadIngot
+
+#begin Graphics/CraftingMaterials/LeadIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/LeadIngot.png
+
+#begin Graphics/CraftingMaterials/LeadIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/LeadIngot.png
 
 #begin Graphics/CraftingMaterials/MythrilCube.png
 /importer:TextureImporter
@@ -1477,6 +1981,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/MythrilCube.png;Graphics/CraftingMaterials/MythrilCube
 
+#begin Graphics/CraftingMaterials/MythrilCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/MythrilCube.png
+
+#begin Graphics/CraftingMaterials/MythrilCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/MythrilCube.png
+
 #begin Graphics/CraftingMaterials/MythrilIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1488,6 +2016,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/MythrilIngot.png;Graphics/CraftingMaterials/MythrilIngot
+
+#begin Graphics/CraftingMaterials/MythrilIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/MythrilIngot.png
+
+#begin Graphics/CraftingMaterials/MythrilIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/MythrilIngot.png
 
 #begin Graphics/CraftingMaterials/NickelCube.png
 /importer:TextureImporter
@@ -1501,6 +2053,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/NickelCube.png;Graphics/CraftingMaterials/NickelCube
 
+#begin Graphics/CraftingMaterials/NickelCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/NickelCube.png
+
+#begin Graphics/CraftingMaterials/NickelCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/NickelCube.png
+
 #begin Graphics/CraftingMaterials/NickelIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1512,6 +2088,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/NickelIngot.png;Graphics/CraftingMaterials/NickelIngot
+
+#begin Graphics/CraftingMaterials/NickelIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/NickelIngot.png
+
+#begin Graphics/CraftingMaterials/NickelIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/NickelIngot.png
 
 #begin Graphics/CraftingMaterials/OsmiumCube.png
 /importer:TextureImporter
@@ -1525,6 +2125,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/OsmiumCube.png;Graphics/CraftingMaterials/OsmiumCube
 
+#begin Graphics/CraftingMaterials/OsmiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/OsmiumCube.png
+
+#begin Graphics/CraftingMaterials/OsmiumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/OsmiumCube.png
+
 #begin Graphics/CraftingMaterials/OsmiumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1536,6 +2160,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/OsmiumIngot.png;Graphics/CraftingMaterials/OsmiumIngot
+
+#begin Graphics/CraftingMaterials/OsmiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/OsmiumIngot.png
+
+#begin Graphics/CraftingMaterials/OsmiumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/OsmiumIngot.png
 
 #begin Graphics/CraftingMaterials/PlatinumCube.png
 /importer:TextureImporter
@@ -1549,6 +2197,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/PlatinumCube.png;Graphics/CraftingMaterials/PlatinumCube
 
+#begin Graphics/CraftingMaterials/PlatinumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/PlatinumCube.png
+
+#begin Graphics/CraftingMaterials/PlatinumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/PlatinumCube.png
+
 #begin Graphics/CraftingMaterials/PlatinumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1560,6 +2232,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/PlatinumIngot.png;Graphics/CraftingMaterials/PlatinumIngot
+
+#begin Graphics/CraftingMaterials/PlatinumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/PlatinumIngot.png
+
+#begin Graphics/CraftingMaterials/PlatinumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/PlatinumIngot.png
 
 #begin Graphics/CraftingMaterials/RainbowCube.png
 /importer:TextureImporter
@@ -1573,6 +2269,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/RainbowCube.png;Graphics/CraftingMaterials/RainbowCube
 
+#begin Graphics/CraftingMaterials/RainbowCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/RainbowCube.png
+
+#begin Graphics/CraftingMaterials/RainbowCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/RainbowCube.png
+
 #begin Graphics/CraftingMaterials/RainbowIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1584,6 +2304,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/RainbowIngot.png;Graphics/CraftingMaterials/RainbowIngot
+
+#begin Graphics/CraftingMaterials/RainbowIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/RainbowIngot.png
+
+#begin Graphics/CraftingMaterials/RainbowIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/RainbowIngot.png
 
 #begin Graphics/CraftingMaterials/SilverCube.png
 /importer:TextureImporter
@@ -1597,6 +2341,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/SilverCube.png;Graphics/CraftingMaterials/SilverCube
 
+#begin Graphics/CraftingMaterials/SilverCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/SilverCube.png
+
+#begin Graphics/CraftingMaterials/SilverCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/SilverCube.png
+
 #begin Graphics/CraftingMaterials/SilverIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1608,6 +2376,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/SilverIngot.png;Graphics/CraftingMaterials/SilverIngot
+
+#begin Graphics/CraftingMaterials/SilverIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/SilverIngot.png
+
+#begin Graphics/CraftingMaterials/SilverIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/SilverIngot.png
 
 #begin Graphics/CraftingMaterials/TinCube.png
 /importer:TextureImporter
@@ -1621,6 +2413,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TinCube.png;Graphics/CraftingMaterials/TinCube
 
+#begin Graphics/CraftingMaterials/TinCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TinCube.png
+
+#begin Graphics/CraftingMaterials/TinCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TinCube.png
+
 #begin Graphics/CraftingMaterials/TinIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1632,6 +2448,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TinIngot.png;Graphics/CraftingMaterials/TinIngot
+
+#begin Graphics/CraftingMaterials/TinIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TinIngot.png
+
+#begin Graphics/CraftingMaterials/TinIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TinIngot.png
 
 #begin Graphics/CraftingMaterials/TitaniumCube.png
 /importer:TextureImporter
@@ -1645,6 +2485,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TitaniumCube.png;Graphics/CraftingMaterials/TitaniumCube
 
+#begin Graphics/CraftingMaterials/TitaniumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TitaniumCube.png
+
+#begin Graphics/CraftingMaterials/TitaniumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TitaniumCube.png
+
 #begin Graphics/CraftingMaterials/TitaniumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1656,6 +2520,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TitaniumIngot.png;Graphics/CraftingMaterials/TitaniumIngot
+
+#begin Graphics/CraftingMaterials/TitaniumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TitaniumIngot.png
+
+#begin Graphics/CraftingMaterials/TitaniumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TitaniumIngot.png
 
 #begin Graphics/CraftingMaterials/TungstenCube.png
 /importer:TextureImporter
@@ -1669,6 +2557,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TungstenCube.png;Graphics/CraftingMaterials/TungstenCube
 
+#begin Graphics/CraftingMaterials/TungstenCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TungstenCube.png
+
+#begin Graphics/CraftingMaterials/TungstenCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TungstenCube.png
+
 #begin Graphics/CraftingMaterials/TungstenIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1680,6 +2592,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/TungstenIngot.png;Graphics/CraftingMaterials/TungstenIngot
+
+#begin Graphics/CraftingMaterials/TungstenIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TungstenIngot.png
+
+#begin Graphics/CraftingMaterials/TungstenIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/TungstenIngot.png
 
 #begin Graphics/CraftingMaterials/UraniumCube.png
 /importer:TextureImporter
@@ -1693,6 +2629,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/UraniumCube.png;Graphics/CraftingMaterials/UraniumCube
 
+#begin Graphics/CraftingMaterials/UraniumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/UraniumCube.png
+
+#begin Graphics/CraftingMaterials/UraniumCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/UraniumCube.png
+
 #begin Graphics/CraftingMaterials/UraniumIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1704,6 +2664,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/UraniumIngot.png;Graphics/CraftingMaterials/UraniumIngot
+
+#begin Graphics/CraftingMaterials/UraniumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/UraniumIngot.png
+
+#begin Graphics/CraftingMaterials/UraniumIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/UraniumIngot.png
 
 #begin Graphics/CraftingMaterials/ZincCube.png
 /importer:TextureImporter
@@ -1717,6 +2701,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/ZincCube.png;Graphics/CraftingMaterials/ZincCube
 
+#begin Graphics/CraftingMaterials/ZincCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ZincCube.png
+
+#begin Graphics/CraftingMaterials/ZincCube.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ZincCube.png
+
 #begin Graphics/CraftingMaterials/ZincIngot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1728,6 +2736,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/CraftingMaterials/ZincIngot.png;Graphics/CraftingMaterials/ZincIngot
+
+#begin Graphics/CraftingMaterials/ZincIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ZincIngot.png
+
+#begin Graphics/CraftingMaterials/ZincIngot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/CraftingMaterials/ZincIngot.png
 
 #begin Graphics/File.spritefont
 /importer:FontDescriptionImporter

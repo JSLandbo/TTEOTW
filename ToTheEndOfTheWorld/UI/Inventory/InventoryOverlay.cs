@@ -329,7 +329,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         public string GetHoverLabel(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return hoverLabelResolver.Resolve(world, mousePosition, currentLayout, craftingGrid, craftOutputSlot, itemUseService, viewportWidth, viewportHeight);
+            return hoverLabelResolver.Resolve(world, mousePosition, currentLayout, craftingGrid, craftOutputSlot, itemUseService, viewportWidth, viewportHeight, inventoryScrollOffset);
         }
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
