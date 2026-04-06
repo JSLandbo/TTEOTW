@@ -100,7 +100,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10001;
                 public const short Iron = 10002;
                 public const short Gold = 10003;
-                public const short Crystal = 10004;
+                public const short Amethyst = 10004;
                 public const short Diamond = 10005;
                 public const short Radioactive = 10006;
                 public const short Rainbow = 10007;
@@ -114,7 +114,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10101;
                 public const short Iron = 10102;
                 public const short Gold = 10103;
-                public const short Crystal = 10104;
+                public const short Amethyst = 10104;
                 public const short Diamond = 10105;
                 public const short Radioactive = 10106;
                 public const short Rainbow = 10107;
@@ -128,7 +128,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10201;
                 public const short Iron = 10202;
                 public const short Gold = 10203;
-                public const short Crystal = 10204;
+                public const short Amethyst = 10204;
                 public const short Diamond = 10205;
                 public const short Radioactive = 10206;
                 public const short Rainbow = 10207;
@@ -142,7 +142,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10301;
                 public const short Iron = 10302;
                 public const short Gold = 10303;
-                public const short Crystal = 10304;
+                public const short Amethyst = 10304;
                 public const short Diamond = 10305;
                 public const short Radioactive = 10306;
                 public const short Rainbow = 10307;
@@ -156,7 +156,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10401;
                 public const short Iron = 10402;
                 public const short Gold = 10403;
-                public const short Crystal = 10404;
+                public const short Amethyst = 10404;
                 public const short Diamond = 10405;
                 public const short Radioactive = 10406;
                 public const short Rainbow = 10407;
@@ -170,7 +170,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10501;
                 public const short Iron = 10502;
                 public const short Gold = 10503;
-                public const short Crystal = 10504;
+                public const short Amethyst = 10504;
                 public const short Diamond = 10505;
                 public const short Radioactive = 10506;
                 public const short Rainbow = 10507;
@@ -184,7 +184,7 @@ namespace ModelLibrary.Ids
                 public const short Copper = 10601;
                 public const short Iron = 10602;
                 public const short Gold = 10603;
-                public const short Crystal = 10604;
+                public const short Amethyst = 10604;
                 public const short Diamond = 10605;
                 public const short Radioactive = 10606;
                 public const short Rainbow = 10607;
@@ -280,6 +280,9 @@ namespace ModelLibrary.Ids
                 public const short ZincCube = 13207;
                 public const short NickelCube = 13208;
                 public const short BismuthCube = 13209;
+
+                public const short AmethystCube = 13210;
+                public const short DiamondCube = 13211;
 
                 public const short TitaniumCube = 13250;
                 public const short TungstenCube = 13251;

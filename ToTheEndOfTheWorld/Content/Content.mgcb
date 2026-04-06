@@ -25,23 +25,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectBoughtFromStore.wav;Audio/Sfx/EffectBoughtFromStore
 
-#begin Audio/Sfx/EffectBoughtFromStore.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectBoughtFromStore.wav
-
 #begin Audio/Sfx/EffectCoolantPatch.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectCoolantPatch.wav;Audio/Sfx/EffectCoolantPatch
-
-#begin Audio/Sfx/EffectCoolantPatch.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectCoolantPatch.wav
 
 #begin Audio/Sfx/EffectCraftedItem.wav
 /importer:WavImporter
@@ -49,23 +37,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectCraftedItem.wav;Audio/Sfx/EffectCraftedItem
 
-#begin Audio/Sfx/EffectCraftedItem.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectCraftedItem.wav
-
 #begin Audio/Sfx/EffectExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectExplosion.wav;Audio/Sfx/EffectExplosion
-
-#begin Audio/Sfx/EffectExplosion.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectExplosion.wav
 
 #begin Audio/Sfx/EffectHittingGround.wav
 /importer:WavImporter
@@ -73,23 +49,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHittingGround.wav;Audio/Sfx/EffectHittingGround
 
-#begin Audio/Sfx/EffectHittingGround.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHittingGround.wav
-
 #begin Audio/Sfx/EffectHullDamage.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHullDamage.wav;Audio/Sfx/EffectHullDamage
-
-#begin Audio/Sfx/EffectHullDamage.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHullDamage.wav
 
 #begin Audio/Sfx/EffectHullRepairKit.wav
 /importer:WavImporter
@@ -97,41 +61,23 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHullRepairKit.wav;Audio/Sfx/EffectHullRepairKit
 
-#begin Audio/Sfx/EffectHullRepairKit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHullRepairKit.wav
-
 #begin Audio/Sfx/EffectMinedBlock.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectMinedBlock.wav;Audio/Sfx/EffectMinedBlock
 
-#begin Audio/Sfx/EffectMinedBlock.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectMinedBlock.wav
-
 #begin Audio/Sfx/EffectNuclearExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sfx/EffectNuclearExplosion.wav
-
-#begin Audio/Sfx/EffectNuclearExplosion.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectNuclearExplosion.wav
+/build:Audio/Sfx/EffectNuclearExplosion.wav;Audio/Sfx/EffectNuclearExplosion
 
 #begin Audio/Sfx/EffectSelectedItem.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sfx/EffectSelectedItem.wav
+/build:Audio/Sfx/EffectSelectedItem.wav;Audio/Sfx/EffectSelectedItem
 
 #begin Audio/Sfx/EffectSoldToStore.wav
 /importer:WavImporter
@@ -139,23 +85,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectSoldToStore.wav;Audio/Sfx/EffectSoldToStore
 
-#begin Audio/Sfx/EffectSoldToStore.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectSoldToStore.wav
-
 #begin Audio/Sfx/EffectUsedFuelCapsule.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedFuelCapsule.wav;Audio/Sfx/EffectUsedFuelCapsule
-
-#begin Audio/Sfx/EffectUsedFuelCapsule.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectUsedFuelCapsule.wav
 
 #begin Audio/Sfx/EffectUsedTrashBin.wav
 /importer:WavImporter
@@ -163,23 +97,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedTrashBin.wav;Audio/Sfx/EffectUsedTrashBin
 
-#begin Audio/Sfx/EffectUsedTrashBin.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectUsedTrashBin.wav
-
 #begin Audio/Sfx/EffectYouDied.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectYouDied.wav;Audio/Sfx/EffectYouDied
-
-#begin Audio/Sfx/EffectYouDied.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectYouDied.wav
 
 #begin Audio/Sfx/LoopEngineActive.wav
 /importer:WavImporter
@@ -187,35 +109,17 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopEngineActive.wav;Audio/Sfx/LoopEngineActive
 
-#begin Audio/Sfx/LoopEngineActive.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopEngineActive.wav
-
 #begin Audio/Sfx/LoopMining.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopMining.wav;Audio/Sfx/LoopMining
 
-#begin Audio/Sfx/LoopMining.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopMining.wav
-
 #begin Audio/Sfx/LoopThrusterActive.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopThrusterActive.wav;Audio/Sfx/LoopThrusterActive
-
-#begin Audio/Sfx/LoopThrusterActive.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopThrusterActive.wav
 
 #begin Graphics/BaseShip/BaseBaseShip.png
 /importer:TextureImporter
@@ -2012,6 +1916,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Containers/AdamantContainer.png;Graphics/Player/Containers/AdamantContainer
 
+#begin Graphics/Player/Containers/AmethystContainer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Containers/AmethystContainer.png;Graphics/Player/Containers/AmethystContainer
+
 #begin Graphics/Player/Containers/CopperContainer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2023,18 +1939,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Containers/CopperContainer.png;Graphics/Player/Containers/CopperContainer
-
-#begin Graphics/Player/Containers/CrystalContainer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Containers/CrystalContainer.png;Graphics/Player/Containers/CrystalContainer
 
 #begin Graphics/Player/Containers/DiamondContainer.png
 /importer:TextureImporter
@@ -2168,6 +2072,54 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Drills/AdamantDrill/AdamantDrillUp.png;Graphics/Player/Drills/AdamantDrill/AdamantDrillUp
 
+#begin Graphics/Player/Drills/AmethystDrill/AmethystDrillDown.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Drills/AmethystDrill/AmethystDrillDown.png;Graphics/Player/Drills/AmethystDrill/AmethystDrillDown
+
+#begin Graphics/Player/Drills/AmethystDrill/AmethystDrillLeft.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Drills/AmethystDrill/AmethystDrillLeft.png;Graphics/Player/Drills/AmethystDrill/AmethystDrillLeft
+
+#begin Graphics/Player/Drills/AmethystDrill/AmethystDrillRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Drills/AmethystDrill/AmethystDrillRight.png;Graphics/Player/Drills/AmethystDrill/AmethystDrillRight
+
+#begin Graphics/Player/Drills/AmethystDrill/AmethystDrillUp.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Drills/AmethystDrill/AmethystDrillUp.png;Graphics/Player/Drills/AmethystDrill/AmethystDrillUp
+
 #begin Graphics/Player/Drills/CopperDrill/CopperDrillDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2215,54 +2167,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Drills/CopperDrill/CopperDrillUp.png;Graphics/Player/Drills/CopperDrill/CopperDrillUp
-
-#begin Graphics/Player/Drills/CrystalDrill/CrystalDrillDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Drills/CrystalDrill/CrystalDrillDown.png;Graphics/Player/Drills/CrystalDrill/CrystalDrillDown
-
-#begin Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft.png;Graphics/Player/Drills/CrystalDrill/CrystalDrillLeft
-
-#begin Graphics/Player/Drills/CrystalDrill/CrystalDrillRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Drills/CrystalDrill/CrystalDrillRight.png;Graphics/Player/Drills/CrystalDrill/CrystalDrillRight
-
-#begin Graphics/Player/Drills/CrystalDrill/CrystalDrillUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Drills/CrystalDrill/CrystalDrillUp.png;Graphics/Player/Drills/CrystalDrill/CrystalDrillUp
 
 #begin Graphics/Player/Drills/DiamondDrill/DiamondDrillDown.png
 /importer:TextureImporter
@@ -2612,6 +2516,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Engines/AdamantEngine.png;Graphics/Player/Engines/AdamantEngine
 
+#begin Graphics/Player/Engines/AmethystEngine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Engines/AmethystEngine.png;Graphics/Player/Engines/AmethystEngine
+
 #begin Graphics/Player/Engines/CopperEngine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2623,18 +2539,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Engines/CopperEngine.png;Graphics/Player/Engines/CopperEngine
-
-#begin Graphics/Player/Engines/CrystalEngine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Engines/CrystalEngine.png;Graphics/Player/Engines/CrystalEngine
 
 #begin Graphics/Player/Engines/DiamondEngine.png
 /importer:TextureImporter
@@ -2732,6 +2636,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/FuelTanks/AdamantFuelTank.png;Graphics/Player/FuelTanks/AdamantFuelTank
 
+#begin Graphics/Player/FuelTanks/AmethystFuelTank.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/FuelTanks/AmethystFuelTank.png;Graphics/Player/FuelTanks/AmethystFuelTank
+
 #begin Graphics/Player/FuelTanks/CopperFuelTank.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2743,18 +2659,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/FuelTanks/CopperFuelTank.png;Graphics/Player/FuelTanks/CopperFuelTank
-
-#begin Graphics/Player/FuelTanks/CrystalFuelTank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/FuelTanks/CrystalFuelTank.png;Graphics/Player/FuelTanks/CrystalFuelTank
 
 #begin Graphics/Player/FuelTanks/DiamondFuelTank.png
 /importer:TextureImporter
@@ -2864,6 +2768,30 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Hulls/AdamantHull/AdamantShipDown.png;Graphics/Player/Hulls/AdamantHull/AdamantShipDown
 
+#begin Graphics/Player/Hulls/AmethystHull/AmethystShip.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Hulls/AmethystHull/AmethystShip.png;Graphics/Player/Hulls/AmethystHull/AmethystShip
+
+#begin Graphics/Player/Hulls/AmethystHull/AmethystShipDown.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Hulls/AmethystHull/AmethystShipDown.png;Graphics/Player/Hulls/AmethystHull/AmethystShipDown
+
 #begin Graphics/Player/Hulls/CopperHull/CopperShip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2887,30 +2815,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Hulls/CopperHull/CopperShipDown.png;Graphics/Player/Hulls/CopperHull/CopperShipDown
-
-#begin Graphics/Player/Hulls/CrystalHull/CrystalShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/CrystalHull/CrystalShip.png;Graphics/Player/Hulls/CrystalHull/CrystalShip
-
-#begin Graphics/Player/Hulls/CrystalHull/CrystalShipDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/CrystalHull/CrystalShipDown.png;Graphics/Player/Hulls/CrystalHull/CrystalShipDown
 
 #begin Graphics/Player/Hulls/DiamondHull/DiamondShip.png
 /importer:TextureImporter
@@ -3176,6 +3080,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/ThermalPlatings/AdamantThermalPlating.png;Graphics/Player/ThermalPlatings/AdamantThermalPlating
 
+#begin Graphics/Player/ThermalPlatings/AmethystThermalPlating.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/ThermalPlatings/AmethystThermalPlating.png;Graphics/Player/ThermalPlatings/AmethystThermalPlating
+
 #begin Graphics/Player/ThermalPlatings/CopperThermalPlating.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3187,18 +3103,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/ThermalPlatings/CopperThermalPlating.png;Graphics/Player/ThermalPlatings/CopperThermalPlating
-
-#begin Graphics/Player/ThermalPlatings/CrystalThermalPlating.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/ThermalPlatings/CrystalThermalPlating.png;Graphics/Player/ThermalPlatings/CrystalThermalPlating
 
 #begin Graphics/Player/ThermalPlatings/DiamondThermalPlating.png
 /importer:TextureImporter
@@ -3296,6 +3200,18 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Thrusters/AdamantThruster.png;Graphics/Player/Thrusters/AdamantThruster
 
+#begin Graphics/Player/Thrusters/AmethystThruster.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Player/Thrusters/AmethystThruster.png;Graphics/Player/Thrusters/AmethystThruster
+
 #begin Graphics/Player/Thrusters/CopperThruster.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3307,18 +3223,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Thrusters/CopperThruster.png;Graphics/Player/Thrusters/CopperThruster
-
-#begin Graphics/Player/Thrusters/CrystalThruster.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Thrusters/CrystalThruster.png;Graphics/Player/Thrusters/CrystalThruster
 
 #begin Graphics/Player/Thrusters/DiamondThruster.png
 /importer:TextureImporter
