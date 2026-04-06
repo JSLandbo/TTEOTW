@@ -208,7 +208,7 @@ namespace ToTheEndOfTheWorld
             sceneRenderTarget = new RenderTarget2D(GraphicsDevice, logicalViewportWidth, logicalViewportHeight);
             Texture2D youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
-            mainMenuOverlay = new MainMenuOverlay(SaveWorld, ResetWorld);
+            mainMenuOverlay = new MainMenuOverlay(SaveWorld, ResetWorld, ToggleFullscreen, Exit);
             mainMenuOverlay.LoadContent(GraphicsDevice, Content);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
@@ -542,6 +542,12 @@ namespace ToTheEndOfTheWorld
             world.SavedPlayerWorldPosition = world.SpawnWorldPosition;
             worldBootstrapper.EnsureInitialized(world);
             playerVerticalImpactService.Clear();
+        }
+
+        private void ToggleFullscreen()
+        {
+            graphics.HardwareModeSwitch = false;
+            graphics.ToggleFullScreen();
         }
 
         private static void NormalizeVisibleTileCounts(ref int blocksWide, ref int blocksHigh)
