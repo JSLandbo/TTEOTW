@@ -7,7 +7,7 @@ namespace ToTheEndOfTheWorld.UI.World
         private readonly int tileSize = tileSize;
         private readonly int cameraOffsetX = cameraOffsetX;
         private readonly int cameraOffsetY = cameraOffsetY;
-        
+
         // Player is always at pixel center of window
         // World offset aligns the player's grid position with window center
         private readonly int worldOffsetX = (windowWidth / 2) - ((int)(System.Math.Floor(blocksWide / 2.0) * tileSize) + (tileSize / 2));

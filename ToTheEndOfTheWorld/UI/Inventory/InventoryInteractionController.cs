@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Grids;
 using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
@@ -76,7 +75,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     }
                 }
 
-                if (TryGetClickedSlot(MousePosition, ctx.InventoryGrid, ctx.Layout, ctx.CraftingGrid, ctx.CraftOutputSlot, ctx.World.Player, ctx.ViewportWidth, ctx.ViewportHeight, ctx.BlockCrafting, ctx.InventoryScrollOffset, out AGridBox clickedSlot)
+                if (TryGetClickedSlot(MousePosition, ctx, out AGridBox clickedSlot)
                     && CanUseClickedSlot(clickedSlot))
                 {
                     // CTRL+click to sell when shop is open
@@ -92,7 +91,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            if (HeldItem != null && UiInputHelper.WasRightClicked(currentMouseState, previousMouseState))
+            if (UiInputHelper.WasRightClicked(currentMouseState, previousMouseState))
             {
                 // Check chest slots for right-click
                 if (ctx.TryGetChestSlotFunc != null)
@@ -100,15 +99,20 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     var chestResult = ctx.TryGetChestSlot(MousePosition);
                     if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
                     {
-                        PlaceSingleHeldItemWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
+                        if (HeldItem != null)
+                            PlaceSingleHeldItemWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
+                        else
+                            PickupHalfStackWithMaxSize(chestResult.Value.slot);
                         return;
                     }
                 }
 
-                if (TryGetClickedSlot(MousePosition, ctx.InventoryGrid, ctx.Layout, ctx.CraftingGrid, ctx.CraftOutputSlot, ctx.World.Player, ctx.ViewportWidth, ctx.ViewportHeight, ctx.BlockCrafting, ctx.InventoryScrollOffset, out AGridBox rightClickedSlot)
-                    && CanUseClickedSlot(rightClickedSlot))
+                if (TryGetClickedSlot(MousePosition, ctx, out AGridBox rightClickedSlot) && CanUseClickedSlot(rightClickedSlot))
                 {
-                    PlaceSingleHeldItem(rightClickedSlot);
+                    if (HeldItem != null)
+                        PlaceSingleHeldItem(rightClickedSlot);
+                    else
+                        PickupHalfStack(rightClickedSlot);
                 }
             }
         }
@@ -260,34 +264,34 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             ClearHeldItem();
         }
 
-        public bool IsPointerOverInteractiveElement(Point position, InventoryLayout layout, AGridBox[,] inventoryGrid, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, InventoryItemUseService itemUseService, int viewportWidth, int viewportHeight, bool blockCrafting, int inventoryScrollOffset)
+        public bool IsPointerOverInteractiveElement(Point position, InventoryInteractionContext ctx)
         {
-            if (!blockCrafting && layout.CraftButtonRectangle.Contains(position))
+            if (!ctx.BlockCrafting && ctx.Layout.CraftButtonRectangle.Contains(position))
             {
                 return true;
             }
 
-            if (layout.SelfDestructButtonRectangle.Contains(position))
+            if (ctx.Layout.SelfDestructButtonRectangle.Contains(position))
             {
                 return true;
             }
 
-            if (HeldItem == null && layout.SortButtonRectangle.Contains(position))
+            if (HeldItem == null && ctx.Layout.SortButtonRectangle.Contains(position))
             {
                 return true;
             }
 
-            if (HeldItem != null && layout.TrashBinRectangle.Contains(position))
+            if (HeldItem != null && ctx.Layout.TrashBinRectangle.Contains(position))
             {
                 return true;
             }
 
-            if (HeldItem != null && TryGetClickedEquipmentSlot(position, layout, out EPlayerEquipmentSlotType equipmentSlot) && itemUseService.CanEquip(HeldItem, equipmentSlot))
+            if (HeldItem != null && TryGetClickedEquipmentSlot(position, ctx.Layout, out EPlayerEquipmentSlotType equipmentSlot) && ctx.ItemUseService.CanEquip(HeldItem, equipmentSlot))
             {
                 return true;
             }
 
-            return TryGetClickedSlot(position, inventoryGrid, layout, craftingGrid, craftOutputSlot, player, viewportWidth, viewportHeight, blockCrafting, inventoryScrollOffset, out AGridBox clickedSlot)
+            return TryGetClickedSlot(position, ctx, out AGridBox clickedSlot)
                 && CanUseClickedSlot(clickedSlot)
                 && UiSlotInteractionHelper.CanInteractWithSlot(clickedSlot, HasHeldItem);
         }
@@ -387,6 +391,30 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             PlaceSingleHeldItemWithMaxSize(slot, currentMaxStackSize);
         }
 
+        private void PickupHalfStack(AGridBox slot)
+        {
+            PickupHalfStackWithMaxSize(slot);
+        }
+
+        private void PickupHalfStackWithMaxSize(AGridBox slot)
+        {
+            if (slot.Item == null || slot.Count <= 0) return;
+
+            int halfCount = (slot.Count + 1) / 2;
+            HeldItem = slot.Item;
+            HeldCount = halfCount;
+            heldSourceSlot = slot;
+            slot.Count -= halfCount;
+
+            if (slot.Count <= 0)
+            {
+                slot.Item = null;
+                slot.Count = 0;
+            }
+
+            selectionRequested = true;
+        }
+
         private void PlaceSingleHeldItemWithMaxSize(AGridBox slot, int maxStackSize)
         {
             if (HeldItem == null || HeldCount <= 0)
@@ -472,42 +500,35 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             return false;
         }
 
-        private static bool TryGetClickedSlot(Point position, AGridBox[,] inventoryGrid, InventoryLayout layout, Grid craftingGrid, GridBox craftOutputSlot, APlayer player, int viewportWidth, int viewportHeight, bool blockCrafting, int inventoryScrollOffset, out AGridBox slot)
+        private static bool TryGetClickedSlot(Point position, InventoryInteractionContext ctx, out AGridBox slot)
         {
-            if (!blockCrafting && TryGetClickedSlot(craftingGrid.InternalGrid, layout.CraftingStart.X, layout.CraftingStart.Y, layout.SlotSize, layout.SlotSpacing, position, out slot))
+            if (!ctx.BlockCrafting && TryGetClickedSlot(ctx.CraftingGrid.InternalGrid, ctx.Layout.CraftingStart.X, ctx.Layout.CraftingStart.Y, ctx.Layout.SlotSize, ctx.Layout.SlotSpacing, position, out slot))
             {
                 return true;
             }
 
-            if (!blockCrafting && layout.OutputSlotRectangle.Contains(position))
+            if (!ctx.BlockCrafting && ctx.Layout.OutputSlotRectangle.Contains(position))
             {
-                slot = craftOutputSlot;
-
+                slot = ctx.CraftOutputSlot;
                 return true;
             }
 
-            if (TryGetClickedInventorySlot(inventoryGrid, layout, position, inventoryScrollOffset, out slot))
+            if (TryGetClickedInventorySlot(ctx.InventoryGrid, ctx.Layout, position, ctx.InventoryScrollOffset, out slot))
             {
                 return true;
             }
 
-            if (player.HasGadgetBelt)
+            if (ctx.World.Player.HasGadgetBelt)
             {
                 for (int x = 0; x < GadgetBarLayout.TotalSlotCount; x++)
                 {
-                    if (!GadgetBarLayout.GetSlotRectangle(viewportWidth, viewportHeight, x).Contains(position))
-                    {
-                        continue;
-                    }
-
-                    slot = player.GadgetSlots.Items.InternalGrid[x, 0];
-
+                    if (!GadgetBarLayout.GetSlotRectangle(ctx.ViewportWidth, ctx.ViewportHeight, x).Contains(position)) continue;
+                    slot = ctx.World.Player.GadgetSlots.Items.InternalGrid[x, 0];
                     return true;
                 }
             }
 
             slot = null;
-
             return false;
         }
 

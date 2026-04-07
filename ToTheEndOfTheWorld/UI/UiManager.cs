@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ModelLibrary.Abstract;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.Inventory;
 

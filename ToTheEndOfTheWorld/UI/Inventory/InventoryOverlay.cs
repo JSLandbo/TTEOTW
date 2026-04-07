@@ -334,18 +334,23 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            return interactionController.IsPointerOverInteractiveElement(
-                mousePosition,
+            var ctx = new InventoryInteractionContext(
                 currentLayout,
                 world.Player.Inventory.Items.InternalGrid,
                 craftingGrid,
                 craftOutputSlot,
-                world.Player,
+                craftingService,
+                world,
                 itemUseService,
+                world.Player.Inventory,
                 viewportWidth,
                 viewportHeight,
                 isShopOpen(),
-                inventoryScrollOffset);
+                inventoryScrollOffset,
+                trySellSlot,
+                tryGetChestSlot);
+
+            return interactionController.IsPointerOverInteractiveElement(mousePosition, ctx);
         }
 
         private static void ClearGrid(AGridBox[,] grid)
