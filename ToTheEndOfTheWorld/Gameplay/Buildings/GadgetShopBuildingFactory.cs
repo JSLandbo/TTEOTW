@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Concrete.Grids;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
 
@@ -23,13 +24,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 YOffset: 8,
                 TilesWide: 3,
                 TilesHigh: 3,
-                StorageGrid: CreateShopGrid(),
+                StorageInventory: CreateShopInventory(),
                 IsBackground: true,
                 Interaction: EBuildingInteraction.GadgetShop,
                 ShowPlayerInventoryWhenOpen: true);
         }
 
-        private Grid CreateShopGrid()
+        private Inventory CreateShopInventory()
         {
             Grid grid = new(Vector2.Zero, new GridBox[GridColumns, GridRows]);
 
@@ -53,7 +54,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             grid.InternalGrid[1, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumHullRepairKit), 1);
             grid.InternalGrid[2, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeHullRepairKit), 1);
 
-            return grid;
+            return new Inventory(
+                ID: 0,
+                Items: grid,
+                Name: "Gadget Shop",
+                Worth: 0,
+                Weight: 0,
+                MaxStackSize: 1,
+                Inexhaustible: true);
         }
     }
 }

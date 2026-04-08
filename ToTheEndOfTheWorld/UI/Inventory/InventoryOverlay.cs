@@ -14,7 +14,7 @@ using ToTheEndOfTheWorld.UI.Text;
 
 namespace ToTheEndOfTheWorld.UI.Inventory
 {
-    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen, Func<ModelWorld, AGridBox, bool> trySellSlot, Func<Point, int, int, (AGridBox slot, int maxStackSize)?> tryGetChestSlot = null, Func<AType, int, int> addToChest = null) : IGameOverlay
+    public sealed class InventoryOverlay(InventoryService inventoryService, CraftingService craftingService, InventoryItemUseService itemUseService, WorldElementsRepository blocks, GameItemsRepository items, Func<bool> isShopOpen, Func<ModelWorld, AGridBox, bool> trySellSlot, Func<Point, int, int, (AGridBox slot, int maxStackSize)?> tryGetChestSlot = null, Func<AInventory> getOpenSecondaryInventory = null) : IGameOverlay
     {
         private const float HeaderTextScale = 1.15f;
         private const float ButtonTextScale = 1.0f;
@@ -31,7 +31,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         private SpriteFont textFont;
         private InventoryLayout currentLayout;
         private bool isOpen;
-        private bool selfDestructRequested;
         private int panelXOffset;
         private int cachedViewportWidth;
         private int cachedViewportHeight;
@@ -61,13 +60,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public void RefreshLayout(APlayer player)
         {
             currentLayout = InventoryLayoutCalculator.Create(cachedViewportWidth, cachedViewportHeight, player.Inventory.Items.InternalGrid, panelXOffset);
-        }
-
-        public bool ConsumeSelfDestructRequest()
-        {
-            bool requested = selfDestructRequested;
-            selfDestructRequested = false;
-            return requested;
         }
 
         public bool ConsumeTrashSoundRequest()
@@ -114,17 +106,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
             bool blockCrafting = isShopOpen();
 
-            if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState) && currentLayout.SelfDestructButtonRectangle.Contains(currentMouseState.Position))
-            {
-                selfDestructRequested = true;
-                isOpen = false;
-                interactionController.ClearHeldItemState();
-                ClearGrid(craftingGrid.InternalGrid);
-                craftOutputSlot.Item = null;
-                craftOutputSlot.Count = 0;
-                return;
-            }
-
             if (UiInputHelper.WasLeftClicked(currentMouseState, previousMouseState)
                 && currentLayout.SortButtonRectangle.Contains(currentMouseState.Position)
                 && !interactionController.HasHeldItem)
@@ -133,7 +114,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 return;
             }
 
-            var ctx = new InventoryInteractionContext(
+            InventoryInteractionContext ctx = new InventoryInteractionContext(
                 currentLayout,
                 world.Player.Inventory.Items.InternalGrid,
                 craftingGrid,
@@ -162,17 +143,42 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             isOpen = false;
             panelXOffset = 0;
 
-            // Return crafting grid items to inventory, then chest, then delete
-            interactionController.ReturnCraftingGridToInventory(inventoryService, world.Player.Inventory, craftingGrid, world.Player.GadgetSlots);
-            InventoryInteractionController.ClearCraftingGrid(craftingGrid, addToChest);
-
-            // Release held item to inventory, then chest, then delete
-            interactionController.ReleaseHeldItem(inventoryService, world.Player.Inventory, world.Player.GadgetSlots);
-            if (interactionController.HasHeldItem)
+            foreach (AGridBox slot in InventoryService.EnumerateSlots(craftingGrid.InternalGrid))
             {
-                (AType item, int count) = interactionController.GetAndClearHeldItem();
-                addToChest?.Invoke(item, count);
+                ReturnSlotFromInventorySide(world.Player, slot);
             }
+
+            ReturnSlotFromInventorySide(world.Player, craftOutputSlot);
+            ReturnHeldItem(world.Player);
+        }
+
+        private void ReturnSlotFromInventorySide(APlayer player, AGridBox slot)
+        {
+            if (slot?.Item == null || slot.Count <= 0)
+            {
+                return;
+            }
+
+            inventoryService.PlaceSlotDuringClose(player.Inventory, getOpenSecondaryInventory?.Invoke(), player.HasGadgetBelt ? player.GadgetSlots : null, slot);
+        }
+
+        private void ReturnHeldItem(APlayer player)
+        {
+            if (!interactionController.TryTakeHeldItem(out AType heldItem, out int heldCount, out bool prefersChestReturn))
+            {
+                return;
+            }
+
+            GridBox heldSlot = new(heldItem, heldCount);
+            AInventory secondaryInventory = getOpenSecondaryInventory?.Invoke();
+
+            if (prefersChestReturn && secondaryInventory != null)
+            {
+                inventoryService.PlaceSlotDuringClose(secondaryInventory, player.Inventory, player.HasGadgetBelt ? player.GadgetSlots : null, heldSlot);
+                return;
+            }
+
+            inventoryService.PlaceSlotDuringClose(player.Inventory, secondaryInventory, player.HasGadgetBelt ? player.GadgetSlots : null, heldSlot);
         }
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
@@ -334,7 +340,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
-            var ctx = new InventoryInteractionContext(
+            InventoryInteractionContext ctx = new InventoryInteractionContext(
                 currentLayout,
                 world.Player.Inventory.Items.InternalGrid,
                 craftingGrid,
@@ -351,18 +357,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 tryGetChestSlot);
 
             return interactionController.IsPointerOverInteractiveElement(mousePosition, ctx);
-        }
-
-        private static void ClearGrid(AGridBox[,] grid)
-        {
-            for (int y = 0; y < grid.GetLength(1); y++)
-            {
-                for (int x = 0; x < grid.GetLength(0); x++)
-                {
-                    grid[x, y].Item = null;
-                    grid[x, y].Count = 0;
-                }
-            }
         }
 
         private void DrawHeldStack(SpriteBatch spriteBatch, AType item, int count, Point mousePosition)

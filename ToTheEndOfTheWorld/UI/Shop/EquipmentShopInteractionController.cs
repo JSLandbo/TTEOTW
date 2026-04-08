@@ -15,12 +15,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return;
             }
 
-            if (building?.StorageGrid?.InternalGrid == null)
+            if (building?.StorageInventory?.Items?.InternalGrid == null)
             {
                 return;
             }
 
-            if (!TryGetClickedSlot(currentMouseState.Position, layout, building.StorageGrid.InternalGrid, out int slotX, out int slotY))
+            if (!TryGetClickedSlot(currentMouseState.Position, layout, building.StorageInventory.Items.InternalGrid, out int slotX, out int slotY))
             {
                 return;
             }

@@ -26,7 +26,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, ABuilding building, EquipmentShopLayout layout, int viewportWidth, int viewportHeight, Point mousePosition)
         {
-            AGridBox[,] grid = building.StorageGrid.InternalGrid;
+            AGridBox[,] grid = building.StorageInventory.Items.InternalGrid;
 
             if (!building.ShowPlayerInventoryWhenOpen)
             {

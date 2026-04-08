@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
@@ -109,12 +110,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public bool TryTransferToChest(AGridBox sourceSlot)
         {
-            if (!IsTransferModeActive || sourceSlot?.Item == null || sourceSlot.Count <= 0 || currentBuilding?.StorageGrid == null)
+            if (!IsTransferModeActive || sourceSlot?.Item == null || sourceSlot.Count <= 0 || currentBuilding?.StorageInventory == null)
             {
                 return false;
             }
 
-            int added = inventoryService.AddToGrid(currentBuilding.StorageGrid, sourceSlot.Item, sourceSlot.Count, StorageChestBuildingFactory.MaxStackSize);
+            int added = inventoryService.AddToInventory(currentBuilding.StorageInventory, sourceSlot.Item, sourceSlot.Count);
             if (added > 0)
             {
                 sourceSlot.Count -= added;
@@ -130,17 +131,27 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public int AddToChest(AType item, int count)
         {
-            if (item == null || count <= 0)
+            if (!IsOpen || item == null || count <= 0)
             {
                 return 0;
             }
 
-            if (currentBuilding?.StorageGrid == null)
+            if (currentBuilding?.StorageInventory == null)
             {
                 return 0;
             }
 
-            return inventoryService.AddToGrid(currentBuilding.StorageGrid, item, count, StorageChestBuildingFactory.MaxStackSize);
+            return inventoryService.AddToInventory(currentBuilding.StorageInventory, item, count);
+        }
+
+        public AInventory GetOpenInventory()
+        {
+            if (!IsOpen)
+            {
+                return null;
+            }
+
+            return currentBuilding?.StorageInventory;
         }
 
         public bool TryTransferFromChest(ModelWorld world, AGridBox sourceSlot)
@@ -175,7 +186,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen || currentBuilding?.StorageGrid == null)
+            if (!isOpen || currentBuilding?.StorageInventory?.Items == null)
             {
                 return;
             }
@@ -183,7 +194,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle panelRectangle = GetPanelRectangle(viewportWidth, viewportHeight);
             Rectangle headerRectangle = new(panelRectangle.X, panelRectangle.Y, panelRectangle.Width, HeaderHeight);
             Rectangle gridRectangle = GetGridRectangle(viewportWidth, viewportHeight);
-            AGridBox[,] chestGrid = currentBuilding.StorageGrid.InternalGrid;
+            AGridBox[,] chestGrid = currentBuilding.StorageInventory.Items.InternalGrid;
 
             if (currentBuilding.ShowPlayerInventoryWhenOpen != true)
             {
@@ -261,13 +272,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
         public bool TryGetClickedChestSlot(Point position, int viewportWidth, int viewportHeight, out AGridBox slot)
         {
             slot = null;
-            if (currentBuilding?.StorageGrid?.InternalGrid == null) return false;
+            if (currentBuilding?.StorageInventory?.Items?.InternalGrid == null) return false;
 
             Rectangle gridRectangle = GetGridRectangle(viewportWidth, viewportHeight);
-            return UiGridHitTestHelper.TryGetSlot(currentBuilding.StorageGrid.InternalGrid, gridRectangle.X, gridRectangle.Y, GridSlotSize, GridSpacing, position, out slot, scrollOffset, VisibleRows);
+            return UiGridHitTestHelper.TryGetSlot(currentBuilding.StorageInventory.Items.InternalGrid, gridRectangle.X, gridRectangle.Y, GridSlotSize, GridSpacing, position, out slot, scrollOffset, VisibleRows);
         }
 
-        public int GetMaxStackSize() => StorageChestBuildingFactory.MaxStackSize;
+        public int GetMaxStackSize() => currentBuilding?.StorageInventory == null ? InventoryService.DefaultMaxStackSize : inventoryService.GetMaxStackSize(currentBuilding.StorageInventory);
 
         public bool IsPointerOverInteractiveElement(ModelWorld world, Point mousePosition, int viewportWidth, int viewportHeight)
         {
@@ -329,8 +340,8 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private void SortChestGrid()
         {
-            if (currentBuilding?.StorageGrid == null) return;
-            inventoryService.SortGridByName(currentBuilding.StorageGrid, StorageChestBuildingFactory.MaxStackSize);
+            if (currentBuilding?.StorageInventory == null) return;
+            inventoryService.SortByName(currentBuilding.StorageInventory);
         }
 
     }

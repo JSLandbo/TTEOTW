@@ -41,12 +41,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
 
         public bool TryBuyGadget(ModelWorld world, ABuilding building, int slotX, int slotY)
         {
-            if (building?.StorageGrid?.InternalGrid == null)
+            if (building?.StorageInventory?.Items?.InternalGrid == null)
             {
                 return false;
             }
 
-            AGridBox[,] grid = building.StorageGrid.InternalGrid;
+            AGridBox[,] grid = building.StorageInventory.Items.InternalGrid;
 
             if (slotX < 0 || slotX >= grid.GetLength(0) || slotY < 0 || slotY >= grid.GetLength(1))
             {

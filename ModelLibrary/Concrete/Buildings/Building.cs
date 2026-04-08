@@ -1,5 +1,5 @@
 using ModelLibrary.Abstract.Buildings;
-using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 using Newtonsoft.Json;
 
@@ -15,11 +15,11 @@ namespace ModelLibrary.Concrete.Buildings
         int YOffset,
         int TilesWide,
         int TilesHigh,
-        AGrid StorageGrid,
+        AInventory StorageInventory,
         bool IsBackground = true,
         EBuildingInteraction Interaction = EBuildingInteraction.None,
         bool ShowPlayerInventoryWhenOpen = false
-        ) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageGrid, IsBackground, Interaction, ShowPlayerInventoryWhenOpen)
+        ) : ABuilding(ID, Name, WorldX, WorldY, XOffset, YOffset, TilesWide, TilesHigh, StorageInventory, IsBackground, Interaction, ShowPlayerInventoryWhenOpen)
     {
     }
 }

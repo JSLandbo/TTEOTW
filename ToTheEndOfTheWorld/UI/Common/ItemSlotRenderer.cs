@@ -35,7 +35,7 @@ namespace ToTheEndOfTheWorld.UI.Common
             Texture2D texture = textureResolver.Resolve(item);
 
             int frames = textureResolver.ResolveFrames(item);
-            var (SourceRectangle, Width, Height) = TextureAnimationHelper.GetFrame(frames, texture);
+            (Rectangle? SourceRectangle, int Width, int Height) = TextureAnimationHelper.GetFrame(frames, texture);
             spriteBatch.Draw(texture, GetNaturalTextureRectangle(bounds, Width, Height, scale), SourceRectangle, Color.White);
         }
 

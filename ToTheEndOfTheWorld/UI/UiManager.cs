@@ -154,12 +154,12 @@ namespace ToTheEndOfTheWorld.UI
 
                 if (!overlay.IsOpen) continue;
 
-                overlay.Close(world);
-
                 if (overlay is IInteractionOverlay)
                 {
                     CloseInventoryAfterInteraction(world);
                 }
+
+                overlay.Close(world);
 
                 return true;
             }

@@ -36,13 +36,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
             isOpen = true;
             cachedViewportWidth = viewportWidth;
             cachedViewportHeight = viewportHeight;
-            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
+            currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageInventory.Items.InternalGrid, panelOffsetX);
         }
 
         public void SetPanelOffset(int offsetX)
         {
             panelOffsetX = offsetX;
-            currentLayout = EquipmentShopLayout.Create(cachedViewportWidth, cachedViewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
+            currentLayout = EquipmentShopLayout.Create(cachedViewportWidth, cachedViewportHeight, building.StorageInventory.Items.InternalGrid, panelOffsetX);
         }
 
         public void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
@@ -52,13 +52,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState, KeyboardState previousKeyboardState, MouseState currentMouseState, MouseState previousMouseState, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen || building?.StorageGrid == null) return;
+            if (!isOpen || building?.StorageInventory?.Items == null) return;
 
             if (viewportWidth != cachedViewportWidth || viewportHeight != cachedViewportHeight)
             {
                 cachedViewportWidth = viewportWidth;
                 cachedViewportHeight = viewportHeight;
-                currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageGrid.InternalGrid, panelOffsetX);
+                currentLayout = EquipmentShopLayout.Create(viewportWidth, viewportHeight, building.StorageInventory.Items.InternalGrid, panelOffsetX);
             }
 
             mousePosition = currentMouseState.Position;
@@ -70,7 +70,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         public void Draw(SpriteBatch spriteBatch, ModelWorld world, int viewportWidth, int viewportHeight)
         {
-            if (!isOpen || building?.StorageGrid == null)
+            if (!isOpen || building?.StorageInventory?.Items == null)
             {
                 return;
             }
@@ -94,13 +94,13 @@ namespace ToTheEndOfTheWorld.UI.Shop
 
         private bool TryGetHoveredItem(Point mousePosition, int viewportWidth, int viewportHeight, out AType item)
         {
-            if (building?.StorageGrid?.InternalGrid == null)
+            if (building?.StorageInventory?.Items?.InternalGrid == null)
             {
                 item = null;
                 return false;
             }
 
-            AGridBox[,] grid = building.StorageGrid.InternalGrid;
+            AGridBox[,] grid = building.StorageInventory.Items.InternalGrid;
             bool found = UiGridHitTestHelper.TryGetCoordinates(grid.GetLength(0), grid.GetLength(1), mousePosition, currentLayout.GetSlotRectangle, out int slotX, out int slotY);
             item = found ? grid[slotX, slotY].Item : null;
             return item != null;

@@ -8,6 +8,28 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class InventoryService
     {
+        private sealed class PendingStack(AType item, int count)
+        {
+            public AType Item { get; private set; } = item;
+            public int Count { get; private set; } = count;
+            public bool HasItems => Item != null && Count > 0;
+
+            public void Remove(int amount)
+            {
+                if (amount <= 0 || !HasItems)
+                {
+                    return;
+                }
+
+                Count -= amount;
+                if (Count <= 0)
+                {
+                    Item = null!;
+                    Count = 0;
+                }
+            }
+        }
+
         public const int DefaultMaxStackSize = 64;
 
         public static bool CanStackTogether(AType left, AType right)
@@ -33,6 +55,30 @@ namespace ToTheEndOfTheWorld.Gameplay
         public bool TryAdd(AInventory inventory, AType item, int count)
         {
             return TryAddToGrid(inventory.Items, item, count, GetMaxStackSize(inventory));
+        }
+
+        public void PlaceSlotDuringClose(AInventory primaryInventory, AInventory? secondaryInventory, AInventory? tertiaryInventory, AGridBox slot)
+        {
+            if (primaryInventory == null || slot?.Item == null || slot.Count <= 0)
+            {
+                return;
+            }
+
+            PendingStack stack = new(slot.Item, slot.Count);
+            slot.Item = null;
+            slot.Count = 0;
+
+            TryAddToInventory(stack, primaryInventory);
+            TryGroupAndAddToInventory(stack, primaryInventory);
+            TryAddToInventory(stack, primaryInventory);
+
+            TryAddToInventory(stack, secondaryInventory);
+            TryGroupAndAddToInventory(stack, secondaryInventory);
+            TryAddToInventory(stack, secondaryInventory);
+
+            TryAddToInventory(stack, tertiaryInventory);
+            TryGroupAndAddToInventory(stack, tertiaryInventory);
+            TryAddToInventory(stack, tertiaryInventory);
         }
 
         public int AddToInventory(AInventory inventory, AType item, int count)
@@ -275,6 +321,78 @@ namespace ToTheEndOfTheWorld.Gameplay
             }
 
             return remainingCount;
+        }
+
+        private void TryAddToInventory(PendingStack stack, AInventory? inventory)
+        {
+            if (!stack.HasItems || inventory == null)
+            {
+                return;
+            }
+
+            int added = AddToInventory(inventory, stack.Item, stack.Count);
+            stack.Remove(added);
+        }
+
+        private void TryGroupAndAddToInventory(PendingStack stack, AInventory? inventory)
+        {
+            if (!stack.HasItems || inventory == null)
+            {
+                return;
+            }
+
+            SortByName(inventory);
+            TryAddToInventory(stack, inventory);
+        }
+
+        private void GroupForClosePlacement(AInventory inventory)
+        {
+            if (inventory == null)
+            {
+                return;
+            }
+
+            if (inventory is not AGadgetInventory gadget)
+            {
+                SortByName(inventory);
+                return;
+            }
+
+            AGridBox[,] grid = gadget.Items.InternalGrid;
+            int maxStack = GetMaxStackSize(gadget);
+            int consumeableSlots = Math.Min(4, grid.GetLength(0));
+
+            for (int i = 0; i < consumeableSlots; i++)
+            {
+                AGridBox slot = grid[i, 0];
+                if (slot.Item == null || slot.Count >= maxStack)
+                {
+                    continue;
+                }
+
+                for (int j = i + 1; j < consumeableSlots; j++)
+                {
+                    AGridBox other = grid[j, 0];
+                    if (!CanStackTogether(slot.Item, other.Item))
+                    {
+                        continue;
+                    }
+
+                    int space = maxStack - slot.Count;
+                    int toMove = Math.Min(space, other.Count);
+                    slot.Count += toMove;
+                    other.Count -= toMove;
+                    if (other.Count <= 0)
+                    {
+                        other.Item = null;
+                    }
+
+                    if (slot.Count >= maxStack)
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 }

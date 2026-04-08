@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Concrete.Grids;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
 
@@ -24,7 +25,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 YOffset: 8,
                 TilesWide: 2,
                 TilesHigh: 2,
-                StorageGrid: new Grid(Vector2.Zero, new GridBox[GridColumns, GridRows]),
+                StorageInventory: new Inventory(
+                    ID: 0,
+                    Items: new Grid(Vector2.Zero, new GridBox[GridColumns, GridRows]),
+                    Name: "Storage Chest",
+                    Worth: 0,
+                    Weight: 0,
+                    MaxStackSize: MaxStackSize),
                 IsBackground: true,
                 Interaction: EBuildingInteraction.StorageChest,
                 ShowPlayerInventoryWhenOpen: true);

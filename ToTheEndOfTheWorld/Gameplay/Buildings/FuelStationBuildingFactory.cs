@@ -18,7 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 YOffset: 8,
                 TilesWide: 2,
                 TilesHigh: 2,
-                StorageGrid: null,
+                StorageInventory: null,
                 IsBackground: true,
                 Interaction: EBuildingInteraction.FuelStation);
         }

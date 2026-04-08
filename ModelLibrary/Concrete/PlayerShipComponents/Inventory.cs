@@ -12,17 +12,19 @@ namespace ModelLibrary.Concrete.PlayerShipComponents
             ID = original.ID;
             Items = CloneGrid(original.Items);
             MaxStackSize = original.MaxStackSize;
+            Inexhaustible = original.Inexhaustible;
             Name = original.Name;
             Worth = original.Worth;
             Weight = original.Weight;
         }
 
         [JsonConstructor]
-        public Inventory(short ID, Grid Items, string Name, float Worth, float Weight, int MaxStackSize = 64)
+        public Inventory(short ID, Grid Items, string Name, float Worth, float Weight, int MaxStackSize = 64, bool Inexhaustible = false)
         {
             this.ID = ID;
             this.Items = Items;
             this.MaxStackSize = MaxStackSize;
+            this.Inexhaustible = Inexhaustible;
             this.Name = Name;
             this.Worth = Worth;
             this.Weight = Weight;

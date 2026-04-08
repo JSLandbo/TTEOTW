@@ -108,7 +108,7 @@ namespace ToTheEndOfTheWorld.UI.Shop
             Rectangle gridRectangle = GetGridRectangle(panelRectangle);
             bool alreadyOwned = world.Player.HasGadgetBelt;
             bool canBuy = !alreadyOwned && world.Player.Cash >= gadgetShopService.GadgetBeltPriceValue;
-            AGridBox[,] shopGrid = currentBuilding?.StorageGrid?.InternalGrid;
+            AGridBox[,] shopGrid = currentBuilding?.StorageInventory?.Items?.InternalGrid;
 
             if (currentBuilding?.ShowPlayerInventoryWhenOpen != true)
             {
@@ -209,12 +209,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return true;
             }
 
-            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageGrid?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
+            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageInventory?.Items?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
                 return false;
             }
 
-            AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
+            AGridBox slot = currentBuilding.StorageInventory.Items.InternalGrid[slotX, slotY];
             return slot.Item != null && world.Player.Cash >= slot.Item.Worth && gadgetShopService.CanBuyGadget(world, slot.Item);
         }
 
@@ -225,12 +225,12 @@ namespace ToTheEndOfTheWorld.UI.Shop
                 return $"Gadget Belt {gadgetShopService.GadgetBeltPriceValue:0}";
             }
 
-            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageGrid?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
+            if (!world.Player.HasGadgetBelt || currentBuilding?.StorageInventory?.Items?.InternalGrid == null || !TryGetClickedShopSlot(mousePosition, viewportWidth, viewportHeight, out int slotX, out int slotY))
             {
                 return null;
             }
 
-            AGridBox slot = currentBuilding.StorageGrid.InternalGrid[slotX, slotY];
+            AGridBox slot = currentBuilding.StorageInventory.Items.InternalGrid[slotX, slotY];
             return slot.Item != null ? $"{slot.Item.Name} {slot.Item.Worth:0}" : null;
         }
 

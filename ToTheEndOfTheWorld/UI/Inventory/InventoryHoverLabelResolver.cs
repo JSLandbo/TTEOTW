@@ -21,7 +21,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int viewportHeight,
             int inventoryScrollOffset)
         {
-            if (layout.SelfDestructButtonRectangle.Contains(mousePosition)) return "Self Destruct";
             if (layout.TrashBinRectangle.Contains(mousePosition)) return "Trash";
             if (layout.SortButtonRectangle.Contains(mousePosition)) return "Sort";
 

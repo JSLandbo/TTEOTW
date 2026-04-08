@@ -1,4 +1,4 @@
-using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract.Buildings
@@ -12,7 +12,7 @@ namespace ModelLibrary.Abstract.Buildings
         int YOffset,
         int TilesWide,
         int TilesHigh,
-        AGrid StorageGrid,
+        AInventory StorageInventory,
         bool IsBackground,
         EBuildingInteraction Interaction,
         bool ShowPlayerInventoryWhenOpen = false) : IBuilding
@@ -25,7 +25,7 @@ namespace ModelLibrary.Abstract.Buildings
         public int YOffset { get; set; } = YOffset;
         public int TilesWide { get; set; } = TilesWide;
         public int TilesHigh { get; set; } = TilesHigh;
-        public AGrid StorageGrid { get; set; } = StorageGrid;
+        public AInventory StorageInventory { get; set; } = StorageInventory;
         public bool IsBackground { get; set; } = IsBackground;
         public EBuildingInteraction Interaction { get; set; } = Interaction;
         public bool ShowPlayerInventoryWhenOpen { get; set; } = ShowPlayerInventoryWhenOpen;

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using ToTheEndOfTheWorld.UI.Common;
 
 namespace ToTheEndOfTheWorld.Gameplay.Player
 {
@@ -15,22 +16,22 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         public int? ReadTriggeredConsumeableSlot(KeyboardState currentState, KeyboardState previousState)
         {
-            if (WasJustPressed(currentState, previousState, Keys.D1, Keys.NumPad1))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.D1, Keys.NumPad1))
             {
                 return 0;
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.D2, Keys.NumPad2))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.D2, Keys.NumPad2))
             {
                 return 1;
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.D3, Keys.NumPad3))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.D3, Keys.NumPad3))
             {
                 return 2;
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.D4, Keys.NumPad4))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.D4, Keys.NumPad4))
             {
                 return 3;
             }
@@ -77,22 +78,22 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
 
         private static Vector2 ReadFacingDirection(KeyboardState currentState, KeyboardState previousState)
         {
-            if (WasJustPressed(currentState, previousState, Keys.Right, Keys.D))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.Right, Keys.D))
             {
                 return new Vector2(1, 0);
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.Left, Keys.A))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.Left, Keys.A))
             {
                 return new Vector2(-1, 0);
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.Down, Keys.S))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.Down, Keys.S))
             {
                 return new Vector2(0, 1);
             }
 
-            if (WasJustPressed(currentState, previousState, Keys.Up, Keys.W))
+            if (UiInputHelper.WasJustPressed(currentState, previousState, Keys.Up, Keys.W))
             {
                 return new Vector2(0, -1);
             }
@@ -105,19 +106,6 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             foreach (Keys key in keys)
             {
                 if (state.IsKeyDown(key))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool WasJustPressed(KeyboardState currentState, KeyboardState previousState, params Keys[] keys)
-        {
-            foreach (Keys key in keys)
-            {
-                if (currentState.IsKeyDown(key) && !previousState.IsKeyDown(key))
                 {
                     return true;
                 }

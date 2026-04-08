@@ -14,14 +14,14 @@ namespace ToTheEndOfTheWorld.Context
         {
             string file = GetWorldFilePath();
             string content = SerializeWorld(world);
-            File.WriteAllText(file, content);
+            WriteAllTextAtomically(file, content);
         }
 
         public static async Task SaveWorldAsync(ModelWorld world)
         {
             string file = GetWorldFilePath();
             string content = await Task.Run(() => SerializeWorld(world));
-            await File.WriteAllTextAsync(file, content);
+            await WriteAllTextAtomicallyAsync(file, content);
         }
 
         public static ModelWorld? LoadWorld()
@@ -49,6 +49,53 @@ namespace ToTheEndOfTheWorld.Context
             {
                 TypeNameHandling = TypeNameHandling.Auto
             }));
+        }
+
+        private static void WriteAllTextAtomically(string file, string content)
+        {
+            string tempFile = $"{file}.tmp";
+
+            try
+            {
+                File.WriteAllText(tempFile, content);
+                ReplaceFile(tempFile, file);
+            }
+            finally
+            {
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+            }
+        }
+
+        private static async Task WriteAllTextAtomicallyAsync(string file, string content)
+        {
+            string tempFile = $"{file}.tmp";
+
+            try
+            {
+                await File.WriteAllTextAsync(tempFile, content);
+                ReplaceFile(tempFile, file);
+            }
+            finally
+            {
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+            }
+        }
+
+        private static void ReplaceFile(string sourceFile, string destinationFile)
+        {
+            if (File.Exists(destinationFile))
+            {
+                File.Replace(sourceFile, destinationFile, null, true);
+                return;
+            }
+
+            File.Move(sourceFile, destinationFile);
         }
 
         private static string GetWorldFilePath()

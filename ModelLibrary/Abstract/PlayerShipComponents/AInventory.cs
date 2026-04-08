@@ -14,6 +14,7 @@ namespace ModelLibrary.Abstract.PlayerShipComponents
         }
 
         public int MaxStackSize { get; set; }
+        public bool Inexhaustible { get; set; }
         public AGrid Items
         {
             get => items;

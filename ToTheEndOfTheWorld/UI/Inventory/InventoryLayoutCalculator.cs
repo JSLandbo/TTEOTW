@@ -65,8 +65,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             int dividerY = craftingSectionRectangle.Bottom + SectionGap;
             Rectangle dividerRectangle = new(panelX + PanelPadding + 8, dividerY, panelWidth - (PanelPadding * 2) - 16, DividerHeight);
             Rectangle inventorySectionRectangle = new(panelX + PanelPadding, dividerRectangle.Bottom + SectionGap, panelWidth - (PanelPadding * 2), inventorySectionHeight);
-            Rectangle selfDestructButtonRectangle = new(16, viewportHeight - SlotSize - 16, SlotSize, SlotSize);
-
             int inventoryStartX = inventorySectionRectangle.X + ((inventorySectionRectangle.Width - inventorySectionWidth) / 2);
             int inventoryStartY = inventorySectionRectangle.Y + SectionPadding;
 
@@ -81,7 +79,6 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 Rectangle.Empty,
                 inventorySectionRectangle,
                 dividerRectangle,
-                selfDestructButtonRectangle,
                 new Point(craftingStartX, craftingStartY),
                 new Point(inventoryStartX, inventoryStartY),
                 sortButtonRectangle,

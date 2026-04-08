@@ -75,6 +75,7 @@ namespace ToTheEndOfTheWorld
         private UiWorld.DeathOverlay deathOverlay;
         private MainMenuOverlay mainMenuOverlay;
         private WorldBootstrapper worldBootstrapper;
+        private GameSessionService gameSessionService;
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
         private bool isApplyingResize;
@@ -137,6 +138,7 @@ namespace ToTheEndOfTheWorld
             miningInteractions = new MiningInteractionsRepository();
             worldEffects = new WorldEffectsRepository();
             screenEffects = new ScreenEffectsRepository();
+            gameSessionService = new GameSessionService(items, worldBootstrapper, worldViewportService, miningInteractions, worldEffects, screenEffects, playerVerticalImpactService, playerDeathSystem, CreateNewWorld);
             WorldBlockDamageService worldBlockDamageService = new(worldBlockDefinitionResolver, worldBlockFactory, miningInteractions, eventBus);
             DynamiteConsumeableService dynamiteConsumeableService = new(worldBlockDamageService, worldEffects, eventBus);
             FuelCapsuleConsumeableService fuelCapsuleConsumeableService = new(eventBus);
@@ -169,7 +171,7 @@ namespace ToTheEndOfTheWorld
             // Fixed spawn position - Y=10 is just above ground level
             const float spawnWorldX = 0f;
             const float spawnWorldY = 10f;
-            
+
             Player player = new(
                 ThermalPlating: items.Create<ThermalPlating>(GameIds.Items.ThermalPlatings.Scrap),
                 Engine: items.Create<Engine>(GameIds.Items.Engines.Scrap),
@@ -191,7 +193,8 @@ namespace ToTheEndOfTheWorld
                 BlocksHigh: _blocksHigh,
                 WorldRender: [],
                 WorldTrails: []
-            ) { SpawnWorldPosition = new Vector2(spawnWorldX, spawnWorldY) };
+            )
+            { SpawnWorldPosition = new Vector2(spawnWorldX, spawnWorldY) };
 
             return world;
         }
@@ -203,7 +206,13 @@ namespace ToTheEndOfTheWorld
             pixelTexture.SetData([Color.White]);
             Texture2D youDiedTexture = Content.Load<Texture2D>("General/YouDiedText");
             deathOverlay = new UiWorld.DeathOverlay(youDiedTexture);
-            mainMenuOverlay = new MainMenuOverlay(SaveWorld, SelfDestruct, ResetWorld, ToggleFullscreen, Exit);
+            mainMenuOverlay = new MainMenuOverlay(
+                SaveWorld,
+                () => world = gameSessionService.ResetWorld(world),
+                () => gameSessionService.SelfDestruct(world),
+                () => world = gameSessionService.ResetGame(world),
+                ToggleFullscreen,
+                Exit);
             mainMenuOverlay.LoadContent(GraphicsDevice, Content);
             debugHudRenderer.LoadContent(Content);
             gameplayHudRenderer.LoadContent(GraphicsDevice, Content);
@@ -333,6 +342,21 @@ namespace ToTheEndOfTheWorld
 
         private void HandleUiInput(KeyboardState keyboardState, int windowWidth, int windowHeight)
         {
+            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
+            {
+                if (!TryCloseTopmostOverlay())
+                {
+                    mainMenuOverlay.Open();
+                }
+
+                return;
+            }
+
+            if (mainMenuOverlay.IsOpen)
+            {
+                return;
+            }
+
             if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.E))
             {
                 if (uiManager.HasOpenInteractionOverlay)
@@ -367,14 +391,6 @@ namespace ToTheEndOfTheWorld
 
                 inventoryOverlay?.Open(windowWidth, windowHeight, world.Player);
                 return;
-            }
-
-            if (UiInputHelper.WasJustPressed(keyboardState, previousKeyboardState, Keys.Escape))
-            {
-                if (!TryCloseTopmostOverlay())
-                {
-                    mainMenuOverlay.Open();
-                }
             }
         }
 
@@ -529,24 +545,6 @@ namespace ToTheEndOfTheWorld
             if (world == null) return;
 
             ContextHandler.SaveWorld(world);
-        }
-
-        private void SelfDestruct()
-        {
-            playerVerticalImpactService.Clear();
-            playerDeathSystem.SelfDestruct(world);
-        }
-
-        private void ResetWorld()
-        {
-            miningInteractions.Clear();
-            worldEffects.Clear();
-            screenEffects.Clear();
-            world = CreateNewWorld(world.BlocksWide, world.BlocksHigh);
-            worldViewportService.EnsurePadding(world, world.SpawnWorldPosition);
-            world.SavedPlayerWorldPosition = world.SpawnWorldPosition;
-            worldBootstrapper.EnsureInitialized(world);
-            playerVerticalImpactService.Clear();
         }
 
         private void ToggleFullscreen()

@@ -1,4 +1,4 @@
-using ModelLibrary.Abstract.Grids;
+using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Enums;
 
 namespace ModelLibrary.Abstract.Buildings
@@ -13,7 +13,7 @@ namespace ModelLibrary.Abstract.Buildings
         public int YOffset { get; set; }
         public int TilesWide { get; set; }
         public int TilesHigh { get; set; }
-        public AGrid StorageGrid { get; set; }
+        public AInventory StorageInventory { get; set; }
         public bool IsBackground { get; set; }
         public EBuildingInteraction Interaction { get; set; }
         public bool ContainsTile(long worldX, long worldY);

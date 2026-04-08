@@ -7,7 +7,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
     {
         public CraftingRecipe[] CreateRecipes()
         {
-            var oresIngotsGemsBlocks = new CraftingRecipe[] {
+            CraftingRecipe[] oresIngotsGemsBlocks = new CraftingRecipe[] {
 
                 // Coal to ingots and polished gems
                 new(Pattern: CreatePattern(
@@ -347,7 +347,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.DiamondCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.DiamondPolished), OutputCount: 9),
             };
 
-            var playerEquipment = new CraftingRecipe[] {
+            CraftingRecipe[] playerEquipment = new CraftingRecipe[] {
 
                 // Scrap to Copper
                 new(Pattern: CreatePattern(

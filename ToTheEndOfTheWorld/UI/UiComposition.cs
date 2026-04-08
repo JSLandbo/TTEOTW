@@ -28,7 +28,7 @@ namespace ToTheEndOfTheWorld.UI
                 () => uiManager.HasOpenShopOverlay,
                 (world, slot) => TrySellOrTransferSlot(uiManager, chestOverlay, world, slot),
                 (pos, vw, vh) => TryGetChestSlot(chestOverlay, pos, vw, vh),
-                chestOverlay.AddToChest));
+                chestOverlay.GetOpenInventory));
 
             uiManager.Register(new Shop.ShopOverlay(shopService, blocks, items));
             uiManager.Register(new Shop.EquipmentShopOverlay(equipmentShopService, blocks, items, () => uiManager.InventoryHasHeldItem));

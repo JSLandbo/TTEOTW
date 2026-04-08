@@ -2,9 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using ModelLibrary.Abstract.Grids;
-using ModelLibrary.Abstract.PlayerShipComponents;
 using ModelLibrary.Abstract.Types;
-using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Enums;
 using ToTheEndOfTheWorld.UI.Common;
 using ToTheEndOfTheWorld.UI.World;
@@ -13,8 +11,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 {
     public sealed class InventoryInteractionController
     {
-        private AGridBox heldSourceSlot;
+        private enum HeldItemReturnTarget
+        {
+            Inventory,
+            Chest
+        }
+
         private int currentMaxStackSize = InventoryService.DefaultMaxStackSize;
+        private HeldItemReturnTarget heldItemReturnTarget = HeldItemReturnTarget.Inventory;
         private bool selectionRequested;
         private bool trashRequested;
 
@@ -22,6 +26,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         public int HeldCount { get; private set; }
         public Point MousePosition { get; private set; }
         public bool HasHeldItem => HeldItem != null && HeldCount > 0;
+        public bool PrefersChestReturn => heldItemReturnTarget == HeldItemReturnTarget.Chest;
 
         public bool ConsumeTrashRequest()
         {
@@ -35,6 +40,23 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             bool requested = selectionRequested;
             selectionRequested = false;
             return requested;
+        }
+
+        public bool TryTakeHeldItem(out AType item, out int count, out bool prefersChestReturn)
+        {
+            if (!HasHeldItem)
+            {
+                item = null;
+                count = 0;
+                prefersChestReturn = false;
+                return false;
+            }
+
+            item = HeldItem;
+            count = HeldCount;
+            prefersChestReturn = PrefersChestReturn;
+            ClearHeldItem();
+            return true;
         }
 
         public void Update(MouseState currentMouseState, MouseState previousMouseState, InventoryInteractionContext ctx)
@@ -67,16 +89,15 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 // Check chest slots first (for drag-and-drop)
                 if (ctx.TryGetChestSlotFunc != null)
                 {
-                    var chestResult = ctx.TryGetChestSlot(MousePosition);
+                    (AGridBox slot, int maxStackSize)? chestResult = ctx.TryGetChestSlot(MousePosition);
                     if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
                     {
-                        MoveStackWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
+                        MoveStackWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize, HeldItemReturnTarget.Chest);
                         return;
                     }
                 }
 
-                if (TryGetClickedSlot(MousePosition, ctx, out AGridBox clickedSlot)
-                    && CanUseClickedSlot(clickedSlot))
+                if (TryGetClickedSlot(MousePosition, ctx, out AGridBox clickedSlot) && CanUseClickedSlot(clickedSlot))
                 {
                     // CTRL+click to sell when shop is open
                     if (ctx.TrySellSlotFunc != null && clickedSlot.Item != null && ctx.TrySellSlot(clickedSlot))
@@ -85,7 +106,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                         return;
                     }
 
-                    MoveStack(clickedSlot);
+                    MoveStack(clickedSlot, HeldItemReturnTarget.Inventory);
                 }
 
                 return;
@@ -96,13 +117,13 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                 // Check chest slots for right-click
                 if (ctx.TryGetChestSlotFunc != null)
                 {
-                    var chestResult = ctx.TryGetChestSlot(MousePosition);
+                    (AGridBox slot, int maxStackSize)? chestResult = ctx.TryGetChestSlot(MousePosition);
                     if (chestResult.HasValue && CanUseClickedSlot(chestResult.Value.slot))
                     {
                         if (HeldItem != null)
                             PlaceSingleHeldItemWithMaxSize(chestResult.Value.slot, chestResult.Value.maxStackSize);
                         else
-                            PickupHalfStackWithMaxSize(chestResult.Value.slot);
+                            PickupHalfStack(chestResult.Value.slot, HeldItemReturnTarget.Chest);
                         return;
                     }
                 }
@@ -112,166 +133,14 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                     if (HeldItem != null)
                         PlaceSingleHeldItem(rightClickedSlot);
                     else
-                        PickupHalfStack(rightClickedSlot);
+                        PickupHalfStack(rightClickedSlot, HeldItemReturnTarget.Inventory);
                 }
             }
-        }
-
-        public void ReleaseHeldItem(InventoryService inventoryService, AInventory inventory, AGadgetInventory gadgetSlots)
-        {
-            if (HeldItem == null || HeldCount <= 0)
-            {
-                return;
-            }
-
-            // 1) Try inventory + gadget slots
-            if (TryPlaceItem(inventoryService, inventory, gadgetSlots, HeldItem, HeldCount))
-            {
-                ClearHeldItem();
-                return;
-            }
-
-            // 2) Try to return to source slot
-            if (heldSourceSlot != null)
-            {
-                if (heldSourceSlot.Item == null || heldSourceSlot.Count <= 0)
-                {
-                    heldSourceSlot.Item = HeldItem;
-                    heldSourceSlot.Count = HeldCount;
-                    ClearHeldItem();
-                    return;
-                }
-
-                if (InventoryService.CanStackTogether(heldSourceSlot.Item, HeldItem) && heldSourceSlot.Count + HeldCount <= currentMaxStackSize)
-                {
-                    heldSourceSlot.Count += HeldCount;
-                    ClearHeldItem();
-                    return;
-                }
-            }
-
-            // 3) Give up - caller handles remaining item
-        }
-
-        public (AType Item, int Count) GetAndClearHeldItem()
-        {
-            var result = (HeldItem, HeldCount);
-            ClearHeldItem();
-            return result;
-        }
-
-        public void ReturnCraftingGridToInventory(InventoryService inventoryService, AInventory inventory, Grid craftingGrid, AGadgetInventory gadgetSlots)
-        {
-            foreach (AGridBox slot in InventoryService.EnumerateSlots(craftingGrid.InternalGrid))
-            {
-                if (slot.Item == null || slot.Count <= 0) continue;
-
-                if (TryPlaceItem(inventoryService, inventory, gadgetSlots, slot.Item, slot.Count))
-                {
-                    slot.Item = null;
-                    slot.Count = 0;
-                }
-                // Items that couldn't be placed stay in crafting grid for caller to handle
-            }
-        }
-
-        public static void ClearCraftingGrid(Grid craftingGrid, Func<AType, int, int> addToChest)
-        {
-            foreach (AGridBox slot in InventoryService.EnumerateSlots(craftingGrid.InternalGrid))
-            {
-                if (slot.Item == null || slot.Count <= 0) continue;
-
-                addToChest?.Invoke(slot.Item, slot.Count);
-                slot.Item = null;
-                slot.Count = 0;
-            }
-        }
-
-        private static bool TryPlaceItem(InventoryService svc, AInventory inv, AGadgetInventory gadget, AType item, int count)
-        {
-            // 1) Try inventory
-            if (svc.TryAdd(inv, item, count)) return true;
-
-            // 2) Try gadget slots
-            if (gadget != null && svc.TryAdd(gadget, item, count)) return true;
-
-            // 3) Sort inventory, try again
-            svc.SortByName(inv);
-            if (svc.TryAdd(inv, item, count)) return true;
-
-            // 4) Sort gadget slots (only consumeable slots 0-3), try again
-            if (gadget != null)
-            {
-                SortConsumeableSlots(svc, gadget);
-                if (svc.TryAdd(gadget, item, count)) return true;
-            }
-
-            // 5) Move items from inventory to gadget slots to free space
-            if (gadget != null)
-            {
-                MoveInventoryToGadgetSlots(svc, inv, gadget);
-                if (svc.TryAdd(inv, item, count)) return true;
-            }
-
-            // 6) Give up
-            return false;
-        }
-
-        private static void SortConsumeableSlots(InventoryService svc, AGadgetInventory gadget)
-        {
-            // Consolidate consumeable stacks in slots 0-3
-            AGridBox[,] grid = gadget.Items.InternalGrid;
-            int maxStack = svc.GetMaxStackSize(gadget);
-            int consumeableSlots = Math.Min(4, grid.GetLength(0));
-
-            for (int i = 0; i < consumeableSlots; i++)
-            {
-                AGridBox slot = grid[i, 0];
-                if (slot.Item == null || slot.Count >= maxStack) continue;
-
-                // Find matching items in later slots to merge
-                for (int j = i + 1; j < consumeableSlots; j++)
-                {
-                    AGridBox other = grid[j, 0];
-                    if (!InventoryService.CanStackTogether(slot.Item, other.Item)) continue;
-
-                    int space = maxStack - slot.Count;
-                    int toMove = Math.Min(space, other.Count);
-                    slot.Count += toMove;
-                    other.Count -= toMove;
-                    if (other.Count <= 0) other.Item = null;
-                    if (slot.Count >= maxStack) break;
-                }
-            }
-        }
-
-        private static void MoveInventoryToGadgetSlots(InventoryService svc, AInventory inv, AGadgetInventory gadget)
-        {
-            // Try to move consumeables from inventory to gadget slots (only consumeables can go in slots 0-3)
-            foreach (AGridBox slot in InventoryService.EnumerateSlots(inv.Items.InternalGrid))
-            {
-                if (slot.Item is not AConsumeable || slot.Count <= 0) continue;
-                if (svc.TryAdd(gadget, slot.Item, slot.Count))
-                {
-                    slot.Item = null;
-                    slot.Count = 0;
-                }
-            }
-        }
-
-        public void ClearHeldItemState()
-        {
-            ClearHeldItem();
         }
 
         public bool IsPointerOverInteractiveElement(Point position, InventoryInteractionContext ctx)
         {
             if (!ctx.BlockCrafting && ctx.Layout.CraftButtonRectangle.Contains(position))
-            {
-                return true;
-            }
-
-            if (ctx.Layout.SelfDestructButtonRectangle.Contains(position))
             {
                 return true;
             }
@@ -302,12 +171,12 @@ namespace ToTheEndOfTheWorld.UI.Inventory
                    || slot.OwnerGrid?.CanPlaceInSlot(slot, HeldItem) != false;
         }
 
-        private void MoveStack(AGridBox slot)
+        private void MoveStack(AGridBox slot, HeldItemReturnTarget returnTarget)
         {
-            MoveStackWithMaxSize(slot, currentMaxStackSize);
+            MoveStackWithMaxSize(slot, currentMaxStackSize, returnTarget);
         }
 
-        private void MoveStackWithMaxSize(AGridBox slot, int maxStackSize)
+        private void MoveStackWithMaxSize(AGridBox slot, int maxStackSize, HeldItemReturnTarget returnTarget)
         {
             if (HeldItem == null || HeldCount == 0)
             {
@@ -318,7 +187,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
 
                 HeldItem = slot.Item;
                 HeldCount = slot.Count;
-                heldSourceSlot = slot;
+                heldItemReturnTarget = returnTarget;
                 slot.Item = null;
                 slot.Count = 0;
                 selectionRequested = true;
@@ -382,7 +251,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             slot.Count = HeldCount;
             HeldItem = swapItem;
             HeldCount = swapCount;
-            heldSourceSlot = slot;
+            heldItemReturnTarget = returnTarget;
             selectionRequested = true;
         }
 
@@ -391,19 +260,19 @@ namespace ToTheEndOfTheWorld.UI.Inventory
             PlaceSingleHeldItemWithMaxSize(slot, currentMaxStackSize);
         }
 
-        private void PickupHalfStack(AGridBox slot)
+        private void PickupHalfStack(AGridBox slot, HeldItemReturnTarget returnTarget)
         {
-            PickupHalfStackWithMaxSize(slot);
+            PickupHalfStackWithMaxSize(slot, returnTarget);
         }
 
-        private void PickupHalfStackWithMaxSize(AGridBox slot)
+        private void PickupHalfStackWithMaxSize(AGridBox slot, HeldItemReturnTarget returnTarget)
         {
             if (slot.Item == null || slot.Count <= 0) return;
 
             int halfCount = (slot.Count + 1) / 2;
             HeldItem = slot.Item;
             HeldCount = halfCount;
-            heldSourceSlot = slot;
+            heldItemReturnTarget = returnTarget;
             slot.Count -= halfCount;
 
             if (slot.Count <= 0)
@@ -463,7 +332,7 @@ namespace ToTheEndOfTheWorld.UI.Inventory
         {
             HeldItem = null;
             HeldCount = 0;
-            heldSourceSlot = null;
+            heldItemReturnTarget = HeldItemReturnTarget.Inventory;
         }
 
         private bool TryEquipHeldItem(ModelWorld world, InventoryItemUseService itemUseService, EPlayerEquipmentSlotType equipmentSlot)

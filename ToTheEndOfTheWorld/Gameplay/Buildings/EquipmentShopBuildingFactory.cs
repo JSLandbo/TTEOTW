@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using ModelLibrary.Abstract.Buildings;
 using ModelLibrary.Concrete.Buildings;
 using ModelLibrary.Concrete.Grids;
+using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
 using ModelLibrary.Ids;
 
@@ -25,13 +26,13 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 YOffset: 8,
                 TilesWide: BuildingTilesWide,
                 TilesHigh: BuildingTilesHigh,
-                StorageGrid: CreateShopGrid(),
+                StorageInventory: CreateShopInventory(),
                 IsBackground: true,
                 Interaction: EBuildingInteraction.EquipmentShop,
                 ShowPlayerInventoryWhenOpen: true);
         }
 
-        private Grid CreateShopGrid()
+        private Inventory CreateShopInventory()
         {
             Grid storageGrid = new(Vector2.Zero, new GridBox[GridColumns, GridRows]);
 
@@ -53,7 +54,14 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
                 storageGrid.InternalGrid[column, row] = new GridBox(itemDefinition.Definition, 1);
             }
 
-            return storageGrid;
+            return new Inventory(
+                ID: 0,
+                Items: storageGrid,
+                Name: "Equipment Shop",
+                Worth: 0,
+                Weight: 0,
+                MaxStackSize: 1,
+                Inexhaustible: true);
         }
     }
 }
