@@ -70,7 +70,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             }
 
             float lavaNoise = (float)SimplexNoise.Singleton.Noise01((x * 0.08f) + 241.0f, (y * 0.08f) + 503.0f) * 100.0f;
-            float lavaChance = y < 2000.0f ? 0.0f : MathHelper.Clamp((y - 2000.0f) * 0.004f, 0.0f, 18.0f);
+            float lavaChance = y < 5000.0f ? 0.0f : MathHelper.Clamp((y - 5000.0f) * 0.0025f, 0.0f, 12.0f);
 
             BlockDefinition lava = GetDefinition(GameIds.Blocks.Lava);
             if (IsWithinDepth(y, lava) && lavaNoise <= lavaChance)
