@@ -106,7 +106,7 @@ namespace ToTheEndOfTheWorld
         {
             blocks = new WorldElementsRepository(Content);
             items = new GameItemsRepository(Content);
-            InventoryItemUseService inventoryItemUseService = new(inventoryService, items);
+            InventoryItemUseService inventoryItemUseService = new(inventoryService, items, eventBus);
             FuelStationService fuelStationService = new(eventBus);
             GadgetShopService gadgetShopService = new(inventoryService, items, eventBus);
             SellShopBuildingFactory sellShopBuildingFactory = new();

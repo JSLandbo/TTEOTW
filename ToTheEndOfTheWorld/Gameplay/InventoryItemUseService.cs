@@ -4,10 +4,11 @@ using ModelLibrary.Abstract.Types;
 using ModelLibrary.Concrete.Grids;
 using ModelLibrary.Concrete.PlayerShipComponents;
 using ModelLibrary.Enums;
+using ToTheEndOfTheWorld.Gameplay.Events;
 
 namespace ToTheEndOfTheWorld.Gameplay
 {
-    public sealed class InventoryItemUseService(InventoryService inventoryService, GameItemsRepository items)
+    public sealed class InventoryItemUseService(InventoryService inventoryService, GameItemsRepository items, GameEventBus eventBus)
     {
         public AType GetEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType)
         {
@@ -131,7 +132,7 @@ namespace ToTheEndOfTheWorld.Gameplay
             return TryGetEquipmentSlotType(item, out EPlayerEquipmentSlotType itemSlotType) && itemSlotType == slotType;
         }
 
-        private static void ApplyEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
+        private void ApplyEquippedItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
         {
             switch (slotType)
             {
@@ -160,6 +161,8 @@ namespace ToTheEndOfTheWorld.Gameplay
                     world.Player.Thruster = (Thruster)item;
                     break;
             }
+
+            eventBus.Publish(new PlayerEquippedItemEvent());
         }
 
         private bool TryEquipStandardItem(ModelWorld world, EPlayerEquipmentSlotType slotType, AType item)
