@@ -7,6 +7,7 @@ namespace ModelLibrary.Enums
         EquipmentShop,
         FuelStation,
         GadgetShop,
-        StorageChest
+        StorageChest,
+        HouseInfoSign
     }
 }

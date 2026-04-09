@@ -114,7 +114,8 @@ namespace ToTheEndOfTheWorld
             FuelStationBuildingFactory fuelStationBuildingFactory = new();
             GadgetShopBuildingFactory gadgetShopBuildingFactory = new(items);
             StorageChestBuildingFactory storageChestBuildingFactory = new();
-            worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory, storageChestBuildingFactory);
+            HouseInfoSignBuildingFactory houseInfoSignBuildingFactory = new();
+            worldBootstrapper = new(sellShopBuildingFactory, equipmentShopBuildingFactory, fuelStationBuildingFactory, gadgetShopBuildingFactory, storageChestBuildingFactory, houseInfoSignBuildingFactory);
             worldBlockDefinitionResolver = new WorldBlockDefinitionResolver(blocks);
             worldBlockFactory = new WorldBlockFactory(worldBlockDefinitionResolver);
             CraftingService craftingService = new(eventBus, new CraftingRecipeLibrary(items).CreateRecipes());
@@ -534,9 +535,9 @@ namespace ToTheEndOfTheWorld
             if (!autoSaveTask.IsCompleted)
             {
                 autoSaveTask.GetAwaiter().GetResult();
-                return;
             }
 
+            PrepareWorldForSaveOrExit();
             ContextHandler.SaveWorld(world);
         }
 
@@ -545,6 +546,23 @@ namespace ToTheEndOfTheWorld
             if (world == null) return;
 
             ContextHandler.SaveWorld(world);
+        }
+
+        private void PrepareWorldForSaveOrExit()
+        {
+            if (uiManager.HasOpenInteractionOverlay)
+            {
+                uiManager.CloseTopmost(world);
+            }
+            else if (inventoryOverlay?.IsOpen == true)
+            {
+                inventoryOverlay.Close(world);
+            }
+
+            if (mainMenuOverlay.IsOpen)
+            {
+                mainMenuOverlay.Close(world);
+            }
         }
 
         private void ToggleFullscreen()

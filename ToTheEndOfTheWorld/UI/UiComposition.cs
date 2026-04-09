@@ -35,6 +35,7 @@ namespace ToTheEndOfTheWorld.UI
             uiManager.Register(new Shop.FuelStationOverlay(fuelStationService));
             uiManager.Register(new Shop.GadgetShopOverlay(gadgetShopService, blocks, items, () => uiManager.InventoryHasHeldItem));
             uiManager.Register(chestOverlay);
+            uiManager.Register(new World.WelcomeSignOverlay());
 
             return uiManager;
         }

@@ -9,6 +9,7 @@ namespace ModelLibrary.Ids
             public const short FuelStation = 3;
             public const short GadgetShop = 4;
             public const short StorageChest = 5;
+            public const short HouseInfoSign = 6;
         }
 
         public static class RuntimeBlocks

@@ -7,7 +7,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
     {
         public CraftingRecipe[] CreateRecipes()
         {
-            CraftingRecipe[] oresIngotsGemsBlocks = new CraftingRecipe[] {
+            CraftingRecipe[] oresIngotsGemsBlocks = [
 
                 // Coal to ingots and polished gems
                 new(Pattern: CreatePattern(
@@ -345,9 +345,9 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 ),
                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.DiamondPolished, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.DiamondCube), OutputCount: 1),
                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.DiamondCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.DiamondPolished), OutputCount: 9),
-            };
+            ];
 
-            CraftingRecipe[] playerEquipment = new CraftingRecipe[] {
+            CraftingRecipe[] playerEquipment = [
 
                 // Scrap to Copper
                 new(Pattern: CreatePattern(
@@ -870,9 +870,20 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     CreateOutput: () => CreateItem(GameIds.Items.Drills.Adamant),
                     OutputCount: 1
                 ),
-            };
+            ];
 
-            return [.. oresIngotsGemsBlocks, .. playerEquipment];
+            CraftingRecipe[] cheatCodes = [
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Grass, 1), null, new CraftingIngredient(GameIds.Blocks.Grass, 1),
+                        new CraftingIngredient(GameIds.Blocks.Grass, 1), new CraftingIngredient(GameIds.Blocks.Grass, 1), new CraftingIngredient(GameIds.Blocks.Grass, 1),
+                        null, new CraftingIngredient(GameIds.Blocks.Grass, 1), null
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumCube),
+                    OutputCount: 1
+                ),
+            ];
+
+            return [.. oresIngotsGemsBlocks, .. playerEquipment, .. cheatCodes];
         }
 
         private AType CreateItem(short itemId)
