@@ -18,6 +18,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectHullRepairKit,
         EffectHullDamage,
         EffectNuclearExplosion,
-        EffectSelectedItem
+        EffectSelectedItem,
+        EffectInventoryFull
     }
 }

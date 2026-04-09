@@ -61,6 +61,13 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHullRepairKit.wav;Audio/Sfx/EffectHullRepairKit
 
+
+#begin Audio/Sfx/EffectInventoryFull.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectInventoryFull.wav
+
 #begin Audio/Sfx/EffectMinedBlock.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

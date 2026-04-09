@@ -9,11 +9,13 @@ namespace ToTheEndOfTheWorld.Gameplay
 {
     public sealed class WorldBlockLootSystem
     {
+        private readonly GameEventBus eventBus;
         private readonly BlockLootResolver blockLootResolver;
         private readonly InventoryService inventoryService;
 
         public WorldBlockLootSystem(GameEventBus eventBus, BlockLootResolver blockLootResolver, InventoryService inventoryService)
         {
+            this.eventBus = eventBus;
             this.blockLootResolver = blockLootResolver;
             this.inventoryService = inventoryService;
             eventBus.Subscribe<WorldBlockDestroyedEvent>(OnWorldBlockDestroyed);
@@ -36,7 +38,8 @@ namespace ToTheEndOfTheWorld.Gameplay
                 return;
             }
 
-            inventoryService.TryAdd(gameEvent.World.Player.Inventory, loot, count);
+            if (!inventoryService.TryAdd(gameEvent.World.Player.Inventory, loot, count))
+                eventBus.Publish(new InventoryFullEvent());
         }
 
         private static bool ShouldDiscardFilteredLoot(APlayer player, Block loot)

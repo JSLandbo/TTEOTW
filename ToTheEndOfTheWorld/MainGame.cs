@@ -225,6 +225,7 @@ namespace ToTheEndOfTheWorld
             playerShipRenderer.LoadContent(Content);
             uiManager.LoadContent(GraphicsDevice, Content);
             audioService.LoadContent(audioContent);
+            audioService.PlayMusic(MusicTrack.MainTheme);
         }
 
         protected override void Update(GameTime gameTime)

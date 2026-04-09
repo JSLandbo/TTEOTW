@@ -32,6 +32,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
             eventBus.Subscribe<PlayerCraftedItemEvent>(OnPlayerCraftedItem);
             eventBus.Subscribe<PlayerHullDamagedEvent>(OnPlayerHullDamaged);
             eventBus.Subscribe<ScreenEffectRequestedEvent>(OnScreenEffectRequested);
+            eventBus.Subscribe<InventoryFullEvent>(OnInventoryFull);
         }
 
         public void Update(ModelWorld world, bool isGrounded)
@@ -140,6 +141,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         private void OnPlayerHullDamaged(PlayerHullDamagedEvent gameEvent)
         {
             oneShotSoundPlayer.Play(SoundEffectId.EffectHullDamage);
+        }
+
+        private void OnInventoryFull(InventoryFullEvent gameEvent)
+        {
+            oneShotSoundPlayer.Play(SoundEffectId.EffectInventoryFull);
         }
 
         private void OnScreenEffectRequested(ScreenEffectRequestedEvent gameEvent)
