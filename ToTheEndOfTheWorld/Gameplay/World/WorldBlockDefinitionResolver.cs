@@ -11,6 +11,7 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 {
     public sealed class WorldBlockDefinitionResolver
     {
+        private readonly WorldCaveGenerator caveGenerator = new();
         private readonly Dictionary<int, BlockDefinition> definitions;
         private readonly BlockDefinition[] overlayBlockDefinitions;
 
@@ -45,6 +46,11 @@ namespace ToTheEndOfTheWorld.Gameplay.World
             if (y == grass.Value.block.Info.MinimumDepth)
             {
                 return grass;
+            }
+
+            if (caveGenerator.TryResolveBlockId(x, y, out int caveBlockId))
+            {
+                return GetDefinition(caveBlockId);
             }
 
             foreach (BlockDefinition block in overlayBlockDefinitions)
