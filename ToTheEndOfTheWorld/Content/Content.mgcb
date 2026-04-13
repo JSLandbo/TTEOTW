@@ -25,23 +25,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectBoughtFromStore.wav;Audio/Sfx/EffectBoughtFromStore
 
-#begin Audio/Sfx/EffectBoughtFromStore.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectBoughtFromStore.wav
-
 #begin Audio/Sfx/EffectCoolantPatch.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectCoolantPatch.wav;Audio/Sfx/EffectCoolantPatch
-
-#begin Audio/Sfx/EffectCoolantPatch.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectCoolantPatch.wav
 
 #begin Audio/Sfx/EffectCraftedItem.wav
 /importer:WavImporter
@@ -49,23 +37,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectCraftedItem.wav;Audio/Sfx/EffectCraftedItem
 
-#begin Audio/Sfx/EffectCraftedItem.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectCraftedItem.wav
-
 #begin Audio/Sfx/EffectExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectExplosion.wav;Audio/Sfx/EffectExplosion
-
-#begin Audio/Sfx/EffectExplosion.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectExplosion.wav
 
 #begin Audio/Sfx/EffectHittingGround.wav
 /importer:WavImporter
@@ -73,23 +49,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHittingGround.wav;Audio/Sfx/EffectHittingGround
 
-#begin Audio/Sfx/EffectHittingGround.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHittingGround.wav
-
 #begin Audio/Sfx/EffectHullDamage.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHullDamage.wav;Audio/Sfx/EffectHullDamage
-
-#begin Audio/Sfx/EffectHullDamage.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHullDamage.wav
 
 #begin Audio/Sfx/EffectHullRepairKit.wav
 /importer:WavImporter
@@ -97,29 +61,17 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectHullRepairKit.wav;Audio/Sfx/EffectHullRepairKit
 
-#begin Audio/Sfx/EffectHullRepairKit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectHullRepairKit.wav
-
 #begin Audio/Sfx/EffectInventoryFull.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sfx/EffectInventoryFull.wav
-
-#begin Audio/Sfx/EffectInventoryFull.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectInventoryFull.wav
+/build:Audio/Sfx/EffectInventoryFull.wav;Audio/Sfx/EffectInventoryFull
 
 #begin Audio/Sfx/EffectItermEquipped.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/Sfx/EffectItermEquipped.wav
+/build:Audio/Sfx/EffectItermEquipped.wav;Audio/Sfx/EffectItermEquipped
 
 #begin Audio/Sfx/EffectMinedBlock.wav
 /importer:WavImporter
@@ -127,23 +79,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectMinedBlock.wav;Audio/Sfx/EffectMinedBlock
 
-#begin Audio/Sfx/EffectMinedBlock.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectMinedBlock.wav
-
 #begin Audio/Sfx/EffectNuclearExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectNuclearExplosion.wav;Audio/Sfx/EffectNuclearExplosion
-
-#begin Audio/Sfx/EffectNuclearExplosion.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectNuclearExplosion.wav
 
 #begin Audio/Sfx/EffectSelectedItem.wav
 /importer:WavImporter
@@ -151,23 +91,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectSelectedItem.wav;Audio/Sfx/EffectSelectedItem
 
-#begin Audio/Sfx/EffectSelectedItem.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectSelectedItem.wav
-
 #begin Audio/Sfx/EffectSoldToStore.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectSoldToStore.wav;Audio/Sfx/EffectSoldToStore
-
-#begin Audio/Sfx/EffectSoldToStore.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectSoldToStore.wav
 
 #begin Audio/Sfx/EffectUsedFuelCapsule.wav
 /importer:WavImporter
@@ -175,23 +103,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedFuelCapsule.wav;Audio/Sfx/EffectUsedFuelCapsule
 
-#begin Audio/Sfx/EffectUsedFuelCapsule.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectUsedFuelCapsule.wav
-
 #begin Audio/Sfx/EffectUsedTrashBin.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedTrashBin.wav;Audio/Sfx/EffectUsedTrashBin
-
-#begin Audio/Sfx/EffectUsedTrashBin.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectUsedTrashBin.wav
 
 #begin Audio/Sfx/EffectYouDied.wav
 /importer:WavImporter
@@ -199,23 +115,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectYouDied.wav;Audio/Sfx/EffectYouDied
 
-#begin Audio/Sfx/EffectYouDied.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/EffectYouDied.wav
-
 #begin Audio/Sfx/LoopEngineActive.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopEngineActive.wav;Audio/Sfx/LoopEngineActive
-
-#begin Audio/Sfx/LoopEngineActive.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopEngineActive.wav
 
 #begin Audio/Sfx/LoopMining.wav
 /importer:WavImporter
@@ -223,23 +127,11 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopMining.wav;Audio/Sfx/LoopMining
 
-#begin Audio/Sfx/LoopMining.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopMining.wav
-
 #begin Audio/Sfx/LoopThrusterActive.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/Sfx/LoopThrusterActive.wav;Audio/Sfx/LoopThrusterActive
-
-#begin Audio/Sfx/LoopThrusterActive.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/Sfx/LoopThrusterActive.wav
 
 #begin Graphics/BaseShip/BaseBaseShip.png
 /importer:TextureImporter
@@ -3151,54 +3043,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Player/Hulls/RainbowHull/RainbowShipDown.png;Graphics/Player/Hulls/RainbowHull/RainbowShipDown
-
-#begin Graphics/Player/Hulls/ScrapHull/PlayerDown.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/ScrapHull/PlayerDown.png;Graphics/Player/Hulls/ScrapHull/PlayerDown
-
-#begin Graphics/Player/Hulls/ScrapHull/PlayerLeft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/ScrapHull/PlayerLeft.png;Graphics/Player/Hulls/ScrapHull/PlayerLeft
-
-#begin Graphics/Player/Hulls/ScrapHull/PlayerRight.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/ScrapHull/PlayerRight.png;Graphics/Player/Hulls/ScrapHull/PlayerRight
-
-#begin Graphics/Player/Hulls/ScrapHull/PlayerUp.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Graphics/Player/Hulls/ScrapHull/PlayerUp.png;Graphics/Player/Hulls/ScrapHull/PlayerUp
 
 #begin Graphics/Player/Hulls/ScrapHull/ScrapShip.png
 /importer:TextureImporter
