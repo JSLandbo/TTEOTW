@@ -176,6 +176,14 @@ namespace ToTheEndOfTheWorld.Context.Items
         private void RegisterConsumeables(ContentManager manager)
         {
             AddDefinition(
+                GameIds.Items.Consumeables.WorldSpawnTeleporter,
+                "Spawn Teleporter",
+                LoadSingleTexture(manager, "Consumeables/WorldSpawnTeleporter"),
+                new WorldSpawnTeleporter(ID: GameIds.Items.Consumeables.WorldSpawnTeleporter, Name: "Spawn Teleporter", Worth: 5000.0f, Weight: 0.25f),
+                buyable: true,
+                type: EGameItemType.Consumeable
+            );
+            AddDefinition(
                 GameIds.Items.Consumeables.SmallDynamite,
                 "Small Dynamite",
                 LoadSingleTexture(manager, "Consumeables/SmallDynamite"),
@@ -623,6 +631,7 @@ namespace ToTheEndOfTheWorld.Context.Items
                 SmallHullRepairKit smallHullRepairKit => new SmallHullRepairKit(smallHullRepairKit),
                 MediumHullRepairKit mediumHullRepairKit => new MediumHullRepairKit(mediumHullRepairKit),
                 LargeHullRepairKit largeHullRepairKit => new LargeHullRepairKit(largeHullRepairKit),
+                WorldSpawnTeleporter worldSpawnTeleporter => new WorldSpawnTeleporter(worldSpawnTeleporter),
                 ThermalPlating plating => new ThermalPlating(plating),
                 Hull hull => new Hull(hull),
                 Drill drill => new Drill(drill),

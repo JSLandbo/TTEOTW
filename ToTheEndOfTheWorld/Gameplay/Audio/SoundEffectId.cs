@@ -20,6 +20,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
         EffectNuclearExplosion,
         EffectSelectedItem,
         EffectInventoryFull,
-        EffectItemEquipped
+        EffectItemEquipped,
+        EffectUsedTeleporter
     }
 }

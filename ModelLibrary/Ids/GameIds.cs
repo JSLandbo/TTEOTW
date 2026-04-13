@@ -225,6 +225,7 @@ namespace ModelLibrary.Ids
             // }
             public static class Consumeables
             {
+                public const short WorldSpawnTeleporter = 11104;
                 public const short SmallDynamite = 15100;
                 public const short MediumDynamite = 15101;
                 public const short LargeDynamite = 15102;

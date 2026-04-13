@@ -108,6 +108,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Audio
                 return;
             }
 
+            if (gameEvent.Consumeable is ATeleporter)
+            {
+                oneShotSoundPlayer.Play(SoundEffectId.EffectUsedTeleporter);
+                return;
+            }
+
             if (gameEvent.Consumeable is ADynamite dynamite)
             {
                 if (dynamite.ExplosionType.Equals(ExplosionType.Nuclear))

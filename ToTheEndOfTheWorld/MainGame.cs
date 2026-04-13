@@ -145,9 +145,10 @@ namespace ToTheEndOfTheWorld
             FuelCapsuleConsumeableService fuelCapsuleConsumeableService = new(eventBus);
             CoolantPatchConsumeableService coolantPatchConsumeableService = new(eventBus);
             HullRepairKitConsumeableService hullRepairKitConsumeableService = new(eventBus);
+            TeleporterConsumeableService teleporterConsumeableService = new(worldViewportService, eventBus);
             playerWorldMovementResolver = new PlayerWorldMovementResolver(worldBlockDefinitionResolver, worldViewportService, playerVerticalImpactService, _pixels);
             playerMiningSystem = new PlayerMiningSystem(worldBlockDefinitionResolver, worldBlockDamageService, playerHeatSystem, playerHullSystem, playerFuelSystem, playerVerticalImpactService, _pixels);
-            playerConsumeableSystem = new PlayerConsumeableSystem(dynamiteConsumeableService, fuelCapsuleConsumeableService, coolantPatchConsumeableService, hullRepairKitConsumeableService);
+            playerConsumeableSystem = new PlayerConsumeableSystem(dynamiteConsumeableService, fuelCapsuleConsumeableService, coolantPatchConsumeableService, hullRepairKitConsumeableService, teleporterConsumeableService);
 
             world = ContextHandler.LoadWorld();
 

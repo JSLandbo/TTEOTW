@@ -103,6 +103,13 @@
 /processorParam:Quality=Best
 /build:Audio/Sfx/EffectUsedFuelCapsule.wav;Audio/Sfx/EffectUsedFuelCapsule
 
+
+#begin Audio/Sfx/EffectUsedTeleporter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Sfx/EffectUsedTeleporter.wav;Audio/Sfx/EffectUsedTeleporter
+
 #begin Audio/Sfx/EffectUsedTrashBin.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1272,6 +1279,19 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/Consumeables/SmallHullRepairKit.png;Graphics/Consumeables/SmallHullRepairKit
+
+
+#begin Graphics/Consumeables/WorldSpawnTeleporter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/Consumeables/WorldSpawnTeleporter.png
 
 #begin Graphics/CraftingMaterials/AdamantiumCube.png
 /importer:TextureImporter

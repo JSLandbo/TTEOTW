@@ -7,7 +7,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
         DynamiteConsumeableService dynamiteConsumeableService,
         FuelCapsuleConsumeableService fuelCapsuleConsumeableService,
         CoolantPatchConsumeableService coolantPatchConsumeableService,
-        HullRepairKitConsumeableService hullRepairKitConsumeableService)
+        HullRepairKitConsumeableService hullRepairKitConsumeableService,
+        TeleporterConsumeableService teleporterConsumeableService)
     {
         public void TryUse(ModelWorld world, int slotIndex)
         {
@@ -54,6 +55,11 @@ namespace ToTheEndOfTheWorld.Gameplay.Player
             if (consumeable is AHullRepairKit hullRepairKit)
             {
                 return hullRepairKitConsumeableService.TryUse(world, hullRepairKit);
+            }
+
+            if (consumeable is ATeleporter teleporter)
+            {
+                return teleporterConsumeableService.TryUse(world, teleporter);
             }
 
             return false;

@@ -54,6 +54,8 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
             grid.InternalGrid[1, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.MediumHullRepairKit), 1);
             grid.InternalGrid[2, 3] = new GridBox(items.Create(GameIds.Items.Consumeables.LargeHullRepairKit), 1);
 
+            grid.InternalGrid[1, 4] = new GridBox(items.Create(GameIds.Items.Consumeables.WorldSpawnTeleporter), 1);
+
             return new Inventory(
                 ID: 0,
                 Items: grid,
