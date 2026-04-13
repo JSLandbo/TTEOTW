@@ -56,9 +56,20 @@ namespace ToTheEndOfTheWorld.UI
                 overlay.Update(gameTime, currentKeyboardState, previousKeyboardState, currentMouseState, previousMouseState, world, viewportWidth, viewportHeight);
             }
 
-            if (interactionOpenedInventory && world.Player.Inventory.ID != cachedInventoryId)
+            var inventoryId = world.Player.Inventory.ID;
+
+            if (inventoryId != cachedInventoryId)
             {
-                RefreshShopAndInventoryLayout(world.Player, viewportWidth, viewportHeight);
+                cachedInventoryId = inventoryId;
+
+                if (interactionOpenedInventory)
+                {
+                    RefreshShopAndInventoryLayout(world.Player, viewportWidth, viewportHeight);
+                }
+                else
+                {
+                    GetOverlay<InventoryOverlay>()?.RefreshLayout(world.Player);
+                }
             }
         }
 
