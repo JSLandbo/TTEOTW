@@ -88,10 +88,11 @@ namespace ToTheEndOfTheWorld.Context
             AddTexturedBlock(manager, GameIds.Blocks.Artifacts, "Artifacts", "Blocks/ArtifactsBlock", hardness: 5200, health: 22000, minimumDepth: 95000, maximumDepth: 350000, occurrenceSpan: new Vector2(11.48f, 11.56f), worth: 10000, weight: 1.0f);
             AddTexturedBlock(manager, GameIds.Blocks.ShardOfDeath, "Shard of death", "Blocks/ShardOfDeathBlock", hardness: 9000, health: 36000, minimumDepth: 140000, maximumDepth: 600000, occurrenceSpan: new Vector2(16.71f, 16.79f), worth: 10000, weight: 0.5f);
             AddTexturedBlock(manager, GameIds.Blocks.ShardOfLife, "Shard of life", "Blocks/ShardOfLifeBlock", hardness: 9000, health: 36000, minimumDepth: 140000, maximumDepth: 600000, occurrenceSpan: new Vector2(16.79f, 16.87f), worth: 10000, weight: 0.5f);
+            AddTexturedBlock(manager, GameIds.Blocks.Bocant, "Bocant", "Blocks/BocantBlock", hardness: 8000f, health: 30000f, minimumDepth: 172000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(30.00f, 30.12f), worth: 10000, weight: 50.0f); // TODO: OccurrenceSpan ???
             AddTexturedBlock(manager, GameIds.Blocks.BlackHole, "Black hole", "Blocks/BlackHoleBlock", hardness: 50000f, health: 180000f, minimumDepth: 300000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(11.82f, 11.88f), worth: 25000, weight: 4.0f);
             AddTexturedBlock(manager, GameIds.Blocks.SuperNova, "Super nova", "Blocks/SuperNovaBlock", hardness: 100000f, health: 250000f, minimumDepth: 500000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(16.87f, 16.93f), worth: 50000, weight: 3.0f);
             AddTexturedBlock(manager, GameIds.Blocks.Bedrock, "Bedrock", "Blocks/BedrockBlock", hardness: 25000f, health: 120000f, minimumDepth: 200000, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(11.56f, 11.66f), worth: 0, weight: 5.0f);
-
+            
             // Utility and ethereal overlay.
             AddTexturedBlock(manager, GameIds.Blocks.Hole, "Hole", "Blocks/DirtBlockBackground", hardness: 0, health: 0, minimumDepth: 12, maximumDepth: long.MaxValue, occurrenceSpan: new Vector2(17.07f, 30.00f), worth: 0, ethereal: true, weight: 0.0f);
         }

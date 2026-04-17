@@ -91,6 +91,7 @@ namespace ModelLibrary.Ids
             public const short WingOfLife = 68;
             public const short Hole = 69;
             public const short Coal = 70;
+            public const short Bocant = 71;
         }
 
         public static class Items
@@ -107,6 +108,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10007;
                 public const short Mythril = 10008;
                 public const short Adamant = 10009;
+                public const short Bocant = 10010;
             }
 
             public static class Engines
@@ -121,6 +123,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10107;
                 public const short Mythril = 10108;
                 public const short Adamant = 10109;
+                public const short Bocant = 10110;
             }
 
             public static class FuelTanks
@@ -135,6 +138,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10207;
                 public const short Mythril = 10208;
                 public const short Adamant = 10209;
+                public const short Bocant = 10210;
             }
 
             public static class Containers
@@ -149,6 +153,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10307;
                 public const short Mythril = 10308;
                 public const short Adamant = 10309;
+                public const short Bocant = 10310;
             }
 
             public static class Thrusters
@@ -163,6 +168,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10407;
                 public const short Mythril = 10408;
                 public const short Adamant = 10409;
+                public const short Bocant = 10410;
             }
 
             public static class Hulls
@@ -177,6 +183,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10507;
                 public const short Mythril = 10508;
                 public const short Adamant = 10509;
+                public const short Bocant = 10510;
             }
 
             public static class Drills
@@ -191,6 +198,7 @@ namespace ModelLibrary.Ids
                 public const short Rainbow = 10607;
                 public const short Mythril = 10608;
                 public const short Adamant = 10609;
+                public const short Bocant = 10610;
             }
 
             public static class Gadgets
@@ -273,6 +281,8 @@ namespace ModelLibrary.Ids
                 public const short MythrilIngot = 10958;
                 public const short AdamantiumIngot = 10959;
 
+                public const short BocantIngot = 10960;
+
                 // Cubes
 
                 public const short IronCube = 13200;
@@ -299,6 +309,8 @@ namespace ModelLibrary.Ids
                 public const short RainbowCube = 13257;
                 public const short MythrilCube = 13258;
                 public const short AdamantiumCube = 13259;
+
+                public const short BocantCube = 13260;
             }
         }
     }

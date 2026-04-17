@@ -24,6 +24,7 @@ namespace ToTheEndOfTheWorld.Context.Items
         private const int RainbowTierWorth = 2000000;
         private const int MythrilTierWorth = 9000000;
         private const int AdamantTierWorth = 40000000;
+        private const int BocantTierWorth = 800000000;
 
         private void InitializeCollection(ContentManager manager)
         {
@@ -51,6 +52,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             ThermalPlating rainbowPlating = new(ID: GameIds.Items.ThermalPlatings.Rainbow, Thermals: 0, MaxThermals: 1600, ThermalDissipation: 50, Name: "Rainbow Thermal Plating", Worth: RainbowTierWorth, Weight: 5);
             ThermalPlating mythrilPlating = new(ID: GameIds.Items.ThermalPlatings.Mythril, Thermals: 0, MaxThermals: 2300, ThermalDissipation: 100, Name: "Mythril Thermal Plating", Worth: MythrilTierWorth, Weight: 4);
             ThermalPlating adamantPlating = new(ID: GameIds.Items.ThermalPlatings.Adamant, Thermals: 0, MaxThermals: 3200, ThermalDissipation: 200, Name: "Adamant Thermal Plating", Worth: AdamantTierWorth, Weight: 4);
+            ThermalPlating bocantPlating = new(ID: GameIds.Items.ThermalPlatings.Bocant, Thermals: 0, MaxThermals: 64000, ThermalDissipation: 600, Name: "Bocant Thermal Plating", Worth: BocantTierWorth, Weight: 40);
 
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Scrap, "Scrap Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/ScrapThermalPlating"), scrapPlating, EEquipmentType.ThermalPlating, 0);
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Copper, "Copper Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/CopperThermalPlating"), copperPlating, EEquipmentType.ThermalPlating, 1);
@@ -62,6 +64,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Rainbow, "Rainbow Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/RainbowThermalPlating"), rainbowPlating, EEquipmentType.ThermalPlating, 7);
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Mythril, "Mythril Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/MythrilThermalPlating"), mythrilPlating, EEquipmentType.ThermalPlating, 8);
             AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Adamant, "Adamant Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/AdamantThermalPlating"), adamantPlating, EEquipmentType.ThermalPlating, 9);
+            AddEquipmentDefinition(GameIds.Items.ThermalPlatings.Bocant, "Bocant Thermal Plating", LoadSingleTexture(manager, "Player/ThermalPlatings/BocantThermalPlating"), bocantPlating, EEquipmentType.ThermalPlating, 10);
         }
 
         private void RegisterEngines(ContentManager manager)
@@ -76,6 +79,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Engines.Rainbow, "Rainbow Engine", LoadSingleTexture(manager, "Player/Engines/RainbowEngine"), new Engine(ID: GameIds.Items.Engines.Rainbow, Speed: 10000f, Acceleration: 5000f, Name: "Rainbow Engine", StandbyFuelConsumption: 0.024f, ActiveFuelConsumption: 6f, Worth: RainbowTierWorth, Weight: 5), EEquipmentType.Engine, 7);
             AddEquipmentDefinition(GameIds.Items.Engines.Mythril, "Mythril Engine", LoadSingleTexture(manager, "Player/Engines/MythrilEngine"), new Engine(ID: GameIds.Items.Engines.Mythril, Speed: 24000f, Acceleration: 7500f, Name: "Mythril Engine", StandbyFuelConsumption: 0.018f, ActiveFuelConsumption: 14f, Worth: MythrilTierWorth, Weight: 4), EEquipmentType.Engine, 8);
             AddEquipmentDefinition(GameIds.Items.Engines.Adamant, "Adamant Engine", LoadSingleTexture(manager, "Player/Engines/AdamantEngine"), new Engine(ID: GameIds.Items.Engines.Adamant, Speed: 36000f, Acceleration: 10000f, Name: "Adamant Engine", StandbyFuelConsumption: 0.012f, ActiveFuelConsumption: 20f, Worth: AdamantTierWorth, Weight: 4), EEquipmentType.Engine, 9, 4);
+            AddEquipmentDefinition(GameIds.Items.Engines.Bocant, "Bocant Engine", LoadSingleTexture(manager, "Player/Engines/BocantEngine"), new Engine(ID: GameIds.Items.Engines.Bocant, Speed: 72000f, Acceleration: 20000f, Name: "Bocant Engine", StandbyFuelConsumption: 1f, ActiveFuelConsumption: 200f, Worth: BocantTierWorth, Weight: 40), EEquipmentType.Engine, 10, 4);
         }
 
         private void RegisterFuelTanks(ContentManager manager)
@@ -90,6 +94,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Rainbow, "Rainbow Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/RainbowFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Rainbow, Capacity: 2000, Fuel: 2000, Name: "Rainbow Fuel Tank", Worth: RainbowTierWorth, Weight: 5), EEquipmentType.FuelTank, 7);
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Mythril, "Mythril Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/MythrilFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Mythril, Capacity: 3500, Fuel: 3500, Name: "Mythril Fuel Tank", Worth: MythrilTierWorth, Weight: 4), EEquipmentType.FuelTank, 8);
             AddEquipmentDefinition(GameIds.Items.FuelTanks.Adamant, "Adamant Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/AdamantFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Adamant, Capacity: 5000, Fuel: 5000, Name: "Adamant Fuel Tank", Worth: AdamantTierWorth, Weight: 4), EEquipmentType.FuelTank, 9);
+            AddEquipmentDefinition(GameIds.Items.FuelTanks.Bocant, "Bocant Fuel Tank", LoadSingleTexture(manager, "Player/FuelTanks/BocantFuelTank"), new FuelTank(ID: GameIds.Items.FuelTanks.Bocant, Capacity: 250000, Fuel: 250000, Name: "Bocant Fuel Tank", Worth: BocantTierWorth, Weight: 40), EEquipmentType.FuelTank, 10);
         }
 
         private void RegisterContainers(ContentManager manager)
@@ -104,6 +109,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Containers.Rainbow, "Rainbow Container", LoadSingleTexture(manager, "Player/Containers/RainbowContainer"), new Inventory(ID: GameIds.Items.Containers.Rainbow, Items: CreateInventoryGrid(6, 6), Name: "Rainbow Container", Worth: RainbowTierWorth, Weight: 5, MaxStackSize: 64), EEquipmentType.Inventory, 7);
             AddEquipmentDefinition(GameIds.Items.Containers.Mythril, "Mythril Container", LoadSingleTexture(manager, "Player/Containers/MythrilContainer"), new Inventory(ID: GameIds.Items.Containers.Mythril, Items: CreateInventoryGrid(7, 8), Name: "Mythril Container", Worth: MythrilTierWorth, Weight: 4, MaxStackSize: 128), EEquipmentType.Inventory, 8);
             AddEquipmentDefinition(GameIds.Items.Containers.Adamant, "Adamant Container", LoadSingleTexture(manager, "Player/Containers/AdamantContainer"), new Inventory(ID: GameIds.Items.Containers.Adamant, Items: CreateInventoryGrid(7, 12), Name: "Adamant Container", Worth: AdamantTierWorth, Weight: 4, MaxStackSize: 512), EEquipmentType.Inventory, 9);
+            AddEquipmentDefinition(GameIds.Items.Containers.Bocant, "Bocant Container", LoadSingleTexture(manager, "Player/Containers/BocantContainer"), new Inventory(ID: GameIds.Items.Containers.Bocant, Items: CreateInventoryGrid(7, 36), Name: "Bocant Container", Worth: BocantTierWorth, Weight: 40, MaxStackSize: 4096), EEquipmentType.Inventory, 10);
         }
 
         private void RegisterThrusters(ContentManager manager)
@@ -118,6 +124,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Thrusters.Rainbow, "Rainbow Thruster", LoadSingleTexture(manager, "Player/Thrusters/RainbowThruster"), new Thruster(ID: GameIds.Items.Thrusters.Rainbow, Speed: 48000f, Acceleration: 1750f, Power: 2500, Name: "Rainbow Thruster", ActiveFuelConsumption: 4.0f, ActiveHeatGeneration: 3f, Weight: 5, Worth: RainbowTierWorth), EEquipmentType.Thruster, 7);
             AddEquipmentDefinition(GameIds.Items.Thrusters.Mythril, "Mythril Thruster", LoadSingleTexture(manager, "Player/Thrusters/MythrilThruster"), new Thruster(ID: GameIds.Items.Thrusters.Mythril, Speed: 96000f, Acceleration: 2500f, Power: 7500, Name: "Mythril Thruster", ActiveFuelConsumption: 12.0f, ActiveHeatGeneration: 4f, Weight: 4, Worth: MythrilTierWorth), EEquipmentType.Thruster, 8);
             AddEquipmentDefinition(GameIds.Items.Thrusters.Adamant, "Adamant Thruster", LoadSingleTexture(manager, "Player/Thrusters/AdamantThruster"), new Thruster(ID: GameIds.Items.Thrusters.Adamant, Speed: 192000f, Acceleration: 4000f, Power: 15000, Name: "Adamant Thruster", ActiveFuelConsumption: 16.0f, ActiveHeatGeneration: 6f, Weight: 4, Worth: AdamantTierWorth), EEquipmentType.Thruster, 9, frames: 4);
+            AddEquipmentDefinition(GameIds.Items.Thrusters.Bocant, "Bocant Thruster", LoadSingleTexture(manager, "Player/Thrusters/BocantThruster"), new Thruster(ID: GameIds.Items.Thrusters.Bocant, Speed: 384000f, Acceleration: 8000f, Power: 60000, Name: "Bocant Thruster", ActiveFuelConsumption: 160.0f, ActiveHeatGeneration: 60f, Weight: 40, Worth: BocantTierWorth), EEquipmentType.Thruster, 10, frames: 4);
         }
 
         private void RegisterHulls(ContentManager manager)
@@ -132,6 +139,7 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Hulls.Rainbow, "Rainbow Hull", LoadHullTextures(manager, "Player/Hulls/RainbowHull/RainbowShip", "Player/Hulls/RainbowHull/RainbowShip", "Player/Hulls/RainbowHull/RainbowShip", "Player/Hulls/RainbowHull/RainbowShip", "Player/Hulls/RainbowHull/RainbowShipDown"), new Hull(ID: GameIds.Items.Hulls.Rainbow, Durability: 150, Health: 3000, Name: "Rainbow Hull", Worth: RainbowTierWorth, Weight: 9), EEquipmentType.Hull, 7);
             AddEquipmentDefinition(GameIds.Items.Hulls.Mythril, "Mythril Hull", LoadHullTextures(manager, "Player/Hulls/MythrilHull/MythrilShip", "Player/Hulls/MythrilHull/MythrilShip", "Player/Hulls/MythrilHull/MythrilShip", "Player/Hulls/MythrilHull/MythrilShip", "Player/Hulls/MythrilHull/MythrilShipDown"), new Hull(ID: GameIds.Items.Hulls.Mythril, Durability: 220, Health: 4500, Name: "Mythril Hull", Worth: MythrilTierWorth, Weight: 8), EEquipmentType.Hull, 8);
             AddEquipmentDefinition(GameIds.Items.Hulls.Adamant, "Adamant Hull", LoadHullTextures(manager, "Player/Hulls/AdamantHull/AdamantShip", "Player/Hulls/AdamantHull/AdamantShip", "Player/Hulls/AdamantHull/AdamantShip", "Player/Hulls/AdamantHull/AdamantShip", "Player/Hulls/AdamantHull/AdamantShipDown"), new Hull(ID: GameIds.Items.Hulls.Adamant, Durability: 320, Health: 7000, Name: "Adamant Hull", Worth: AdamantTierWorth, Weight: 8), EEquipmentType.Hull, 9, frames: 4);
+            AddEquipmentDefinition(GameIds.Items.Hulls.Bocant, "Bocant Hull", LoadHullTextures(manager, "Player/Hulls/BocantHull/BocantShip", "Player/Hulls/BocantHull/BocantShip", "Player/Hulls/BocantHull/BocantShip", "Player/Hulls/BocantHull/BocantShip", "Player/Hulls/BocantHull/BocantShipDown"), new Hull(ID: GameIds.Items.Hulls.Bocant, Durability: 4200, Health: 42000, Name: "Bocant Hull", Worth: BocantTierWorth, Weight: 80), EEquipmentType.Hull, 10, frames: 4);
         }
 
         private void RegisterDrills(ContentManager manager)
@@ -144,8 +152,9 @@ namespace ToTheEndOfTheWorld.Context.Items
             AddEquipmentDefinition(GameIds.Items.Drills.Diamond, "Diamond Drill", LoadDrillTextures(manager, "Player/Drills/DiamondDrill/DiamondDrill"), new Drill(ID: GameIds.Items.Drills.Diamond, Hardness: 400f, Damage: 5.0f, Name: "Diamond Drill", Worth: DiamondTierWorth, Weight: 7, MiningAreaSize: 1, ActiveFuelConsumption: 3f), EEquipmentType.Drill, 5);
             AddEquipmentDefinition(GameIds.Items.Drills.Radioactive, "Radioactive Drill", LoadDrillTextures(manager, "Player/Drills/RadioactiveDrill/RadioactiveDrill"), new Drill(ID: GameIds.Items.Drills.Radioactive, Hardness: 900f, Damage: 10.0f, Name: "Radioactive Drill", Worth: RadioactiveTierWorth, Weight: 6, MiningAreaSize: 1, ActiveFuelConsumption: 5f), EEquipmentType.Drill, 6);
             AddEquipmentDefinition(GameIds.Items.Drills.Rainbow, "Rainbow Drill", LoadDrillTextures(manager, "Player/Drills/RainbowDrill/RainbowDrill"), new Drill(ID: GameIds.Items.Drills.Rainbow, Hardness: 2000f, Damage: 25.0f, Name: "Rainbow Drill", Worth: RainbowTierWorth, Weight: 5, MiningAreaSize: 1, ActiveFuelConsumption: 25f), EEquipmentType.Drill, 7);
-            AddEquipmentDefinition(GameIds.Items.Drills.Mythril, "Mythril Drill", LoadDrillTextures(manager, "Player/Drills/MythrilDrill/MythrilDrill"), new Drill(ID: GameIds.Items.Drills.Mythril, Hardness: 4000f, Damage: 50.0f, Name: "Mythril Drill", Worth: MythrilTierWorth, Weight: 4, MiningAreaSize: 3, ActiveFuelConsumption: 100f), EEquipmentType.Drill, 8, frames: 4);
-            AddEquipmentDefinition(GameIds.Items.Drills.Adamant, "Adamant Drill", LoadDrillTextures(manager, "Player/Drills/AdamantDrill/AdamantDrill"), new Drill(ID: GameIds.Items.Drills.Adamant, Hardness: 10000f, Damage: 100.0f, Name: "Adamant Drill", Worth: AdamantTierWorth, Weight: 4, MiningAreaSize: 5, ActiveFuelConsumption: 250f), EEquipmentType.Drill, 9, frames: 4);
+            AddEquipmentDefinition(GameIds.Items.Drills.Mythril, "Mythril Drill", LoadDrillTextures(manager, "Player/Drills/MythrilDrill/MythrilDrill"), new Drill(ID: GameIds.Items.Drills.Mythril, Hardness: 4000f, Damage: 75.0f, Name: "Mythril Drill", Worth: MythrilTierWorth, Weight: 4, MiningAreaSize: 3, ActiveFuelConsumption: 100f), EEquipmentType.Drill, 8, frames: 4);
+            AddEquipmentDefinition(GameIds.Items.Drills.Adamant, "Adamant Drill", LoadDrillTextures(manager, "Player/Drills/AdamantDrill/AdamantDrill"), new Drill(ID: GameIds.Items.Drills.Adamant, Hardness: 10000f, Damage: 200.0f, Name: "Adamant Drill", Worth: AdamantTierWorth, Weight: 4, MiningAreaSize: 5, ActiveFuelConsumption: 250f), EEquipmentType.Drill, 9, frames: 4);
+            AddEquipmentDefinition(GameIds.Items.Drills.Bocant, "Bocant Drill", LoadDrillTextures(manager, "Player/Drills/BocantDrill/BocantDrill"), new Drill(ID: GameIds.Items.Drills.Bocant, Hardness: 500000f, Damage: 2500.0f, Name: "Bocant Drill", Worth: BocantTierWorth, Weight: 4, MiningAreaSize: 7, ActiveFuelConsumption: 1000f), EEquipmentType.Drill, 10, frames: 4);
         }
 
         private void RegisterGadgets(ContentManager manager)
@@ -426,6 +435,14 @@ namespace ToTheEndOfTheWorld.Context.Items
                 new Item(ID: GameIds.Items.CratingMaterials.AdamantiumIngot, Name: "Adamantium Ingot", Worth: 680.0f, Weight: 0.65f),
                 frames: 4
             );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.BocantIngot,
+                "Bocant Ingot",
+                LoadSingleTexture(manager, "CraftingMaterials/BocantIngot"),
+                new Item(ID: GameIds.Items.CratingMaterials.BocantIngot, Name: "Bocant Ingot", Worth: 13600.0f, Weight: 6.5f),
+                frames: 4
+            );
+
 
             // Cubes
 
@@ -548,6 +565,13 @@ namespace ToTheEndOfTheWorld.Context.Items
                 "Adamantium Cube",
                 LoadSingleTexture(manager, "CraftingMaterials/AdamantiumCube"),
                 new Item(ID: GameIds.Items.CratingMaterials.AdamantiumCube, Name: "Adamantium Cube", Worth: 6120.0f, Weight: 5.85f),
+                frames: 4
+            );
+            AddDefinition(
+                GameIds.Items.CratingMaterials.BocantCube,
+                "Bocant Cube",
+                LoadSingleTexture(manager, "CraftingMaterials/BocantCube"),
+                new Item(ID: GameIds.Items.CratingMaterials.BocantCube, Name: "Bocant Cube", Worth: 122400.0f, Weight: 11.7f),
                 frames: 4
             );
 

@@ -14,8 +14,9 @@ namespace ToTheEndOfTheWorld.Gameplay.World
         private static readonly int[] MidDeepCaveOreIds = [GameIds.Blocks.Amethyst, GameIds.Blocks.Cobalt, GameIds.Blocks.Topaz, GameIds.Blocks.Emerald, GameIds.Blocks.Ruby, GameIds.Blocks.Sapphire];
         private static readonly int[] DeepCaveOreIds = [GameIds.Blocks.Diamond, GameIds.Blocks.Diode, GameIds.Blocks.Obsidian, GameIds.Blocks.Osmium, GameIds.Blocks.Platinum];
         private static readonly int[] DeeperCaveOreIds = [GameIds.Blocks.Platinum, GameIds.Blocks.Titanium, GameIds.Blocks.Tungsten, GameIds.Blocks.Ring, GameIds.Blocks.Uranium];
-        private static readonly int[] LateCaveOreIds = [GameIds.Blocks.Uranium, GameIds.Blocks.Treasure, GameIds.Blocks.Rainbow, GameIds.Blocks.Titanium, GameIds.Blocks.Tungsten];
-        private static readonly int[] EndgameCaveOreIds = [GameIds.Blocks.Mythril, GameIds.Blocks.Adamantium, GameIds.Blocks.Artifact, GameIds.Blocks.Artifacts, GameIds.Blocks.Treasure];
+        private static readonly int[] SemiLateCaveOreIds = [GameIds.Blocks.Uranium, GameIds.Blocks.Treasure, GameIds.Blocks.Rainbow, GameIds.Blocks.Titanium, GameIds.Blocks.Tungsten];
+        private static readonly int[] LateCaveOreIds = [GameIds.Blocks.Mythril, GameIds.Blocks.Adamantium, GameIds.Blocks.Artifact, GameIds.Blocks.Artifacts, GameIds.Blocks.Treasure];
+        private static readonly int[] EndCaveOreIds = [GameIds.Blocks.Bocant, GameIds.Blocks.Adamantium, GameIds.Blocks.BlackHole, GameIds.Blocks.SuperNova, GameIds.Blocks.BlackHole, GameIds.Blocks.ShardOfDeath, GameIds.Blocks.ShardOfLife];
         private readonly Dictionary<(long X, long Y), CavePocket> pocketCache = [];
 
         public bool TryResolveBlockId(float x, float y, out int blockId)
@@ -163,10 +164,15 @@ namespace ToTheEndOfTheWorld.Gameplay.World
 
             if (depth < 80000)
             {
+                return SemiLateCaveOreIds;
+            }
+            
+            if (depth < 160000)
+            {
                 return LateCaveOreIds;
             }
 
-            return EndgameCaveOreIds;
+            return EndCaveOreIds;
         }
 
         private static long FloorDiv(long value, int divisor)

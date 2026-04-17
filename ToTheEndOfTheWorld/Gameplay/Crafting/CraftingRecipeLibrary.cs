@@ -144,6 +144,12 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumIngot),
                     OutputCount: 1
                 ),
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Blocks.Lava, 64), new CraftingIngredient(GameIds.Blocks.Bocant, 1
+                    )),
+                    CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BocantIngot),
+                    OutputCount: 1
+                ),
 
                 // Metals to ingots and cubes
                 new(Pattern: CreatePattern(
@@ -326,6 +332,16 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                 ),
                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumCube), OutputCount: 1),
                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.AdamantiumIngot), OutputCount: 9),
+                new(Pattern: CreatePattern(
+                         new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1),
+                         new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1),
+                         new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 1)),
+                     CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BocantCube),
+                     OutputCount: 1
+                 ),
+                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.BocantIngot, 9)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BocantCube), OutputCount: 1),
+                 new(Pattern: CreatePattern(new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1)), CreateOutput: () => CreateItem(GameIds.Items.CratingMaterials.BocantIngot), OutputCount: 9),
+
                 // Polished crystals to cubes
                 new(Pattern: CreatePattern(
                         new CraftingIngredient(GameIds.Items.CratingMaterials.AmethystPolished, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AmethystPolished, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.AmethystPolished, 1),
@@ -868,6 +884,64 @@ namespace ToTheEndOfTheWorld.Gameplay.Crafting
                         null, new CraftingIngredient(GameIds.Items.CratingMaterials.AdamantiumCube, 1), null
                     ),
                     CreateOutput: () => CreateItem(GameIds.Items.Drills.Adamant),
+                    OutputCount: 1
+                ),
+
+                // Adamant to Bocant
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        null, new CraftingIngredient(GameIds.Items.ThermalPlatings.Adamant, 1), null,
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1)
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.ThermalPlatings.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        null, new CraftingIngredient(GameIds.Items.Engines.Adamant, 1), null,
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1)
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.Engines.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.FuelTanks.Adamant, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.FuelTanks.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null,
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.Containers.Adamant, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.Containers.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null,
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.Thrusters.Adamant, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1)
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.Thrusters.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null,
+                        null, new CraftingIngredient(GameIds.Items.Hulls.Adamant, 1), null,
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1)
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.Hulls.Bocant),
+                    OutputCount: 1
+                ),
+                new(Pattern: CreatePattern(
+                        new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1),
+                        null, new CraftingIngredient(GameIds.Items.Drills.Adamant, 1), null,
+                        null, new CraftingIngredient(GameIds.Items.CratingMaterials.BocantCube, 1), null
+                    ),
+                    CreateOutput: () => CreateItem(GameIds.Items.Drills.Bocant),
                     OutputCount: 1
                 ),
             ];

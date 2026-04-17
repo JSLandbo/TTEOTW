@@ -185,7 +185,7 @@ namespace ToTheEndOfTheWorld
             )
             {
                 Coordinates = new Vector2(spawnWorldX, spawnWorldY),
-                Cash = 100f // Starting allowance
+                Cash = 100000000000f // Starting allowance
             };
 
             ModelWorld world = new(

@@ -12,7 +12,7 @@ namespace ToTheEndOfTheWorld.Gameplay.Buildings
     {
         private const int BuildingTilesWide = 4;
         private const int BuildingTilesHigh = 2;
-        private const int GridColumns = 10;
+        private const int GridColumns = 11;
         private const int GridRows = 7;
 
         public ABuilding Create(long worldX, long worldY)
